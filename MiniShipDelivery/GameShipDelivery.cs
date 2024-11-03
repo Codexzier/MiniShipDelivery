@@ -15,8 +15,6 @@ namespace MiniShipDelivery
         private Texture2D _playerSprite;
         private OrthographicCamera _camera;
         private Vector2 _playerPosition;
-        private Vector2 _playerRotation;
-        private Vector2 _playerScale;
         private Vector2 _playerDirection;
         private float _playerSpeed = 90;
 
@@ -55,7 +53,7 @@ namespace MiniShipDelivery
             // TODO: Add your update logic here
             var elapsedSec = gameTime.GetElapsedSeconds();
 
-            if(_playerPosition.X >= 320 - _playerSprite.Width)
+            if (_playerPosition.X >= 320 - _playerSprite.Width)
             {
                 _playerDirection.X = -_playerSpeed;
                 _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
@@ -87,9 +85,6 @@ namespace MiniShipDelivery
             // TODO: Add your drawing code here
             var transformMatrix = _camera.GetViewMatrix();
             _spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-
-            
-
             _spriteBatch.Draw(_playerSprite, _playerPosition, Color.White);
             _spriteBatch.End();
 
