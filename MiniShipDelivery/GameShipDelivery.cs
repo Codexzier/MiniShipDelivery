@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Linq;
+using System.Net.Mime;
 
 namespace MiniShipDelivery
 {
@@ -12,18 +14,21 @@ namespace MiniShipDelivery
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _playerSprite;
         private OrthographicCamera _camera;
-        private Vector2 _playerPosition;
+
+        private CharacterPlayer _player;
         private Vector2 _playerDirection;
-        private float _playerSpeed = 90;
+        private float _playerSpeed = 40;
 
         public GameShipDelivery()
         {
             _graphics = new GraphicsDeviceManager(this);
-            //_graphics.ToggleFullScreen();
+            
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -33,6 +38,8 @@ namespace MiniShipDelivery
                 Window, GraphicsDevice, 320, 180);
             _camera = new OrthographicCamera(viewportAdapter);
 
+            
+
             base.Initialize();
         }
 
@@ -40,9 +47,12 @@ namespace MiniShipDelivery
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
-            _playerPosition = new Vector2(50, 50);
-            _playerDirection = new Vector2(_playerSpeed, _playerSpeed);
+            _player = new CharacterPlayer(Content)
+            {
+                Position = new Vector2(50, 50),
+                Direction = new Vector2(0, 0),
+                Speed = _playerSpeed
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,27 +63,25 @@ namespace MiniShipDelivery
             // TODO: Add your update logic here
             var elapsedSec = gameTime.GetElapsedSeconds();
 
-            if (_playerPosition.X >= 320 - _playerSprite.Width)
+            if (_player.Position.X >= 320 - 16)
             {
                 _playerDirection.X = -_playerSpeed;
-                _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
             }
-            else if (_playerPosition.X <= 0)
+            else if (_player.Position.X <= 0)
             {
-                _playerDirection.X = _playerSpeed; _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
+                _playerDirection.X = _playerSpeed;
             }
 
-            if (_playerPosition.Y >= 180 - _playerSprite.Height)
+            if (_player.Position.Y >= 180 - 16)
             {
-                _playerDirection.Y = -_playerSpeed; _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
+                _playerDirection.Y = -_playerSpeed;
             }
-            else if(_playerPosition.Y <= 0)
+            else if(_player.Position.Y <= 0)
             {
-                _playerDirection.Y = _playerSpeed; _playerSprite = GenerateRandomTexture(GraphicsDevice, 16, 16);
+                _playerDirection.Y = _playerSpeed;
             }
 
-            _playerPosition.X += _playerDirection.X * elapsedSec;
-            _playerPosition.Y += _playerDirection.Y * elapsedSec;
+            _player.Position += _playerDirection * elapsedSec;
 
             base.Update(gameTime);
         }
@@ -85,7 +93,7 @@ namespace MiniShipDelivery
             // TODO: Add your drawing code here
             var transformMatrix = _camera.GetViewMatrix();
             _spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(_playerSprite, _playerPosition, Color.White);
+            _player.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -104,6 +112,26 @@ namespace MiniShipDelivery
             texture.SetData(data);
 
             return texture;
+        }
+    }
+
+    public class CharacterPlayer
+    {
+        public Vector2 Position { get; set; }
+        public Vector2 Direction { get; set; }
+        public float Speed { get; set; }
+        public Texture2D Sprite { get; set; }
+
+        public CharacterPlayer(ContentManager content)
+        {
+            Sprite = content.Load<Texture2D>("Character/roguelikeChar_magenta");
+        }
+
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            // Base character sprite
+            spriteBatch.Draw(Sprite, Position, new Rectangle(0, (16 * 3) + 3, 16, 16), Color.White);
         }
     }
 }
