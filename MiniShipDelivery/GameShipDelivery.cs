@@ -17,8 +17,8 @@ namespace MiniShipDelivery
         private OrthographicCamera _camera;
 
         private CharacterPlayer _player;
+        private ComponentInput _input;
         private Vector2 _playerDirection;
-        private float _playerSpeed = 40;
 
         public GameShipDelivery()
         {
@@ -51,8 +51,10 @@ namespace MiniShipDelivery
             {
                 Position = new Vector2(50, 50),
                 Direction = new Vector2(0, 0),
-                Speed = _playerSpeed
+                Speed = 40
             };
+
+            _input = new ComponentInput(_player);
         }
 
         protected override void Update(GameTime gameTime)
@@ -63,25 +65,9 @@ namespace MiniShipDelivery
             // TODO: Add your update logic here
             var elapsedSec = gameTime.GetElapsedSeconds();
 
-            if (_player.Position.X >= 320 - 16)
-            {
-                _playerDirection.X = -_playerSpeed;
-            }
-            else if (_player.Position.X <= 0)
-            {
-                _playerDirection.X = _playerSpeed;
-            }
+            
 
-            if (_player.Position.Y >= 180 - 16)
-            {
-                _playerDirection.Y = -_playerSpeed;
-            }
-            else if(_player.Position.Y <= 0)
-            {
-                _playerDirection.Y = _playerSpeed;
-            }
-
-            _player.Position += _playerDirection * elapsedSec;
+            _player.Position += _input.GetMovement() * elapsedSec;
 
             base.Update(gameTime);
         }
@@ -115,6 +101,45 @@ namespace MiniShipDelivery
         }
     }
 
+    public class ComponentInput
+    {
+        private CharacterPlayer _player;
+
+        public ComponentInput(CharacterPlayer player)
+        {
+            this._player = player;
+        }
+
+        public Vector2 GetMovement()
+        {
+            var movement = new Vector2(0, 0);
+
+            var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
+            {
+                movement.Y = -1;
+            }
+
+            if(keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+            {
+                movement.Y = 1;
+            }
+
+            if(keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            {
+                movement.X = -1;
+            }
+
+            if(keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            {
+                movement.X = 1;
+            }
+
+            return movement * _player.Speed;
+        }
+    }
+
     public class CharacterPlayer
     {
         public Vector2 Position { get; set; }
@@ -131,7 +156,20 @@ namespace MiniShipDelivery
         public void Draw(SpriteBatch spriteBatch)
         {
             // Base character sprite
-            spriteBatch.Draw(Sprite, Position, new Rectangle(0, (16 * 3) + 3, 16, 16), Color.White);
+            int y_charArt = 3;
+            spriteBatch.Draw(Sprite, Position, new Rectangle((16 * 0) + 0, (16 * y_charArt) + y_charArt, 16, 16), Color.White);
+
+            // pant
+            int x_pant = 3;
+            spriteBatch.Draw(Sprite, Position, new Rectangle((16 * x_pant) + x_pant, (16 * y_charArt) + y_charArt, 16, 16), Color.White);
+
+            // shoe
+            int x_shoe = 4;
+            spriteBatch.Draw(Sprite, Position, new Rectangle((16 * x_shoe) + x_shoe, (16 * y_charArt) + y_charArt, 16, 16), Color.White);
+
+            // shirt
+            int x_shirt = 6;
+            spriteBatch.Draw(Sprite, Position, new Rectangle((16 * x_shirt) + x_shirt, (16 * y_charArt) + y_charArt, 16, 16), Color.White);
         }
     }
 }
