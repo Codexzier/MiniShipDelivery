@@ -13,8 +13,10 @@ namespace MiniShipDelivery
         private OrthographicCamera _camera;
 
         private SpriteManager _spriteManager;
+        private CharacterNpc characterNpc;
         private CharacterPlayer _player;
         private ComponentInput _input;
+        private ComponentMap _map;
 
         public GameShipDelivery()
         {
@@ -40,14 +42,24 @@ namespace MiniShipDelivery
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             this._spriteManager = new SpriteManager(this.Content);
-            this._player = new CharacterPlayer(this.Content, this._spriteManager)
+            this.characterNpc = new CharacterNpc(this._spriteManager)
+            {
+                Position = new Vector2(10, 10),
+                Direction = Vector2.Zero,
+                Speed = 20,
+                FramesPerSecond = 10
+            };
+            this._player = new CharacterPlayer(this._spriteManager)
             {
                 Position = new Vector2(50, 50),
-                Direction = new Vector2(0, 0),
-                Speed = 40
+                Direction = Vector2.Zero,
+                Speed = 40,
+                FramesPerSecond = 10
             };
 
             this._input = new ComponentInput(this._player);
+
+            this._map = new ComponentMap(this._spriteManager);
         }
 
         protected override void Update(GameTime gameTime)
@@ -58,6 +70,9 @@ namespace MiniShipDelivery
             }
 
             this._input.Update(gameTime);
+            this.characterNpc.Update(gameTime);
+            this._player.Update(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -68,7 +83,12 @@ namespace MiniShipDelivery
 
             var transformMatrix = this._camera.GetViewMatrix();
             this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-            this._player.Draw(this._spriteBatch);
+
+            this._map.Draw(this._spriteBatch, gameTime);
+
+            this.characterNpc.Draw(this._spriteBatch, gameTime);
+            this._player.Draw(this._spriteBatch, gameTime);
+            
             this._spriteBatch.End();
 
             base.Draw(gameTime);

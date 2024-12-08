@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using System;
 
 namespace MiniShipDelivery
 {
@@ -16,7 +15,7 @@ namespace MiniShipDelivery
 
         public Vector2 GetMovement()
         {
-            var movement = new Vector2(0, 0);
+            var movement = Vector2.Zero;
 
             var keyboardState = Keyboard.GetState();
 
@@ -40,7 +39,7 @@ namespace MiniShipDelivery
                 movement.X = 1;
             }
 
-            return movement * this._player.Speed;
+            return movement;
         }
 
         internal bool HasPressToClose()
@@ -54,7 +53,6 @@ namespace MiniShipDelivery
             var elapsedSec = gameTime.GetElapsedSeconds();
 
             var movement = this.GetMovement();
-            this._player.Position += movement * elapsedSec;
             this._player.Direction = movement;
         }
     }
