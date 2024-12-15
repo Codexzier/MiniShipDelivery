@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MiniShipDelivery.Components;
+using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.HUD;
+using MiniShipDelivery.Components.Tilemap;
+using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 
@@ -12,11 +17,12 @@ namespace MiniShipDelivery
         private SpriteBatch _spriteBatch;
         private OrthographicCamera _camera;
 
-        private SpriteManager _spriteManager;
+        private AssetManager _spriteManager;
         private CharacterNpc characterNpc;
         private CharacterPlayer _player;
-        private ComponentInput _input;
-        private ComponentMap _map;
+        private InputManager _input;
+        private MapManager _map;
+        private HudManager _hudManager;
 
         public GameShipDelivery()
         {
@@ -41,7 +47,9 @@ namespace MiniShipDelivery
         {
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this._spriteManager = new SpriteManager(this.Content);
+            this._input = new InputManager();
+            this._spriteManager = new AssetManager(this.Content);
+
             this.characterNpc = new CharacterNpc(this._spriteManager)
             {
                 Position = new Vector2(10, 10),
@@ -49,7 +57,7 @@ namespace MiniShipDelivery
                 Speed = 20,
                 FramesPerSecond = 10
             };
-            this._player = new CharacterPlayer(this._spriteManager)
+            this._player = new CharacterPlayer(this._spriteManager, this._input)
             {
                 Position = new Vector2(50, 50),
                 Direction = Vector2.Zero,
@@ -57,9 +65,9 @@ namespace MiniShipDelivery
                 FramesPerSecond = 10
             };
 
-            this._input = new ComponentInput(this._player);
+            this._map = new MapManager(this._spriteManager);
 
-            this._map = new ComponentMap(this._spriteManager);
+            this._hudManager = new HudManager(this._spriteManager, this._input);
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,7 +80,7 @@ namespace MiniShipDelivery
             this._input.Update(gameTime);
             this.characterNpc.Update(gameTime);
             this._player.Update(gameTime);
-
+            this._hudManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -88,8 +96,13 @@ namespace MiniShipDelivery
 
             this.characterNpc.Draw(this._spriteBatch, gameTime);
             this._player.Draw(this._spriteBatch, gameTime);
-            
+            this._hudManager.Draw(this._spriteBatch, gameTime);
+
+          
+
             this._spriteBatch.End();
+
+            
 
             base.Draw(gameTime);
         }

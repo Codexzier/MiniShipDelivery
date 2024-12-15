@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace MiniShipDelivery
+namespace MiniShipDelivery.Components.Tilemap
 {
     public interface ITilemapProperties
     {

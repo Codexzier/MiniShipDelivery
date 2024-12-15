@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery
+﻿namespace MiniShipDelivery.Components.Tilemap
 {
     public enum TilemapPart
     {
@@ -22,18 +22,18 @@
         RoomGray_MiddleRight = 18,
         RoomGray_DownLeft = 19,
         RoomGray_DownMiddle = 20,
-        RoomGray_DownRight = 21,
-        CharacterWomenStandFront = 22,
-        CharacterWomenStandBack = 23,
-        CharacterWomenStandLeft = 24,
-        CharacterWomenStandRight = 25,
-        CharacterWomenWalkLeftFoodFront = 26,
-        CharacterWomenWalkLeftFoodBack = 27,
-        CharacterWomenWalkLeftFoodLeft = 28,
-        CharacterWomenWalkLeftFoodRight = 29,
-        CharacterWomenWalkRightFoodFront = 30,
-        CharacterWomenWalkRightFoodBack = 31,
-        CharacterWomenWalkRightFoodLeft = 32,
-        CharacterWomenWalkRightFoodRight = 33
+        RoomGray_DownRight = 21
+        //CharacterWomenStandFront = 22,
+        //CharacterWomenStandBack = 23,
+        //CharacterWomenStandLeft = 24,
+        //CharacterWomenStandRight = 25,
+        //CharacterWomenWalkLeftFoodFront = 26,
+        //CharacterWomenWalkLeftFoodBack = 27,
+        //CharacterWomenWalkLeftFoodLeft = 28,
+        //CharacterWomenWalkLeftFoodRight = 29,
+        //CharacterWomenWalkRightFoodFront = 30,
+        //CharacterWomenWalkRightFoodBack = 31,
+        //CharacterWomenWalkRightFoodLeft = 32,
+        //CharacterWomenWalkRightFoodRight = 33
     }
 }

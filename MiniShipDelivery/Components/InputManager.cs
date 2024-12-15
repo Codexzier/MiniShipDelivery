@@ -2,15 +2,23 @@
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery
+namespace MiniShipDelivery.Components
 {
-    public class ComponentInput
+    public class InputManager
     {
-        private CharacterPlayer _player;
-
-        public ComponentInput(CharacterPlayer player)
+        public InputManager()
         {
-            this._player = player;
+        }
+
+        public Vector2 MovementCharacter { get; private set; }
+        public Vector2 MovementMouse { get; private set; }
+
+        internal void Update(GameTime gameTime)
+        {
+            var elapsedSec = gameTime.GetElapsedSeconds();
+
+            this.MovementCharacter = this.GetMovement();
+            this.MovementMouse = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
         }
 
         public Vector2 GetMovement()
@@ -24,17 +32,17 @@ namespace MiniShipDelivery
                 movement.Y = -1;
             }
 
-            if(keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+            if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
             {
                 movement.Y = 1;
             }
 
-            if(keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
             {
                 movement.X = -1;
             }
 
-            if(keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
             {
                 movement.X = 1;
             }
@@ -42,18 +50,14 @@ namespace MiniShipDelivery
             return movement;
         }
 
+        
+
         internal bool HasPressToClose()
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
 
-        internal void Update(GameTime gameTime)
-        {
-            var elapsedSec = gameTime.GetElapsedSeconds();
-
-            var movement = this.GetMovement();
-            this._player.Direction = movement;
-        }
+        
     }
 }

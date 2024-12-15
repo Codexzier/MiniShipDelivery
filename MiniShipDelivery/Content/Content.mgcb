@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:Character/roguelikeChar_transparent.png
 
+#begin Fonts/BaseFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/BaseFont.spritefont
+
 #begin RpgUrban/tilemap.png
 /importer:TextureImporter
 /processor:TextureProcessor
