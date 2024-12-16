@@ -37,17 +37,5 @@
         EmoteZzz = 33,
         EmoteDotDotDot = 34,
         EmoteLoveDouble = 35
-        //CharacterWomenStandFront = 22,
-        //CharacterWomenStandBack = 23,
-        //CharacterWomenStandLeft = 24,
-        //CharacterWomenStandRight = 25,
-        //CharacterWomenWalkLeftFoodFront = 26,
-        //CharacterWomenWalkLeftFoodBack = 27,
-        //CharacterWomenWalkLeftFoodLeft = 28,
-        //CharacterWomenWalkLeftFoodRight = 29,
-        //CharacterWomenWalkRightFoodFront = 30,
-        //CharacterWomenWalkRightFoodBack = 31,
-        //CharacterWomenWalkRightFoodLeft = 32,
-        //CharacterWomenWalkRightFoodRight = 33
     }
 }

@@ -49,8 +49,6 @@ namespace MiniShipDelivery.Components.Character
                 this.IsMoving = false;
             }
 
-
-
             this.UpdateFrame(gameTime);
         }
 

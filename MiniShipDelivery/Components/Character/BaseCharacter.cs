@@ -11,8 +11,6 @@ namespace MiniShipDelivery.Components.Character
         protected float _timeToUpdate;
         protected float _timeEleapsed;
 
-        
-
         protected BaseCharacter()
         {
             this.Tilemaps = new Dictionary<TilemapPart, Rectangle>();
