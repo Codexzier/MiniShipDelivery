@@ -4,22 +4,28 @@ using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public abstract class BaseCharacter : ITilemapProperties
+    public abstract class BaseCharacter : ITilemapProperties, ICollider
     {
 
         protected int _currentFrame;
         protected float _timeToUpdate;
         protected float _timeEleapsed;
 
+        
+
         protected BaseCharacter()
         {
             this.Tilemaps = new Dictionary<TilemapPart, Rectangle>();
-
+            this.Collider = new ColliderBox2D(16, 16);
+            this.Collisions = new List<ICollider>();
         }
+
+        public ColliderBox2D Collider { get; }
+        public List<ICollider> Collisions { get; }
 
         public IDictionary<TilemapPart, Rectangle> Tilemaps { get; private set; }
 
-        public Vector2 Position { get; internal set; }
+        
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal set; }
 
@@ -95,6 +101,16 @@ namespace MiniShipDelivery.Components.Character
             }
 
             return this._walkingFrames[this._currentFrame + shiftFrameIndex];
+        }
+
+        public void OnCollision(ICollider otherCollider)
+        {
+            this.Collisions.Add(otherCollider);
+        }
+
+        public void ClearCollisions()
+        {
+            this.Collisions.Clear();
         }
     }
 }

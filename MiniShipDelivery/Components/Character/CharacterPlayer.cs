@@ -1,16 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Tilemap;
+using System.Linq;
 
 namespace MiniShipDelivery.Components.Character
 {
     public class CharacterPlayer : BaseCharacter
     {
-        private readonly AssetManager _spriteManager;
+        private readonly AssetManager _assetManager;
         private readonly InputManager _input;
-        
+        private readonly EmoteManager _emote;
 
-        public CharacterPlayer(AssetManager spriteManager, InputManager input) : base()
+        public CharacterPlayer(AssetManager spriteManager, InputManager input, EmoteManager emote) : base()
         {
             var shiftY = 0;
             this.Tilemaps.Add(TilemapPart.CharacterStandFront, new Rectangle(16 * 24 + 24, 16 * shiftY + shiftY, 16, 16));
@@ -28,8 +29,9 @@ namespace MiniShipDelivery.Components.Character
             this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodLeft, new Rectangle(16 * 23 + 23, 16 * shiftY + shiftY, 16, 16));
             this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodRight, new Rectangle(16 * 26 + 26, 16 * shiftY + shiftY, 16, 16));
 
-            this._spriteManager = spriteManager;
+            this._assetManager = spriteManager;
             this._input = input;
+            this._emote = emote;
         }
 
         public void Update(GameTime gameTime)
@@ -40,12 +42,14 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                this.Position += this.Direction * this.Speed * deltaTime;
+                this.Collider.Position += this.Direction * this.Speed * deltaTime;
             }
             else
             {
                 this.IsMoving = false;
             }
+
+
 
             this.UpdateFrame(gameTime);
         }
@@ -74,7 +78,12 @@ namespace MiniShipDelivery.Components.Character
 
             tp = this.GetWalkingFrame(tp);
 
-            this._spriteManager.Draw(spriteBatch, this.Position, tp, this);
+            this._assetManager.Draw(spriteBatch, this.Collider.Position, tp, this);
+
+            if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
+            {
+                this._emote.Draw(spriteBatch, this.Collider.Position, TilemapPart.EmoteLove);
+            }
         }
 
         

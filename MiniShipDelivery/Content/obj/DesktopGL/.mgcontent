@@ -4,12 +4,14 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_magenta.png</File>
-    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_transparent.png</File>
-    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Fonts/BaseFont.spritefont</File>
-    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/tilemap.png</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_magenta.png</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_transparent.png</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Emote/pixel_style1.png</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Fonts/BaseFont.spritefont</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/tilemap.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

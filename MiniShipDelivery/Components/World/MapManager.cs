@@ -7,7 +7,7 @@ namespace MiniShipDelivery.Components.World
 {
     internal class MapManager : ITilemapProperties
     {
-        private AssetManager spriteManager;
+        private AssetManager _spriteManager;
 
         private int[][] _map = new int[][]
         {
@@ -18,7 +18,7 @@ namespace MiniShipDelivery.Components.World
 
         public MapManager(AssetManager spriteManager)
         {
-            this.spriteManager = spriteManager;
+            this._spriteManager = spriteManager;
 
             this.Tilemaps = new Dictionary<TilemapPart, Rectangle>
             {
@@ -42,7 +42,7 @@ namespace MiniShipDelivery.Components.World
             {
                 for (var x = 0; x < this._map[y].Length; x++)
                 {
-                    this.spriteManager.Draw(spriteBatch, new Vector2(x * 16, y * 16), (TilemapPart)this._map[y][x], this);
+                    this._spriteManager.Draw(spriteBatch, new Vector2(x * 16, y * 16), (TilemapPart)this._map[y][x], this);
                 }
             }
         }
