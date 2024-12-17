@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Tilemap;
+using System;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Character
@@ -35,6 +36,31 @@ namespace MiniShipDelivery.Components.Character
             {
                 this._timeToUpdate = 1f / value;
             }
+        }
+
+        protected void SetupTilemapsCharacter(CharacterType characterType)
+        {
+            var shift = (int)characterType * 3;
+
+            var shiftY1 = 0 + shift;
+            var shiftY2 = 1 + shift;
+            var shiftY3 = 2 + shift;
+
+            this.Tilemaps.Add(TilemapPart.CharacterStandLeft, new Rectangle(16 * 23 + 23, 16 * shiftY1 + shiftY1, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodLeft, new Rectangle(16 * 23 + 23, 16 * shiftY2 + shiftY2, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodLeft, new Rectangle(16 * 23 + 23, 16 * shiftY3 + shiftY3, 16, 16));
+
+            this.Tilemaps.Add(TilemapPart.CharacterStandFront, new Rectangle(16 * 24 + 24, 16 * shiftY1 + shiftY1, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodFront, new Rectangle(16 * 24 + 24, 16 * shiftY2 + shiftY2, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodFront, new Rectangle(16 * 24 + 24, 16 * shiftY3 + shiftY3, 16, 16));
+
+            this.Tilemaps.Add(TilemapPart.CharacterStandBack, new Rectangle(16 * 25 + 25, 16 * shiftY1 + shiftY1, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodBack, new Rectangle(16 * 25 + 25, 16 * shiftY2 + shiftY2, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodBack, new Rectangle(16 * 25 + 25, 16 * shiftY3 + shiftY3, 16, 16));
+
+            this.Tilemaps.Add(TilemapPart.CharacterStandRight, new Rectangle(16 * 26 + 26, 16 * shiftY1 + shiftY1, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodRight, new Rectangle(16 * 26 + 26, 16 * shiftY2 + shiftY2, 16, 16));
+            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodRight, new Rectangle(16 * 26 + 26, 16 * shiftY3 + shiftY3, 16, 16));
         }
 
         protected Dictionary<int, TilemapPart> _walkingFrames = new Dictionary<int, TilemapPart>

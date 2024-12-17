@@ -13,25 +13,11 @@ namespace MiniShipDelivery.Components.Character
 
         public CharacterPlayer(AssetManager spriteManager, InputManager input, EmoteManager emote) : base()
         {
-            var shiftY = 0;
-            this.Tilemaps.Add(TilemapPart.CharacterStandFront, new Rectangle(16 * 24 + 24, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterStandBack, new Rectangle(16 * 25 + 25, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterStandLeft, new Rectangle(16 * 23 + 23, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterStandRight, new Rectangle(16 * 26 + 26, 16 * shiftY + shiftY, 16, 16));
-            shiftY = 1;
-            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodFront, new Rectangle(16 * 24 + 24, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodBack, new Rectangle(16 * 25 + 25, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodLeft, new Rectangle(16 * 23 + 23, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkLeftFoodRight, new Rectangle(16 * 26 + 26, 16 * shiftY + shiftY, 16, 16));
-            shiftY = 2;
-            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodFront, new Rectangle(16 * 24 + 24, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodBack, new Rectangle(16 * 25 + 25, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodLeft, new Rectangle(16 * 23 + 23, 16 * shiftY + shiftY, 16, 16));
-            this.Tilemaps.Add(TilemapPart.CharacterWalkRightFoodRight, new Rectangle(16 * 26 + 26, 16 * shiftY + shiftY, 16, 16));
-
             this._assetManager = spriteManager;
             this._input = input;
             this._emote = emote;
+
+            this.SetupTilemapsCharacter(CharacterType.Men);
         }
 
         public void Update(GameTime gameTime)

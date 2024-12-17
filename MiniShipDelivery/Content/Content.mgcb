@@ -56,6 +56,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/BaseFont.spritefont
 
+#begin Interface/interfacePack_16x_packed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Interface/interfacePack_16x_packed.png
+
 #begin RpgUrban/tilemap.png
 /importer:TextureImporter
 /processor:TextureProcessor
