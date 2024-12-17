@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.Tilemap;
+using System;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.World
@@ -8,7 +10,8 @@ namespace MiniShipDelivery.Components.World
     internal class MapManager : ITilemapProperties
     {
         private AssetManager _spriteManager;
-
+        private readonly CharacterPlayer _player;
+        private readonly List<CharacterNpc> _characterNPCs;
         private int[][] _map = new int[][]
         {
             new int[] { 13, 14, 14, 14, 15 },
@@ -16,9 +19,11 @@ namespace MiniShipDelivery.Components.World
             new int[] { 19, 20, 20, 20, 21 },
         };
 
-        public MapManager(AssetManager spriteManager)
+        public MapManager(AssetManager spriteManager, CharacterPlayer player, List<CharacterNpc> characterNPCs)
         {
             this._spriteManager = spriteManager;
+            this._player = player;
+            this._characterNPCs = characterNPCs;
 
             this.Tilemaps = new Dictionary<TilemapPart, Rectangle>
             {
@@ -36,15 +41,32 @@ namespace MiniShipDelivery.Components.World
 
         public IDictionary<TilemapPart, Rectangle> Tilemaps { get; private set; }
 
+
+        internal void Update(GameTime gameTime)
+        {
+            var relativePosition = this._player.Position;
+
+            foreach (var character in this._characterNPCs)
+            {
+                character.Collider.Position = character.Position - relativePosition;
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            var relativePosition = this._player.Position;
+
             for (var y = 0; y < this._map.Length; y++)
             {
                 for (var x = 0; x < this._map[y].Length; x++)
                 {
-                    this._spriteManager.Draw(spriteBatch, new Vector2(x * 16, y * 16), (TilemapPart)this._map[y][x], this);
+                    this._spriteManager.Draw(spriteBatch,
+                        new Vector2((x * 16) - relativePosition.X, (y * 16) - relativePosition.Y),
+                        (TilemapPart)this._map[y][x], 
+                        this);
                 }
             }
         }
+
     }
 }

@@ -10,11 +10,13 @@ namespace MiniShipDelivery.Components.Character
         private AssetManager spriteManager;
         private readonly EmoteManager _emote;
 
-        public CharacterNpc(AssetManager spriteManager, EmoteManager emote) : base()
+        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 startPosition) : base()
         {
             this.spriteManager = spriteManager;
             this._emote = emote;
 
+            this.Position = startPosition;
+            this.Collider.Position = startPosition;
 
             this.SetupTilemapsCharacter(CharacterType.Women);
         }

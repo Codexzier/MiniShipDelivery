@@ -7,6 +7,7 @@ using MiniShipDelivery.Components.Tilemap;
 using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using System.Collections.Generic;
 
 namespace MiniShipDelivery
 {
@@ -18,12 +19,15 @@ namespace MiniShipDelivery
 
         private AssetManager _spriteManager;
         private ColliderManager _colliderManager;
-        private CharacterNpc characterNpc;
+        private List<CharacterNpc> characterNPCs = new List<CharacterNpc>();
         private CharacterPlayer _player;
         private EmoteManager _emote;
         private InputManager _input;
         private MapManager _map;
         private HudManager _hudManager;
+
+        private int _screenWidth = 320;
+        private int _screenHeight = 180;
 
         public GameShipDelivery()
         {
@@ -38,7 +42,7 @@ namespace MiniShipDelivery
 
         protected override void Initialize()
         {
-            var viewportAdapter = new BoxingViewportAdapter(this.Window, this.GraphicsDevice, 320, 180);
+            var viewportAdapter = new BoxingViewportAdapter(this.Window, this.GraphicsDevice, this._screenWidth, this._screenHeight);
             this._camera = new OrthographicCamera(viewportAdapter);
 
             base.Initialize();
@@ -53,29 +57,37 @@ namespace MiniShipDelivery
             this._emote = new EmoteManager(this._spriteManager);
             
 
-            this.characterNpc = new CharacterNpc(this._spriteManager, this._emote)
+            var characterNpc = new CharacterNpc(this._spriteManager, this._emote, new Vector2(20, 20))
             {
                 Direction = Vector2.Zero,
                 Speed = 20,
-                FramesPerSecond = 10
+                FramesPerSecond = 10                
             };
-            this.characterNpc.Collider.Position = new Vector2(150, 150);
-            this._player = new CharacterPlayer(this._spriteManager, this._input, this._emote)
+            this.characterNPCs.Add(characterNpc);
+
+            var screenPosition = new Vector2(this._screenWidth / 2 - 8, this._screenHeight / 2);
+            this._player = new CharacterPlayer(this._spriteManager, this._input, this._emote, screenPosition)
             {
                 Direction = Vector2.Zero,
                 Speed = 40,
                 FramesPerSecond = 10
             };
-            this._player.Collider.Position = new Vector2(100, 100);
 
 
             this._colliderManager = new ColliderManager();
             this._colliderManager.Add(this._player);
-            this._colliderManager.Add(this.characterNpc);
+            foreach (var npc in this.characterNPCs)
+            {
+                this._colliderManager.Add(npc);
+            }
 
-            this._map = new MapManager(this._spriteManager);
+            this._map = new MapManager(this._spriteManager, this._player, this.characterNPCs);
 
-            this._hudManager = new HudManager(this._spriteManager, this._input, this._player);
+            this._hudManager = new HudManager(this._spriteManager, 
+                this._input, 
+                this._player,
+                this._screenWidth,
+                this._screenHeight);
         }
 
         protected override void Update(GameTime gameTime)
@@ -86,8 +98,12 @@ namespace MiniShipDelivery
             }
 
             this._input.Update(gameTime);
-            this.characterNpc.Update(gameTime);
+            foreach (var npc in this.characterNPCs)
+            {
+                npc.Update(gameTime);
+            }
             this._player.Update(gameTime);
+            this._map.Update(gameTime);
             this._hudManager.Update(gameTime);
             this._colliderManager.Update(gameTime);
 
@@ -103,7 +119,10 @@ namespace MiniShipDelivery
 
             this._map.Draw(this._spriteBatch, gameTime);
 
-            this.characterNpc.Draw(this._spriteBatch, gameTime);
+            foreach (var npc in this.characterNPCs)
+            {
+                npc.Draw(this._spriteBatch, gameTime);
+            }
             this._player.Draw(this._spriteBatch, gameTime);
             this._hudManager.Draw(this._spriteBatch, gameTime);
 

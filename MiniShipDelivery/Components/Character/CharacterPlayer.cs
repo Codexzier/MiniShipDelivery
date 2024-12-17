@@ -11,14 +11,18 @@ namespace MiniShipDelivery.Components.Character
         private readonly InputManager _input;
         private readonly EmoteManager _emote;
 
-        public CharacterPlayer(AssetManager spriteManager, InputManager input, EmoteManager emote) : base()
+        public CharacterPlayer(AssetManager spriteManager, InputManager input, EmoteManager emote, Vector2 screenPosition) : base()
         {
             this._assetManager = spriteManager;
             this._input = input;
             this._emote = emote;
+            
+            this.Collider.Position = screenPosition;
+            this.Position = new Vector2(0, 0);
 
             this.SetupTilemapsCharacter(CharacterType.Men);
         }
+
 
         public void Update(GameTime gameTime)
         {
@@ -28,7 +32,7 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                this.Collider.Position += this.Direction * this.Speed * deltaTime;
+                this.Position += this.Direction * this.Speed * deltaTime;
             }
             else
             {

@@ -24,7 +24,9 @@ namespace MiniShipDelivery.Components.Character
 
         public IDictionary<TilemapPart, Rectangle> Tilemaps { get; private set; }
 
-        
+        public Vector2 Position { get; protected set; }
+
+
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal set; }
 
