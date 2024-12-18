@@ -83,7 +83,8 @@ namespace MiniShipDelivery
 
             this._map = new MapManager(this._spriteManager, this._player, this.characterNPCs);
 
-            this._hudManager = new HudManager(this._spriteManager, 
+            this._hudManager = new HudManager(
+                this._spriteManager, 
                 this._input, 
                 this._player,
                 this._screenWidth,
