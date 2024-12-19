@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery
+﻿namespace MiniShipDelivery.Components.HUD
 {
     internal enum HudOptionView
     {

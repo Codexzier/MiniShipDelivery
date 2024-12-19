@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace MiniShipDelivery.Components.Character
+namespace MiniShipDelivery.Components.Objects
 {
     public class ColliderBox2D
     {

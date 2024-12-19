@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
-using MiniShipDelivery.Components.Tilemap;
 
 namespace MiniShipDelivery.Components.HUD
 {

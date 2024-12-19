@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery
+﻿namespace MiniShipDelivery.Components.Character
 {
     public enum CharacterType
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Tilemap;
-using System;
+using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.HUD
 {
@@ -99,12 +98,12 @@ namespace MiniShipDelivery.Components.HUD
 
         private void CreateScreenWidthFrame(SpriteBatch spriteBatch, int countMiddleForWidth, int shiftLeft, int shiftTop, InterfacePart left, InterfacePart middle, InterfacePart right)
         {
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft, shiftTop), this._interfacePack.Tilemaps[left]);
+            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft, shiftTop), left, this._interfacePack);
             for (var x = 1; x < countMiddleForWidth - 1; x++)
             {
-                this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + (x * 4), shiftTop), this._interfacePack.Tilemaps[middle]);
+                this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + (x * 4), shiftTop), middle, this._interfacePack);
             }
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + ((countMiddleForWidth - 1) * 4), shiftTop), this._interfacePack.Tilemaps[right]);
+            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + ((countMiddleForWidth - 1) * 4), shiftTop), right, this._interfacePack);
         }
     }
 }

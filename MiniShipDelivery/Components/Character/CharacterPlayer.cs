@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Tilemap;
+using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Emote;
 using System.Linq;
 
 namespace MiniShipDelivery.Components.Character
@@ -70,7 +71,7 @@ namespace MiniShipDelivery.Components.Character
 
             if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
             {
-                this._emote.Draw(spriteBatch, this.Collider.Position, TilemapPart.EmoteLove);
+                this._emote.Draw(spriteBatch, this.Collider.Position, EmotePart.EmoteLove);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MiniShipDelivery.Components.Character
+namespace MiniShipDelivery.Components.Objects
 {
     public interface ICollider
     {

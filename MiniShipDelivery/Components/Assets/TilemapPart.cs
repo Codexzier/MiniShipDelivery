@@ -1,7 +1,8 @@
-﻿namespace MiniShipDelivery.Components.Tilemap
+﻿namespace MiniShipDelivery.Components.Assets
 {
     public enum TilemapPart
     {
+        None = 0,
         CharacterStandFront = 1,
         CharacterStandLeft = 2,
         CharacterStandRight = 3,
@@ -22,20 +23,6 @@
         RoomGray_MiddleRight = 18,
         RoomGray_DownLeft = 19,
         RoomGray_DownMiddle = 20,
-        RoomGray_DownRight = 21,
-        EmoteHappy = 22,
-        EmoteSad = 23,
-        EmoteAngry = 24,
-        EmoteSurprised = 25,
-        EmoteSleepy = 26,
-        EmoteSick = 27,
-        EmoteConfused = 28,
-        EmoteLove = 29,
-        EmoteQuestion = 30,
-        EmoteExclamation = 31,
-        EmoteMusic = 32,
-        EmoteZzz = 33,
-        EmoteDotDotDot = 34,
-        EmoteLoveDouble = 35
+        RoomGray_DownRight = 21
     }
 }

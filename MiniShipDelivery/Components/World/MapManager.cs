@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
-using MiniShipDelivery.Components.Tilemap;
-using System;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.World
 {
-    internal class MapManager : ITilemapProperties
+    internal class MapManager : ISpriteProperties<TilemapPart>
     {
         private AssetManager _spriteManager;
         private readonly CharacterPlayer _player;
@@ -25,7 +24,7 @@ namespace MiniShipDelivery.Components.World
             this._player = player;
             this._characterNPCs = characterNPCs;
 
-            this.Tilemaps = new Dictionary<TilemapPart, Rectangle>
+            this.SpriteContent = new Dictionary<TilemapPart, Rectangle>
             {
                 { TilemapPart.RoomGray_TopLeft, new Rectangle(16 * 0 + 0, 16 * 3 + 3, 16, 16) },
                 { TilemapPart.RoomGray_TopMiddle, new Rectangle(16 * 1 + 1, 16 * 3 + 3, 16, 16) },
@@ -39,7 +38,7 @@ namespace MiniShipDelivery.Components.World
             };
         }
 
-        public IDictionary<TilemapPart, Rectangle> Tilemaps { get; private set; }
+        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; private set; }
 
 
         internal void Update(GameTime gameTime)

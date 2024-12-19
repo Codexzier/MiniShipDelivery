@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components;
+using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.Emote;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.Tilemap;
+using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;

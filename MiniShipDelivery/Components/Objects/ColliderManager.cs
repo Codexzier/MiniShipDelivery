@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using MiniShipDelivery.Components.Character;
-using System;
 using System.Collections.Generic;
 
-namespace MiniShipDelivery.Components
+namespace MiniShipDelivery.Components.Objects
 {
     public class ColliderManager
     {
