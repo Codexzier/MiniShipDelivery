@@ -7,7 +7,6 @@ namespace MiniShipDelivery.Components.HUD
 {
     internal class HudManager
     {
-        private readonly InterfacePack _interfacePack;
         private readonly MapEditorHud _mapEditorHud;
 
         private AssetManager _spriteManager;
@@ -21,8 +20,7 @@ namespace MiniShipDelivery.Components.HUD
         
         public HudManager(AssetManager spriteManager, InputManager input, CharacterPlayer player, int screenWidth, int screenHeight)
         {
-            this._interfacePack = new InterfacePack();
-            this._mapEditorHud = new MapEditorHud(spriteManager, input, screenWidth, screenHeight, this._interfacePack);
+            this._mapEditorHud = new MapEditorHud(spriteManager, input, screenWidth, screenHeight);
 
             this._spriteManager = spriteManager;
             this._input = input;

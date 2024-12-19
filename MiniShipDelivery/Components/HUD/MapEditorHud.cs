@@ -10,15 +10,13 @@ namespace MiniShipDelivery.Components.HUD
         private InputManager _input;
         private int _screenWidth;
         private int _screenHeight;
-        private readonly InterfacePack _interfacePack;
 
-        public MapEditorHud(AssetManager spriteManager, InputManager input, int screenWidth, int screenHeight, InterfacePack interfacePack)
+        public MapEditorHud(AssetManager spriteManager, InputManager input, int screenWidth, int screenHeight)
         {
             this._spriteManager = spriteManager;
             this._input = input;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
-            this._interfacePack = interfacePack;
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -98,12 +96,12 @@ namespace MiniShipDelivery.Components.HUD
 
         private void CreateScreenWidthFrame(SpriteBatch spriteBatch, int countMiddleForWidth, int shiftLeft, int shiftTop, InterfacePart left, InterfacePart middle, InterfacePart right)
         {
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft, shiftTop), left, this._interfacePack);
+            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft, shiftTop), left, this._spriteManager.InterfacePack);
             for (var x = 1; x < countMiddleForWidth - 1; x++)
             {
-                this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + (x * 4), shiftTop), middle, this._interfacePack);
+                this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + (x * 4), shiftTop), middle, this._spriteManager.InterfacePack);
             }
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + ((countMiddleForWidth - 1) * 4), shiftTop), right, this._interfacePack);
+            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + ((countMiddleForWidth - 1) * 4), shiftTop), right, this._spriteManager.InterfacePack);
         }
     }
 }
