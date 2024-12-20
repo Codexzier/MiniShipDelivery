@@ -107,6 +107,7 @@ namespace MiniShipDelivery.Components.Character
 
         private IDictionary<TilemapPart, int> _charDirection = new Dictionary<TilemapPart, int>()
         {
+            {TilemapPart.CharacterStandFront, 0 },
             {TilemapPart.CharacterStandLeft, 4 },
             {TilemapPart.CharacterStandRight, 8 },
             {TilemapPart.CharacterStandBack, 12 },

@@ -35,14 +35,18 @@ namespace MiniShipDelivery.Components.HUD
         {
             this._menuTop.DrawMenuFrame(spriteBatch,
                 0, 0,
-                this._screenWidth, 20);
+                this._screenWidth, 20,
+                MenuFrameType.Type3);
         }
 
         private void SideMenu(SpriteBatch spriteBatch)
         {
+            int sideMenuWidth = 60;
+
             this._menuTop.DrawMenuFrame(spriteBatch,
-                this._screenWidth - 20, 20,
-                20, this._screenHeight - 20);
+                this._screenWidth - sideMenuWidth, 20,
+                sideMenuWidth, this._screenHeight - 20,
+                MenuFrameType.Type2);
 
         }
     }

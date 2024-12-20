@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Packs;
+using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Assets
@@ -21,14 +22,14 @@ namespace MiniShipDelivery.Components.Assets
             this._font = content.Load<SpriteFont>("Fonts/BaseFont");
             this._spriteEmotes = content.Load<Texture2D>("Emote/pixel_style1");
 
-            this._sprites.Add("TilemapPart", this._spriteTilemap);
-            this._sprites.Add("InterfacePart", this._spriteInterface);
-            this._sprites.Add("EmotePart", this._spriteEmotes);
+            this._sprites.Add(nameof(TilemapPart), this._spriteTilemap);
+            this._sprites.Add(nameof(InterfacePart4x4), this._spriteInterface);
+            this._sprites.Add(nameof(EmotePart), this._spriteEmotes);
         }
 
         public SpriteFont Font => this._font;
 
-        internal InterfacePack InterfacePack { get; set; } = new InterfacePack();
+        internal InterfacePack4x4 InterfacePack { get; set; } = new InterfacePack4x4();
         internal TilemapPack TilemapPack { get; set; } = new TilemapPack();
         internal EmotePack EmotePack { get; set; } = new EmotePack();
 

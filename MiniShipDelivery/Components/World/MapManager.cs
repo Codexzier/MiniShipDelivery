@@ -14,9 +14,13 @@ namespace MiniShipDelivery.Components.World
         private readonly List<CharacterNpc> _characterNPCs;
         private int[][] _map = new int[][]
         {
-            new int[] { 13, 14, 14, 14, 15 },
-            new int[] { 16, 17, 17, 17, 18 },
+            new int[] { 13, 14, 14, 14, 15, 0, 0, 0, 0, 22, 23, 0, 0, 26, 27 },
+            new int[] { 16, 17, 17, 17, 18, 0, 0, 0, 0, 24, 25, 0, 0, 28, 29 },
             new int[] { 19, 20, 20, 20, 21 },
+            new int[] { 0, },
+            new int[] { 30, 31, 32 },
+            new int[] { 0, },
+            new int[] { 33 },
         };
 
         public MapManager(AssetManager spriteManager, CharacterPlayer player, List<CharacterNpc> characterNPCs)
