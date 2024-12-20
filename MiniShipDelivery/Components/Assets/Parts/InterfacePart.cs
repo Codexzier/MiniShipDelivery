@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.Assets
+﻿namespace MiniShipDelivery.Components.Assets.Parts
 {
     public enum InterfacePart
     {

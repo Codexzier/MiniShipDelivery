@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Emote
 {
@@ -16,10 +17,7 @@ namespace MiniShipDelivery.Components.Emote
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart tilemapPart)
         {
             // draw the emote
-            spriteBatch.Draw(this._spriteManager.Emotes,
-                position + new Vector2(0, -16),
-                this._spriteManager.EmotePack.SpriteContent[tilemapPart],
-                Color.White);
+            this._spriteManager.Draw(spriteBatch, position + new Vector2(0, -16), tilemapPart, this._spriteManager.EmotePack);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 
-namespace MiniShipDelivery.Components.Assets
+namespace MiniShipDelivery.Components.Assets.Packs
 {
     internal class EmotePack : ISpriteProperties<EmotePart>
     {

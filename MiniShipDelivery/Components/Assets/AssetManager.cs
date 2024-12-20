@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets.Packs;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Assets
@@ -12,8 +13,6 @@ namespace MiniShipDelivery.Components.Assets
         private SpriteFont _font;
         private Texture2D _spriteEmotes;
         private IDictionary<string, Texture2D> _sprites = new Dictionary<string, Texture2D>();
-
-
 
         public AssetManager(ContentManager content)
         {
@@ -28,8 +27,6 @@ namespace MiniShipDelivery.Components.Assets
         }
 
         public SpriteFont Font => this._font;
-
-        public Texture2D Emotes => this._spriteEmotes;
 
         internal InterfacePack InterfacePack { get; set; } = new InterfacePack();
         internal TilemapPack TilemapPack { get; set; } = new TilemapPack();

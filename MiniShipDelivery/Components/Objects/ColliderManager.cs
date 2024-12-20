@@ -32,6 +32,7 @@ namespace MiniShipDelivery.Components.Objects
                     {
                         continue;
                     }
+
                     if (collider.Collider.Intersects(otherCollider.Collider))
                     {
                         collider.OnCollision(otherCollider);

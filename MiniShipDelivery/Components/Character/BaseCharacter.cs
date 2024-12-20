@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Objects;
 using System.Collections.Generic;
 

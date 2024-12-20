@@ -6,7 +6,6 @@ namespace MiniShipDelivery.Components.Objects
     {
         ColliderBox2D Collider { get; }
         List<ICollider> Collisions { get; }
-
         void ClearCollisions();
         void OnCollision(ICollider otherCollider);
     }

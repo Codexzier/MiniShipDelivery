@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery
+﻿namespace MiniShipDelivery.Components.Assets.Parts
 {
     public enum EmotePart
     {
