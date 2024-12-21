@@ -32,17 +32,17 @@ namespace MiniShipDelivery.Components.World
 
         internal void Update(GameTime gameTime)
         {
-            var relativePosition = this._player.Position;
+            var relativePosition = this._player.Collider.Position;
 
             foreach (var character in this._characterNPCs)
             {
-                character.Collider.Position = character.Position - relativePosition;
+                character.Collider.Position = character.Collider.Position - relativePosition;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            var relativePosition = this._player.Position;
+            var relativePosition = new Vector2(0, 0); // this._player.Position;
 
             for (var y = 0; y < this._map.Length; y++)
             {

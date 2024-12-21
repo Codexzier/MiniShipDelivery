@@ -27,8 +27,7 @@ namespace MiniShipDelivery.Components.HUD
         }
 
         public void DrawMenuFrame(SpriteBatch spriteBatch,
-            int positionX,
-            int positionY,
+            Vector2 position,
             int width,
             int height,
             MenuFrameType mft)
@@ -40,8 +39,7 @@ namespace MiniShipDelivery.Components.HUD
 
             this.CreateScreenWidthFrame(spriteBatch,
                 countMiddleForWidth,
-                positionX,
-                positionY,
+                position,
                 InterfacePart4x4.BaseFrame_Type1_TopLeft,
                 InterfacePart4x4.BaseFrame_Type1_TopMiddle,
                 InterfacePart4x4.BaseFrame_Type1_TopRight,
@@ -51,8 +49,7 @@ namespace MiniShipDelivery.Components.HUD
             {
                 this.CreateScreenWidthFrame(spriteBatch,
                     countMiddleForWidth,
-                    positionX,
-                    positionY + 4 + (y * 4),
+                    position + new Vector2(0, 4 + (y * 4)),
                     InterfacePart4x4.BaseFrame_Type1_MiddleLeft,
                     InterfacePart4x4.BaseFrame_Type1_MiddleMiddle,
                     InterfacePart4x4.BaseFrame_Type1_MiddleRight,
@@ -63,26 +60,39 @@ namespace MiniShipDelivery.Components.HUD
 
             this.CreateScreenWidthFrame(spriteBatch,
                 countMiddleForWidth,
-                positionX,
-                positionY + countMiddleForHeightEnd,
+                position + new Vector2(0, countMiddleForHeightEnd),
                 InterfacePart4x4.BaseFrame_Type1_DownLeft,
                 InterfacePart4x4.BaseFrame_Type1_DownMiddle,
                 InterfacePart4x4.BaseFrame_Type1_DownRight,
                 mft);
         }
 
-        private void CreateScreenWidthFrame(SpriteBatch spriteBatch, int countMiddleForWidth, int shiftLeft, int shiftTop, InterfacePart4x4 left, InterfacePart4x4 middle, InterfacePart4x4 right, MenuFrameType mft)
+        private void CreateScreenWidthFrame(SpriteBatch spriteBatch, 
+            int countMiddleForWidth, 
+            Vector2 shiftPosition, 
+            InterfacePart4x4 left, InterfacePart4x4 middle, InterfacePart4x4 right, 
+            MenuFrameType mft)
         {
             left = this.GetMenuFrameByType(left, mft);
             middle = this.GetMenuFrameByType(middle, mft);
             right = this.GetMenuFrameByType(right, mft);
 
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft, shiftTop), left, this._spriteManager.InterfacePack);
+            this._spriteManager.Draw(spriteBatch, 
+                shiftPosition, 
+                left, 
+                this._spriteManager.InterfacePack);
+            
             for (var x = 0; x < countMiddleForWidth; x++)
             {
-                this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + 4 + (x * 4), shiftTop), middle, this._spriteManager.InterfacePack);
+                this._spriteManager.Draw(spriteBatch, 
+                    shiftPosition + new Vector2(4 + (x * 4), 0), 
+                    middle, 
+                    this._spriteManager.InterfacePack);
             }
-            this._spriteManager.Draw(spriteBatch, new Vector2(shiftLeft + 4 + (countMiddleForWidth * 4), shiftTop), right, this._spriteManager.InterfacePack);
+            this._spriteManager.Draw(spriteBatch, 
+                shiftPosition + new Vector2(4 + (countMiddleForWidth * 4), 0), 
+                right, 
+                this._spriteManager.InterfacePack);
         }
     }
 }

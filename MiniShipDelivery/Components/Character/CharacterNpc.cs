@@ -17,7 +17,7 @@ namespace MiniShipDelivery.Components.Character
             this.spriteManager = spriteManager;
             this._emote = emote;
 
-            this.Position = startPosition;
+            //this.Position = startPosition;
             this.Collider.Position = startPosition;
 
             this.SetupTilemapsCharacter(CharacterType.Women);

@@ -20,7 +20,7 @@ namespace MiniShipDelivery.Components.Character
             this._emote = emote;
             
             this.Collider.Position = screenPosition;
-            this.Position = new Vector2(0, 0);
+            //this.Position = new Vector2(0, 0);
 
             this.SetupTilemapsCharacter(CharacterType.Men);
         }
@@ -34,7 +34,8 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                this.Position += this.Direction * this.Speed * deltaTime;
+                //this.Position
+                this.Collider.Position += this.Direction * this.Speed * deltaTime;
             }
             else
             {

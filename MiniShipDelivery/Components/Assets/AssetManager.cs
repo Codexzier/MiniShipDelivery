@@ -26,7 +26,7 @@ namespace MiniShipDelivery.Components.Assets
             this._sprites.Add(nameof(InterfacePart4x4), this._spriteInterface);
             this._sprites.Add(nameof(EmotePart), this._spriteEmotes);
         }
-
+  
         public SpriteFont Font => this._font;
 
         internal InterfacePack4x4 InterfacePack { get; set; } = new InterfacePack4x4();

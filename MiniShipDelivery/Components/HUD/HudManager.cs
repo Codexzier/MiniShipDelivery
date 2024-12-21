@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
+using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
@@ -12,25 +13,35 @@ namespace MiniShipDelivery.Components.HUD
         private AssetManager _spriteManager;
         private readonly InputManager _input;
         private readonly CharacterPlayer _player;
+        private readonly OrthographicCamera _camera;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
 
         private HudOptionView hudOptionView = HudOptionView.MapEditor;
 
         
-        public HudManager(AssetManager spriteManager, InputManager input, CharacterPlayer player, int screenWidth, int screenHeight)
+        public HudManager(AssetManager spriteManager,
+            InputManager input,
+            CharacterPlayer player,
+            OrthographicCamera camera,
+            int screenWidth, int screenHeight)
         {
-            this._mapEditorHud = new MapEditorHud(spriteManager, input, screenWidth, screenHeight);
-
             this._spriteManager = spriteManager;
             this._input = input;
             this._player = player;
+            this._camera = camera;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
+            
+            this._mapEditorHud = new MapEditorHud(spriteManager, 
+                input,
+                camera,
+                screenWidth, screenHeight);
         }
 
         internal void Update(GameTime gameTime)
         {
+            this._mapEditorHud.Update(gameTime);
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -48,7 +59,7 @@ namespace MiniShipDelivery.Components.HUD
             // write the mouse position in text format on the top left screen area
             spriteBatch.DrawString(this._spriteManager.Font,
                 $"Mouse Position: {this._input.MovementMouse}",
-                new Vector2(10, 6),
+                new Vector2(10, 6) + this._camera.Position,
                 Color.White,
                 0f,
                 new Vector2(0, 0),
@@ -58,11 +69,21 @@ namespace MiniShipDelivery.Components.HUD
             // write collision information on the top right screen area
             spriteBatch.DrawString(this._spriteManager.Font,
                 $"Collision: {this._player.Collisions.Count}",
-                new Vector2(10, 14),
+                new Vector2(10, 14) + this._camera.Position,
                 Color.White, 
                 0f, 
                 new Vector2(0, 0), 
                 .5f, 
+                SpriteEffects.None, 1);
+            
+            // show character position
+            spriteBatch.DrawString(this._spriteManager.Font,
+                $"Character Position: {this._player.Collider.Position}",
+                new Vector2(10, 22) + this._camera.Position,
+                Color.White,
+                0f,
+                new Vector2(0, 0),
+                0.5f,
                 SpriteEffects.None, 1);
         }
     }
