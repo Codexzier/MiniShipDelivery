@@ -11,16 +11,16 @@ namespace MiniShipDelivery.Components.Character
     {
         private readonly AssetManager _assetManager;
         private readonly InputManager _input;
-        private readonly EmoteManager _emote;
 
-        public CharacterPlayer(AssetManager spriteManager, InputManager input, EmoteManager emote, Vector2 screenPosition) : base()
+        public CharacterPlayer(
+            AssetManager spriteManager, 
+            InputManager input, 
+            Vector2 screenPosition)
         {
             this._assetManager = spriteManager;
             this._input = input;
-            this._emote = emote;
             
             this.Collider.Position = screenPosition;
-            //this.Position = new Vector2(0, 0);
 
             this.SetupTilemapsCharacter(CharacterType.Men);
         }
@@ -34,7 +34,6 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                //this.Position
                 this.Collider.Position += this.Direction * this.Speed * deltaTime;
             }
             else
@@ -63,8 +62,6 @@ namespace MiniShipDelivery.Components.Character
                 case var d when d.Y < 0:
                     tp = TilemapPart.CharacterStandBack;
                     break;
-                default:
-                    break;
             }
 
             tp = this.GetWalkingFrame(tp);
@@ -73,7 +70,10 @@ namespace MiniShipDelivery.Components.Character
 
             if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
             {
-                this._emote.Draw(spriteBatch, this.Collider.Position, EmotePart.EmoteLove);
+                this._assetManager.Draw(
+                    spriteBatch, 
+                    this.Collider.Position - new Vector2(0, 16), 
+                    EmotePart.EmoteLove);
             }
         }
 

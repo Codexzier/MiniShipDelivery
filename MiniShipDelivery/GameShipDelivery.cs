@@ -21,7 +21,7 @@ namespace MiniShipDelivery
 
         private AssetManager _spriteManager;
         private ColliderManager _colliderManager;
-        private readonly List<CharacterNpc> _characterNpCs = new List<CharacterNpc>();
+        private readonly List<CharacterNpc> _characterNpCs = new ();
         private CharacterPlayer _player;
         private EmoteManager _emote;
         private InputManager _input;
@@ -54,7 +54,9 @@ namespace MiniShipDelivery
         {
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this._input = new InputManager();
+            this._input = new InputManager( 
+                (float)this._screenWidth / (float)this._graphics.PreferredBackBufferWidth , 
+                (float)this._screenHeight / (float)this._graphics.PreferredBackBufferHeight);
             this._spriteManager = new AssetManager(this.Content);
             this._emote = new EmoteManager(this._spriteManager);
             
@@ -68,13 +70,12 @@ namespace MiniShipDelivery
             this._characterNpCs.Add(characterNpc);
 
             var screenPosition = new Vector2(this._screenWidth / 2 - 8, this._screenHeight / 2);
-            this._player = new CharacterPlayer(this._spriteManager, this._input, this._emote, screenPosition)
+            this._player = new CharacterPlayer(this._spriteManager, this._input, screenPosition)
             {
                 Direction = Vector2.Zero,
                 Speed = 40,
                 FramesPerSecond = 10
             };
-
 
             this._colliderManager = new ColliderManager();
             this._colliderManager.Add(this._player);
@@ -89,6 +90,7 @@ namespace MiniShipDelivery
                 this._spriteManager, 
                 this._input, 
                 this._player,
+                this._characterNpCs,
                 this._camera,
                 this._screenWidth,
                 this._screenHeight);
@@ -108,7 +110,6 @@ namespace MiniShipDelivery
             }
             this._player.Update(gameTime);
             this._map.Update(gameTime);
-            this._hudManager.Update(gameTime);
             this._colliderManager.Update(gameTime);
 
 
@@ -124,14 +125,11 @@ namespace MiniShipDelivery
         protected override void Draw(GameTime gameTime)
         {
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             var transformMatrix = this._camera.GetViewMatrix();
-            
             
             this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
 
-            this._map.Draw(this._spriteBatch, gameTime);
-
+            this._map.Draw(this._spriteBatch);
             foreach (var npc in this._characterNpCs)
             {
                 npc.Draw(this._spriteBatch, gameTime);

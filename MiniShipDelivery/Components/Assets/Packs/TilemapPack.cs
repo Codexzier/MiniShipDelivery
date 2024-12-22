@@ -1,14 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Packs
 {
     internal class TilemapPack : ISpriteProperties<TilemapPart>
     {
-        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; private set; }
-        public TilemapPack()
+        public Texture2D Texture { get; }
+        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
+        public TilemapPack(Texture2D texture)
         {
+            this.Texture = texture;
             int shiftX = 0;
             int shiftY = 0;
             this.SpriteContent = new Dictionary<TilemapPart, Rectangle>

@@ -1,41 +1,56 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Packs;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
+using MiniShipDelivery.Components.Character;
 
 namespace MiniShipDelivery.Components.Assets
 {
     public class AssetManager
     {
-        private readonly Texture2D _spriteTilemap;
-        private Texture2D _spriteInterface;
-        private SpriteFont _font;
-        private Texture2D _spriteEmotes;
-        private IDictionary<string, Texture2D> _sprites = new Dictionary<string, Texture2D>();
+        private readonly SpriteFont _font;
+        private readonly IDictionary<string, Texture2D> _sprites = new Dictionary<string, Texture2D>();
 
         public AssetManager(ContentManager content)
         {
-            this._spriteTilemap = content.Load<Texture2D>("RpgUrban/tilemap");
-            this._spriteInterface = content.Load<Texture2D>("Interface/interfacePack_16x_packed");
             this._font = content.Load<SpriteFont>("Fonts/BaseFont");
-            this._spriteEmotes = content.Load<Texture2D>("Emote/pixel_style1");
 
-            this._sprites.Add(nameof(TilemapPart), this._spriteTilemap);
-            this._sprites.Add(nameof(InterfacePart4x4), this._spriteInterface);
-            this._sprites.Add(nameof(EmotePart), this._spriteEmotes);
+            this.InterfacePack = new InterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
+            this.TilemapPack = new TilemapPack(content.Load<Texture2D>("RpgUrban/tilemap"));
+            this.EmotePack = new EmotePack(content.Load<Texture2D>("Emote/pixel_style1"));
+
+            this._sprites.Add(nameof(TilemapPart), this.TilemapPack.Texture);
+            this._sprites.Add(nameof(InterfacePart4x4), this.InterfacePack.Texture);
+            this._sprites.Add(nameof(EmotePart), this.EmotePack.Texture);
         }
   
         public SpriteFont Font => this._font;
 
-        internal InterfacePack4x4 InterfacePack { get; set; } = new InterfacePack4x4();
-        internal TilemapPack TilemapPack { get; set; } = new TilemapPack();
-        internal EmotePack EmotePack { get; set; } = new EmotePack();
+        internal InterfacePack4x4 InterfacePack { get; }
+        internal TilemapPack TilemapPack { get; } 
+        internal EmotePack EmotePack { get; } 
 
-        public void Draw<TAssetPart>(SpriteBatch spriteBatch, Vector2 position, TAssetPart assertPart, ISpriteProperties<TAssetPart> assetsProperties)
+        public void Draw<TAssetPart>(SpriteBatch spriteBatch, Vector2 position, TAssetPart assertPart, ISpriteProperties<TAssetPart> assetsProperties) where TAssetPart : Enum
         {
             spriteBatch.Draw(this._sprites[typeof(TAssetPart).Name], position, assetsProperties.SpriteContent[assertPart], Color.AliceBlue);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, TilemapPart part)
+        {
+            this.Draw(spriteBatch, position, part, this.TilemapPack);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart part)
+        {
+            this.Draw(spriteBatch, position, part, this.EmotePack);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfacePart4x4 part)
+        {
+            this.Draw(spriteBatch, position, part, this.InterfacePack);
         }
     }
 }

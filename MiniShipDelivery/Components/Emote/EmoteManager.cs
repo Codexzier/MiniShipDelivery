@@ -17,7 +17,7 @@ namespace MiniShipDelivery.Components.Emote
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart tilemapPart)
         {
             // draw the emote
-            this._spriteManager.Draw(spriteBatch, position + new Vector2(0, -16), tilemapPart, this._spriteManager.EmotePack);
+            this._spriteManager.Draw(spriteBatch, new Vector2(position.X, position.Y - 16), tilemapPart);
         }
     }
 }

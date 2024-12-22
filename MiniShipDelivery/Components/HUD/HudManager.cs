@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
@@ -9,10 +10,12 @@ namespace MiniShipDelivery.Components.HUD
     internal class HudManager
     {
         private readonly MapEditorHud _mapEditorHud;
+        private readonly ConsoleManager _consoleManager;
 
         private AssetManager _spriteManager;
         private readonly InputManager _input;
         private readonly CharacterPlayer _player;
+        private readonly List<CharacterNpc> _characterNpCs;
         private readonly OrthographicCamera _camera;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
@@ -23,12 +26,14 @@ namespace MiniShipDelivery.Components.HUD
         public HudManager(AssetManager spriteManager,
             InputManager input,
             CharacterPlayer player,
+            List<CharacterNpc> characterNpCs,
             OrthographicCamera camera,
             int screenWidth, int screenHeight)
         {
             this._spriteManager = spriteManager;
             this._input = input;
             this._player = player;
+            this._characterNpCs = characterNpCs;
             this._camera = camera;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
@@ -37,11 +42,26 @@ namespace MiniShipDelivery.Components.HUD
                 input,
                 camera,
                 screenWidth, screenHeight);
+            
+            this._consoleManager = new ConsoleManager(
+                spriteManager,
+                input,
+                camera,
+                screenWidth, 
+                screenHeight);
         }
 
         internal void Update(GameTime gameTime)
         {
             this._mapEditorHud.Update(gameTime);
+
+            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.MousePosition)}");
+            this._consoleManager.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._player.Collider.Position)}");
+
+            foreach (var charNpc in this._characterNpCs)
+            {
+                this._consoleManager.AddText($"NPC: {charNpc.Collider.Position}");
+            }
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -53,38 +73,7 @@ namespace MiniShipDelivery.Components.HUD
                     break;
             }
 
-
-
-
-            // write the mouse position in text format on the top left screen area
-            spriteBatch.DrawString(this._spriteManager.Font,
-                $"Mouse Position: {this._input.MovementMouse}",
-                new Vector2(10, 6) + this._camera.Position,
-                Color.White,
-                0f,
-                new Vector2(0, 0),
-                .5f,
-                SpriteEffects.None, 1);
-
-            // write collision information on the top right screen area
-            spriteBatch.DrawString(this._spriteManager.Font,
-                $"Collision: {this._player.Collisions.Count}",
-                new Vector2(10, 14) + this._camera.Position,
-                Color.White, 
-                0f, 
-                new Vector2(0, 0), 
-                .5f, 
-                SpriteEffects.None, 1);
-            
-            // show character position
-            spriteBatch.DrawString(this._spriteManager.Font,
-                $"Character Position: {this._player.Collider.Position}",
-                new Vector2(10, 22) + this._camera.Position,
-                Color.White,
-                0f,
-                new Vector2(0, 0),
-                0.5f,
-                SpriteEffects.None, 1);
+            this._consoleManager.DrawText(spriteBatch);
         }
     }
 }

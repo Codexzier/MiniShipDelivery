@@ -1,14 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Packs
 {
     internal class EmotePack : ISpriteProperties<EmotePart>
     {
-        public IDictionary<EmotePart, Rectangle> SpriteContent { get; private set; }
-        public EmotePack()
+        public Texture2D Texture { get; }
+        public IDictionary<EmotePart, Rectangle> SpriteContent { get; }
+        public EmotePack(Texture2D texture)
         {
+            this.Texture = texture;
             this.SpriteContent = new Dictionary<EmotePart, Rectangle>
             {
                 { EmotePart.EmoteHappy, new Rectangle(0, 0, 16, 16) },

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
+using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
@@ -28,14 +29,13 @@ namespace MiniShipDelivery.Components.HUD
 
         public void DrawMenuFrame(SpriteBatch spriteBatch,
             Vector2 position,
-            int width,
-            int height,
+            Size size,
             MenuFrameType mft)
         {
             var shift = this._menuShift[mft];
 
-            var countMiddleForWidth = ((width - (2 * 4)) / 4);
-            var countMiddleForHeight = (height / 4) - 1;
+            var countMiddleForWidth = ((size.Width - (2 * 4)) / 4);
+            var countMiddleForHeight = (size.Height / 4) - 1;
 
             this.CreateScreenWidthFrame(spriteBatch,
                 countMiddleForWidth,
@@ -79,20 +79,17 @@ namespace MiniShipDelivery.Components.HUD
 
             this._spriteManager.Draw(spriteBatch, 
                 shiftPosition, 
-                left, 
-                this._spriteManager.InterfacePack);
+                left);
             
             for (var x = 0; x < countMiddleForWidth; x++)
             {
                 this._spriteManager.Draw(spriteBatch, 
                     shiftPosition + new Vector2(4 + (x * 4), 0), 
-                    middle, 
-                    this._spriteManager.InterfacePack);
+                    middle);
             }
             this._spriteManager.Draw(spriteBatch, 
                 shiftPosition + new Vector2(4 + (countMiddleForWidth * 4), 0), 
-                right, 
-                this._spriteManager.InterfacePack);
+                right);
         }
     }
 }

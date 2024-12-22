@@ -4,6 +4,7 @@ using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Emote;
 using System.Linq;
+using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery.Components.Character
 {
@@ -11,18 +12,22 @@ namespace MiniShipDelivery.Components.Character
     {
         private AssetManager spriteManager;
         private readonly EmoteManager _emote;
-
-        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 startPosition) : base()
+        
+        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 position)
         {
             this.spriteManager = spriteManager;
             this._emote = emote;
 
-            //this.Position = startPosition;
-            this.Collider.Position = startPosition;
+            this.Collider.Position = position;
 
             this.SetupTilemapsCharacter(CharacterType.Women);
         }
 
+        
+        internal void Update(GameTime gameTime)
+        {
+        }
+        
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.spriteManager.Draw(spriteBatch, this.Collider.Position, TilemapPart.CharacterStandFront, this);
@@ -33,8 +38,9 @@ namespace MiniShipDelivery.Components.Character
             }
         }
 
-        internal void Update(GameTime gameTime)
+        public override string ToString()
         {
+            return $"{HudHelper.Vector2ToString(this.Collider.Position)}";
         }
     }
 }
