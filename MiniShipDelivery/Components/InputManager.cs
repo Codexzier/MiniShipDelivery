@@ -23,10 +23,21 @@ namespace MiniShipDelivery.Components
             var elapsedSec = gameTime.GetElapsedSeconds();
 
             this.MovementCharacter = this.GetMovement();
+            
+            // mousestate
+            var mouseState = Mouse.GetState();
             this.MousePosition = new Vector2(
-                Mouse.GetState().X * this._scaledMouseMoveX, 
-                Mouse.GetState().Y * this._scaleMouseMoveY);
+                mouseState.X * this._scaledMouseMoveX, 
+                mouseState.Y * this._scaleMouseMoveY);
+
+            // if (mouseState.LeftButton == ButtonState.Pressed)
+            // {
+                this.MouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;    
+            //}
+            
         }
+
+        public bool MouseLeftButton { get; private set; }
 
         public Vector2 GetMovement()
         {

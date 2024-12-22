@@ -102,27 +102,49 @@ this._menuTopOrigin =  new Vector2(this._screenWidth - this._sideMenuWidth, 20);
             // map sprites
             foreach (var item in this._selectableMapItems)
             {
-                this.DrawSelectableMapPart(
-                    spriteBatch,
-                     item.Position,
-                    item.Size,
-                    item.TilemapPart);   
+                this.DrawSelectableMapPart(spriteBatch, item);
             }
-            
         }
 
-        private void DrawSelectableMapPart(SpriteBatch spriteBatch, Vector2 position, SizeF size, TilemapPart part)
+        private void DrawSelectableMapPart(SpriteBatch spriteBatch, SelectableMapItem item)
         {
-            var pos = this._menuTopPosition + position;
+            var pos = this._menuTopPosition + item.Position;
             var posSelectable = pos + (this._menuTopPosition * -1);
+
+            
+            
+            var isInRangeColor = this.IsMouseInRange(posSelectable, item.Size);
+            if (isInRangeColor != Color.White)
+            {
+                if(this._input.MouseLeftButton)
+                {
+                    item.Selected = true;
+                    // reset all other seleceted
+                    foreach (var it in this._selectableMapItems)
+                    {
+                        if(it.Equals(item)) continue;
+                        
+                        it.Selected = false;
+                    }
+                }
+            }
+            
+            
+            if (item.Selected)
+            {
+                isInRangeColor = Color.Yellow;   
+            }
+            
             spriteBatch.DrawRectangle(
                 pos, 
-                size, 
-                this.IsMouseInRange(posSelectable, size));
+                item.Size, 
+                isInRangeColor);
+            
+            
             
             this._spriteManager.Draw(spriteBatch, 
                 pos + new Vector2(1, 1),
-                part);
+                item.TilemapPart);
             
             
             // spriteBatch.DrawString(this._spriteManager.Font, 
@@ -149,7 +171,7 @@ this._menuTopOrigin =  new Vector2(this._screenWidth - this._sideMenuWidth, 20);
                 this._input.MousePosition.X < position.X + size.Width && 
                 this._input.MousePosition.Y < position.Y + size.Height)
             {
-                return Color.Green;
+                return Color.DarkGray;
             }
             
             return Color.White;
