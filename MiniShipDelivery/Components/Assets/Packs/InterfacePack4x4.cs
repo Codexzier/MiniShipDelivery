@@ -1,15 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Packs
 {
     internal class InterfacePack4x4 : ISpriteProperties<InterfacePart4x4>
     {
-        public IDictionary<InterfacePart4x4, Rectangle> SpriteContent { get; private set; }
+        public Texture2D Texture { get; }
+        public IDictionary<InterfacePart4x4, Rectangle> SpriteContent { get; }
 
-        public InterfacePack4x4()
+        public InterfacePack4x4(Texture2D texture)
         {
+            this.Texture = texture;
             this.SpriteContent = new Dictionary<InterfacePart4x4, Rectangle>
             {
                 // BaseFrame4x4 Type1

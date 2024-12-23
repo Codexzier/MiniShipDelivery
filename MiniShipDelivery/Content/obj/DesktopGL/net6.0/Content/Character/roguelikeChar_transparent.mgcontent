@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_transparent.png</SourceFile>
-  <SourceTime>2024-11-05T17:26:29.8810318+01:00</SourceTime>
-  <DestFile>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/bin/DesktopGL/Content/Character/roguelikeChar_transparent.xnb</DestFile>
-  <DestTime>2024-12-19T19:35:11.5504075+01:00</DestTime>
+  <SourceFile>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/roguelikeChar_transparent.png</SourceFile>
+  <SourceTime>2024-11-24T11:00:08.2737422+01:00</SourceTime>
+  <DestFile>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/bin/DesktopGL/Content/Character/roguelikeChar_transparent.xnb</DestFile>
+  <DestTime>2024-12-21T15:52:52.3443609+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

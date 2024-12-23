@@ -6,20 +6,34 @@ namespace MiniShipDelivery.Components
 {
     public class InputManager
     {
-        public InputManager()
+        private readonly float _scaledMouseMoveX;
+        private readonly float _scaleMouseMoveY;
+
+        public InputManager(float scaledMouseMoveX, float scaleMouseMoveY)
         {
+            this._scaledMouseMoveX = scaledMouseMoveX;
+            this._scaleMouseMoveY = scaleMouseMoveY;
         }
 
         public Vector2 MovementCharacter { get; private set; }
-        public Vector2 MovementMouse { get; private set; }
+        public Vector2 MousePosition { get; private set; }
 
         internal void Update(GameTime gameTime)
         {
             var elapsedSec = gameTime.GetElapsedSeconds();
 
             this.MovementCharacter = this.GetMovement();
-            this.MovementMouse = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            
+            // mouse state
+            var mouseState = Mouse.GetState();
+            this.MousePosition = new Vector2(
+                mouseState.X * this._scaledMouseMoveX, 
+                mouseState.Y * this._scaleMouseMoveY);
+            
+            this.MouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;
         }
+
+        public bool MouseLeftButton { get; private set; }
 
         public Vector2 GetMovement()
         {

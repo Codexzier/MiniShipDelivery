@@ -15,21 +15,21 @@ namespace MiniShipDelivery
 {
     public class GameShipDelivery : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private OrthographicCamera _camera;
 
         private AssetManager _spriteManager;
         private ColliderManager _colliderManager;
-        private List<CharacterNpc> characterNPCs = new List<CharacterNpc>();
+        private readonly List<CharacterNpc> _characterNpCs = new ();
         private CharacterPlayer _player;
         private EmoteManager _emote;
         private InputManager _input;
         private MapManager _map;
         private HudManager _hudManager;
 
-        private int _screenWidth = 320;
-        private int _screenHeight = 180;
+        private readonly int _screenWidth = 320;
+        private readonly int _screenHeight = 180;
 
         public GameShipDelivery()
         {
@@ -54,7 +54,9 @@ namespace MiniShipDelivery
         {
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this._input = new InputManager();
+            this._input = new InputManager( 
+                (float)this._screenWidth / (float)this._graphics.PreferredBackBufferWidth , 
+                (float)this._screenHeight / (float)this._graphics.PreferredBackBufferHeight);
             this._spriteManager = new AssetManager(this.Content);
             this._emote = new EmoteManager(this._spriteManager);
             
@@ -65,30 +67,31 @@ namespace MiniShipDelivery
                 Speed = 20,
                 FramesPerSecond = 10                
             };
-            this.characterNPCs.Add(characterNpc);
+            this._characterNpCs.Add(characterNpc);
 
             var screenPosition = new Vector2(this._screenWidth / 2 - 8, this._screenHeight / 2);
-            this._player = new CharacterPlayer(this._spriteManager, this._input, this._emote, screenPosition)
+            this._player = new CharacterPlayer(this._spriteManager, this._input, screenPosition)
             {
                 Direction = Vector2.Zero,
                 Speed = 40,
                 FramesPerSecond = 10
             };
 
-
             this._colliderManager = new ColliderManager();
             this._colliderManager.Add(this._player);
-            foreach (var npc in this.characterNPCs)
+            foreach (var npc in this._characterNpCs)
             {
                 this._colliderManager.Add(npc);
             }
 
-            this._map = new MapManager(this._spriteManager, this._player, this.characterNPCs);
+            this._map = new MapManager(this._spriteManager, this._player, this._characterNpCs);
 
             this._hudManager = new HudManager(
                 this._spriteManager, 
                 this._input, 
                 this._player,
+                this._characterNpCs,
+                this._camera,
                 this._screenWidth,
                 this._screenHeight);
         }
@@ -101,28 +104,33 @@ namespace MiniShipDelivery
             }
 
             this._input.Update(gameTime);
-            foreach (var npc in this.characterNPCs)
+            foreach (var npc in this._characterNpCs)
             {
                 npc.Update(gameTime);
             }
             this._player.Update(gameTime);
             this._map.Update(gameTime);
-            this._hudManager.Update(gameTime);
             this._colliderManager.Update(gameTime);
 
+
+            var delta = this._player.Collider.Position 
+                         - this._camera.Position - new Vector2(158, 84);
+            this._camera.Position += delta * 0.08f;
+            
+            this._hudManager.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             var transformMatrix = this._camera.GetViewMatrix();
+            
             this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
 
-            this._map.Draw(this._spriteBatch, gameTime);
-
-            foreach (var npc in this.characterNPCs)
+            this._map.Draw(this._spriteBatch);
+            foreach (var npc in this._characterNpCs)
             {
                 npc.Draw(this._spriteBatch, gameTime);
             }

@@ -8,24 +8,14 @@ namespace MiniShipDelivery.Components.Character
 {
     public abstract class BaseCharacter : ISpriteProperties<TilemapPart>, ICollider
     {
-        protected int _currentFrame;
-        protected float _timeToUpdate;
-        protected float _timeEleapsed;
+        private int _currentFrame;
+        private float _timeToUpdate;
+        private float _timeEleapsed;
 
-        protected BaseCharacter()
-        {
-            this.SpriteContent = new Dictionary<TilemapPart, Rectangle>();
-            this.Collider = new ColliderBox2D(16, 16);
-            this.Collisions = new List<ICollider>();
-        }
+        public ColliderBox2D Collider { get; } = new(16, 16);
+        public List<ICollider> Collisions { get; } = new();
 
-        public ColliderBox2D Collider { get; }
-        public List<ICollider> Collisions { get; }
-
-        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; private set; }
-
-        public Vector2 Position { get; protected set; }
-
+        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; } = new Dictionary<TilemapPart, Rectangle>();
 
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal set; }
@@ -34,10 +24,7 @@ namespace MiniShipDelivery.Components.Character
 
         public float FramesPerSecond
         {
-            set
-            {
-                this._timeToUpdate = 1f / value;
-            }
+            set => this._timeToUpdate = 1f / value;
         }
 
         protected void SetupTilemapsCharacter(CharacterType characterType)
@@ -65,7 +52,7 @@ namespace MiniShipDelivery.Components.Character
             this.SpriteContent.Add(TilemapPart.CharacterWalkRightFoodRight, new Rectangle((16 * 26) + 26, (16 * shiftY3) + shiftY3, 16, 16));
         }
 
-        protected Dictionary<int, TilemapPart> _walkingFrames = new Dictionary<int, TilemapPart>
+        private readonly Dictionary<int, TilemapPart> _walkingFrames = new()
         {
             { 0, TilemapPart.CharacterWalkLeftFoodFront },
             { 1, TilemapPart.CharacterStandFront },
