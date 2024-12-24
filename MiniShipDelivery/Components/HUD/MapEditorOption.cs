@@ -2,5 +2,7 @@
 
 internal enum MapEditorOption
 {
-    Deselect
+    Deselect,
+    OnOffGrid,
+    Remove
 }

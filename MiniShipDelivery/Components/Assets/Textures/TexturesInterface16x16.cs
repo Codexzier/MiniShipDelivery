@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 
@@ -7,8 +8,9 @@ namespace MiniShipDelivery.Components.Assets.Textures
     internal class TexturesInterface16x16 : ISpriteProperties<InterfacePart16x16>
     {
         public IDictionary<InterfacePart16x16, Rectangle> SpriteContent { get; private set; }
+        public Texture2D Texture { get; }
 
-        public TexturesInterface16x16()
+        public TexturesInterface16x16(Texture2D texture)
         {
             this.SpriteContent = new Dictionary<InterfacePart16x16, Rectangle>
             {
@@ -23,6 +25,7 @@ namespace MiniShipDelivery.Components.Assets.Textures
                 { InterfacePart16x16.Arrow_Type4, new Rectangle(9 * 16, 1 * 16, 16, 16) },
                 
             };
+            this.Texture = texture;
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Objects;
 using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public abstract class BaseCharacter : ISpriteProperties<TilemapPart>, ICollider
+    public abstract class BaseCharacter : ICollider
     {
         private int _currentFrame;
         private float _timeToUpdate;
@@ -14,8 +13,6 @@ namespace MiniShipDelivery.Components.Character
 
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
-
-        public IDictionary<TilemapPart, Rectangle> SpriteContent { get; } = new Dictionary<TilemapPart, Rectangle>();
 
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal set; }

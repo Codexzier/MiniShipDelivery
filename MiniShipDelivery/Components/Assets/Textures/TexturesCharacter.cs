@@ -14,28 +14,25 @@ namespace MiniShipDelivery.Components.Assets.Textures
         {
             this.Texture = texture;
 
-            var shift = 0; // (int)characterType * 3;
+            var shiftY1 = 0;
+            var shiftY2 = 1;
+            var shiftY3 = 2;
 
-            var shiftY1 = 0 + shift;
-            var shiftY2 = 1 + shift;
-            var shiftY3 = 2 + shift;
-
-            this.SpriteContent = new Dictionary<CharacterPart, Rectangle>();
-            this.SpriteContent.Add(CharacterPart.StandLeft, new Rectangle((16 * 0), (16 * shiftY1), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkLeftFoodLeft, new Rectangle((16 * 0), (16 * shiftY2), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkRightFoodLeft, new Rectangle((16 * 0), (16 * shiftY3), 16, 16));
-
-            this.SpriteContent.Add(CharacterPart.StandFront, new Rectangle((16 * 1), (16 * shiftY1), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkLeftFoodFront, new Rectangle((16 * 1), (16 * shiftY2), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkRightFoodFront, new Rectangle((16 * 1), (16 * shiftY3), 16, 16));
-
-            this.SpriteContent.Add(CharacterPart.StandBack, new Rectangle((16 * 2), (16 * shiftY1), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkLeftFoodBack, new Rectangle((16 * 2), (16 * shiftY2), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkRightFoodBack, new Rectangle((16 * 2), (16 * shiftY3), 16, 16));
-
-            this.SpriteContent.Add(CharacterPart.StandRight, new Rectangle((16 * 3), (16 * shiftY1), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkLeftFoodRight, new Rectangle((16 * 3), (16 * shiftY2), 16, 16));
-            this.SpriteContent.Add(CharacterPart.WalkRightFoodRight, new Rectangle((16 * 3), (16 * shiftY3), 16, 16));
+            this.SpriteContent = new Dictionary<CharacterPart, Rectangle>
+            {
+                { CharacterPart.StandLeft, new Rectangle(16 * 0, 16 * shiftY1, 16, 16) },
+                { CharacterPart.WalkLeftFoodLeft, new Rectangle(16 * 0, 16 * shiftY2, 16, 16) },
+                { CharacterPart.WalkRightFoodLeft, new Rectangle(16 * 0, 16 * shiftY3, 16, 16) },
+                { CharacterPart.StandFront, new Rectangle(16 * 1, 16 * shiftY1, 16, 16) },
+                { CharacterPart.WalkLeftFoodFront, new Rectangle(16 * 1, 16 * shiftY2, 16, 16) },
+                { CharacterPart.WalkRightFoodFront, new Rectangle(16 * 1, 16 * shiftY3, 16, 16) },
+                { CharacterPart.StandBack, new Rectangle(16 * 2, 16 * shiftY1, 16, 16) },
+                { CharacterPart.WalkLeftFoodBack, new Rectangle(16 * 2, 16 * shiftY2, 16, 16) },
+                { CharacterPart.WalkRightFoodBack, new Rectangle(16 * 2, 16 * shiftY3, 16, 16) },
+                { CharacterPart.StandRight, new Rectangle(16 * 3, 16 * shiftY1, 16, 16) },
+                { CharacterPart.WalkLeftFoodRight, new Rectangle(16 * 3, 16 * shiftY2, 16, 16) },
+                { CharacterPart.WalkRightFoodRight, new Rectangle(16 * 3, 16 * shiftY3, 16, 16) }
+            };
         }
 
     }

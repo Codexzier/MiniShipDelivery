@@ -19,20 +19,22 @@ namespace MiniShipDelivery.Components.Assets
 
             this.Characters = new TexturesCharacter(content.Load<Texture2D>("Character/UrbanCharacters"));
             this.UserInterfaces = new TexturesInterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
+            this.UserInterfaces16x16 = new TexturesInterface16x16(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
             this.Tilemaps = new TexturesTilemap(content.Load<Texture2D>("RpgUrban/tilemap"));
             this.Emotes = new TexturesEmote(content.Load<Texture2D>("Emote/pixel_style1"));
 
+            // register all textures
             this._sprites.Add(nameof(TilemapPart), this.Tilemaps.Texture);
             this._sprites.Add(nameof(InterfacePart4x4), this.UserInterfaces.Texture);
+            this._sprites.Add(nameof(InterfacePart16x16), this.UserInterfaces16x16.Texture);
             this._sprites.Add(nameof(EmotePart), this.Emotes.Texture);
             this._sprites.Add(nameof(CharacterPart), this.Characters.Texture);
         }
 
-
         public SpriteFont Font { get; }
-
         public TexturesCharacter Characters { get; }
         private TexturesInterfacePack4x4 UserInterfaces { get; }
+        internal TexturesInterface16x16 UserInterfaces16x16 { get; }
         private TexturesTilemap Tilemaps { get; }
         private TexturesEmote Emotes { get; } 
 
@@ -54,6 +56,11 @@ namespace MiniShipDelivery.Components.Assets
         public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfacePart4x4 part)
         {
             this.Draw(spriteBatch, position, part, this.UserInterfaces);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfacePart16x16 part)
+        {
+            this.Draw(spriteBatch, position, part, this.UserInterfaces16x16);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, CharacterPart part, CharacterType characterType)
