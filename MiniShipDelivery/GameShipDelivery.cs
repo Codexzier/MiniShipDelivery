@@ -128,7 +128,7 @@ namespace MiniShipDelivery
             var transformMatrix = this._camera.GetViewMatrix();
             
             this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-
+            
             this._map.Draw(this._spriteBatch);
             foreach (var npc in this._characterNpCs)
             {

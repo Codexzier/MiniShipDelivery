@@ -11,13 +11,13 @@ namespace MiniShipDelivery.Components.Assets
 {
     public class AssetManager
     {
-        private readonly SpriteFont _font;
         private readonly IDictionary<string, Texture2D> _sprites = new Dictionary<string, Texture2D>();
 
         public AssetManager(ContentManager content)
         {
-            this._font = content.Load<SpriteFont>("Fonts/BaseFont");
+            this.Font = content.Load<SpriteFont>("Fonts/BaseFont");
 
+            this.CharacterPack = new CharacterPack(content.Load<Texture2D>("Character/UrbanCharacters"));
             this.InterfacePack = new InterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
             this.TilemapPack = new TilemapPack(content.Load<Texture2D>("RpgUrban/tilemap"));
             this.EmotePack = new EmotePack(content.Load<Texture2D>("Emote/pixel_style1"));
@@ -26,12 +26,14 @@ namespace MiniShipDelivery.Components.Assets
             this._sprites.Add(nameof(InterfacePart4x4), this.InterfacePack.Texture);
             this._sprites.Add(nameof(EmotePart), this.EmotePack.Texture);
         }
-  
-        public SpriteFont Font => this._font;
 
-        internal InterfacePack4x4 InterfacePack { get; }
-        internal TilemapPack TilemapPack { get; } 
-        internal EmotePack EmotePack { get; } 
+        public CharacterPack CharacterPack { get; }
+
+        public SpriteFont Font { get; }
+
+        private InterfacePack4x4 InterfacePack { get; }
+        private TilemapPack TilemapPack { get; }
+        private EmotePack EmotePack { get; } 
 
         public void Draw<TAssetPart>(SpriteBatch spriteBatch, Vector2 position, TAssetPart assertPart, ISpriteProperties<TAssetPart> assetsProperties) where TAssetPart : Enum
         {
@@ -52,5 +54,17 @@ namespace MiniShipDelivery.Components.Assets
         {
             this.Draw(spriteBatch, position, part, this.InterfacePack);
         }
+    }
+
+    public class CharacterPack : ISpriteProperties<CharacterPart>
+    {
+        public Texture2D Texture { get; }
+
+        public CharacterPack(Texture2D texture)
+        {
+            this.Texture = texture;
+        }
+
+        public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }
     }
 }

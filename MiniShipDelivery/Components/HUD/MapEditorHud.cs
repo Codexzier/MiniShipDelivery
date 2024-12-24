@@ -103,16 +103,8 @@ namespace MiniShipDelivery.Components.HUD
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            var maxY = this._screenHeight / 16;
-            var maxX = this._screenWidth / 16;
-            for (int iY = 0; iY < maxY; iY++)
-            {
-                for (int iX = 0; iX < maxX; iX++)
-                {
-                    this.DrawGrid(spriteBatch, new Vector2(iX * 16, iY * 16));
-                }
-            }
             
+            this.DrawGrid(spriteBatch);
             
             this.TopMenu(spriteBatch);
             this.SideMenu(spriteBatch);
@@ -120,12 +112,20 @@ namespace MiniShipDelivery.Components.HUD
             // draw Tilemap on Sidemenu
         }
 
-        private void DrawGrid(SpriteBatch spriteBatch, Vector2 position)
+        private void DrawGrid(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawRectangle(
-                position, 
-                new SizeF(17, 17), 
-                Color.Gray);
+            var maxY = this._screenHeight / 16;
+            var maxX = this._screenWidth / 16;
+            for (int iY = 0; iY < maxY; iY++)
+            {
+                for (int iX = 0; iX < maxX; iX++)
+                {
+                    spriteBatch.DrawRectangle(
+                        new Vector2(iX * 16, iY * 16), 
+                        new SizeF(17, 17), 
+                        Color.Gray);
+                }
+            }
         }
 
         private void TopMenu(SpriteBatch spriteBatch)
