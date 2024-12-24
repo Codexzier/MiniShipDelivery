@@ -3,13 +3,13 @@ using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.Assets.Packs
+namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class EmotePack : ISpriteProperties<EmotePart>
+    internal class TexturesEmote : ISpriteProperties<EmotePart>
     {
         public Texture2D Texture { get; }
         public IDictionary<EmotePart, Rectangle> SpriteContent { get; }
-        public EmotePack(Texture2D texture)
+        public TexturesEmote(Texture2D texture)
         {
             this.Texture = texture;
             this.SpriteContent = new Dictionary<EmotePart, Rectangle>

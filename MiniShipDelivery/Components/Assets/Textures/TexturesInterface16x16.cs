@@ -2,13 +2,13 @@
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 
-namespace MiniShipDelivery.Components.Assets.Packs
+namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class InterfacePack16x16 : ISpriteProperties<InterfacePart16x16>
+    internal class TexturesInterface16x16 : ISpriteProperties<InterfacePart16x16>
     {
         public IDictionary<InterfacePart16x16, Rectangle> SpriteContent { get; private set; }
 
-        public InterfacePack16x16()
+        public TexturesInterface16x16()
         {
             this.SpriteContent = new Dictionary<InterfacePart16x16, Rectangle>
             {

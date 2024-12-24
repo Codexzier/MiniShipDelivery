@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets.Packs;
 using MiniShipDelivery.Components.Assets.Parts;
-using System.Collections.Generic;
+using MiniShipDelivery.Components.Assets.Textures;
 using MiniShipDelivery.Components.Character;
+using System;
+using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Assets
 {
@@ -17,23 +17,24 @@ namespace MiniShipDelivery.Components.Assets
         {
             this.Font = content.Load<SpriteFont>("Fonts/BaseFont");
 
-            this.CharacterPack = new CharacterPack(content.Load<Texture2D>("Character/UrbanCharacters"));
-            this.InterfacePack = new InterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
-            this.TilemapPack = new TilemapPack(content.Load<Texture2D>("RpgUrban/tilemap"));
-            this.EmotePack = new EmotePack(content.Load<Texture2D>("Emote/pixel_style1"));
+            this.Characters = new TexturesCharacter(content.Load<Texture2D>("Character/UrbanCharacters"));
+            this.UserInterfaces = new TexturesInterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
+            this.Tilemaps = new TexturesTilemap(content.Load<Texture2D>("RpgUrban/tilemap"));
+            this.Emotes = new TexturesEmote(content.Load<Texture2D>("Emote/pixel_style1"));
 
-            this._sprites.Add(nameof(TilemapPart), this.TilemapPack.Texture);
-            this._sprites.Add(nameof(InterfacePart4x4), this.InterfacePack.Texture);
-            this._sprites.Add(nameof(EmotePart), this.EmotePack.Texture);
+            this._sprites.Add(nameof(TilemapPart), this.Tilemaps.Texture);
+            this._sprites.Add(nameof(InterfacePart4x4), this.UserInterfaces.Texture);
+            this._sprites.Add(nameof(EmotePart), this.Emotes.Texture);
+            this._sprites.Add(nameof(CharacterPart), this.Characters.Texture);
         }
 
-        public CharacterPack CharacterPack { get; }
 
         public SpriteFont Font { get; }
 
-        private InterfacePack4x4 InterfacePack { get; }
-        private TilemapPack TilemapPack { get; }
-        private EmotePack EmotePack { get; } 
+        public TexturesCharacter Characters { get; }
+        private TexturesInterfacePack4x4 UserInterfaces { get; }
+        private TexturesTilemap Tilemaps { get; }
+        private TexturesEmote Emotes { get; } 
 
         public void Draw<TAssetPart>(SpriteBatch spriteBatch, Vector2 position, TAssetPart assertPart, ISpriteProperties<TAssetPart> assetsProperties) where TAssetPart : Enum
         {
@@ -42,29 +43,30 @@ namespace MiniShipDelivery.Components.Assets
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, TilemapPart part)
         {
-            this.Draw(spriteBatch, position, part, this.TilemapPack);
+            this.Draw(spriteBatch, position, part, this.Tilemaps);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart part)
         {
-            this.Draw(spriteBatch, position, part, this.EmotePack);
+            this.Draw(spriteBatch, position, part, this.Emotes);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfacePart4x4 part)
         {
-            this.Draw(spriteBatch, position, part, this.InterfacePack);
+            this.Draw(spriteBatch, position, part, this.UserInterfaces);
         }
-    }
 
-    public class CharacterPack : ISpriteProperties<CharacterPart>
-    {
-        public Texture2D Texture { get; }
-
-        public CharacterPack(Texture2D texture)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, CharacterPart part, CharacterType characterType)
         {
-            this.Texture = texture;
-        }
+            this.Draw(spriteBatch, position, part, this.Characters);
 
-        public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }
+            var shift = (int)characterType * 3;
+            var rect = new Rectangle(this.Characters.SpriteContent[part].X, 
+                this.Characters.SpriteContent[part].Y + (16 * shift), 
+                16, 
+                16);
+
+            spriteBatch.Draw(this._sprites[typeof(CharacterPart).Name], position, rect, Color.AliceBlue);
+        }
     }
 }

@@ -27,52 +27,27 @@ namespace MiniShipDelivery.Components.Character
             set => this._timeToUpdate = 1f / value;
         }
 
-        protected void SetupTilemapsCharacter(CharacterType characterType)
+        private readonly Dictionary<int, CharacterPart> _walkingFrames = new()
         {
-            var shift = (int)characterType * 3;
+            { 0, CharacterPart.WalkLeftFoodFront },
+            { 1, CharacterPart.StandFront },
+            { 2, CharacterPart.WalkRightFoodFront },
+            { 3, CharacterPart.StandFront },
 
-            var shiftY1 = 0 + shift;
-            var shiftY2 = 1 + shift;
-            var shiftY3 = 2 + shift;
+            { 4, CharacterPart.WalkLeftFoodLeft },
+            { 5, CharacterPart.StandLeft },
+            { 6, CharacterPart.WalkRightFoodLeft },
+            { 7, CharacterPart.StandLeft },
 
-            this.SpriteContent.Add(TilemapPart.CharacterStandLeft, new Rectangle((16 * 23) + 23, (16 * shiftY1) + shiftY1, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkLeftFoodLeft, new Rectangle((16 * 23) + 23, (16 * shiftY2) + shiftY2, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkRightFoodLeft, new Rectangle((16 * 23) + 23, (16 * shiftY3) + shiftY3, 16, 16));
+            { 8, CharacterPart.WalkLeftFoodRight },
+            { 9, CharacterPart.StandRight },
+            { 10, CharacterPart.WalkRightFoodRight },
+            { 11, CharacterPart.StandRight },
 
-            this.SpriteContent.Add(TilemapPart.CharacterStandFront, new Rectangle((16 * 24) + 24, (16 * shiftY1) + shiftY1, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkLeftFoodFront, new Rectangle((16 * 24) + 24, (16 * shiftY2) + shiftY2, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkRightFoodFront, new Rectangle((16 * 24) + 24, (16 * shiftY3) + shiftY3, 16, 16));
-
-            this.SpriteContent.Add(TilemapPart.CharacterStandBack, new Rectangle((16 * 25) + 25, (16 * shiftY1) + shiftY1, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkLeftFoodBack, new Rectangle((16 * 25) + 25, (16 * shiftY2) + shiftY2, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkRightFoodBack, new Rectangle((16 * 25) + 25, (16 * shiftY3) + shiftY3, 16, 16));
-
-            this.SpriteContent.Add(TilemapPart.CharacterStandRight, new Rectangle((16 * 26) + 26, (16 * shiftY1) + shiftY1, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkLeftFoodRight, new Rectangle((16 * 26) + 26, (16 * shiftY2) + shiftY2, 16, 16));
-            this.SpriteContent.Add(TilemapPart.CharacterWalkRightFoodRight, new Rectangle((16 * 26) + 26, (16 * shiftY3) + shiftY3, 16, 16));
-        }
-
-        private readonly Dictionary<int, TilemapPart> _walkingFrames = new()
-        {
-            { 0, TilemapPart.CharacterWalkLeftFoodFront },
-            { 1, TilemapPart.CharacterStandFront },
-            { 2, TilemapPart.CharacterWalkRightFoodFront },
-            { 3, TilemapPart.CharacterStandFront },
-
-            { 4, TilemapPart.CharacterWalkLeftFoodLeft },
-            { 5, TilemapPart.CharacterStandLeft },
-            { 6, TilemapPart.CharacterWalkRightFoodLeft },
-            { 7, TilemapPart.CharacterStandLeft },
-
-            { 8, TilemapPart.CharacterWalkLeftFoodRight },
-            { 9, TilemapPart.CharacterStandRight },
-            { 10, TilemapPart.CharacterWalkRightFoodRight },
-            { 11, TilemapPart.CharacterStandRight },
-
-            { 12, TilemapPart.CharacterWalkLeftFoodBack },
-            { 13, TilemapPart.CharacterStandBack },
-            { 14, TilemapPart.CharacterWalkRightFoodBack },
-            { 15, TilemapPart.CharacterStandBack },
+            { 12, CharacterPart.WalkLeftFoodBack },
+            { 13, CharacterPart.StandBack },
+            { 14, CharacterPart.WalkRightFoodBack },
+            { 15, CharacterPart.StandBack },
         };
 
         protected void UpdateFrame(GameTime gameTime)
@@ -92,15 +67,15 @@ namespace MiniShipDelivery.Components.Character
             }
         }
 
-        private IDictionary<TilemapPart, int> _charDirection = new Dictionary<TilemapPart, int>()
+        private IDictionary<CharacterPart, int> _charDirection = new Dictionary<CharacterPart, int>()
         {
-            {TilemapPart.CharacterStandFront, 0 },
-            {TilemapPart.CharacterStandLeft, 4 },
-            {TilemapPart.CharacterStandRight, 8 },
-            {TilemapPart.CharacterStandBack, 12 },
+            {CharacterPart.StandFront, 0 },
+            {CharacterPart.StandLeft, 4 },
+            {CharacterPart.StandRight, 8 },
+            {CharacterPart.StandBack, 12 },
         };
 
-        protected TilemapPart GetWalkingFrame(TilemapPart tp)
+        protected CharacterPart GetWalkingFrame(CharacterPart tp)
         {
             if (!this.IsMoving)
             {

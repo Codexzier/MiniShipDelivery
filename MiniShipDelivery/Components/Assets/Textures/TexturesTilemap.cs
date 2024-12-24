@@ -3,13 +3,13 @@ using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.Assets.Packs
+namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class TilemapPack : ISpriteProperties<TilemapPart>
+    internal class TexturesTilemap : ISpriteProperties<TilemapPart>
     {
         public Texture2D Texture { get; }
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
-        public TilemapPack(Texture2D texture)
+        public TexturesTilemap(Texture2D texture)
         {
             this.Texture = texture;
             int shiftX = 0;

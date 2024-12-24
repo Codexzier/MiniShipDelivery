@@ -61,7 +61,7 @@ namespace MiniShipDelivery
             this._emote = new EmoteManager(this._spriteManager);
             
 
-            var characterNpc = new CharacterNpc(this._spriteManager, this._emote, new Vector2(20, 20))
+            var characterNpc = new CharacterNpc(this._spriteManager, this._emote, new Vector2(20, 20), CharacterType.Women)
             {
                 Direction = Vector2.Zero,
                 Speed = 20,
@@ -70,7 +70,7 @@ namespace MiniShipDelivery
             this._characterNpCs.Add(characterNpc);
 
             var screenPosition = new Vector2(this._screenWidth / 2 - 8, this._screenHeight / 2);
-            this._player = new CharacterPlayer(this._spriteManager, this._input, screenPosition)
+            this._player = new CharacterPlayer(this._spriteManager, this._input, screenPosition, CharacterType.Men)
             {
                 Direction = Vector2.Zero,
                 Speed = 40,

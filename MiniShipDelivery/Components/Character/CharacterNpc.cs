@@ -12,25 +12,24 @@ namespace MiniShipDelivery.Components.Character
     {
         private AssetManager spriteManager;
         private readonly EmoteManager _emote;
-        
-        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 position)
+
+        public CharacterType CharacterType { get; }
+
+        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 position, CharacterType characterType)
         {
             this.spriteManager = spriteManager;
             this._emote = emote;
-
+            this.CharacterType = characterType;
             this.Collider.Position = position;
-
-            this.SetupTilemapsCharacter(CharacterType.Women);
         }
 
-        
         internal void Update(GameTime gameTime)
         {
         }
         
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            this.spriteManager.Draw(spriteBatch, this.Collider.Position, TilemapPart.CharacterStandFront, this);
+            this.spriteManager.Draw(spriteBatch, this.Collider.Position, CharacterPart.StandFront, this.CharacterType);
 
             if(this.Collisions.Any(a => a.GetType() == typeof(CharacterPlayer)))
             {

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Emote;
 using System.Linq;
 
 namespace MiniShipDelivery.Components.Character
@@ -12,17 +11,18 @@ namespace MiniShipDelivery.Components.Character
         private readonly AssetManager _assetManager;
         private readonly InputManager _input;
 
+        public CharacterType CharacterType { get; }
+
         public CharacterPlayer(
             AssetManager spriteManager, 
             InputManager input, 
-            Vector2 screenPosition)
+            Vector2 screenPosition,
+            CharacterType characterType)
         {
             this._assetManager = spriteManager;
             this._input = input;
-            
+            this.CharacterType = characterType;
             this.Collider.Position = screenPosition;
-
-            this.SetupTilemapsCharacter(CharacterType.Men);
         }
 
 
@@ -46,27 +46,31 @@ namespace MiniShipDelivery.Components.Character
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            var tp = TilemapPart.CharacterStandFront;
+            var tp = CharacterPart.StandFront;
 
             switch (this.Direction)
             {
                 case var d when d.X < 0:
-                    tp = TilemapPart.CharacterStandLeft;
+                    tp = CharacterPart.StandLeft;
                     break;
                 case var d when d.X > 0:
-                    tp = TilemapPart.CharacterStandRight;
+                    tp = CharacterPart.StandRight;
                     break;
                 case var d when d.Y > 0:
-                    tp = TilemapPart.CharacterStandFront;
+                    tp = CharacterPart.StandFront;
                     break;
                 case var d when d.Y < 0:
-                    tp = TilemapPart.CharacterStandBack;
+                    tp = CharacterPart.StandBack;
                     break;
             }
 
             tp = this.GetWalkingFrame(tp);
 
-            this._assetManager.Draw(spriteBatch, this.Collider.Position, tp, this);
+            this._assetManager.Draw(
+                spriteBatch, 
+                this.Collider.Position, 
+                tp, 
+                this.CharacterType);
 
             if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
             {

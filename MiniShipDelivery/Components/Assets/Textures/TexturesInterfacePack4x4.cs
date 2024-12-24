@@ -3,14 +3,14 @@ using MiniShipDelivery.Components.Assets.Parts;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.Assets.Packs
+namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class InterfacePack4x4 : ISpriteProperties<InterfacePart4x4>
+    internal class TexturesInterfacePack4x4 : ISpriteProperties<InterfacePart4x4>
     {
         public Texture2D Texture { get; }
         public IDictionary<InterfacePart4x4, Rectangle> SpriteContent { get; }
 
-        public InterfacePack4x4(Texture2D texture)
+        public TexturesInterfacePack4x4(Texture2D texture)
         {
             this.Texture = texture;
             this.SpriteContent = new Dictionary<InterfacePart4x4, Rectangle>
