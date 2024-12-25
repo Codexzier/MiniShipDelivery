@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MiniShipDelivery.Components.HUD
 {
@@ -16,31 +15,31 @@ namespace MiniShipDelivery.Components.HUD
         private readonly OrthographicCamera _camera;
         private int _screenWidth;
         private int _screenHeight;
-        
+
         // =================================
         // Top Menu
         private MenuFrame _menuTop;
         //private Vector2 _menuTopPosition = new (0, 0);
         private Size _menuTopSize;
-        
+
         // =================================
         // side menu
         private Vector2 _menuSideOrigin;
         private int _sideMenuWidth = 60;
         private Size _sideMenuSize;
-        private Vector2 _sideMenuMapOptionPosition = new (0, 0);
-        private Vector2 _sideMenuMapTilePosition = new (0, 20);
+        private Vector2 _sideMenuMapOptionPosition = new(0, 0);
+        private Vector2 _sideMenuMapTilePosition = new(0, 20);
 
-        private readonly List<SelectableMapItem> _selectableMapItems = new ();
-        private readonly List<MapEditorItem> _mapOptionItems = new ();
+        private readonly List<SelectableMapItem> _selectableMapItems = new();
+        private readonly List<MapEditorItem> _mapOptionItems = new();
 
         public bool ShowGrid { get; private set; }
 
         private double _startPressMouseLeftButton;
 
-        public MapEditorHud(AssetManager spriteManager, 
-            InputManager input, 
-            OrthographicCamera camera, 
+        public MapEditorHud(AssetManager spriteManager,
+            InputManager input,
+            OrthographicCamera camera,
             int screenWidth, int screenHeight)
         {
             this._spriteManager = spriteManager;
@@ -53,16 +52,16 @@ namespace MiniShipDelivery.Components.HUD
             // Top Menu
             this._menuTop = new MenuFrame(spriteManager);
             this._menuTopSize = new Size(this._screenWidth, 20);
-            
+
             // ==============================================
             // side Menu
-            this._menuSideOrigin =  new Vector2(this._screenWidth - this._sideMenuWidth, 20);
+            this._menuSideOrigin = new Vector2(this._screenWidth - this._sideMenuWidth, 20);
             this._sideMenuSize = new Size(this._sideMenuWidth, this._screenHeight - 20);
             // tile map option
             this.AddMapoption(MapEditorOption.Deselect);
             this.AddMapoption(MapEditorOption.OnOffGrid);
             this.AddMapoption(MapEditorOption.Remove);
-            
+
             // tile map
             this.AddSelectableMapItem(TilemapPart.GrassAndBrick_TopLeft);
             this.AddSelectableMapItem(TilemapPart.GrassAndBrick_TopMiddle);
@@ -86,7 +85,7 @@ namespace MiniShipDelivery.Components.HUD
         private void AddSelectableMapItem(TilemapPart item)
         {
             this._selectableMapItems.Add(new SelectableMapItem(
-                this.GetPosition(this._selectableMapItems.Count), 
+                this.GetPosition(this._selectableMapItems.Count),
                 new SizeF(18, 18),
                 item));
         }
@@ -94,10 +93,10 @@ namespace MiniShipDelivery.Components.HUD
         private Vector2 GetPosition(int multiply)
         {
             var pasInX = multiply / 3;
-            var multiplyX = multiply < 3 ? multiply : multiply - (pasInX * 3)  ;
+            var multiplyX = multiply < 3 ? multiply : multiply - (pasInX * 3);
             var x = this._screenWidth - this._sideMenuWidth + 3 + ((multiplyX * 16) + (multiplyX * 2));
             var y = (this._screenHeight - this._sideMenuSize.Height) + 3 + ((pasInX * 16) + (pasInX * 2));
-            
+
             return new Vector2(x, y);
         }
 
@@ -109,7 +108,7 @@ namespace MiniShipDelivery.Components.HUD
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.DrawGrid(spriteBatch);
-            
+
             this.TopMenu(spriteBatch);
             this.SideMenu(spriteBatch, gameTime);
 
@@ -118,7 +117,7 @@ namespace MiniShipDelivery.Components.HUD
 
         private void DrawGrid(SpriteBatch spriteBatch)
         {
-            if(!this.ShowGrid) return;
+            if (!this.ShowGrid) return;
 
             var maxY = this._screenHeight / 16;
             var maxX = this._screenWidth / 16;
@@ -127,8 +126,8 @@ namespace MiniShipDelivery.Components.HUD
                 for (int iX = 0; iX < maxX; iX++)
                 {
                     spriteBatch.DrawRectangle(
-                        new Vector2(iX * 16, iY * 16), 
-                        new SizeF(17, 17), 
+                        new Vector2(iX * 16, iY * 16),
+                        new SizeF(17, 17),
                         Color.Gray);
                 }
             }
@@ -145,7 +144,7 @@ namespace MiniShipDelivery.Components.HUD
         private void SideMenu(SpriteBatch spriteBatch, GameTime gameTime)
         {
             // base frome
-            this._menuTop.DrawMenuFrame(spriteBatch, 
+            this._menuTop.DrawMenuFrame(spriteBatch,
                 this._camera.Position + this._menuSideOrigin,
                 this._sideMenuSize,
                 MenuFrameType.Type2);
@@ -167,42 +166,31 @@ namespace MiniShipDelivery.Components.HUD
             var isInRangeColor = this.IsMouseInRange(item.Position, item.Size);
             if (isInRangeColor != Color.White)
             {
-                if (this._input.MouseLeftButton)
-                {
-                        switch (item.MapEditorOption)
-                        {
-                            case MapEditorOption.Deselect:
-                                break;
-                            case MapEditorOption.OnOffGrid:
-                            this.ShowGrid = true;
-                            break;
-                            case MapEditorOption.Remove:
-                                break;
-                        }
-                }
-
-                if (this._input.MouseRightButton)
+                //if (this._input.MouseLeftButtonReleased)
+                if(this._input.GetMouseLeftButtonReleasedState())
                 {
                     switch (item.MapEditorOption)
                     {
                         case MapEditorOption.Deselect:
                             break;
                         case MapEditorOption.OnOffGrid:
-                            this.ShowGrid = false;
+                            this.ShowGrid = !this.ShowGrid;
                             break;
                         case MapEditorOption.Remove:
                             break;
                     }
+
+                    //this._input.ResetMouseLeftButtonReleased();
                 }
             }
 
-            if(this.ShowGrid && item.MapEditorOption == MapEditorOption.OnOffGrid)
+            if (this.ShowGrid && item.MapEditorOption == MapEditorOption.OnOffGrid)
             {
                 isInRangeColor = Color.Yellow;
             }
 
             spriteBatch.DrawRectangle(
-                this._camera.Position + item.Position + this._sideMenuMapOptionPosition, 
+                this._camera.Position + item.Position + this._sideMenuMapOptionPosition,
                 item.Size,
                 isInRangeColor);
 
@@ -237,7 +225,7 @@ namespace MiniShipDelivery.Components.HUD
             var isInRangeColor = this.IsMouseInRange(posSelectable, item.Size);
             if (isInRangeColor != Color.White)
             {
-                if(this._input.MouseLeftButton)
+                if (this._input.GetMouseLeftButtonReleasedState())
                 {
                     item.Selected = true;
 
@@ -248,37 +236,25 @@ namespace MiniShipDelivery.Components.HUD
                     }
                 }
             }
-            
+
             if (item.Selected)
             {
-                isInRangeColor = Color.Yellow;   
+                isInRangeColor = Color.Yellow;
             }
-            
+
             spriteBatch.DrawRectangle(
-                pos, 
-                item.Size, 
+                pos,
+                item.Size,
                 isInRangeColor);
-            
-            this._spriteManager.Draw(spriteBatch, 
+
+            this._spriteManager.Draw(spriteBatch,
                 pos + new Vector2(1, 1),
                 item.TilemapPart);
 
             // Used only for debug
-            // spriteBatch.DrawString(this._spriteManager.Font, 
-            //     $"{HudHelper.Vector2ToString(this._menuTopPosition)}", pos + new Vector2(-40, 1), 
-            //     Color.White,
-            //     0f,
-            //     new Vector2(0, 0),
-            //     0.3f,
-            //     SpriteEffects.None, 1);
-            //
-            // spriteBatch.DrawString(this._spriteManager.Font, 
-            //     $"{HudHelper.Vector2ToString(this._menuTopOrigin)}", pos + new Vector2(-40, 10), 
-            //     Color.White,
-            //     0f,
-            //     new Vector2(0, 0),
-            //     0.3f,
-            //     SpriteEffects.None, 1);
+            spriteBatch.WriteLine(this._spriteManager.Font,
+                $"{item.TilemapPart}",
+                pos + new Vector2(-40, 1));
         }
 
         private Color IsMouseInRange(Vector2 position, SizeF size)

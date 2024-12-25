@@ -84,7 +84,7 @@ namespace MiniShipDelivery
                 this._colliderManager.Add(npc);
             }
 
-            this._map = new MapManager(this._spriteManager, this._player, this._characterNpCs);
+            this._map = new MapManager(this._spriteManager);
 
             this._hudManager = new HudManager(
                 this._spriteManager, 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using System;
 
 namespace MiniShipDelivery.Components
 {
@@ -8,6 +9,10 @@ namespace MiniShipDelivery.Components
     {
         private readonly float _scaledMouseMoveX;
         private readonly float _scaleMouseMoveY;
+
+        private bool _mouseLeftButtonReleased;
+
+        private bool _mouseLeftButtonHasPressed;
 
         public InputManager(float scaledMouseMoveX, float scaleMouseMoveY)
         {
@@ -29,12 +34,22 @@ namespace MiniShipDelivery.Components
             this.MousePosition = new Vector2(
                 mouseState.X * this._scaledMouseMoveX, 
                 mouseState.Y * this._scaleMouseMoveY);
+
+            this._mouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;
+            if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)
+            {
+                this._mouseLeftButtonHasPressed = true;
+            }
+            if (this._mouseLeftButtonHasPressed && mouseState.LeftButton == ButtonState.Released)
+            {
+                this._mouseLeftButtonReleased = true;
+                this._mouseLeftButtonHasPressed = false;
+            }
             
-            this.MouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;
             this.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
         }
 
-        public bool MouseLeftButton { get; private set; }
+        private bool _mouseLeftButton;
         public bool MouseRightButton { get; private set; }
 
         public Vector2 GetMovement()
@@ -66,14 +81,26 @@ namespace MiniShipDelivery.Components
             return movement;
         }
 
-        
-
         internal bool HasPressToClose()
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
 
-        
+        internal void ResetMouseLeftButtonReleased()
+        {
+            this._mouseLeftButtonReleased = false;
+        }
+
+        internal bool GetMouseLeftButtonReleasedState()
+        {
+            if (this._mouseLeftButtonReleased)
+            {
+                this._mouseLeftButtonReleased = false;
+                return true;
+            }
+
+            return false;
+        }
     }
 }
