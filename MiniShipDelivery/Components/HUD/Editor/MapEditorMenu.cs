@@ -12,12 +12,10 @@ namespace MiniShipDelivery.Components.HUD.Editor
     internal class MapEditorMenu
     {
         private MenuFrame _menuFrame;
-        private int _sideMenuWidth = 60;
         private AssetManager _spriteManager;
         private readonly InputManager _input;
         private readonly OrthographicCamera _camera;
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
+        
         private Vector2 _menuSideOrigin;
         private Size _sideMenuSize;
         private Vector2 _sideMenuMapOptionPosition = new(0, 0);
@@ -25,6 +23,10 @@ namespace MiniShipDelivery.Components.HUD.Editor
 
         private readonly List<SelectableMapItem> _selectableMapItems = new();
         private readonly List<MapEditorItem> _mapOptionItems = new();
+
+        private readonly int _screenWidth;
+        private readonly int _screenHeight;
+        private int _menuWidth = 60;
 
         public MapEditorMenu(
             AssetManager spriteManager,
@@ -38,8 +40,8 @@ namespace MiniShipDelivery.Components.HUD.Editor
             this._camera = camera;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
-            this._menuSideOrigin = new Vector2(this._screenWidth - this._sideMenuWidth, 20);
-            this._sideMenuSize = new Size(this._sideMenuWidth, this._screenHeight - 20);
+            this._menuSideOrigin = new Vector2(this._screenWidth - this._menuWidth, 20);
+            this._sideMenuSize = new Size(this._menuWidth, this._screenHeight - 20);
 
             this._menuFrame = new MenuFrame(spriteManager);
 
@@ -57,6 +59,26 @@ namespace MiniShipDelivery.Components.HUD.Editor
         }
 
         public bool ShowGrid { get; private set; }
+
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            // base frome
+            this._menuFrame.DrawMenuFrame(spriteBatch,
+                this._camera.Position + this._menuSideOrigin,
+                this._sideMenuSize,
+                MenuFrameType.Type2);
+
+            // map option
+            foreach (var item in this._mapOptionItems)
+            {
+                this.DrawMapOption(spriteBatch, item, gameTime);
+            }
+            // map sprites
+            foreach (var item in this._selectableMapItems)
+            {
+                this.DrawSelectableMapPart(spriteBatch, item);
+            }
+        }
 
         private void AddMapoption(MapEditorOption option)
         {
@@ -78,31 +100,13 @@ namespace MiniShipDelivery.Components.HUD.Editor
         {
             var pasInX = multiply / 3;
             var multiplyX = multiply < 3 ? multiply : multiply - (pasInX * 3);
-            var x = this._screenWidth - this._sideMenuWidth + 3 + ((multiplyX * 16) + (multiplyX * 2));
+            var x = this._screenWidth - this._menuWidth + 3 + ((multiplyX * 16) + (multiplyX * 2));
             var y = (this._screenHeight - this._sideMenuSize.Height) + 3 + ((pasInX * 16) + (pasInX * 2));
 
             return new Vector2(x, y);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-        {
-            // base frome
-            this._menuFrame.DrawMenuFrame(spriteBatch,
-                this._camera.Position + this._menuSideOrigin,
-                this._sideMenuSize,
-                MenuFrameType.Type2);
-
-            // map option
-            foreach (var item in this._mapOptionItems)
-            {
-                this.DrawMapOption(spriteBatch, item, gameTime);
-            }
-            // map sprites
-            foreach (var item in this._selectableMapItems)
-            {
-                this.DrawSelectableMapPart(spriteBatch, item);
-            }
-        }
+        
 
         private void DrawMapOption(SpriteBatch spriteBatch, MapEditorItem item, GameTime gameTime)
         {

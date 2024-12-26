@@ -33,7 +33,9 @@ namespace MiniShipDelivery.Components.HUD
                 spriteManager,
                 camera,
                 screenWidth,
-                screenHeight);
+                screenHeight,
+                new Vector2(0, 0),
+                new Size(screenWidth, 20));
 
             // ==============================================
             // side Menu
