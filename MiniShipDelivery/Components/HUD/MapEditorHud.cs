@@ -16,8 +16,9 @@ namespace MiniShipDelivery.Components.HUD
 
         // =================================
         // Top Menu
-        private MenuFrame _menuFrame;
-        private Size _menuTopSize;
+        private MenuEditorOptions _menuEditorOptions;
+        //private MenuFrame _menuFrame;
+        //private Size _menuTopSize;
 
         // =================================
         // side menu
@@ -36,8 +37,11 @@ namespace MiniShipDelivery.Components.HUD
 
             // ==============================================
             // Top Menu
-            this._menuFrame = new MenuFrame(spriteManager);
-            this._menuTopSize = new Size(this._screenWidth, 20);
+            this._menuEditorOptions = new MenuEditorOptions(
+                spriteManager,
+                camera,
+                screenWidth,
+                screenHeight);
 
             // ==============================================
             // side Menu
@@ -57,8 +61,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this.DrawGrid(spriteBatch);
 
-            this.TopMenu(spriteBatch);
-
+            this._menuEditorOptions.Draw(spriteBatch, gameTime);
             this._mapEditorMenu.Draw(spriteBatch, gameTime);
         }
 
@@ -80,14 +83,6 @@ namespace MiniShipDelivery.Components.HUD
                         0f);
                 }
             }
-        }
-
-        private void TopMenu(SpriteBatch spriteBatch)
-        {
-            this._menuFrame.DrawMenuFrame(spriteBatch,
-                this._camera.Position,
-                this._menuTopSize,
-                MenuFrameType.Type3);
         }
     }
 }
