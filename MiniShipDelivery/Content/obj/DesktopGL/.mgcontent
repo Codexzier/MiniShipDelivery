@@ -8,9 +8,11 @@
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Emote/pixel_style1.png</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Fonts/BaseFont.spritefont</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/interfacePack_16x_packed.png</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MenuEditorOptions.png</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/tilemap.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

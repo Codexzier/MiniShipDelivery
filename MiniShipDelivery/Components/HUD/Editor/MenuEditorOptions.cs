@@ -2,13 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MonoGame.Extended;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MiniShipDelivery.Components.HUD.Editors
+namespace MiniShipDelivery.Components.HUD.Editor
 {
     internal class MenuEditorOptions
     {

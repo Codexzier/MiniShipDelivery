@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.HUD;
+﻿namespace MiniShipDelivery.Components.HUD.Editor;
 
 internal enum MapEditorOption
 {

@@ -2,7 +2,7 @@
 using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD;
+namespace MiniShipDelivery.Components.HUD.Editor;
 
 internal class SelectableMapItem(Vector2 position, SizeF size, TilemapPart tilemapPart)
 {

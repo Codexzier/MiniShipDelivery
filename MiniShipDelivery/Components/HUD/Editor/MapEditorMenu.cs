@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MiniShipDelivery.Components.HUD.Editors
+namespace MiniShipDelivery.Components.HUD.Editor
 {
     internal class MapEditorMenu
     {

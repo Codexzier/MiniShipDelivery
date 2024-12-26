@@ -20,6 +20,7 @@ namespace MiniShipDelivery.Components.Assets
             this.Characters = new TexturesCharacter(content.Load<Texture2D>("Character/UrbanCharacters"));
             this.UserInterfaces = new TexturesInterfacePack4x4(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
             this.UserInterfaces16x16 = new TexturesInterface16x16(content.Load<Texture2D>("Interface/interfacePack_16x_packed"));
+            this.UserInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(content.Load<Texture2D>("Interface/MenuEditorOptions"));
             this.Tilemaps = new TexturesTilemap(content.Load<Texture2D>("RpgUrban/tilemap"));
             this.Emotes = new TexturesEmote(content.Load<Texture2D>("Emote/pixel_style1"));
 
@@ -35,6 +36,7 @@ namespace MiniShipDelivery.Components.Assets
         public TexturesCharacter Characters { get; }
         private TexturesInterfacePack4x4 UserInterfaces { get; }
         internal TexturesInterface16x16 UserInterfaces16x16 { get; }
+        internal TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
         private TexturesTilemap Tilemaps { get; }
         private TexturesEmote Emotes { get; } 
 

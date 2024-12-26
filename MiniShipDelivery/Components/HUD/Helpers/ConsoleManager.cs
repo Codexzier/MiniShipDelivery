@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD;
+namespace MiniShipDelivery.Components.HUD.Helpers;
 
 internal class ConsoleManager
 {
@@ -15,11 +15,11 @@ internal class ConsoleManager
     private readonly int _screenHeight;
 
     private readonly Vector2 _startPosition;
-    private StringBuilder _stringBuilder = new ();
+    private StringBuilder _stringBuilder = new();
 
-    public ConsoleManager(AssetManager assetManager, 
-        InputManager input, 
-        OrthographicCamera camera, 
+    public ConsoleManager(AssetManager assetManager,
+        InputManager input,
+        OrthographicCamera camera,
         int screenWidth,
         int screenHeight)
     {
@@ -28,15 +28,15 @@ internal class ConsoleManager
         this._camera = camera;
         this._screenWidth = screenWidth;
         this._screenHeight = screenHeight;
-            
+
         this._startPosition = new Vector2(3, this._screenHeight - 43);
     }
-        
+
     public void AddText(string text)
     {
         this._stringBuilder.AppendLine(text);
     }
-        
+
     public void DrawText(SpriteBatch spriteBatch)
     {
         // black console window
@@ -46,18 +46,18 @@ internal class ConsoleManager
             Color.Black);
         spriteBatch.DrawRectangle(
             this._startPosition + this._camera.Position,
-            new SizeF(100, 40), 
+            new SizeF(100, 40),
             Color.DarkGray);
         spriteBatch.FillRectangle(
             this._startPosition + this._camera.Position + new Vector2(1, 1),
             new SizeF(98, 2),
             Color.Blue);
         spriteBatch.DrawLine(
-            this._startPosition + this._camera.Position + new Vector2(0, 4), 
+            this._startPosition + this._camera.Position + new Vector2(0, 4),
             100f, 0,
             Color.DarkGray
             );
-        
+
         spriteBatch.DrawString(this._assetManager.Font,
             this._stringBuilder.ToString(),
             this._startPosition + this._camera.Position + new Vector2(3, 5),
@@ -70,5 +70,5 @@ internal class ConsoleManager
         this._stringBuilder.Clear();
     }
 
-    
+
 }

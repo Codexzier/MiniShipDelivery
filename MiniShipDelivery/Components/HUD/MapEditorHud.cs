@@ -1,24 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.HUD.Editors;
+using MiniShipDelivery.Components.HUD.Editor;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
     internal class MapEditorHud
     {
-        private AssetManager _spriteManager;
-        private InputManager _input;
-        private readonly OrthographicCamera _camera;
         private int _screenWidth;
         private int _screenHeight;
 
         // =================================
         // Top Menu
         private MenuEditorOptions _menuEditorOptions;
-        //private MenuFrame _menuFrame;
-        //private Size _menuTopSize;
 
         // =================================
         // side menu
@@ -29,9 +24,6 @@ namespace MiniShipDelivery.Components.HUD
             OrthographicCamera camera,
             int screenWidth, int screenHeight)
         {
-            this._spriteManager = spriteManager;
-            this._input = input;
-            this._camera = camera;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
 
