@@ -9,42 +9,29 @@ using System.Linq;
 
 namespace MiniShipDelivery.Components.HUD.Editor
 {
-    internal class MapEditorMenu
+    public class MapEditorMenu : BaseMenu
     {
-        private MenuFrame _menuFrame;
-        private AssetManager _spriteManager;
-        private readonly InputManager _input;
-        private readonly OrthographicCamera _camera;
+        private const int MenuWidth = 60;
         
-        private Vector2 _menuSideOrigin;
-        private Size _sideMenuSize;
-        private Vector2 _sideMenuMapOptionPosition = new(0, 0);
-        private Vector2 _sideMenuMapTilePosition = new(0, 20);
+        private readonly Vector2 _sideMenuMapOptionPosition = new(0, 0);
+        private readonly Vector2 _sideMenuMapTilePosition = new(0, 20);
 
         private readonly List<SelectableMapItem> _selectableMapItems = new();
         private readonly List<MapEditorItem> _mapOptionItems = new();
 
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
-        private int _menuWidth = 60;
-
         public MapEditorMenu(
-            AssetManager spriteManager,
+            AssetManager assetManager,
             InputManager input,
             OrthographicCamera camera, 
             int screenWidth, 
-            int screenHeight)
+            int screenHeight) : base(assetManager,
+            input,
+            camera,
+            screenWidth,
+            screenHeight,
+            new Vector2(screenWidth - MenuWidth, 20),
+            new Size(MenuWidth, screenHeight - 20))
         {
-            this._spriteManager = spriteManager;
-            this._input = input;
-            this._camera = camera;
-            this._screenWidth = screenWidth;
-            this._screenHeight = screenHeight;
-            this._menuSideOrigin = new Vector2(this._screenWidth - this._menuWidth, 20);
-            this._sideMenuSize = new Size(this._menuWidth, this._screenHeight - 20);
-
-            this._menuFrame = new MenuFrame(spriteManager);
-
             // tile map option
             this.AddMapoption(MapEditorOption.Deselect);
             this.AddMapoption(MapEditorOption.OnOffGrid);
@@ -62,11 +49,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            // base frome
-            this._menuFrame.DrawMenuFrame(spriteBatch,
-                this._camera.Position + this._menuSideOrigin,
-                this._sideMenuSize,
-                MenuFrameType.Type2);
+            this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
             // map option
             foreach (var item in this._mapOptionItems)
@@ -100,17 +83,15 @@ namespace MiniShipDelivery.Components.HUD.Editor
         {
             var pasInX = multiply / 3;
             var multiplyX = multiply < 3 ? multiply : multiply - (pasInX * 3);
-            var x = this._screenWidth - this._menuWidth + 3 + ((multiplyX * 16) + (multiplyX * 2));
-            var y = (this._screenHeight - this._sideMenuSize.Height) + 3 + ((pasInX * 16) + (pasInX * 2));
+            var x = this._screenWidth - MenuWidth + 3 + ((multiplyX * 16) + (multiplyX * 2));
+            var y = (this._screenHeight - this._size.Height) + 3 + ((pasInX * 16) + (pasInX * 2));
 
             return new Vector2(x, y);
         }
-
         
-
         private void DrawMapOption(SpriteBatch spriteBatch, MapEditorItem item, GameTime gameTime)
         {
-            var isInRangeColor = this.IsMouseInRange(item.Position, item.Size);
+            var isInRangeColor = this.BoolToColor(this.IsMouseInRange(item.Position, item.Size));
             if (isInRangeColor != Color.White)
             {
                 if (this._input.GetMouseLeftButtonReleasedState())
@@ -142,19 +123,19 @@ namespace MiniShipDelivery.Components.HUD.Editor
             switch (item.MapEditorOption)
             {
                 case MapEditorOption.Deselect:
-                    this._spriteManager.Draw(
+                    this._assetManager.Draw(
                         spriteBatch,
                         this._camera.Position + item.Position + this._sideMenuMapOptionPosition,
                         InterfacePart16x16.Arrow_Type1);
                     break;
                 case MapEditorOption.OnOffGrid:
-                    this._spriteManager.Draw(
+                    this._assetManager.Draw(
                         spriteBatch,
                         this._camera.Position + item.Position + this._sideMenuMapOptionPosition,
                         InterfacePart16x16.Arrow_Type2);
                     break;
                 case MapEditorOption.Remove:
-                    this._spriteManager.Draw(
+                    this._assetManager.Draw(
                         spriteBatch,
                         this._camera.Position + item.Position + this._sideMenuMapOptionPosition,
                         InterfacePart16x16.Arrow_Type3);
@@ -167,7 +148,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
             var pos = this._camera.Position + item.Position + this._sideMenuMapTilePosition;
             var posSelectable = item.Position + this._sideMenuMapTilePosition;
 
-            var isInRangeColor = this.IsMouseInRange(posSelectable, item.Size);
+            var isInRangeColor = this.BoolToColor(this.IsMouseInRange(posSelectable, item.Size));
             if (isInRangeColor != Color.White)
             {
                 if (this._input.GetMouseLeftButtonReleasedState())
@@ -188,7 +169,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
                 item.Size,
                 isInRangeColor);
 
-            this._spriteManager.Draw(spriteBatch,
+            this._assetManager.Draw(spriteBatch,
                 pos + new Vector2(1, 1),
                 item.TilemapPart);
 
@@ -207,16 +188,6 @@ namespace MiniShipDelivery.Components.HUD.Editor
             {
                 mapItem.Selected = false;
             }
-        }
-
-        private Color IsMouseInRange(Vector2 position, SizeF size)
-        {
-            return this._input.MousePosition.X > position.X &&
-                this._input.MousePosition.Y > position.Y &&
-                this._input.MousePosition.X < position.X + size.Width &&
-                this._input.MousePosition.Y < position.Y + size.Height
-                ? Color.DarkGray
-                : Color.White;
         }
     }
 }

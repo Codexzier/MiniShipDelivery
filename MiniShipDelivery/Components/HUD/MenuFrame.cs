@@ -7,7 +7,7 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
-    internal class MenuFrame
+    public class MenuFrame
     {
         private AssetManager _spriteManager;
         private Dictionary<MenuFrameType, int> _menuShift = new Dictionary<MenuFrameType, int>

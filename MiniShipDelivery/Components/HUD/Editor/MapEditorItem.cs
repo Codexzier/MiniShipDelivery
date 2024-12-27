@@ -7,6 +7,5 @@ internal class MapEditorItem(Vector2 position, SizeF sizeF, MapEditorOption opti
 {
     public Vector2 Position { get; } = position;
     public SizeF Size { get; } = sizeF;
-
     public MapEditorOption MapEditorOption { get; } = option;
 }
