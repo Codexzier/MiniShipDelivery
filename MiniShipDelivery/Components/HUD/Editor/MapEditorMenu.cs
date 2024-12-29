@@ -3,23 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Helpers;
 
-namespace MiniShipDelivery.Components.HUD.Editor
+namespace MiniShipDelivery.Components.HUD.Editor;
+
+public class MapEditorMenu : BaseMenu
 {
-    public class MapEditorMenu : BaseMenu
-    {
     private const int MenuWidth = 60;
 
-    private readonly Vector2 _sideMenuMapOptionPosition = new(0, 0);
-    private readonly List<ISelectableAreItem<TilemapPart>> _selectableMapItems = new();
-    
-    private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 20);
-    private readonly List<FunctionItem> _optionItems = new();
+    private readonly FunctionBar _functionBarMapOption;
+    private readonly FunctionBar _functionBarMapSprites;
 
     public MapEditorMenu(
         AssetManager assetManager,
@@ -31,22 +25,33 @@ namespace MiniShipDelivery.Components.HUD.Editor
         camera,
         screenWidth,
         screenHeight,
-        new Vector2(screenWidth - MenuWidth, 20),
-        new Size(MenuWidth, screenHeight - 20))
+        new Vector2(screenWidth - MenuWidth, 24),
+        new Size(MenuWidth, screenHeight - 24))
     {
-        // tile map option
-        foreach (var part in Enum.GetValues<MapEditorOption>())
-        {
-            if(part == MapEditorOption.None) continue;
-            this.AddMapOption(part);
-        }
+        this._functionBarMapOption = new FunctionBar(
+            input,
+            camera,
+            new Vector2(0, 0),
+            new Size(MenuWidth, screenHeight - 24),
+            this.GetPositionArea,
+            this.IsMouseInRange);
 
-        // tile map
-        foreach (var tilemapPart in Enum.GetValues<TilemapPart>())
-        {
-            if (tilemapPart == TilemapPart.None) continue;
-            this.AddSelectableMapItem(tilemapPart);
-        }
+        this._functionBarMapOption.FillOptions<MapEditorOption>(3);
+        this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
+        this._functionBarMapOption.ButtonAreaHasExecutedEvent += this.MapMapOptionButtonAreaHasExecutedEvent;
+
+
+        this._functionBarMapSprites = new FunctionBar(
+            input,
+            camera,
+            new Vector2(0, 20),
+            new Size(MenuWidth, screenHeight - 24),
+            this.GetPositionArea,
+            this.IsMouseInRange);
+
+        this._functionBarMapSprites.FillOptions<TilemapPart>(3);
+        this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
+        this._functionBarMapSprites.ButtonAreaHasExecutedEvent += this.MapSpritesButtonAreaHasExecuted;
     }
 
     public bool ShowGrid { get; private set; }
@@ -55,152 +60,97 @@ namespace MiniShipDelivery.Components.HUD.Editor
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
-        // map option
-        foreach (var item in this._optionItems)
-        {
-            this.DrawMapOption(spriteBatch, item);
-        }
+        this._functionBarMapOption.Draw(spriteBatch);
+        this._functionBarMapSprites.Draw(spriteBatch);
+    }
 
-        // map sprites
-        foreach (var item in this._selectableMapItems)
+    private void MapMapOptionButtonAreaPressed(FunctionItem functionItem)
+    {
+        switch (functionItem.AssetPart)
         {
-            this.DrawSelectableMapPart(spriteBatch, item);
+            case MapEditorOption.Deselect:
+                this._functionBarMapSprites.ResetAllSelected(null);
+                break;
+            case MapEditorOption.OnOffGrid:
+                this.ShowGrid = !this.ShowGrid;
+                break;
+            case MapEditorOption.Remove:
+                break;
         }
     }
 
-    private void AddMapOption(MapEditorOption option)
+    private void MapMapOptionButtonAreaHasExecutedEvent(
+        SpriteBatch spriteBatch,
+        bool inRange,
+        Vector2 position,
+        FunctionItem functionItem)
     {
-        this._optionItems.Add(new FunctionItem(
-            this.GetPositionArea(this._optionItems.Count, MenuWidth, 3),
-            new SizeF(16, 16),
-            option));
-    }
-
-    private void AddSelectableMapItem(TilemapPart item)
-    {
-        this._selectableMapItems.Add(
-            new SelectableAreaItem(
-                this.GetPositionArea(this._selectableMapItems.Count, MenuWidth, 3), 
-                new SizeF(18, 18), 
-                item)
-            );
-    }
-
-    private void DrawMapOption(SpriteBatch spriteBatch, FunctionItem item)
-    {
-        var pos = this._camera.Position + item.Position + this._sideMenuMapOptionPosition;
-        
-        var inRange = this.IsMouseInRange(item.Position, item.Size);
-        
-        if (inRange)
-        {
-            if (this._input.GetMouseLeftButtonReleasedState())
-            {
-                switch (item.AssetPart)
-                {
-                    case MapEditorOption.Deselect:
-                        this.ResetAllSelected<TilemapPart>();
-                        break;
-                    case MapEditorOption.OnOffGrid:
-                        this.ShowGrid = !this.ShowGrid;
-                        break;
-                    case MapEditorOption.Remove:
-                        break;
-                }
-            }
-        }
-
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
-        
-        
-        if (this.ShowGrid && (MapEditorOption)item.AssetPart == MapEditorOption.OnOffGrid)
+
+        if (this.ShowGrid && (MapEditorOption)functionItem.AssetPart == MapEditorOption.OnOffGrid)
         {
             isInRangeColor = Color.Yellow;
         }
 
         spriteBatch.DrawRectangle(
-            pos,
-            item.Size,
+            position,
+            functionItem.Size,
             isInRangeColor);
 
-        switch (item.AssetPart)
+        switch (functionItem.AssetPart)
         {
             case MapEditorOption.Deselect:
                 this._assetManager.Draw(
                     spriteBatch,
-                    pos,
+                    position,
                     InterfacePart16x16.Arrow_Type1);
                 break;
             case MapEditorOption.OnOffGrid:
                 this._assetManager.Draw(
                     spriteBatch,
-                    pos,
+                    position,
                     InterfacePart16x16.Arrow_Type2);
                 break;
             case MapEditorOption.Remove:
                 this._assetManager.Draw(
                     spriteBatch,
-                    pos,
+                    position,
                     InterfacePart16x16.Arrow_Type3);
                 break;
         }
     }
 
-    private void DrawSelectableMapPart<TAssetPart>(
-        SpriteBatch spriteBatch,
-        ISelectableAreItem<TAssetPart> item) where TAssetPart : Enum
+    private void MapSpritesButtonAreaWasPressed(FunctionItem functionitem)
     {
-        var pos = this._camera.Position +
-                  item.Position +
-                  this._sideMenuMapTilePositionStart;
-        var posSelectable = item.Position +
-                            this._sideMenuMapTilePositionStart;
+        functionitem.Selected = true;
+        this._functionBarMapSprites.ResetAllSelected(functionitem);
+    }
 
-        var inRange = this.IsMouseInRange(posSelectable, item.Size);
-
-        if (inRange)
-        {
-            if (this._input.GetMouseLeftButtonReleasedState())
-            {
-                item.Selected = true;
-                this.ResetAllSelected(item);
-            }
-        }
-
+    private void MapSpritesButtonAreaHasExecuted(
+        SpriteBatch spriteBatch,
+        bool inRange,
+        Vector2 position,
+        FunctionItem functionItem)
+    {
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
 
-        
-        
-        if (item.Selected)
+        if (functionItem.Selected)
         {
             isInRangeColor = Color.Yellow;
         }
 
         spriteBatch.DrawRectangle(
-            pos,
-            item.Size,
+            position,
+            functionItem.Size,
             isInRangeColor);
 
         this._assetManager.Draw(spriteBatch,
-            pos + new Vector2(1, 1),
-            item.AssetPart);
+            position + new Vector2(1, 1),
+            (TilemapPart)functionItem.AssetPart);
 
         // Used only for debug
         //spriteBatch.WriteLine(this._spriteManager.Font,
         //    $"{item.TilemapPart}",
         //    pos + new Vector2(-40, 1));
-    }
-
-    /// <summary>
-    /// Reset all selected items.
-    /// </summary>
-    private void ResetAllSelected<TAssetPart>(
-        ISelectableAreItem<TAssetPart> item = null) where TAssetPart : Enum
-    {
-        foreach (var mapItem in this._selectableMapItems.Where(smi => !smi.Equals(item)))
-        {
-            mapItem.Selected = false;
-        }
-    }
     }
 }

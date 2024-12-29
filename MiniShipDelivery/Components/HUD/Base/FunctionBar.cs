@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -33,12 +34,12 @@ public class FunctionBar
         this._isMouseInRange = isMouseInRange;
     }
 
-    public void FillOptions<TAssertPart>() where TAssertPart : Enum
+    public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
         foreach (var valPart in Enum.GetValues(typeof(TAssertPart)))
         {
             if((int)valPart == 0) continue;
-            this.AddFunctionItem(valPart);
+            this.AddFunctionItem(valPart, columns);
         }
     }
 
@@ -64,7 +65,7 @@ public class FunctionBar
         {
             if (this._input.GetMouseLeftButtonReleasedState())
             {
-                this.ButtonAreaWasPressedEvent?.Invoke();
+                this.ButtonAreaWasPressedEvent?.Invoke(item);
             }
         }
 
@@ -75,16 +76,16 @@ public class FunctionBar
             item);
     }
     
-    private void AddFunctionItem(object part)
+    private void AddFunctionItem(object part, int columns)
     {
         this._functionItems.Add(
             new FunctionItem(
-                this._funcGetPositionArea(this._functionItems.Count, this._size.Width, 6),
+                this._funcGetPositionArea(this._functionItems.Count, this._size.Width, columns),
                 new SizeF(18, 18),
                 part));
     }
 
-    public delegate void ButtonAreaWasPressedEventHandler();
+    public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
 
     public delegate void ButtonAreaHasExecutedEventHandler(
@@ -93,4 +94,12 @@ public class FunctionBar
         Vector2 position,
         FunctionItem functionItem);
     public event ButtonAreaHasExecutedEventHandler ButtonAreaHasExecutedEvent;
+
+    public void ResetAllSelected(FunctionItem functionitem)
+    {
+        foreach (var item in this._functionItems.Where(w => !w.Equals(functionitem)))
+        {
+            item.Selected = false;
+        }
+    }
 }
