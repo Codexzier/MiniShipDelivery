@@ -55,7 +55,6 @@ public abstract class BaseMenu
                this._input.MousePosition.Y < position.Y + size.Height;
     }
         
-    protected Color BoolToColor(bool value) => value ? Color.DarkGray : Color.White;
     
     protected Vector2 GetPositionArea(int multiply, int width, int columns)
     {

@@ -1,35 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
 
-public class FunctionBar<TOptionFunctionItem, TAssetPart> where TAssetPart : Enum
+public class FunctionBar
 {
+    private readonly InputManager _input;
+    private readonly OrthographicCamera _camera;
     private readonly Vector2 _sideMenuMapTilePositionStart;
     private readonly Size _size;
     private readonly Func<int, int, int, Vector2> _funcGetPositionArea;
+    private readonly Func<Vector2, SizeF, bool> _isMouseInRange;
     private readonly List<FunctionItem> _functionItems = new();
 
     public FunctionBar(
-        Vector2 startPosition, 
-        Size size, 
-        Func<int, int, int, Vector2> funcGetPositionArea)
+        InputManager input, 
+        OrthographicCamera camera, 
+        Vector2 startPosition,
+        Size size,
+        Func<int, int, int, Vector2> funcGetPositionArea,
+        Func<Vector2, SizeF, bool> isMouseInRange)
     {
+        this._input = input;
+        this._camera = camera;
         this._sideMenuMapTilePositionStart = startPosition;
         this._size = size;
         this._funcGetPositionArea = funcGetPositionArea;
+        this._isMouseInRange = isMouseInRange;
+    }
 
-        // foreach (var valPart in Enum.GetValues<TAssetPart>())
-        // {
-        //     if((int)valPart == 0) continue;
-        //     
-        //     this.AddFunctionItem(valPart);
-        // }
+    public void FillOptions<TAssertPart>() where TAssertPart : Enum
+    {
+        foreach (var valPart in Enum.GetValues(typeof(TAssertPart)))
+        {
+            if((int)valPart == 0) continue;
+            this.AddFunctionItem(valPart);
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        foreach (var item in this._functionItems)
+        {
+            this.DrawSelectableArea(spriteBatch, item);
+        }
     }
     
-    private void AddFunctionItem<TAssetPart>(TAssetPart part) where TAssetPart : Enum
+    private void DrawSelectableArea(SpriteBatch spriteBatch, FunctionItem item)
+    {
+        var pos = this._camera.Position + 
+                  item.Position + 
+                  this._sideMenuMapTilePositionStart;
+            
+        var positionSelectable = item.Position +
+                                 this._sideMenuMapTilePositionStart;
+            
+        var inRange = this._isMouseInRange(positionSelectable, item.Size);
+        if (inRange)
+        {
+            if (this._input.GetMouseLeftButtonReleasedState())
+            {
+                this.ButtonAreaWasPressedEvent?.Invoke();
+            }
+        }
+
+        this.ButtonAreaHasExecutedEvent?.Invoke(
+            spriteBatch,
+            inRange,
+            pos,
+            item);
+    }
+    
+    private void AddFunctionItem(object part)
     {
         this._functionItems.Add(
             new FunctionItem(
@@ -37,4 +83,14 @@ public class FunctionBar<TOptionFunctionItem, TAssetPart> where TAssetPart : Enu
                 new SizeF(18, 18),
                 part));
     }
+
+    public delegate void ButtonAreaWasPressedEventHandler();
+    public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
+
+    public delegate void ButtonAreaHasExecutedEventHandler(
+        SpriteBatch spriteBatch,
+        bool inRange,
+        Vector2 position,
+        FunctionItem functionItem);
+    public event ButtonAreaHasExecutedEventHandler ButtonAreaHasExecutedEvent;
 }

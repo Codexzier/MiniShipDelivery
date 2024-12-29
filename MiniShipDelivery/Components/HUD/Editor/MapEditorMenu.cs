@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MiniShipDelivery.Components.HUD.Base;
+using MiniShipDelivery.Components.HUD.Helpers;
 
 namespace MiniShipDelivery.Components.HUD.Editor
 {
@@ -109,7 +110,8 @@ namespace MiniShipDelivery.Components.HUD.Editor
             }
         }
 
-        var isInRangeColor = this.BoolToColor(inRange);
+        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
+        
         
         if (this.ShowGrid && (MapEditorOption)item.AssetPart == MapEditorOption.OnOffGrid)
         {
@@ -161,13 +163,14 @@ namespace MiniShipDelivery.Components.HUD.Editor
             if (this._input.GetMouseLeftButtonReleasedState())
             {
                 item.Selected = true;
-
                 this.ResetAllSelected(item);
             }
         }
 
-        var isInRangeColor = this.BoolToColor(inRange);
+        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
 
+        
+        
         if (item.Selected)
         {
             isInRangeColor = Color.Yellow;
