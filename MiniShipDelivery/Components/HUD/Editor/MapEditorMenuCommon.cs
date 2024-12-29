@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.HUD.Base;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor
