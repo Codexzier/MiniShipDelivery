@@ -74,7 +74,7 @@ namespace MiniShipDelivery.Components.HUD
                     break;
             }
 
-            this._consoleManager.DrawText(spriteBatch);
+            //this._consoleManager.DrawText(spriteBatch);
         }
     }
 }

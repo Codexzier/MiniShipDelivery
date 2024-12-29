@@ -8,18 +8,21 @@ namespace MiniShipDelivery.Components.HUD
 {
     internal class MapEditorHud
     {
-        private int _screenWidth;
-        private int _screenHeight;
+        private readonly int _screenWidth;
+        private readonly int _screenHeight;
 
-        // =================================
-        // Top Menu
-        private MenuEditorOptions _menuEditorOptions;
+        /// <summary>
+        /// Top Menu bar
+        /// </summary>
+        private readonly MapEditorMenuCommon _mapEditorMenuCommon;
 
-        // =================================
-        // side menu
-        private MapEditorMenu _mapEditorMenu;
+        /// <summary>
+        /// right Side menu
+        /// </summary>
+        private readonly MapEditorMenu _mapEditorMenu;
 
-        public MapEditorHud(AssetManager spriteManager,
+        public MapEditorHud(
+            AssetManager spriteManager,
             InputManager input,
             OrthographicCamera camera,
             int screenWidth, int screenHeight)
@@ -27,18 +30,13 @@ namespace MiniShipDelivery.Components.HUD
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
 
-            // ==============================================
-            // Top Menu
-            this._menuEditorOptions = new MenuEditorOptions(
+            this._mapEditorMenuCommon = new MapEditorMenuCommon(
                 spriteManager,
+                input,
                 camera,
                 screenWidth,
-                screenHeight,
-                new Vector2(0, 0),
-                new Size(screenWidth, 20));
+                screenHeight);
 
-            // ==============================================
-            // side Menu
             this._mapEditorMenu = new MapEditorMenu(
                 spriteManager,
                 input,
@@ -55,7 +53,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this.DrawGrid(spriteBatch);
 
-            this._menuEditorOptions.Draw(spriteBatch, gameTime);
+            this._mapEditorMenuCommon.Draw(spriteBatch, gameTime);
             this._mapEditorMenu.Draw(spriteBatch, gameTime);
         }
 
@@ -73,8 +71,7 @@ namespace MiniShipDelivery.Components.HUD
                         new Vector2(iX * 16, iY * 16),
                         new SizeF(16.5f, 16.5f),
                         Color.Gray,
-                        .5f,
-                        0f);
+                        .5f);
                 }
             }
         }

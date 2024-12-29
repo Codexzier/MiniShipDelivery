@@ -2,6 +2,7 @@
 {
     public enum InterfaceMenuEditorOptionPart
     {
-        None = 0
+        None = 0,
+        Save = 1
     }
 }

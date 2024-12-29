@@ -69,6 +69,4 @@ internal class ConsoleManager
 
         this._stringBuilder.Clear();
     }
-
-
 }

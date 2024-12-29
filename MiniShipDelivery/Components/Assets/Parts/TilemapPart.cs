@@ -23,13 +23,13 @@
         GrassAndBrick_DownLeft_InBorder_RightTop = 28,
         GrassAndBrick_DownRight_InBorder_LeftTop = 29,
 
-        GrassAndBrick_HorizontalTopDownLeft_OutBordern = 30,
+        GrassAndBrick_HorizontalTopDownLeft_OutBorder = 30,
         GrassAndBrick_HorizontalTopDown_OutBorder = 31,
         GrassAndBrick_HorizontalTopDownRight_OutBorder = 32,
 
         GrassAndBrick_AroundOutBorder = 33,
 
-        GrassAndBrick_VerticalLeftRightTop_OutBordern = 34,
+        GrassAndBrick_VerticalLeftRightTop_OutBorder = 34,
         GrassAndBrick_VerticalLeftRight_OutBorder = 35,
         GrassAndBrick_VerticalLeftRightDown_OutBorder = 36,
     }

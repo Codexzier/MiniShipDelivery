@@ -48,7 +48,7 @@ namespace MiniShipDelivery.Components.Assets.Textures
             // brick border and green small floor horizontal with in borders
             shiftX = 3;
             shiftY = 2;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDownLeft_OutBordern, new Rectangle((16 * shiftX) + shiftX, (16 * shiftY) + shiftY, 16, 16));
+            this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDownLeft_OutBorder, new Rectangle((16 * shiftX) + shiftX, (16 * shiftY) + shiftY, 16, 16));
             this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDown_OutBorder, new Rectangle((16 * (1 + shiftX)) + 1 + shiftX, (16 * shiftY) +  shiftY, 16, 16));
             this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDownRight_OutBorder, new Rectangle((16 * (2 + shiftX)) + 2 + shiftX, (16 * shiftY) + shiftY, 16, 16));
 
@@ -60,7 +60,7 @@ namespace MiniShipDelivery.Components.Assets.Textures
             // brick border and green small floor vertical with in borders
             shiftX = 7;
             shiftY = 0;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRightTop_OutBordern, new Rectangle((16 * shiftX) + shiftX, (16 * shiftY) + shiftY, 16, 16));
+            this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRightTop_OutBorder, new Rectangle((16 * shiftX) + shiftX, (16 * shiftY) + shiftY, 16, 16));
             this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRight_OutBorder, new Rectangle((16 * shiftX) + shiftX, (16 * (shiftY + 1)) + 1 + shiftY, 16, 16));
             this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRightDown_OutBorder, new Rectangle((16 * shiftX) + shiftX, (16 * (shiftY + 2)) + 1 + shiftY, 16, 16));
 
