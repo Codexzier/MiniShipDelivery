@@ -3,6 +3,8 @@
     public enum InterfaceMenuEditorOptionPart
     {
         None = 0,
-        Save = 1
+        New = 1,
+        Load = 2,
+        Save = 3,
     }
 }

@@ -62,7 +62,7 @@ public abstract class BaseMenu
         var pasInX = multiply / columns;
         var multiplyX = multiply < columns ? multiply : multiply - (pasInX * columns);
         var x = this._screenWidth - width + 3 + ((multiplyX * 16) + (multiplyX * 2));
-        var y = (this._screenHeight - this._size.Height) + 3 + ((pasInX * 16) + (pasInX * 2));
+        var y = this._position.Y + 3 + ((pasInX * 16) + (pasInX * 2));
 
         return new Vector2(x, y);
     }

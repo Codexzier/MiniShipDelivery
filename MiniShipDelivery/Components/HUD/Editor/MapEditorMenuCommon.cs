@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MonoGame.Extended;
@@ -18,15 +19,20 @@ namespace MiniShipDelivery.Components.HUD.Editor
                 screenWidth, screenHeight, 
                 new Vector2(0, 0), new Size(screenWidth, 26))
         {
+            foreach (var part in Enum.GetValues<InterfaceMenuEditorOptionPart>())
+            {
+                
+            }
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
-            var zz = this.GetPositionArea(0, this._screenWidth, 3);
-            this.DrawSelectableArea(spriteBatch, zz);
-            //this.DrawSelectableArea(spriteBatch, this.GetPositionArea(1, this._screenWidth, 3));
+            
+            this.DrawSelectableArea(
+                spriteBatch, 
+                this.GetPositionArea(0, this._screenWidth, 3));
         }
 
         private void DrawSelectableArea(SpriteBatch spriteBatch, Vector2 position)

@@ -17,7 +17,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
     private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 20);
 
     private readonly List<ISelectableAreItem<TilemapPart>> _selectableMapItems = new();
-    private readonly List<MapEditorItem> _mapOptionItems = new();
+    private readonly List<FunctionItem> _optionItems = new();
 
     public MapEditorMenu(
         AssetManager assetManager,
@@ -33,9 +33,9 @@ namespace MiniShipDelivery.Components.HUD.Editor
         new Size(MenuWidth, screenHeight - 20))
     {
         // tile map option
-        this.AddMapoption(MapEditorOption.Deselect);
-        this.AddMapoption(MapEditorOption.OnOffGrid);
-        this.AddMapoption(MapEditorOption.Remove);
+        this.AddMapOption(MapEditorOption.Deselect);
+        this.AddMapOption(MapEditorOption.OnOffGrid);
+        this.AddMapOption(MapEditorOption.Remove);
 
         // tile map
         foreach (var tilemapPart in Enum.GetValues<TilemapPart>())
@@ -52,7 +52,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         // map option
-        foreach (var item in this._mapOptionItems)
+        foreach (var item in this._optionItems)
         {
             this.DrawMapOption(spriteBatch, item);
         }
@@ -64,10 +64,10 @@ namespace MiniShipDelivery.Components.HUD.Editor
         }
     }
 
-    private void AddMapoption(MapEditorOption option)
+    private void AddMapOption(MapEditorOption option)
     {
-        this._mapOptionItems.Add(new MapEditorItem(
-            this.GetPositionArea(this._mapOptionItems.Count, MenuWidth, 3),
+        this._optionItems.Add(new FunctionItem(
+            this.GetPositionArea(this._optionItems.Count, MenuWidth, 3),
             new SizeF(16, 16),
             option));
     }
@@ -82,7 +82,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
             );
     }
 
-    private void DrawMapOption(SpriteBatch spriteBatch, MapEditorItem item)
+    private void DrawMapOption(SpriteBatch spriteBatch, FunctionItem item)
     {
         var pos = this._camera.Position + item.Position + this._sideMenuMapOptionPosition;
         
