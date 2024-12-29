@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -9,40 +10,54 @@ namespace MiniShipDelivery.Components.HUD.Editor
 {
     public class MapEditorMenuCommon : BaseMenu
     {
-        private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 0);
+        private readonly Vector2 _sideMenuMapTilePositionStart = new(1, 1);
+        private readonly List<FunctionItem> _functionItems = new();
         
-        public MapEditorMenuCommon(AssetManager assetManager,
+        public MapEditorMenuCommon(
+            AssetManager assetManager,
             InputManager input,
             OrthographicCamera camera,
             int screenWidth,
             int screenHeight) 
             : base(assetManager, input, camera, 
                 screenWidth, screenHeight, 
-                new Vector2(0, 0), new Size(screenWidth, 26))
+                new Vector2(0, 0), new Size(screenWidth, 24))
         {
             foreach (var part in Enum.GetValues<InterfaceMenuEditorOptionPart>())
             {
-                
+                if(part == InterfaceMenuEditorOptionPart.None) continue;
+                this.AddFunctionItem(part);
             }
+        }
+
+        private void AddFunctionItem(InterfaceMenuEditorOptionPart part)
+        {
+            this._functionItems.Add(
+                new FunctionItem(
+                    this.GetPositionArea(this._functionItems.Count, this._screenWidth, 6),
+                    new SizeF(18, 18),
+                    part));
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
-            
-            this.DrawSelectableArea(
-                spriteBatch, 
-                this.GetPositionArea(0, this._screenWidth, 3));
+            foreach (var item in this._functionItems)
+            {
+                this.DrawSelectableArea(
+                    spriteBatch, 
+                    item);
+            }
         }
 
-        private void DrawSelectableArea(SpriteBatch spriteBatch, Vector2 position)
+        private void DrawSelectableArea(SpriteBatch spriteBatch, FunctionItem item)
         {
             var pos = this._camera.Position + 
-                      position + 
+                      item.Position + 
                       this._sideMenuMapTilePositionStart;
             
-            var positionSelectable = position +
+            var positionSelectable = item.Position +
                                      this._sideMenuMapTilePositionStart;
             
             var inRange = this.IsMouseInRange(positionSelectable, new SizeF(16, 16));
@@ -58,7 +73,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
             
             this._assetManager.Draw(spriteBatch,
                 pos,
-                InterfaceMenuEditorOptionPart.Save);
+                (InterfaceMenuEditorOptionPart)item.AssetPart);
             
             spriteBatch.DrawRectangle(
                 pos,

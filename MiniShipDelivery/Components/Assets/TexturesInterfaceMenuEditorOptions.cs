@@ -13,6 +13,8 @@ namespace MiniShipDelivery.Components.Assets
             this.SpriteContent = new Dictionary<InterfaceMenuEditorOptionPart, Rectangle>
             {
                 { InterfaceMenuEditorOptionPart.Save, new Rectangle(0, 0, 16, 16) },
+                { InterfaceMenuEditorOptionPart.Load, new Rectangle(16, 0, 16, 16) },
+                { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)}
             };
         }
 

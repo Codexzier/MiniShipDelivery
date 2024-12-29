@@ -15,9 +15,9 @@ namespace MiniShipDelivery.Components.HUD.Editor
     private const int MenuWidth = 60;
 
     private readonly Vector2 _sideMenuMapOptionPosition = new(0, 0);
-    private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 20);
-
     private readonly List<ISelectableAreItem<TilemapPart>> _selectableMapItems = new();
+    
+    private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 20);
     private readonly List<FunctionItem> _optionItems = new();
 
     public MapEditorMenu(
@@ -34,9 +34,11 @@ namespace MiniShipDelivery.Components.HUD.Editor
         new Size(MenuWidth, screenHeight - 20))
     {
         // tile map option
-        this.AddMapOption(MapEditorOption.Deselect);
-        this.AddMapOption(MapEditorOption.OnOffGrid);
-        this.AddMapOption(MapEditorOption.Remove);
+        foreach (var part in Enum.GetValues<MapEditorOption>())
+        {
+            if(part == MapEditorOption.None) continue;
+            this.AddMapOption(part);
+        }
 
         // tile map
         foreach (var tilemapPart in Enum.GetValues<TilemapPart>())
@@ -93,7 +95,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
         {
             if (this._input.GetMouseLeftButtonReleasedState())
             {
-                switch (item.MapEditorOption)
+                switch (item.AssetPart)
                 {
                     case MapEditorOption.Deselect:
                         this.ResetAllSelected<TilemapPart>();
@@ -109,7 +111,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
 
         var isInRangeColor = this.BoolToColor(inRange);
         
-        if (this.ShowGrid && item.MapEditorOption == MapEditorOption.OnOffGrid)
+        if (this.ShowGrid && (MapEditorOption)item.AssetPart == MapEditorOption.OnOffGrid)
         {
             isInRangeColor = Color.Yellow;
         }
@@ -119,7 +121,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
             item.Size,
             isInRangeColor);
 
-        switch (item.MapEditorOption)
+        switch (item.AssetPart)
         {
             case MapEditorOption.Deselect:
                 this._assetManager.Draw(

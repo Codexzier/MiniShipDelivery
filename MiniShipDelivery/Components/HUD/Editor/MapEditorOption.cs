@@ -1,8 +1,9 @@
 ﻿namespace MiniShipDelivery.Components.HUD.Editor;
 
-internal enum MapEditorOption
+public enum MapEditorOption
 {
-    Deselect,
-    OnOffGrid,
-    Remove
+    None = 0,
+    Deselect = 1,
+    OnOffGrid = 2,
+    Remove = 3,
 }
