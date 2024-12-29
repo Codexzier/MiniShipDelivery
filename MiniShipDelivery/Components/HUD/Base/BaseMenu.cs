@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD.Editor;
+namespace MiniShipDelivery.Components.HUD.Base;
 
 public abstract class BaseMenu
 {

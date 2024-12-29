@@ -1,25 +1,25 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using System.Collections.Generic;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD
+namespace MiniShipDelivery.Components.HUD.Base
 {
     public class MenuFrame
     {
-        private AssetManager _spriteManager;
-        private Dictionary<MenuFrameType, int> _menuShift = new Dictionary<MenuFrameType, int>
+        private readonly AssetManager _assetManager;
+        private readonly Dictionary<MenuFrameType, int> _menuShift = new()
         {
             { MenuFrameType.Type1, 0 },
             { MenuFrameType.Type2, 9 },
             { MenuFrameType.Type3, 18 }
         };
 
-        public MenuFrame(AssetManager spriteManager)
+        public MenuFrame(AssetManager assetManager)
         {
-            this._spriteManager = spriteManager;
+            this._assetManager = assetManager;
         }
 
         public InterfacePart4x4 GetMenuFrameByType(InterfacePart4x4 part, MenuFrameType mft)
@@ -77,17 +77,17 @@ namespace MiniShipDelivery.Components.HUD
             middle = this.GetMenuFrameByType(middle, mft);
             right = this.GetMenuFrameByType(right, mft);
 
-            this._spriteManager.Draw(spriteBatch, 
+            this._assetManager.Draw(spriteBatch, 
                 shiftPosition, 
                 left);
             
             for (var x = 0; x < countMiddleForWidth; x++)
             {
-                this._spriteManager.Draw(spriteBatch, 
+                this._assetManager.Draw(spriteBatch, 
                     shiftPosition + new Vector2(4 + (x * 4), 0), 
                     middle);
             }
-            this._spriteManager.Draw(spriteBatch, 
+            this._assetManager.Draw(spriteBatch, 
                 shiftPosition + new Vector2(4 + (countMiddleForWidth * 4), 0), 
                 right);
         }
