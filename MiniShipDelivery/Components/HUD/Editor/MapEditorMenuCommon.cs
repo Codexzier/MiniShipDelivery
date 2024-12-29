@@ -7,6 +7,8 @@ namespace MiniShipDelivery.Components.HUD.Editor
 {
     public class MapEditorMenuCommon : BaseMenu
     {
+        private readonly Vector2 _sideMenuMapTilePositionStart = new(0, 0);
+        
         public MapEditorMenuCommon(AssetManager assetManager,
             InputManager input,
             OrthographicCamera camera,
@@ -14,66 +16,47 @@ namespace MiniShipDelivery.Components.HUD.Editor
             int screenHeight) 
             : base(assetManager, input, camera, 
                 screenWidth, screenHeight, 
-                new Vector2(0, 0), new Size(screenWidth, 20))
+                new Vector2(0, 0), new Size(screenWidth, 26))
         {
         }
 
         internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            this.DrawBaseFrame(spriteBatch, MenuFrameType.Type3);
+            this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
+
+            var zz = this.GetPositionArea(0, this._screenWidth, 3);
+            this.DrawSelectableArea(spriteBatch, zz);
+            //this.DrawSelectableArea(spriteBatch, this.GetPositionArea(1, this._screenWidth, 3));
         }
-    }
 
-    public abstract class BaseMenu
-    {
-        private readonly MenuFrame _menuFrame;
-        
-        protected readonly AssetManager _assetManager;
-        protected readonly InputManager _input;
-        protected readonly OrthographicCamera _camera;
-        
-        protected readonly Vector2 _position;
-        protected readonly Size _size;
-        protected readonly int _screenWidth;
-        protected readonly int _screenHeight;
-        
-        protected BaseMenu(
-            AssetManager assetManager,
-            InputManager input,
-            OrthographicCamera camera, 
-            int screenWidth, 
-            int screenHeight,
-            Vector2 position,
-            Size size)
+        private void DrawSelectableArea(SpriteBatch spriteBatch, Vector2 position)
         {
-            this._menuFrame = new MenuFrame(assetManager);
-
-            this._assetManager = assetManager;
-            this._input = input;
-            this._camera = camera;
+            var pos = this._camera.Position + 
+                      position + 
+                      this._sideMenuMapTilePositionStart;
             
-            this._screenWidth = screenWidth;
-            this._screenHeight = screenHeight;
-            this._position = position;
-            this._size = size;
-        }
+            var positionSelectable = position +
+                                     this._sideMenuMapTilePositionStart;
+            
+            var inRange = this.IsMouseInRange(positionSelectable, new SizeF(16, 16));
+            if (inRange)
+            {
+                if (this._input.GetMouseLeftButtonReleasedState())
+                {
+                    // save map
+                }
+            }
 
-        protected void DrawBaseFrame(SpriteBatch spriteBatch, MenuFrameType type)
-        {
-            this._menuFrame.DrawMenuFrame(spriteBatch,
-                this._camera.Position + this._position,
-                this._size,
-                type);
+            var isInRangeColor = this.BoolToColor(inRange);
+            
+            this._assetManager.Draw(spriteBatch,
+                pos,
+                InterfaceMenuEditorOptionPart.Save);
+            
+            spriteBatch.DrawRectangle(
+                pos,
+                new SizeF(16, 16),
+                isInRangeColor);
         }
-        
-        protected bool IsMouseInRange(Vector2 position, SizeF size)
-        {
-            return this._input.MousePosition.X > position.X &&
-                   this._input.MousePosition.Y > position.Y &&
-                   this._input.MousePosition.X < position.X + size.Width &&
-                   this._input.MousePosition.Y < position.Y + size.Height;
-        }
-        
-        protected Color BoolToColor(bool value) => value ? Color.DarkGray : Color.White;
     }
 }

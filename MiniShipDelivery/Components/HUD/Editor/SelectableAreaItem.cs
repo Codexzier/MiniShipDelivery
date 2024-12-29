@@ -4,10 +4,13 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 
-internal class SelectableMapItem(Vector2 position, SizeF size, TilemapPart tilemapPart)
+internal class SelectableAreaItem(
+    Vector2 position, 
+    SizeF size, 
+    TilemapPart tilemapPart) : ISelectableAreItem<TilemapPart>
 {
     public Vector2 Position { get; } = position;
     public SizeF Size { get; } = size;
-    public TilemapPart TilemapPart { get; } = tilemapPart;
+    public TilemapPart AssetPart { get; } = tilemapPart;
     public bool Selected { get; set; }
 }
