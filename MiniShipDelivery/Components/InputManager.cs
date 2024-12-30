@@ -1,37 +1,38 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using System;
 
 namespace MiniShipDelivery.Components
 {
-    public class InputManager
+    public class InputManager : GameComponent
     {
         private readonly float _scaledMouseMoveX;
         private readonly float _scaleMouseMoveY;
 
         private bool _mouseLeftButtonReleased;
-
         private bool _mouseLeftButtonHasPressed;
 
-        public InputManager(float scaledMouseMoveX, float scaleMouseMoveY)
+        public InputManager(
+            Game game,
+            float scaledMouseMoveX, float scaleMouseMoveY) : base(game)
         {
             this._scaledMouseMoveX = scaledMouseMoveX;
             this._scaleMouseMoveY = scaleMouseMoveY;
+            
+            this.Inputs = new InputData();
         }
 
-        public Vector2 MovementCharacter { get; private set; }
-        public Vector2 MousePosition { get; private set; }
+        public InputData Inputs { get; set; }
 
-        internal void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             var elapsedSec = gameTime.GetElapsedSeconds();
 
-            this.MovementCharacter = this.GetMovement();
+            this.Inputs.MovementCharacter = this.GetMovement();
             
             // mouse state
             var mouseState = Mouse.GetState();
-            this.MousePosition = new Vector2(
+            this.Inputs.MousePosition = new Vector2(
                 mouseState.X * this._scaledMouseMoveX, 
                 mouseState.Y * this._scaleMouseMoveY);
 
@@ -46,13 +47,13 @@ namespace MiniShipDelivery.Components
                 this._mouseLeftButtonHasPressed = false;
             }
             
-            this.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
+            this.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
         }
 
         private bool _mouseLeftButton;
-        public bool MouseRightButton { get; private set; }
 
-        public Vector2 GetMovement()
+
+        private Vector2 GetMovement()
         {
             var movement = Vector2.Zero;
 

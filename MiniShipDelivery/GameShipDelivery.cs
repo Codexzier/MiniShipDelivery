@@ -40,6 +40,13 @@ namespace MiniShipDelivery
             this._graphics.PreferredBackBufferWidth = 1280;
             this._graphics.PreferredBackBufferHeight = 720;
             this._graphics.ApplyChanges();
+            
+            this._input = new InputManager( 
+                this,
+                this._screenWidth / (float)this._graphics.PreferredBackBufferWidth , 
+                this._screenHeight / (float)this._graphics.PreferredBackBufferHeight);
+            this._input.UpdateOrder = 1;
+            this.Components.Add(this._input);
         }
 
         protected override void Initialize()
@@ -54,9 +61,6 @@ namespace MiniShipDelivery
         {
             this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this._input = new InputManager( 
-                (float)this._screenWidth / (float)this._graphics.PreferredBackBufferWidth , 
-                (float)this._screenHeight / (float)this._graphics.PreferredBackBufferHeight);
             this._spriteManager = new AssetManager(this.Content);
             this._emote = new EmoteManager(this._spriteManager);
             
@@ -103,7 +107,6 @@ namespace MiniShipDelivery
                 this.Exit();
             }
 
-            this._input.Update(gameTime);
             foreach (var npc in this._characterNpCs)
             {
                 npc.Update(gameTime);

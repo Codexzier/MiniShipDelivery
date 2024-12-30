@@ -68,13 +68,12 @@ public class MapEditorMenu : BaseMenu
     {
         switch (functionItem.AssetPart)
         {
-            case MapEditorOption.Deselect:
-                this._functionBarMapSprites.ResetAllSelected(null);
-                break;
             case MapEditorOption.OnOffGrid:
                 this.ShowGrid = !this.ShowGrid;
                 break;
-            case MapEditorOption.Remove:
+            case MapEditorOption.ArrowLeft:
+                break;
+            case MapEditorOption.ArrowRight:
                 break;
         }
     }
@@ -96,26 +95,28 @@ public class MapEditorMenu : BaseMenu
             position,
             functionItem.Size,
             isInRangeColor);
+        
+        var shiftPosition = position + new Vector2(1, 1);
 
         switch (functionItem.AssetPart)
         {
-            case MapEditorOption.Deselect:
-                this._assetManager.Draw(
-                    spriteBatch,
-                    position,
-                    InterfacePart16x16.Arrow_Type1);
-                break;
             case MapEditorOption.OnOffGrid:
                 this._assetManager.Draw(
                     spriteBatch,
-                    position,
-                    InterfacePart16x16.Arrow_Type2);
+                    shiftPosition,
+                    UiMenuMapOptionPart.ExlamationWithe);
                 break;
-            case MapEditorOption.Remove:
+            case MapEditorOption.ArrowLeft:
                 this._assetManager.Draw(
                     spriteBatch,
-                    position,
-                    InterfacePart16x16.Arrow_Type3);
+                    shiftPosition,
+                    UiMenuMapOptionPart.ArrowLeft);
+                break;
+            case MapEditorOption.ArrowRight:
+                this._assetManager.Draw(
+                    spriteBatch,
+                    shiftPosition,
+                    UiMenuMapOptionPart.ArrowRight);
                 break;
         }
     }

@@ -22,9 +22,9 @@ namespace MiniShipDelivery.Components.HUD.Base
             this._assetManager = assetManager;
         }
 
-        public InterfacePart4x4 GetMenuFrameByType(InterfacePart4x4 part, MenuFrameType mft)
+        public UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
         {
-            return (InterfacePart4x4)((int)part + this._menuShift[mft]);
+            return (UiMenuFramePart)((int)part + this._menuShift[mft]);
         }
 
         public void DrawMenuFrame(SpriteBatch spriteBatch,
@@ -40,9 +40,9 @@ namespace MiniShipDelivery.Components.HUD.Base
             this.CreateScreenWidthFrame(spriteBatch,
                 countMiddleForWidth,
                 position,
-                InterfacePart4x4.BaseFrame_Type1_TopLeft,
-                InterfacePart4x4.BaseFrame_Type1_TopMiddle,
-                InterfacePart4x4.BaseFrame_Type1_TopRight,
+                UiMenuFramePart.BaseFrame_Type1_TopLeft,
+                UiMenuFramePart.BaseFrame_Type1_TopMiddle,
+                UiMenuFramePart.BaseFrame_Type1_TopRight,
                 mft);
 
             for (var y = 0; y < countMiddleForHeight - 1; y++)
@@ -50,9 +50,9 @@ namespace MiniShipDelivery.Components.HUD.Base
                 this.CreateScreenWidthFrame(spriteBatch,
                     countMiddleForWidth,
                     position + new Vector2(0, 4 + (y * 4)),
-                    InterfacePart4x4.BaseFrame_Type1_MiddleLeft,
-                    InterfacePart4x4.BaseFrame_Type1_MiddleMiddle,
-                    InterfacePart4x4.BaseFrame_Type1_MiddleRight,
+                    UiMenuFramePart.BaseFrame_Type1_MiddleLeft,
+                    UiMenuFramePart.BaseFrame_Type1_MiddleMiddle,
+                    UiMenuFramePart.BaseFrame_Type1_MiddleRight,
                     mft);
             }
 
@@ -61,16 +61,18 @@ namespace MiniShipDelivery.Components.HUD.Base
             this.CreateScreenWidthFrame(spriteBatch,
                 countMiddleForWidth,
                 position + new Vector2(0, countMiddleForHeightEnd),
-                InterfacePart4x4.BaseFrame_Type1_DownLeft,
-                InterfacePart4x4.BaseFrame_Type1_DownMiddle,
-                InterfacePart4x4.BaseFrame_Type1_DownRight,
+                UiMenuFramePart.BaseFrame_Type1_DownLeft,
+                UiMenuFramePart.BaseFrame_Type1_DownMiddle,
+                UiMenuFramePart.BaseFrame_Type1_DownRight,
                 mft);
         }
 
         private void CreateScreenWidthFrame(SpriteBatch spriteBatch, 
             int countMiddleForWidth, 
             Vector2 shiftPosition, 
-            InterfacePart4x4 left, InterfacePart4x4 middle, InterfacePart4x4 right, 
+            UiMenuFramePart left, 
+            UiMenuFramePart middle, 
+            UiMenuFramePart right, 
             MenuFrameType mft)
         {
             left = this.GetMenuFrameByType(left, mft);

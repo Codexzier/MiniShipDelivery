@@ -56,7 +56,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this._mapEditorHud.Update(gameTime);
 
-            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.MousePosition)}");
+            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
             this._consoleManager.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._player.Collider.Position)}");
 
             foreach (var charNpc in this._characterNpCs)
@@ -74,7 +74,7 @@ namespace MiniShipDelivery.Components.HUD
                     break;
             }
 
-            //this._consoleManager.DrawText(spriteBatch);
+            this._consoleManager.DrawText(spriteBatch);
         }
     }
 }

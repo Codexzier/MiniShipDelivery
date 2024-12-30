@@ -14,7 +14,8 @@ namespace MiniShipDelivery.Components.Assets
             {
                 { InterfaceMenuEditorOptionPart.Save, new Rectangle(0, 0, 16, 16) },
                 { InterfaceMenuEditorOptionPart.Load, new Rectangle(16, 0, 16, 16) },
-                { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)}
+                { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)},
+                { InterfaceMenuEditorOptionPart.Grid, new Rectangle(48, 0, 16, 16) },
             };
         }
 

@@ -49,10 +49,10 @@ public abstract class BaseMenu
         
     protected bool IsMouseInRange(Vector2 position, SizeF size)
     {
-        return this._input.MousePosition.X > position.X &&
-               this._input.MousePosition.Y > position.Y &&
-               this._input.MousePosition.X < position.X + size.Width &&
-               this._input.MousePosition.Y < position.Y + size.Height;
+        return this._input.Inputs.MousePosition.X > position.X &&
+               this._input.Inputs.MousePosition.Y > position.Y &&
+               this._input.Inputs.MousePosition.X < position.X + size.Width &&
+               this._input.Inputs.MousePosition.Y < position.Y + size.Height;
     }
         
     

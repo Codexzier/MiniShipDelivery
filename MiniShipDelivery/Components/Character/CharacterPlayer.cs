@@ -29,7 +29,7 @@ namespace MiniShipDelivery.Components.Character
         public void Update(GameTime gameTime)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-           this.Direction = this._input.MovementCharacter;
+           this.Direction = this._input.Inputs.MovementCharacter;
 
             if (this.Direction != Vector2.Zero)
             {

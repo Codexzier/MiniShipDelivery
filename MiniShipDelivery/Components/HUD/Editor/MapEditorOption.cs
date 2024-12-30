@@ -3,7 +3,7 @@
 public enum MapEditorOption
 {
     None = 0,
-    Deselect = 1,
-    OnOffGrid = 2,
-    Remove = 3,
+    OnOffGrid = 1,
+    ArrowLeft = 2,
+    ArrowRight = 3,
 }
