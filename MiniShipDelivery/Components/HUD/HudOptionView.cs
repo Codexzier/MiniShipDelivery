@@ -2,6 +2,7 @@
 {
     internal enum HudOptionView
     {
-        MapEditor = 0
+        MainMenu = 0,
+        MapEditor = 1,
     }
 }

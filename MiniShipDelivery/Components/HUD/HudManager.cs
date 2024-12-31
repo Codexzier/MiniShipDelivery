@@ -18,6 +18,7 @@ namespace MiniShipDelivery.Components.HUD
         int screenHeight)
         : GameComponent(game)
     {
+        private readonly MainMenuHud _mainMenuHud = new MainMenuHud(spriteManager);
         private readonly MapEditorHud _mapEditorHud = new(spriteManager, 
             input,
             camera,
@@ -27,7 +28,7 @@ namespace MiniShipDelivery.Components.HUD
             camera, 
             screenHeight);
 
-        private HudOptionView hudOptionView = HudOptionView.MapEditor;
+        private HudOptionView hudOptionView = HudOptionView.MainMenu;
 
         public override void Update(GameTime gameTime)
         {
@@ -47,12 +48,39 @@ namespace MiniShipDelivery.Components.HUD
         {
             switch (this.hudOptionView)
             {
+                case HudOptionView.MainMenu:
+                    this._mainMenuHud.Draw(spriteBatch, gameTime);
+                    break;
                 case HudOptionView.MapEditor:
                     this._mapEditorHud.Draw(spriteBatch, gameTime);
                     break;
             }
 
             this._consoleManager.DrawText(spriteBatch);
+        }
+    }
+
+    internal class MainMenuHud(AssetManager spriteManager)
+    {
+        private readonly AssetManager _spriteManager = spriteManager;
+
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            this.DrawButton(spriteBatch, "Start Game", new Vector2(10, 10));
+        }
+
+        private void DrawButton(SpriteBatch spriteBatch, string buttonText, Vector2 position)
+        {
+            spriteBatch.DrawRectangle(
+                position,
+                new SizeF(120, 30),
+                Color.White);
+            
+            spriteBatch.DrawString(
+                this._spriteManager.Font,
+                buttonText,
+                position + new Vector2(10, 10),
+                Color.White);
         }
     }
 }
