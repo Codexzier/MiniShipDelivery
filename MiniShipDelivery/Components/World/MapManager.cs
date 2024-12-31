@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.World
 {
-    internal class MapManager
+    public class MapManager : GameComponent
     {
         private AssetManager _spriteManager;
         private int[][] _map =
@@ -21,7 +21,7 @@ namespace MiniShipDelivery.Components.World
             [33],
         ];
 
-        public MapManager(AssetManager spriteManager)
+        public MapManager( Game game, AssetManager spriteManager) :base(game)
         {
             this._spriteManager = spriteManager;
         }

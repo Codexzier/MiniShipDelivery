@@ -15,71 +15,127 @@ namespace MiniShipDelivery
 {
     public class GameShipDelivery : Game
     {
-        private readonly GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
         private OrthographicCamera _camera;
+        
+        private readonly InputManager _input;
+        private readonly AssetManager _assetManager;
+        
+        
+        private readonly GameRenderer _gameRenderer;
+        
+        //private SpriteBatch _spriteBatch;
+        // private OrthographicCamera _camera;
 
-        private AssetManager _spriteManager;
         private ColliderManager _colliderManager;
         private readonly List<CharacterNpc> _characterNpCs = new ();
         private CharacterPlayer _player;
         private EmoteManager _emote;
-        private InputManager _input;
+        
         private MapManager _map;
         private HudManager _hudManager;
 
-        private readonly int _screenWidth = 320;
-        private readonly int _screenHeight = 180;
+        private const int ScreenWidth = 320;
+        private const int ScreenHeight = 180;
 
         public GameShipDelivery()
         {
-            this._graphics = new GraphicsDeviceManager(this);
-
-            this.Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
-            this._graphics.PreferredBackBufferWidth = 1280;
-            this._graphics.PreferredBackBufferHeight = 720;
-            this._graphics.ApplyChanges();
+            var graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
             
+            this.Content.RootDirectory = "Content";
+            this.Window.Title = "Mini Ship Delivery";
+            this.IsMouseVisible = true;
+            
+            var viewportAdapter = new BoxingViewportAdapter(
+                this.Window, 
+                this.GraphicsDevice, 
+                ScreenWidth, 
+                ScreenHeight);
+            
+            this._camera = new OrthographicCamera(viewportAdapter);
+            
+            
+            // add all components
+            
+            // Input
             this._input = new InputManager( 
                 this,
-                this._screenWidth / (float)this._graphics.PreferredBackBufferWidth , 
-                this._screenHeight / (float)this._graphics.PreferredBackBufferHeight);
+                ScreenWidth / (float)graphics.PreferredBackBufferWidth , 
+                ScreenHeight / (float)graphics.PreferredBackBufferHeight);
             this._input.UpdateOrder = 1;
             this.Components.Add(this._input);
-        }
-
-        protected override void Initialize()
-        {
-            var viewportAdapter = new BoxingViewportAdapter(this.Window, this.GraphicsDevice, this._screenWidth, this._screenHeight);
-            this._camera = new OrthographicCamera(viewportAdapter);
-
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
-
-            this._spriteManager = new AssetManager(this.Content);
-            this._emote = new EmoteManager(this._spriteManager);
             
-
-            var characterNpc = new CharacterNpc(this._spriteManager, this._emote, new Vector2(20, 20), CharacterType.Women)
+            // Assets
+            this._assetManager = new AssetManager(this);
+            this._assetManager.UpdateOrder = 2;
+            this.Components.Add(this._assetManager);
+            
+            // Map
+            this._map = new MapManager(this, this._assetManager);
+            
+            // Player
+            var screenPosition = new Vector2(ScreenWidth / 2 - 8, ScreenHeight / 2);
+            this._player = new CharacterPlayer(this._assetManager, this._input, screenPosition, CharacterType.Men)
+            {
+                Direction = Vector2.Zero,
+                Speed = 40,
+                FramesPerSecond = 10
+            };
+            this._emote = new EmoteManager(this._assetManager);
+            
+            var characterNpc = new CharacterNpc(this._assetManager, this._emote, new Vector2(20, 20), CharacterType.Women)
             {
                 Direction = Vector2.Zero,
                 Speed = 20,
                 FramesPerSecond = 10                
             };
             this._characterNpCs.Add(characterNpc);
+            
+            
+            this._hudManager = new HudManager(
+                this,
+                this._assetManager, 
+                this._input,
+                this._camera,
+                this._player,
+                this._characterNpCs,
+                ScreenWidth,
+                ScreenHeight);
+            this._hudManager.UpdateOrder = 3;
+            this.Components.Add(this._hudManager);
+            
+            
+            // Renderer
+            this._gameRenderer = new GameRenderer(
+                this, 
+                this._hudManager, 
+                this._camera, 
+                this._map,
+                this._player,
+                this._characterNpCs,
+                ScreenWidth, ScreenHeight);
+            this._gameRenderer.UpdateOrder = 99;
+            this.Components.Add(this._gameRenderer);
+        }
 
-            var screenPosition = new Vector2(this._screenWidth / 2 - 8, this._screenHeight / 2);
-            this._player = new CharacterPlayer(this._spriteManager, this._input, screenPosition, CharacterType.Men)
-            {
-                Direction = Vector2.Zero,
-                Speed = 40,
-                FramesPerSecond = 10
-            };
+        protected override void Initialize()
+        {
+            // var viewportAdapter = new BoxingViewportAdapter(this.Window, this.GraphicsDevice, ScreenWidth, ScreenHeight);
+            // this._camera = new OrthographicCamera(viewportAdapter);
+        
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            //this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
+
+            
+            
+
+            
 
             this._colliderManager = new ColliderManager();
             this._colliderManager.Add(this._player);
@@ -88,59 +144,54 @@ namespace MiniShipDelivery
                 this._colliderManager.Add(npc);
             }
 
-            this._map = new MapManager(this._spriteManager);
+            
 
-            this._hudManager = new HudManager(
-                this._spriteManager, 
-                this._input, 
-                this._player,
-                this._characterNpCs,
-                this._camera,
-                this._screenWidth,
-                this._screenHeight);
+           
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (this._input.HasPressToClose())
-            {
-                this.Exit();
-            }
+            // if (this._input.HasPressToClose())
+            // {
+            //     this.Exit();
+            // }
 
             foreach (var npc in this._characterNpCs)
             {
                 npc.Update(gameTime);
             }
             this._player.Update(gameTime);
+            
             this._map.Update(gameTime);
             this._colliderManager.Update(gameTime);
 
 
+            // TODO: camera follow player
             var delta = this._player.Collider.Position 
-                         - this._camera.Position - new Vector2(158, 84);
-            this._camera.Position += delta * 0.08f;
+                         - this._gameRenderer.GetCameraPosition() - new Vector2(158, 84);
+            this._gameRenderer.AddPosition(delta * 0.08f);
             
-            this._hudManager.Update(gameTime);
+            //this._hudManager.Update(gameTime);
             
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(Color.CornflowerBlue);
-            var transformMatrix = this._camera.GetViewMatrix();
+            //this.GraphicsDevice.Clear(Color.CornflowerBlue);
+            //var transformMatrix = this._camera.GetViewMatrix();
             
-            this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-            
-            this._map.Draw(this._spriteBatch);
-            foreach (var npc in this._characterNpCs)
-            {
-                npc.Draw(this._spriteBatch, gameTime);
-            }
-            this._player.Draw(this._spriteBatch, gameTime);
-            this._hudManager.Draw(this._spriteBatch, gameTime);
-
-            this._spriteBatch.End();
+            // this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
+            //
+            // this._map.Draw(this._spriteBatch);
+            // foreach (var npc in this._characterNpCs)
+            // {
+            //     npc.Draw(this._spriteBatch, gameTime);
+            // }
+            // this._player.Draw(this._spriteBatch, gameTime);
+            // this._hudManager.Draw(this._spriteBatch, gameTime);
+            //
+            // this._spriteBatch.End();
 
             base.Draw(gameTime);
         }

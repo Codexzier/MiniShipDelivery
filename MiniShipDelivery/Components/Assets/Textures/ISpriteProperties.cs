@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.Assets
+namespace MiniShipDelivery.Components.Assets.Textures
 {
     public interface ISpriteProperties<TAssetPart> where TAssetPart : Enum
     {

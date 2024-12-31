@@ -26,7 +26,7 @@ namespace MiniShipDelivery.Components
 
         public override void Update(GameTime gameTime)
         {
-            var elapsedSec = gameTime.GetElapsedSeconds();
+            if(this.HasPressToClose()) this.Game.Exit();
 
             this.Inputs.MovementCharacter = this.GetMovement();
             

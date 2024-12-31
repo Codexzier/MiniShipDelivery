@@ -8,34 +8,34 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
-    internal class HudManager
+    public class HudManager : GameComponent
     {
         private readonly MapEditorHud _mapEditorHud;
         private readonly ConsoleManager _consoleManager;
 
         private AssetManager _spriteManager;
         private readonly InputManager _input;
+        private readonly OrthographicCamera _camera;
         private readonly CharacterPlayer _player;
         private readonly List<CharacterNpc> _characterNpCs;
-        private readonly OrthographicCamera _camera;
         private readonly int _screenWidth;
         private readonly int _screenHeight;
 
         private HudOptionView hudOptionView = HudOptionView.MapEditor;
 
-        
-        public HudManager(AssetManager spriteManager,
+        public HudManager(Game game,
+            AssetManager spriteManager,
             InputManager input,
+            OrthographicCamera camera,
             CharacterPlayer player,
             List<CharacterNpc> characterNpCs,
-            OrthographicCamera camera,
-            int screenWidth, int screenHeight)
+            int screenWidth, int screenHeight) : base(game)
         {
             this._spriteManager = spriteManager;
             this._input = input;
+            this._camera = camera;
             this._player = player;
             this._characterNpCs = characterNpCs;
-            this._camera = camera;
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
             
@@ -52,7 +52,7 @@ namespace MiniShipDelivery.Components.HUD
                 screenHeight);
         }
 
-        internal void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             this._mapEditorHud.Update(gameTime);
 

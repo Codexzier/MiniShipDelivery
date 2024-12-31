@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets.Parts;
 
-namespace MiniShipDelivery.Components.Assets;
+namespace MiniShipDelivery.Components.Assets.Textures;
 
 public class UserInterfacesMouse : ISpriteProperties<MousePart>
 {

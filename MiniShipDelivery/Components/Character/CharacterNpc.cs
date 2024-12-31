@@ -8,7 +8,7 @@ using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery.Components.Character
 {
-    internal class CharacterNpc : BaseCharacter
+    public class CharacterNpc : BaseCharacter
     {
         private AssetManager spriteManager;
         private readonly EmoteManager _emote;
