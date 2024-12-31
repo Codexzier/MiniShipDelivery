@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Assets.Textures;
@@ -12,7 +11,7 @@ namespace MiniShipDelivery.Components.Assets
     public class AssetManager : GameComponent
     {
         
-        private readonly IDictionary<string, Texture2D> _sprites = new Dictionary<string, Texture2D>();
+        private readonly IDictionary<string, IAssetTexture> _sprites = new Dictionary<string, IAssetTexture>();
 
         public AssetManager(Game game) : base(game)
         {
@@ -32,32 +31,32 @@ namespace MiniShipDelivery.Components.Assets
             this.Emotes = new TexturesEmote(game.Content.Load<Texture2D>("Emote/pixel_style1"));
 
             // register all textures
-            this._sprites.Add(nameof(TilemapPart), this.Tilemaps.Texture);
-            this._sprites.Add(nameof(UiMenuFramePart), this.UiMenuMapFrames.Texture);
-            this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions.Texture);
-            this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions.Texture);
-            this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse.Texture);
-            this._sprites.Add(nameof(EmotePart), this.Emotes.Texture);
-            this._sprites.Add(nameof(CharacterPart), this.Characters.Texture);
+            this._sprites.Add(nameof(TilemapPart), this.Tilemaps);
+            this._sprites.Add(nameof(UiMenuFramePart), this.UiMenuMapFrames);
+            this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions);
+            this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
+            this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse);
+            this._sprites.Add(nameof(EmotePart), this.Emotes);
+            this._sprites.Add(nameof(CharacterPart), this.Characters);
         }
 
-        public TexturesUiMenuMapFrames UiMenuMapFrames { get; }
-        public UiMenuMapOptions UiMenuMapOptions { get; }
-        public UserInterfacesMouse UserInterfacesMouse { get; }
+        private TexturesUiMenuMapFrames UiMenuMapFrames { get; }
+        private UiMenuMapOptions UiMenuMapOptions { get; }
+        private UserInterfacesMouse UserInterfacesMouse { get; }
         public SpriteFont Font { get; }
-        public TexturesCharacter Characters { get; }
-        internal TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
+        private TexturesCharacter Characters { get; }
+        private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
         private TexturesTilemap Tilemaps { get; }
-        private TexturesEmote Emotes { get; } 
-        
-        public void Draw<TAssetPart>(
+        private TexturesEmote Emotes { get; }
+
+        private void Draw<TAssetPart>(
             SpriteBatch spriteBatch, 
             Vector2 position, 
             TAssetPart assertPart, 
             ISpriteProperties<TAssetPart> assetsProperties) where TAssetPart : Enum
         {
             spriteBatch.Draw(
-                this._sprites[typeof(TAssetPart).Name], 
+                this._sprites[typeof(TAssetPart).Name].Texture, 
                 position, 
                 assetsProperties.SpriteContent[assertPart], 
                 Color.AliceBlue);
@@ -103,7 +102,7 @@ namespace MiniShipDelivery.Components.Assets
                 16, 
                 16);
 
-            spriteBatch.Draw(this._sprites[nameof(CharacterPart)], position, rect, Color.AliceBlue);
+            spriteBatch.Draw(this._sprites[nameof(CharacterPart)].Texture, position, rect, Color.AliceBlue);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfaceMenuEditorOptionPart part)

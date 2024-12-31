@@ -5,15 +5,8 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Assets.Textures;
 
-public class UserInterfacesMouse : ISpriteProperties<MousePart>
+public class UserInterfacesMouse(Texture2D texture) : ISpriteProperties<MousePart>, IAssetTexture
 {
-    public UserInterfacesMouse(Texture2D texture)
-    {
-        this.Texture = texture;
-            
-        this.SpriteContent = new Dictionary<MousePart, Rectangle>();
-    }
-
-    public IDictionary<MousePart, Rectangle> SpriteContent { get; }
-    public Texture2D Texture { get; }
+    public IDictionary<MousePart, Rectangle> SpriteContent { get; } = new Dictionary<MousePart, Rectangle>();
+    public Texture2D Texture { get; } = texture;
 }

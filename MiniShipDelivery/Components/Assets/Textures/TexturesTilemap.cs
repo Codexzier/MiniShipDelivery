@@ -5,15 +5,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class TexturesTilemap : ISpriteProperties<TilemapPart>
+    internal class TexturesTilemap : ISpriteProperties<TilemapPart>, IAssetTexture
     {
         public Texture2D Texture { get; }
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
         public TexturesTilemap(Texture2D texture)
         {
             this.Texture = texture;
-            int shiftX = 0;
-            int shiftY = 0;
+            var shiftX = 0;
+            var shiftY = 0;
             this.SpriteContent = new Dictionary<TilemapPart, Rectangle>
             {
                 { TilemapPart.None, new Rectangle(0, 0, 2, 2) },

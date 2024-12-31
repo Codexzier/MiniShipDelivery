@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Emote;
 using System.Linq;
 using MiniShipDelivery.Components.HUD;
 
@@ -10,30 +9,29 @@ namespace MiniShipDelivery.Components.Character
 {
     public class CharacterNpc : BaseCharacter
     {
-        private AssetManager spriteManager;
-        private readonly EmoteManager _emote;
+        private readonly AssetManager _spriteManager;
+        private readonly CharacterType _characterType;
 
-        public CharacterType CharacterType { get; }
-
-        public CharacterNpc(AssetManager spriteManager, EmoteManager emote, Vector2 position, CharacterType characterType)
+        public CharacterNpc(
+            AssetManager spriteManager, 
+            Vector2 position, 
+            CharacterType characterType)
         {
-            this.spriteManager = spriteManager;
-            this._emote = emote;
-            this.CharacterType = characterType;
+            this._spriteManager = spriteManager;
+            this._characterType = characterType;
             this.Collider.Position = position;
         }
-
-        internal void Update(GameTime gameTime)
-        {
-        }
         
-        internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            this.spriteManager.Draw(spriteBatch, this.Collider.Position, CharacterPart.StandFront, this.CharacterType);
+            this._spriteManager.Draw(spriteBatch, this.Collider.Position, CharacterPart.StandFront, this._characterType);
 
             if(this.Collisions.Any(a => a.GetType() == typeof(CharacterPlayer)))
             {
-                this._emote.Draw(spriteBatch, this.Collider.Position, EmotePart.EmoteLoveDouble);
+                this._spriteManager.Draw(
+                    spriteBatch, 
+                    this.Collider.Position - new Vector2(0, 16), 
+                    EmotePart.EmoteLoveDouble);
             }
         }
 

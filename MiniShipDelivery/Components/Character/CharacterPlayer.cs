@@ -10,8 +10,8 @@ namespace MiniShipDelivery.Components.Character
     {
         private readonly AssetManager _assetManager;
         private readonly InputManager _input;
-
-        public CharacterType CharacterType { get; }
+        private readonly Vector2 _screenPosition;
+        private readonly CharacterType _characterType;
 
         public CharacterPlayer(
             AssetManager spriteManager, 
@@ -21,10 +21,12 @@ namespace MiniShipDelivery.Components.Character
         {
             this._assetManager = spriteManager;
             this._input = input;
-            this.CharacterType = characterType;
+            this._screenPosition = screenPosition;
+            this._characterType = characterType;
             this.Collider.Position = screenPosition;
         }
 
+        public Vector2 GetScreenPosition() => this.Collider.Position - this._screenPosition;
 
         public void Update(GameTime gameTime)
         {
@@ -44,25 +46,16 @@ namespace MiniShipDelivery.Components.Character
             this.UpdateFrame(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            var tp = CharacterPart.StandFront;
-
-            switch (this.Direction)
+            var tp = this.Direction switch
             {
-                case var d when d.X < 0:
-                    tp = CharacterPart.StandLeft;
-                    break;
-                case var d when d.X > 0:
-                    tp = CharacterPart.StandRight;
-                    break;
-                case var d when d.Y > 0:
-                    tp = CharacterPart.StandFront;
-                    break;
-                case var d when d.Y < 0:
-                    tp = CharacterPart.StandBack;
-                    break;
-            }
+                { X: < 0 } => CharacterPart.StandLeft,
+                { X: > 0 } => CharacterPart.StandRight,
+                { Y: > 0 } => CharacterPart.StandFront,
+                { Y: < 0 } => CharacterPart.StandBack,
+                _ => CharacterPart.StandFront
+            };
 
             tp = this.GetWalkingFrame(tp);
 
@@ -70,7 +63,7 @@ namespace MiniShipDelivery.Components.Character
                 spriteBatch, 
                 this.Collider.Position, 
                 tp, 
-                this.CharacterType);
+                this._characterType);
 
             if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
             {
@@ -80,7 +73,5 @@ namespace MiniShipDelivery.Components.Character
                     EmotePart.EmoteLove);
             }
         }
-
-        
     }
 }

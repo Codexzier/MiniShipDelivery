@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MiniShipDelivery.Components.Assets.Textures
 {
-    public class TexturesCharacter : ISpriteProperties<CharacterPart>
+    public class TexturesCharacter : ISpriteProperties<CharacterPart>, IAssetTexture
     {
         public Texture2D Texture { get; }
         public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }
@@ -14,9 +14,9 @@ namespace MiniShipDelivery.Components.Assets.Textures
         {
             this.Texture = texture;
 
-            var shiftY1 = 0;
-            var shiftY2 = 1;
-            var shiftY3 = 2;
+            const int shiftY1 = 0;
+            const int shiftY2 = 1;
+            const int shiftY3 = 2;
 
             this.SpriteContent = new Dictionary<CharacterPart, Rectangle>
             {

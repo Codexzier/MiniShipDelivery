@@ -2,6 +2,7 @@
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Objects;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Character
 {
@@ -9,15 +10,15 @@ namespace MiniShipDelivery.Components.Character
     {
         private int _currentFrame;
         private float _timeToUpdate;
-        private float _timeEleapsed;
+        private float _timeElapsed;
 
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
 
         public Vector2 Direction { get; internal set; }
-        public int Speed { get; internal set; }
+        public int Speed { get; internal init; }
 
-        public bool IsMoving { get; set; }
+        protected bool IsMoving { get; set; }
 
         public float FramesPerSecond
         {
@@ -49,10 +50,10 @@ namespace MiniShipDelivery.Components.Character
 
         protected void UpdateFrame(GameTime gameTime)
         {
-            this._timeEleapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (this._timeEleapsed > this._timeToUpdate)
+            this._timeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (this._timeElapsed > this._timeToUpdate)
             {
-                this._timeEleapsed -= this._timeToUpdate;
+                this._timeElapsed -= this._timeToUpdate;
                 if (this._currentFrame < 3)
                 {
                     this._currentFrame++;
@@ -64,7 +65,7 @@ namespace MiniShipDelivery.Components.Character
             }
         }
 
-        private IDictionary<CharacterPart, int> _charDirection = new Dictionary<CharacterPart, int>()
+        private readonly IDictionary<CharacterPart, int> _charDirection = new Dictionary<CharacterPart, int>()
         {
             {CharacterPart.StandFront, 0 },
             {CharacterPart.StandLeft, 4 },
@@ -90,6 +91,10 @@ namespace MiniShipDelivery.Components.Character
         public void ClearCollisions()
         {
             this.Collisions.Clear();
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
         }
     }
 }

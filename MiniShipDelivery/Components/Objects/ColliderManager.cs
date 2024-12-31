@@ -1,22 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
+using MiniShipDelivery.Components.Character;
 
 namespace MiniShipDelivery.Components.Objects
 {
-    public class ColliderManager
+    public class ColliderManager : GameComponent
     {
-        private List<ICollider> _colliders = new List<ICollider>();
+        private readonly List<ICollider> _colliders = new();
 
-        public ColliderManager()
+        public ColliderManager(Game game, CharacterManager characterManager) : base(game)
         {
+            this._colliders.Add(characterManager.Player);
+            foreach (var npc in characterManager.CharacterNpCs)
+            {
+                this._colliders.Add(npc);
+            }
         }
 
-        public void Add(ICollider collider)
-        {
-            this._colliders.Add(collider);
-        }
-
-        internal void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // reset all collisions
             foreach (var collider in this._colliders)
@@ -26,17 +28,11 @@ namespace MiniShipDelivery.Components.Objects
 
             foreach (var collider in this._colliders)
             {
-                foreach (var otherCollider in this._colliders)
+                foreach (var otherCollider in this._colliders
+                             .Where(otherCollider => collider != otherCollider)
+                             .Where(otherCollider => collider.Collider.Intersects(otherCollider.Collider)))
                 {
-                    if (collider == otherCollider)
-                    {
-                        continue;
-                    }
-
-                    if (collider.Collider.Intersects(otherCollider.Collider))
-                    {
-                        collider.OnCollision(otherCollider);
-                    }
+                    collider.OnCollision(otherCollider);
                 }
             }
         }

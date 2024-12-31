@@ -10,12 +10,12 @@ public abstract class BaseMenu
     private readonly MenuFrame _menuFrame;
         
     protected readonly AssetManager _assetManager;
-    protected readonly InputManager _input;
-    protected readonly OrthographicCamera _camera;
-        
-    protected readonly Vector2 _position;
-    protected readonly Size _size;
-    protected readonly int _screenWidth;
+    private readonly InputManager _input;
+    private readonly OrthographicCamera _camera;
+
+    private readonly Vector2 _position;
+    private readonly Size _size;
+    private readonly int _screenWidth;
     protected readonly int _screenHeight;
         
     protected BaseMenu(

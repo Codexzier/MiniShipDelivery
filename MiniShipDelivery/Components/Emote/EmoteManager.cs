@@ -5,19 +5,12 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Emote
 {
-    public class EmoteManager
+    public class EmoteManager(AssetManager assetManager)
     {
-        private AssetManager _spriteManager;
-
-        public EmoteManager(AssetManager assetManager)
-        {
-            this._spriteManager = assetManager;
-        }
-
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart tilemapPart)
         {
             // draw the emote
-            this._spriteManager.Draw(spriteBatch, new Vector2(position.X, position.Y - 16), tilemapPart);
+            assetManager.Draw(spriteBatch, new Vector2(position.X, position.Y - 16), tilemapPart);
         }
     }
 }

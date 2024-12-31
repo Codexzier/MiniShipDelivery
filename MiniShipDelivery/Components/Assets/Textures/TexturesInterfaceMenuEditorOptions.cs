@@ -5,23 +5,17 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Assets.Textures
 {
-    public class TexturesInterfaceMenuEditorOptions : ISpriteProperties<InterfaceMenuEditorOptionPart>
+    public class TexturesInterfaceMenuEditorOptions(Texture2D texture2D)
+        : ISpriteProperties<InterfaceMenuEditorOptionPart>, IAssetTexture
     {
-        public TexturesInterfaceMenuEditorOptions(Texture2D texture2D)
+        public IDictionary<InterfaceMenuEditorOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<InterfaceMenuEditorOptionPart, Rectangle>
         {
-            this.Texture = texture2D;
+            { InterfaceMenuEditorOptionPart.Save, new Rectangle(0, 0, 16, 16) },
+            { InterfaceMenuEditorOptionPart.Load, new Rectangle(16, 0, 16, 16) },
+            { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)},
+            { InterfaceMenuEditorOptionPart.Grid, new Rectangle(48, 0, 16, 16) },
+        };
 
-            this.SpriteContent = new Dictionary<InterfaceMenuEditorOptionPart, Rectangle>
-            {
-                { InterfaceMenuEditorOptionPart.Save, new Rectangle(0, 0, 16, 16) },
-                { InterfaceMenuEditorOptionPart.Load, new Rectangle(16, 0, 16, 16) },
-                { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)},
-                { InterfaceMenuEditorOptionPart.Grid, new Rectangle(48, 0, 16, 16) },
-            };
-        }
-
-        public IDictionary<InterfaceMenuEditorOptionPart, Rectangle> SpriteContent { get; }
-
-        public Texture2D Texture { get; }
+        public Texture2D Texture { get; } = texture2D;
     }
 }

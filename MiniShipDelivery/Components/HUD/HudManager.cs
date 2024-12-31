@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -8,48 +8,36 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
-    public class HudManager : GameComponent
+    public class HudManager(
+        Game game,
+        AssetManager spriteManager,
+        InputManager input,
+        OrthographicCamera camera,
+        CharacterManager characterManager,
+        int screenWidth,
+        int screenHeight)
+        : GameComponent(game)
     {
-        private readonly MapEditorHud _mapEditorHud;
-        private readonly ConsoleManager _consoleManager;
-
-        private readonly InputManager _input;
-        private readonly CharacterPlayer _player;
-        private readonly List<CharacterNpc> _characterNpCs;
+        private readonly MapEditorHud _mapEditorHud = new(spriteManager, 
+            input,
+            camera,
+            screenWidth, screenHeight);
+        private readonly ConsoleManager _consoleManager = new(
+            spriteManager,
+            camera, 
+            screenHeight);
 
         private HudOptionView hudOptionView = HudOptionView.MapEditor;
-
-        public HudManager(Game game,
-            AssetManager spriteManager,
-            InputManager input,
-            OrthographicCamera camera,
-            CharacterPlayer player,
-            List<CharacterNpc> characterNpCs,
-            int screenWidth, int screenHeight) : base(game)
-        {
-            this._input = input;
-            this._player = player;
-            this._characterNpCs = characterNpCs;
-
-            this._mapEditorHud = new MapEditorHud(spriteManager, 
-                input,
-                camera,
-                screenWidth, screenHeight);
-            
-            this._consoleManager = new ConsoleManager(
-                spriteManager,
-                camera, 
-                screenHeight);
-        }
 
         public override void Update(GameTime gameTime)
         {
             this._mapEditorHud.Update(gameTime);
 
-            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
-            this._consoleManager.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._player.Collider.Position)}");
+            this._consoleManager.AddText($"{DateTime.Now:f}");
+            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(input.Inputs.MousePosition)}");
+            this._consoleManager.AddText($"Char. Pos.: {HudHelper.Vector2ToString(characterManager.Player.Collider.Position)}");
 
-            foreach (var charNpc in this._characterNpCs)
+            foreach (var charNpc in characterManager.CharacterNpCs)
             {
                 this._consoleManager.AddText($"NPC: {charNpc.Collider.Position}");
             }
