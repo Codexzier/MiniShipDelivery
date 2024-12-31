@@ -23,9 +23,6 @@ namespace MiniShipDelivery
         
         private readonly GameRenderer _gameRenderer;
         
-        //private SpriteBatch _spriteBatch;
-        // private OrthographicCamera _camera;
-
         private ColliderManager _colliderManager;
         private readonly List<CharacterNpc> _characterNpCs = new ();
         private CharacterPlayer _player;
@@ -120,42 +117,18 @@ namespace MiniShipDelivery
             this.Components.Add(this._gameRenderer);
         }
 
-        protected override void Initialize()
-        {
-            // var viewportAdapter = new BoxingViewportAdapter(this.Window, this.GraphicsDevice, ScreenWidth, ScreenHeight);
-            // this._camera = new OrthographicCamera(viewportAdapter);
-        
-            base.Initialize();
-        }
-
         protected override void LoadContent()
         {
-            //this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
-
-            
-            
-
-            
-
             this._colliderManager = new ColliderManager();
             this._colliderManager.Add(this._player);
             foreach (var npc in this._characterNpCs)
             {
                 this._colliderManager.Add(npc);
             }
-
-            
-
-           
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // if (this._input.HasPressToClose())
-            // {
-            //     this.Exit();
-            // }
-
             foreach (var npc in this._characterNpCs)
             {
                 npc.Update(gameTime);
@@ -171,29 +144,8 @@ namespace MiniShipDelivery
                          - this._gameRenderer.GetCameraPosition() - new Vector2(158, 84);
             this._gameRenderer.AddPosition(delta * 0.08f);
             
-            //this._hudManager.Update(gameTime);
-            
+
             base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            //this.GraphicsDevice.Clear(Color.CornflowerBlue);
-            //var transformMatrix = this._camera.GetViewMatrix();
-            
-            // this._spriteBatch.Begin(transformMatrix: transformMatrix, samplerState: SamplerState.PointClamp);
-            //
-            // this._map.Draw(this._spriteBatch);
-            // foreach (var npc in this._characterNpCs)
-            // {
-            //     npc.Draw(this._spriteBatch, gameTime);
-            // }
-            // this._player.Draw(this._spriteBatch, gameTime);
-            // this._hudManager.Draw(this._spriteBatch, gameTime);
-            //
-            // this._spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

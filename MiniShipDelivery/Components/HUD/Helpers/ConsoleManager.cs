@@ -9,27 +9,20 @@ namespace MiniShipDelivery.Components.HUD.Helpers;
 internal class ConsoleManager
 {
     private readonly AssetManager _assetManager;
-    private readonly InputManager _input;
     private readonly OrthographicCamera _camera;
-    private readonly int _screenWidth;
-    private readonly int _screenHeight;
+    
 
     private readonly Vector2 _startPosition;
     private StringBuilder _stringBuilder = new();
 
     public ConsoleManager(AssetManager assetManager,
-        InputManager input,
         OrthographicCamera camera,
-        int screenWidth,
         int screenHeight)
     {
         this._assetManager = assetManager;
-        this._input = input;
         this._camera = camera;
-        this._screenWidth = screenWidth;
-        this._screenHeight = screenHeight;
 
-        this._startPosition = new Vector2(3, this._screenHeight - 43);
+        this._startPosition = new Vector2(3, screenHeight - 43);
     }
 
     public void AddText(string text)

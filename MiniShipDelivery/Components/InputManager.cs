@@ -88,11 +88,6 @@ namespace MiniShipDelivery.Components
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
 
-        internal void ResetMouseLeftButtonReleased()
-        {
-            this._mouseLeftButtonReleased = false;
-        }
-
         internal bool GetMouseLeftButtonReleasedState()
         {
             if (this._mouseLeftButtonReleased)

@@ -13,13 +13,9 @@ namespace MiniShipDelivery.Components.HUD
         private readonly MapEditorHud _mapEditorHud;
         private readonly ConsoleManager _consoleManager;
 
-        private AssetManager _spriteManager;
         private readonly InputManager _input;
-        private readonly OrthographicCamera _camera;
         private readonly CharacterPlayer _player;
         private readonly List<CharacterNpc> _characterNpCs;
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
 
         private HudOptionView hudOptionView = HudOptionView.MapEditor;
 
@@ -31,14 +27,10 @@ namespace MiniShipDelivery.Components.HUD
             List<CharacterNpc> characterNpCs,
             int screenWidth, int screenHeight) : base(game)
         {
-            this._spriteManager = spriteManager;
             this._input = input;
-            this._camera = camera;
             this._player = player;
             this._characterNpCs = characterNpCs;
-            this._screenWidth = screenWidth;
-            this._screenHeight = screenHeight;
-            
+
             this._mapEditorHud = new MapEditorHud(spriteManager, 
                 input,
                 camera,
@@ -46,9 +38,7 @@ namespace MiniShipDelivery.Components.HUD
             
             this._consoleManager = new ConsoleManager(
                 spriteManager,
-                input,
-                camera,
-                screenWidth, 
+                camera, 
                 screenHeight);
         }
 

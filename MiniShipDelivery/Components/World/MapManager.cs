@@ -26,10 +26,6 @@ namespace MiniShipDelivery.Components.World
             this._spriteManager = spriteManager;
         }
 
-        internal void Update(GameTime gameTime)
-        {
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             for (var y = 0; y < this._map.Length; y++)
