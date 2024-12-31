@@ -36,6 +36,11 @@ public class MapEditorMenuCommon : BaseMenu
         this._functionBar.ButtonAreaHasExecutedEvent += this.ButtonAreaHasExecute;
     }
 
+    private void ButtonAreaPressed(FunctionItem functionItem)
+    {
+        Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
+    }
+    
     private void ButtonAreaHasExecute(
         SpriteBatch spriteBatch,
         bool inRange,
@@ -52,11 +57,6 @@ public class MapEditorMenuCommon : BaseMenu
         this._assetManager.Draw(spriteBatch,
             position + new Vector2(1, 1),
             (InterfaceMenuEditorOptionPart)functionItem.AssetPart);
-    }
-
-    private void ButtonAreaPressed(FunctionItem functionItem)
-    {
-        Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
     }
 
     internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
