@@ -44,11 +44,11 @@ internal class MainMenuHud : BaseMenu
             this.IsMouseInRange);
         
         this._functionBar.FillOptions<HudOptionView>(1);
-        this._functionBar.ButtonAreaWasPressedEvent += this.ButtenAreaPressed;
+        this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         this._functionBar.ButtonAreaHasExecutedEvent += this.ButtonAreaHasExecute;
     }
 
-    private void ButtenAreaPressed(FunctionItem functionItem)
+    private void ButtonAreaPressed(FunctionItem functionItem)
     {
         Debug.WriteLine($"Button pressed: {functionItem.AssetPart}");
         this.ButtonHasPressedEvent?.Invoke((HudOptionView)functionItem.AssetPart);
