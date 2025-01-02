@@ -15,7 +15,7 @@ public abstract class BaseMenu
 
     private readonly Vector2 _position;
     private readonly Size _size;
-    private readonly int _screenWidth;
+    protected readonly int _screenWidth;
     protected readonly int _screenHeight;
         
     protected BaseMenu(
@@ -54,7 +54,6 @@ public abstract class BaseMenu
                this._input.Inputs.MousePosition.X < position.X + size.Width &&
                this._input.Inputs.MousePosition.Y < position.Y + size.Height;
     }
-        
     
     protected Vector2 GetPositionArea(int multiply, int width, int columns)
     {

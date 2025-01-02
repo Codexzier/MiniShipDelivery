@@ -64,7 +64,7 @@ namespace MiniShipDelivery.Components.HUD
             switch (this._hudOptionView)
             {
                 case HudOptionView.MainMenu:
-                    this._mainMenuHud.Draw(spriteBatch, gameTime);
+                    this._mainMenuHud.Draw(spriteBatch);
                     break;
                 case HudOptionView.MapEditor:
                     this._mapEditorHud.Draw(spriteBatch, gameTime);

@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.HUD.Helpers;
 using MonoGame.Extended;
 
@@ -8,23 +10,26 @@ namespace MiniShipDelivery.Components.HUD;
 
 public class MenuButton
 {
+    private readonly AssetManager _assetManager;
     private readonly InputManager _input;
     private readonly OrthographicCamera _camera;
+    private readonly UiMenuMainPart _menuMainPart;
     private readonly Vector2 _position;
-    private readonly Func<int, int, int, Vector2> _getPositionArea;
     private readonly Func<Vector2, SizeF, bool> _isMouseInRange;
 
     public MenuButton(
-        InputManager input, 
-        OrthographicCamera camera, 
+        AssetManager assetManager, 
+        InputManager input,
+        OrthographicCamera camera,
+        UiMenuMainPart menuMainPart,
         Vector2 position,
-        Func<int, int, int, Vector2> getPositionArea, 
         Func<Vector2, SizeF, bool> isMouseInRange)
     {
+        this._assetManager = assetManager;
         this._input = input;
         this._camera = camera;
+        this._menuMainPart = menuMainPart;
         this._position = position;
-        this._getPositionArea = getPositionArea;
         this._isMouseInRange = isMouseInRange;
     }
 
@@ -41,23 +46,23 @@ public class MenuButton
         {
             if (this._input.GetMouseLeftButtonReleasedState())
             {
-                this.ButtonAreaWasPressedEvent?.Invoke();
+                this.ButtonAreaWasPressedEvent?.Invoke(this._menuMainPart);
             }
         }
         
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
         
-        spriteBatch.DrawRectangle(
+        this._assetManager.Draw(
+            spriteBatch,
             pos,
-            new SizeF(66, 18),
-            isInRangeColor);
+            this._menuMainPart);
         
         spriteBatch.DrawRectangle(
-            pos + new Vector2(1, 1),
+            pos,
             new SizeF(64, 16),
-            Color.Aquamarine);
+            isInRangeColor);
     }
     
-    public delegate void ButtonAreaWasPressedEventHandler();
+    public delegate void ButtonAreaWasPressedEventHandler(object assetPart);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
 }

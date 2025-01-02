@@ -40,6 +40,7 @@ namespace MiniShipDelivery.Components
             if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)
             {
                 this._mouseLeftButtonHasPressed = true;
+                this._mouseLeftButtonHasPressedOnGameTime = gameTime;
             }
             if (this._mouseLeftButtonHasPressed && mouseState.LeftButton == ButtonState.Released)
             {
@@ -48,9 +49,17 @@ namespace MiniShipDelivery.Components
             }
             
             this.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
+            
+            // if (this._mouseLeftButtonHasPressedOnGameTime != null && 
+            //     this._mouseLeftButtonHasPressedOnGameTime.TotalGameTime.TotalMilliseconds + 100 < gameTime.TotalGameTime.TotalMilliseconds)
+            // {
+            //     this._mouseLeftButtonReleased = false;
+            //     this._mouseLeftButtonHasPressedOnGameTime = gameTime;
+            // }
         }
 
         private bool _mouseLeftButton;
+        private GameTime _mouseLeftButtonHasPressedOnGameTime;
 
 
         private Vector2 GetMovement()
@@ -88,6 +97,7 @@ namespace MiniShipDelivery.Components
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
 
+        
         internal bool GetMouseLeftButtonReleasedState()
         {
             if (this._mouseLeftButtonReleased)
