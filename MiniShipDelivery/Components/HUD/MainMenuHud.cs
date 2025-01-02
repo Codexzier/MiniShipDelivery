@@ -16,6 +16,8 @@ internal class MainMenuHud : BaseMenu
     private readonly OrthographicCamera _camera;
     private readonly int _screenWidth;
     private readonly int _screenHeight;
+    
+    private MenuButton _menuButton;
 
     public MainMenuHud(
         AssetManager spriteManager,
@@ -32,7 +34,8 @@ internal class MainMenuHud : BaseMenu
             new Size(140, 100))
     {
         this._spriteManager = spriteManager;
-        
+
+        this._menuButton = new MenuButton(input, camera, new Vector2(10, 10), this.GetPositionArea, this.IsMouseInRange);
         
         // TODO: Make single Button class
         this._functionBar = new FunctionBar(
@@ -45,6 +48,8 @@ internal class MainMenuHud : BaseMenu
         
         this._functionBar.FillOptions<HudOptionView>(1);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
+        
+        // TODO: This must changed to an callback method
         this._functionBar.ButtonAreaHasExecutedEvent += this.ButtonAreaHasExecute;
     }
 
@@ -89,6 +94,8 @@ internal class MainMenuHud : BaseMenu
             MenuFrameType.Type1);
         
         this._functionBar.Draw(spriteBatch);
+        
+        this._menuButton.Draw(spriteBatch);
     }
 
 }
