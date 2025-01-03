@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components
@@ -40,7 +43,7 @@ namespace MiniShipDelivery.Components
             if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)
             {
                 this._mouseLeftButtonHasPressed = true;
-                this._mouseLeftButtonHasPressedOnGameTime = gameTime;
+                this._mouseLeftButtonHasPressedPosition = this.Inputs.MousePosition;
             }
             if (this._mouseLeftButtonHasPressed && mouseState.LeftButton == ButtonState.Released)
             {
@@ -59,7 +62,7 @@ namespace MiniShipDelivery.Components
         }
 
         private bool _mouseLeftButton;
-        private GameTime _mouseLeftButtonHasPressedOnGameTime;
+        private Vector2 _mouseLeftButtonHasPressedPosition = Vector2.Zero;
 
 
         private Vector2 GetMovement()
@@ -98,15 +101,35 @@ namespace MiniShipDelivery.Components
         }
 
         
-        internal bool GetMouseLeftButtonReleasedState()
+        internal bool GetMouseLeftButtonReleasedState(Vector2 position, SizeF sizeArea, UiMenuMainPart menuMainPart)
         {
             if (this._mouseLeftButtonReleased)
             {
                 this._mouseLeftButtonReleased = false;
-                return true;
+                
+                Debug.WriteLine($"Menu Main Part: {menuMainPart}");
+                return IsMouseInRangeLastAndNowPosition(position, sizeArea);
             }
 
             return false;
+        }
+
+        internal bool IsMouseInRangeLastAndNowPosition(Vector2 position, SizeF size)
+        {
+            var wasInRange = this._mouseLeftButtonHasPressedPosition.X > position.X && 
+                             this._mouseLeftButtonHasPressedPosition.Y > position.Y &&
+                             this._mouseLeftButtonHasPressedPosition.X < position.X + size.Width &&
+                             this._mouseLeftButtonHasPressedPosition.Y < position.Y + size.Height;
+            
+            Debug.WriteLine($"Was in range {wasInRange}, Position {position}, Size {size}");
+            var actualInRange = this.Inputs.MousePosition.X > position.X &&
+                                this.Inputs.MousePosition.Y > position.Y &&
+                                this.Inputs.MousePosition.X < position.X + size.Width &&
+                                this.Inputs.MousePosition.Y < position.Y + size.Height;
+            
+            Debug.WriteLine($"Actual in range {actualInRange}, Position {position}, Size {size}");
+            
+            return wasInRange && actualInRange;
         }
     }
 }

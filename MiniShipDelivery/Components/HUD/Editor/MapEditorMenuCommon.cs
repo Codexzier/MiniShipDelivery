@@ -59,7 +59,7 @@ public class MapEditorMenuCommon : BaseMenu
             (InterfaceMenuEditorOptionPart)functionItem.AssetPart);
     }
 
-    internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+    internal void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 

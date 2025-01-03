@@ -49,12 +49,12 @@ namespace MiniShipDelivery.Components.HUD
         {
         }
 
-        internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        internal void Draw(SpriteBatch spriteBatch)
         {
             this.DrawGrid(spriteBatch);
 
-            this._mapEditorMenuCommon.Draw(spriteBatch, gameTime);
-            this._mapEditorMenu.Draw(spriteBatch, gameTime);
+            this._mapEditorMenuCommon.Draw(spriteBatch);
+            this._mapEditorMenu.Draw(spriteBatch);
         }
 
         private void DrawGrid(SpriteBatch spriteBatch)

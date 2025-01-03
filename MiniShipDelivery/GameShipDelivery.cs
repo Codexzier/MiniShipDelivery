@@ -48,8 +48,9 @@ namespace MiniShipDelivery
             this.Components.Add(assetManager);
 
             // Map
-            var map = new MapManager(this, assetManager);
+            var map = new MapManager(this, assetManager, camera);
             map.UpdateOrder = 3;
+            map.DrawOrder = 1;
             this.Components.Add(map);
 
             // Player
@@ -57,8 +58,10 @@ namespace MiniShipDelivery
                 this, 
                 new Vector2(152f, 82f),
                 assetManager, 
-                input);
+                input,
+                camera);
             characterManager.UpdateOrder = 3;
+            characterManager.DrawOrder = 2;
             this.Components.Add(characterManager);
             
             var colliderManager = new ColliderManager(
@@ -77,17 +80,26 @@ namespace MiniShipDelivery
                 ScreenWidth,
                 ScreenHeight);
             hudManager.UpdateOrder = 5;
+            hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
             
+            // var gameRenderer = new GameRenderer(
+            //     this, 
+            //     hudManager, 
+            //     camera, 
+            //     characterManager,
+            //     map);
+            // gameRenderer.UpdateOrder = 99;
+            // gameRenderer.DrawOrder = 1;
+            //
+            // this.Components.Add(gameRenderer);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
             
-            var gameRenderer = new GameRenderer(
-                this, 
-                hudManager, 
-                camera, 
-                characterManager,
-                map);
-            gameRenderer.UpdateOrder = 99;
-            this.Components.Add(gameRenderer);
+            base.Draw(gameTime);
         }
     }
 }

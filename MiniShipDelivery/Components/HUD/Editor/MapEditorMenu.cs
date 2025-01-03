@@ -56,7 +56,7 @@ public class MapEditorMenu : BaseMenu
 
     public bool ShowGrid { get; private set; }
 
-    public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+    public void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 

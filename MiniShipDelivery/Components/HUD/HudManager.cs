@@ -8,14 +8,17 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
-    public class HudManager : GameComponent
+    public class HudManager : DrawableGameComponent
     {
+        private readonly SpriteBatch _spriteBatch;
+        
         private readonly MainMenuHud _mainMenuHud;
         private readonly MapEditorHud _mapEditorHud;
         private readonly ConsoleManager _consoleManager;
 
         private HudOptionView _hudOptionView = HudOptionView.MainMenu;
         private readonly InputManager _input;
+        private readonly OrthographicCamera _camera;
         private readonly CharacterManager _characterManager;
 
         public HudManager(Game game,
@@ -26,7 +29,10 @@ namespace MiniShipDelivery.Components.HUD
             int screenWidth,
             int screenHeight) : base(game)
         {
+            this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            
             this._input = input;
+            this._camera = camera;
             this._characterManager = characterManager;
             this._mainMenuHud = new MainMenuHud(assetManager, input, camera, screenWidth, screenHeight);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
@@ -59,19 +65,25 @@ namespace MiniShipDelivery.Components.HUD
             }
         }
 
-        internal void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
+            this._spriteBatch.Begin(
+                transformMatrix: this._camera.GetViewMatrix(), 
+                samplerState: SamplerState.PointClamp);
+            
             switch (this._hudOptionView)
             {
                 case HudOptionView.MainMenu:
-                    this._mainMenuHud.Draw(spriteBatch);
+                    this._mainMenuHud.Draw(this._spriteBatch);
                     break;
                 case HudOptionView.MapEditor:
-                    this._mapEditorHud.Draw(spriteBatch, gameTime);
+                    this._mapEditorHud.Draw(this._spriteBatch);
                     break;
             }
 
-            this._consoleManager.DrawText(spriteBatch);
+            this._consoleManager.DrawText(this._spriteBatch);
+            
+            this._spriteBatch.End();
         }
     }
 }

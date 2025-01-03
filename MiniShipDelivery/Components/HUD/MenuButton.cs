@@ -37,17 +37,16 @@ public class MenuButton
     {
         var pos = this._camera.Position + 
                   this._position;
-        
+
+        var buttonSize = new SizeF(64, 16);
         var inRange = this._isMouseInRange(
-            this._position + new Vector2(1,1), 
-            new SizeF(64, 16));
+            this._position, 
+            buttonSize);
         
-        if (inRange)
+        
+        if (inRange && this._input.GetMouseLeftButtonReleasedState(this._position, buttonSize, this._menuMainPart))
         {
-            if (this._input.GetMouseLeftButtonReleasedState())
-            {
-                this.ButtonAreaWasPressedEvent?.Invoke(this._menuMainPart);
-            }
+            this.ButtonAreaWasPressedEvent?.Invoke(this._menuMainPart);
         }
         
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
@@ -63,7 +64,7 @@ public class FunctionBar
         var inRange = this._isMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
-            if (this._input.GetMouseLeftButtonReleasedState())
+            if (this._input.GetMouseLeftButtonReleasedState(positionSelectable, item.Size, UiMenuMainPart.None))
             {
                 this.ButtonAreaWasPressedEvent?.Invoke(item);
             }
