@@ -20,9 +20,11 @@ namespace MiniShipDelivery.Components.Assets
 
             this.Characters = new TexturesCharacter(game.Content.Load<Texture2D>("Character/UrbanCharacters"));
             
+            
             this.UiMenuMapFrames = new TexturesUiMenuMapFrames(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
             this.UiMenuMapOptions = new UiMenuMapOptions(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
             
+            this.TexturesUiMenuMainButtons = new TexturesUiMenuMainButtons(game.Content.Load<Texture2D>("Interface/MainMenuButtons"));
             this.UserInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game.Content.Load<Texture2D>("Interface/MenuEditorOptions"));
 
             this.UserInterfacesMouse = new UserInterfacesMouse(game.Content.Load<Texture2D>("Interface/tilemap_packed"));
@@ -38,7 +40,10 @@ namespace MiniShipDelivery.Components.Assets
             this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse);
             this._sprites.Add(nameof(EmotePart), this.Emotes);
             this._sprites.Add(nameof(CharacterPart), this.Characters);
+            this._sprites.Add(nameof(UiMenuMainPart), this.TexturesUiMenuMainButtons);
         }
+
+        public TexturesUiMenuMainButtons TexturesUiMenuMainButtons { get; }
 
         private TexturesUiMenuMapFrames UiMenuMapFrames { get; }
         private UiMenuMapOptions UiMenuMapOptions { get; }
@@ -108,6 +113,11 @@ namespace MiniShipDelivery.Components.Assets
         public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfaceMenuEditorOptionPart part)
         {
             this.Draw(spriteBatch, position, part, this.UserInterfacesMenuEditorOptions);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuMainPart part)
+        {
+            this.Draw(spriteBatch, position, part, this.TexturesUiMenuMainButtons);
         }
     }
 }
