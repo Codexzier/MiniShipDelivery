@@ -52,13 +52,6 @@ namespace MiniShipDelivery.Components
             }
             
             this.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
-            
-            // if (this._mouseLeftButtonHasPressedOnGameTime != null && 
-            //     this._mouseLeftButtonHasPressedOnGameTime.TotalGameTime.TotalMilliseconds + 100 < gameTime.TotalGameTime.TotalMilliseconds)
-            // {
-            //     this._mouseLeftButtonReleased = false;
-            //     this._mouseLeftButtonHasPressedOnGameTime = gameTime;
-            // }
         }
 
         private bool _mouseLeftButton;

@@ -49,10 +49,10 @@ public class CharacterManager : DrawableGameComponent
         var delta = this.Player.GetScreenPosition() - this._camera.Position;
         this._camera.Position += delta * 0.08f;
         
-        // foreach (var npc in this._characterNpCs)
-        // {
-        //     //npc.Update(gameTime);
-        // }
+        foreach (var npc in this._drawableCharacters)
+        {
+            npc.Update(gameTime);
+        }
         this.Player.Update(gameTime);
         
         base.Update(gameTime);

@@ -3,16 +3,10 @@ using System;
 
 namespace MiniShipDelivery.Components.Objects
 {
-    public class ColliderBox2D
+    public class ColliderBox2D(int wide, int height)
     {
-        public ColliderBox2D(int wide, int height)
-        {
-            this.Wide = wide;
-            this.Height = height;
-        }
-
-        public int Wide { get; }
-        public int Height { get; }
+        public int Wide { get; } = wide;
+        public int Height { get; } = height;
 
         public Vector2 Position { get; internal set; }
 

@@ -9,9 +9,9 @@ namespace MiniShipDelivery.Components.Assets.Textures
     {
         public Texture2D Texture { get; }
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
-        public TexturesTilemap(Texture2D texture)
+        public TexturesTilemap(Game game)
         {
-            this.Texture = texture;
+            this.Texture = game.Content.Load<Texture2D>("RpgUrban/tilemap");
             var shiftX = 0;
             var shiftY = 0;
             this.SpriteContent = new Dictionary<TilemapPart, Rectangle>

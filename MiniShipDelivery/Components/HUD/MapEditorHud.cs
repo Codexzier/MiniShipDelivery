@@ -21,8 +21,7 @@ namespace MiniShipDelivery.Components.HUD
         /// </summary>
         private readonly MapEditorMenu _mapEditorMenu;
 
-        public MapEditorHud(
-            AssetManager spriteManager,
+        public MapEditorHud(Game game, AssetManager spriteManager,
             InputManager input,
             OrthographicCamera camera,
             int screenWidth, int screenHeight)
@@ -38,6 +37,7 @@ namespace MiniShipDelivery.Components.HUD
                 screenHeight);
 
             this._mapEditorMenu = new MapEditorMenu(
+                game,
                 spriteManager,
                 input,
                 camera,

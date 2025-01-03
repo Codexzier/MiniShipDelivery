@@ -92,6 +92,8 @@ namespace MiniShipDelivery.Components.Character
         {
             this.Collisions.Clear();
         }
+        
+        public virtual void Update(GameTime gameTime){}
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

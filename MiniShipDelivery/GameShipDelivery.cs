@@ -48,7 +48,7 @@ namespace MiniShipDelivery
             this.Components.Add(assetManager);
 
             // Map
-            var map = new MapManager(this, assetManager, camera);
+            var map = new MapManager(this, camera);
             map.UpdateOrder = 3;
             map.DrawOrder = 1;
             this.Components.Add(map);
@@ -82,17 +82,6 @@ namespace MiniShipDelivery
             hudManager.UpdateOrder = 5;
             hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
-            
-            // var gameRenderer = new GameRenderer(
-            //     this, 
-            //     hudManager, 
-            //     camera, 
-            //     characterManager,
-            //     map);
-            // gameRenderer.UpdateOrder = 99;
-            // gameRenderer.DrawOrder = 1;
-            //
-            // this.Components.Add(gameRenderer);
         }
 
         protected override void Draw(GameTime gameTime)

@@ -36,7 +36,8 @@ namespace MiniShipDelivery.Components.HUD
             this._characterManager = characterManager;
             this._mainMenuHud = new MainMenuHud(assetManager, input, camera, screenWidth, screenHeight);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
-            this._mapEditorHud = new MapEditorHud(assetManager, 
+            
+            this._mapEditorHud = new MapEditorHud(game, assetManager, 
                 input,
                 camera,
                 screenWidth, screenHeight);

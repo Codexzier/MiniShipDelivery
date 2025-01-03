@@ -15,7 +15,6 @@ namespace MiniShipDelivery.Components.Assets
 
         public AssetManager(Game game) : base(game)
         {
-            
             this.Font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 
             this.Characters = new TexturesCharacter(game.Content.Load<Texture2D>("Character/UrbanCharacters"));
@@ -29,11 +28,11 @@ namespace MiniShipDelivery.Components.Assets
 
             this.UserInterfacesMouse = new UserInterfacesMouse(game.Content.Load<Texture2D>("Interface/tilemap_packed"));
             
-            this.Tilemaps = new TexturesTilemap(game.Content.Load<Texture2D>("RpgUrban/tilemap"));
+            //this.Tilemaps = new TexturesTilemap(game.Content.Load<Texture2D>("RpgUrban/tilemap"));
             this.Emotes = new TexturesEmote(game.Content.Load<Texture2D>("Emote/pixel_style1"));
 
             // register all textures
-            this._sprites.Add(nameof(TilemapPart), this.Tilemaps);
+            //this._sprites.Add(nameof(TilemapPart), this.Tilemaps);
             this._sprites.Add(nameof(UiMenuFramePart), this.UiMenuMapFrames);
             this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions);
             this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
@@ -51,7 +50,7 @@ namespace MiniShipDelivery.Components.Assets
         public SpriteFont Font { get; }
         private TexturesCharacter Characters { get; }
         private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
-        private TexturesTilemap Tilemaps { get; }
+        //private TexturesTilemap Tilemaps { get; }
         private TexturesEmote Emotes { get; }
 
         private void Draw<TAssetPart>(
@@ -67,20 +66,20 @@ namespace MiniShipDelivery.Components.Assets
                 Color.AliceBlue);
         }
 
-        public void Draw<TAssetPart>(
-            SpriteBatch spriteBatch, 
-            Vector2 position, 
-            TAssetPart assertPart) where TAssetPart : Enum
-        {
-            ISpriteProperties<TAssetPart> assetsProperties = (ISpriteProperties<TAssetPart>)this.Tilemaps;
-            
-            this.Draw(spriteBatch, position, assertPart, assetsProperties);
-        }
+        // public void Draw<TAssetPart>(
+        //     SpriteBatch spriteBatch, 
+        //     Vector2 position, 
+        //     TAssetPart assertPart) where TAssetPart : Enum
+        // {
+        //     ISpriteProperties<TAssetPart> assetsProperties = (ISpriteProperties<TAssetPart>)this.Tilemaps;
+        //     
+        //     this.Draw(spriteBatch, position, assertPart, assetsProperties);
+        // }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, TilemapPart part)
-        {
-            this.Draw(spriteBatch, position, part, this.Tilemaps);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, TilemapPart part)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.Tilemaps);
+        // }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart part)
         {

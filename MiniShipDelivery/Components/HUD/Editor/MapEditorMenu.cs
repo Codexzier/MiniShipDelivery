@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Helpers;
@@ -10,13 +11,14 @@ namespace MiniShipDelivery.Components.HUD.Editor;
 
 public class MapEditorMenu : BaseMenu
 {
+    private readonly TexturesTilemap _texturesTilemap;
+    
     private const int MenuWidth = 60;
 
     private readonly FunctionBar _functionBarMapOption;
     private readonly FunctionBar _functionBarMapSprites;
 
-    public MapEditorMenu(
-        AssetManager assetManager,
+    public MapEditorMenu(Game game, AssetManager assetManager,
         InputManager input,
         OrthographicCamera camera,
         int screenWidth,
@@ -28,6 +30,8 @@ public class MapEditorMenu : BaseMenu
         new Vector2(screenWidth - MenuWidth, 24),
         new Size(MenuWidth, screenHeight - 24))
     {
+        this._texturesTilemap = new TexturesTilemap(game);
+        
         this._functionBarMapOption = new FunctionBar(
             input,
             camera,
@@ -145,10 +149,12 @@ public class MapEditorMenu : BaseMenu
             functionItem.Size,
             isInRangeColor);
 
-        this._assetManager.Draw(spriteBatch,
-            position + new Vector2(1, 1),
-            (TilemapPart)functionItem.AssetPart);
-
+        spriteBatch.Draw(
+            this._texturesTilemap.Texture, 
+            position + new Vector2(1, 1), 
+            this._texturesTilemap.SpriteContent[(TilemapPart)functionItem.AssetPart],
+            Color.White);
+        
         // Used only for debug
         //spriteBatch.WriteLine(this._spriteManager.Font,
         //    $"{item.TilemapPart}",

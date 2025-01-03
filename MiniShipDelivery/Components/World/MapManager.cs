@@ -4,6 +4,7 @@ using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Character;
 using System.Collections.Generic;
+using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -11,8 +12,8 @@ namespace MiniShipDelivery.Components.World
     public class MapManager : DrawableGameComponent
     {
         private readonly SpriteBatch _spriteBatch;
+        private readonly TexturesTilemap _texturesTilemap;
         
-        private AssetManager _spriteManager;
         private readonly OrthographicCamera _camera;
 
         private int[][] _map =
@@ -26,10 +27,10 @@ namespace MiniShipDelivery.Components.World
             [33],
         ];
 
-        public MapManager(Game game, AssetManager spriteManager, OrthographicCamera camera) :base(game)
+        public MapManager(Game game, OrthographicCamera camera) :base(game)
         {
+            this._texturesTilemap = new TexturesTilemap(game);
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._spriteManager = spriteManager;
             this._camera = camera;
         }
 
@@ -43,9 +44,11 @@ namespace MiniShipDelivery.Components.World
             {
                 for (var x = 0; x < this._map[y].Length; x++)
                 {
-                    this._spriteManager.Draw(this._spriteBatch,
-                        new Vector2(x * 16, y * 16),
-                        (TilemapPart)this._map[y][x]);
+                    this._spriteBatch.Draw(
+                        this._texturesTilemap.Texture, 
+                        new Vector2(x * 16, y * 16), 
+                        this._texturesTilemap.SpriteContent[(TilemapPart)this._map[y][x]],
+                        Color.White);
                 }
             }
             
