@@ -3,12 +3,15 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Character;
 
 public class CharacterManager : DrawableGameComponent
 {
+    private readonly AssetManager _assetManager;
     private readonly OrthographicCamera _camera;
     private readonly SpriteBatch _spriteBatch;
     
@@ -17,22 +20,25 @@ public class CharacterManager : DrawableGameComponent
     
     private readonly List<BaseCharacter> _drawableCharacters = new ();
     
+    
     public CharacterManager(Game game,
         Vector2 screenPosition,
         AssetManager assetManager,
         InputManager input, OrthographicCamera camera) : base(game)
     {
+        this._assetManager = assetManager;
         this._camera = camera;
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
+        var texturesCharacter = new TexturesCharacter(game);
         
-        this.Player = new CharacterPlayer(assetManager, input, screenPosition, CharacterType.Men)
+        this.Player = new CharacterPlayer(texturesCharacter, input, screenPosition, CharacterType.Men)
         {
             Direction = Vector2.Zero,
             Speed = 40,
-            FramesPerSecond = 10
+            FramesPerSecond = 5
         };
         
-        var characterNpc = new CharacterNpc(assetManager, new Vector2(20, 20), CharacterType.Women)
+        var characterNpc = new CharacterNpc(texturesCharacter, new Vector2(20, 20), CharacterType.Women)
         {
             Direction = Vector2.Zero,
             Speed = 20,
@@ -64,7 +70,18 @@ public class CharacterManager : DrawableGameComponent
         foreach (var charToDraw in this._drawableCharacters.OrderBy(o => o.Collider.Position.Y))
         {
             charToDraw.Draw(this._spriteBatch);
+            
+            if(charToDraw.IsColliding)
+            {
+                charToDraw.DrawEmote(
+                    this._spriteBatch, 
+                    this._assetManager.Emotes.Texture,
+                    this._assetManager.Emotes.SpriteContent[EmotePart.EmoteLoveDouble],
+                    charToDraw.Collider.Position - new Vector2(0, 16));
+            }
         }
         this._spriteBatch.End();
     }
+    
+    
 }

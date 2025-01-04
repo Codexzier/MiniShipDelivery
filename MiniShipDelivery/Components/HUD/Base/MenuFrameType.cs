@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.HUD
+﻿namespace MiniShipDelivery.Components.HUD.Base
 {
     public enum MenuFrameType
     {

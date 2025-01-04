@@ -17,8 +17,7 @@ namespace MiniShipDelivery.Components.Assets
         {
             this.Font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 
-            this.Characters = new TexturesCharacter(game.Content.Load<Texture2D>("Character/UrbanCharacters"));
-            
+            //this.Characters = new TexturesCharacter(game);
             
             this.UiMenuMapFrames = new TexturesUiMenuMapFrames(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
             this.UiMenuMapOptions = new UiMenuMapOptions(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
@@ -38,7 +37,7 @@ namespace MiniShipDelivery.Components.Assets
             this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
             this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse);
             this._sprites.Add(nameof(EmotePart), this.Emotes);
-            this._sprites.Add(nameof(CharacterPart), this.Characters);
+            //this._sprites.Add(nameof(CharacterPart), this.Characters);
             this._sprites.Add(nameof(UiMenuMainPart), this.TexturesUiMenuMainButtons);
         }
 
@@ -48,10 +47,10 @@ namespace MiniShipDelivery.Components.Assets
         private UiMenuMapOptions UiMenuMapOptions { get; }
         private UserInterfacesMouse UserInterfacesMouse { get; }
         public SpriteFont Font { get; }
-        private TexturesCharacter Characters { get; }
+        //private TexturesCharacter Characters { get; }
         private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
         //private TexturesTilemap Tilemaps { get; }
-        private TexturesEmote Emotes { get; }
+        public TexturesEmote Emotes { get; }
 
         private void Draw<TAssetPart>(
             SpriteBatch spriteBatch, 
@@ -96,18 +95,18 @@ namespace MiniShipDelivery.Components.Assets
             this.Draw(spriteBatch, position, part, this.UiMenuMapOptions);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, CharacterPart part, CharacterType characterType)
-        {
-            this.Draw(spriteBatch, position, part, this.Characters);
-
-            var shift = (int)characterType * 3;
-            var rect = new Rectangle(this.Characters.SpriteContent[part].X, 
-                this.Characters.SpriteContent[part].Y + (16 * shift), 
-                16, 
-                16);
-
-            spriteBatch.Draw(this._sprites[nameof(CharacterPart)].Texture, position, rect, Color.AliceBlue);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, CharacterPart part, CharacterType characterType)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.Characters);
+        //
+        //     var shift = (int)characterType * 3;
+        //     var rect = new Rectangle(this.Characters.SpriteContent[part].X, 
+        //         this.Characters.SpriteContent[part].Y + (16 * shift), 
+        //         16, 
+        //         16);
+        //
+        //     spriteBatch.Draw(this._sprites[nameof(CharacterPart)].Texture, position, rect, Color.AliceBlue);
+        // }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfaceMenuEditorOptionPart part)
         {

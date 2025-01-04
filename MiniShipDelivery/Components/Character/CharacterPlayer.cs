@@ -1,25 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using System.Linq;
+using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.Character
 {
     public class CharacterPlayer : BaseCharacter
     {
-        private readonly AssetManager _assetManager;
         private readonly InputManager _input;
         private readonly Vector2 _screenPosition;
         private readonly CharacterType _characterType;
 
         public CharacterPlayer(
-            AssetManager spriteManager, 
+            TexturesCharacter textures, 
             InputManager input, 
             Vector2 screenPosition,
-            CharacterType characterType)
+            CharacterType characterType) : base(textures)
         {
-            this._assetManager = spriteManager;
             this._input = input;
             this._screenPosition = screenPosition;
             this._characterType = characterType;
@@ -28,8 +25,11 @@ namespace MiniShipDelivery.Components.Character
 
         public Vector2 GetScreenPosition() => this.Collider.Position - this._screenPosition;
 
-        public void Update(GameTime gameTime)
+        
+        public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+            
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
            this.Direction = this._input.Inputs.MovementCharacter;
 
@@ -59,19 +59,24 @@ namespace MiniShipDelivery.Components.Character
 
             tp = this.GetWalkingFrame(tp);
 
-            this._assetManager.Draw(
-                spriteBatch, 
+            this.Draw(spriteBatch,
                 this.Collider.Position, 
-                tp, 
+                tp,
                 this._characterType);
+            
+            // this._assetManager.Draw(
+            //     spriteBatch, 
+            //     this.Collider.Position, 
+            //     tp, 
+            //     this._characterType);
 
-            if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
-            {
-                this._assetManager.Draw(
-                    spriteBatch, 
-                    this.Collider.Position - new Vector2(0, 16), 
-                    EmotePart.EmoteLove);
-            }
+            // if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
+            // {
+            //     this._assetManager.Draw(
+            //         spriteBatch, 
+            //         this.Collider.Position - new Vector2(0, 16), 
+            //         EmotePart.EmoteLove);
+            // }
         }
     }
 }

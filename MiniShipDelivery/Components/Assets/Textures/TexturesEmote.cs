@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Textures
 {
-    internal class TexturesEmote(Texture2D texture) : ISpriteProperties<EmotePart>, IAssetTexture
+    public class TexturesEmote(Texture2D texture) : ISpriteProperties<EmotePart>, IAssetTexture
     {
         public Texture2D Texture { get; } = texture;
         public IDictionary<EmotePart, Rectangle> SpriteContent { get; } = new Dictionary<EmotePart, Rectangle>

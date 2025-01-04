@@ -10,9 +10,9 @@ namespace MiniShipDelivery.Components.Assets.Textures
         public Texture2D Texture { get; }
         public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }
 
-        public TexturesCharacter(Texture2D texture)
+        public TexturesCharacter(Game game)
         {
-            this.Texture = texture;
+            this.Texture = game.Content.Load<Texture2D>("Character/UrbanCharacters");
 
             const int shiftY1 = 0;
             const int shiftY2 = 1;

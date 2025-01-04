@@ -16,7 +16,7 @@ namespace MiniShipDelivery.Components.World
         
         private readonly OrthographicCamera _camera;
 
-        private int[][] _map =
+        private readonly int[][] _map =
         [
             [13, 14, 14, 14, 15, 0, 0, 0, 0, 22, 23, 0, 0, 26, 27],
             [16, 17, 17, 17, 18, 0, 0, 0, 0, 24, 25, 0, 0, 28, 29],

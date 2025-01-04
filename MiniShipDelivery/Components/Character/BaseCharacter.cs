@@ -2,18 +2,28 @@
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Objects;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.Character
 {
     public abstract class BaseCharacter : ICollider
     {
+        private readonly TexturesCharacter _texturesCharacter;
+        
         private int _currentFrame;
         private float _timeToUpdate;
         private float _timeElapsed;
 
+        protected BaseCharacter(TexturesCharacter texturesCharacter)
+        {
+            this._texturesCharacter = texturesCharacter;
+        }
+
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
+        public bool IsColliding { get; private set; }
 
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal init; }
@@ -92,11 +102,49 @@ namespace MiniShipDelivery.Components.Character
         {
             this.Collisions.Clear();
         }
-        
-        public virtual void Update(GameTime gameTime){}
+
+        public virtual void Update(GameTime gameTime)
+        {
+            this.IsColliding = this
+                .Collisions
+                .Any(a => a.GetType() == typeof(CharacterPlayer) || 
+                          a.GetType() == typeof(CharacterNpc));
+        }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+        }
+        
+        protected void Draw(
+            SpriteBatch spriteBatch, 
+            Vector2 position, 
+            CharacterPart tp, 
+            CharacterType characterType)
+        {
+            var shift = (int)characterType * 3;
+            var rect = new Rectangle(this._texturesCharacter.SpriteContent[tp].X, 
+                     this._texturesCharacter.SpriteContent[tp].Y + (16 * shift), 
+                     16, 
+                     16);
+            
+            spriteBatch.Draw(
+                this._texturesCharacter.Texture,
+                position,
+                rect,
+                Color.White);
+        }
+        
+        public void DrawEmote(
+            SpriteBatch spriteBatch, 
+            Texture2D texture,
+            Rectangle sourceRectangle,
+            Vector2 position)
+        {
+            spriteBatch.Draw(
+                texture, 
+                position, 
+                sourceRectangle, 
+                Color.White);
         }
     }
 }

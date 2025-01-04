@@ -6,6 +6,7 @@ using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Helpers;
+using MiniShipDelivery.Components.World;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 
