@@ -36,12 +36,15 @@ internal class MainMenuHud : BaseMenu
         
         this._menuFrame = new MenuFrame(assetManager);
         
+        var middleStartX = screenWidth / 2 - 32;
+        var middleStartY = screenHeight / 2 - 12;
+        
         this._menuButtonStartGame = new MenuButton(
             assetManager,
             input, 
             camera,
             UiMenuMainPart.Start,
-            new Vector2(screenWidth / 2 - 32, screenHeight / 2 - 12),
+            new Vector2(middleStartX, middleStartY),
             this.IsMouseInRange);
         this._menuButtonStartGame.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
@@ -50,7 +53,7 @@ internal class MainMenuHud : BaseMenu
             input, 
             camera,
             UiMenuMainPart.MapEditor,
-            new Vector2(screenWidth / 2 - 32, screenHeight / 2 + 6),
+            new Vector2(middleStartX, middleStartY + 18),
             this.IsMouseInRange);
         this._menuButtonMapEditor.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
     }
