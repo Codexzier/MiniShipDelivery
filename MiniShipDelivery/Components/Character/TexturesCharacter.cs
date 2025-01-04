@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
-using System.Collections.Generic;
+using MiniShipDelivery.Components.Assets.Textures;
 
-namespace MiniShipDelivery.Components.Assets.Textures
+namespace MiniShipDelivery.Components.Character
 {
     public class TexturesCharacter : ISpriteProperties<CharacterPart>, IAssetTexture
     {

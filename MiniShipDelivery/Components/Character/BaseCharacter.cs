@@ -8,22 +8,17 @@ using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public abstract class BaseCharacter : ICollider
+    public abstract class BaseCharacter(TexturesCharacter texturesCharacter, TexturesEmote texturesEmote) : ICollider
     {
-        private readonly TexturesCharacter _texturesCharacter;
-        
         private int _currentFrame;
         private float _timeToUpdate;
         private float _timeElapsed;
 
-        protected BaseCharacter(TexturesCharacter texturesCharacter)
-        {
-            this._texturesCharacter = texturesCharacter;
-        }
-
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
         public bool IsColliding { get; private set; }
+        
+        public EmotePart Emote { get; protected set; }
 
         public Vector2 Direction { get; internal set; }
         public int Speed { get; internal init; }
@@ -122,28 +117,27 @@ namespace MiniShipDelivery.Components.Character
             CharacterType characterType)
         {
             var shift = (int)characterType * 3;
-            var rect = new Rectangle(this._texturesCharacter.SpriteContent[tp].X, 
-                     this._texturesCharacter.SpriteContent[tp].Y + (16 * shift), 
+            var rect = new Rectangle(
+                texturesCharacter.SpriteContent[tp].X, 
+                     texturesCharacter.SpriteContent[tp].Y + (16 * shift), 
                      16, 
                      16);
             
             spriteBatch.Draw(
-                this._texturesCharacter.Texture,
+                texturesCharacter.Texture,
                 position,
                 rect,
                 Color.White);
         }
         
-        public void DrawEmote(
-            SpriteBatch spriteBatch, 
-            Texture2D texture,
-            Rectangle sourceRectangle,
+        public virtual void DrawEmote(
+            SpriteBatch spriteBatch,
             Vector2 position)
         {
             spriteBatch.Draw(
-                texture, 
+                texturesEmote.Texture, 
                 position, 
-                sourceRectangle, 
+                texturesEmote.SpriteContent[this.Emote], 
                 Color.White);
         }
     }

@@ -57,7 +57,6 @@ namespace MiniShipDelivery
             var characterManager = new CharacterManager(
                 this, 
                 new Vector2(152f, 82f),
-                assetManager, 
                 input,
                 camera);
             characterManager.UpdateOrder = 3;

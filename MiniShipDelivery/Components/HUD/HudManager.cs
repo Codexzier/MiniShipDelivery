@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.HUD.Editor;
 using MiniShipDelivery.Components.HUD.Helpers;
+using MiniShipDelivery.Components.HUD.MainMenu;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
@@ -74,6 +76,8 @@ namespace MiniShipDelivery.Components.HUD
             
             switch (this._hudOptionView)
             {
+                case HudOptionView.Game:
+                    break;
                 case HudOptionView.MainMenu:
                     this._mainMenuHud.Draw(this._spriteBatch);
                     break;

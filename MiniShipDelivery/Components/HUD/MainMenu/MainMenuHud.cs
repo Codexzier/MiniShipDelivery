@@ -4,9 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.HUD.Base;
+using MiniShipDelivery.Components.HUD.Controls;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD;
+namespace MiniShipDelivery.Components.HUD.MainMenu;
 
 internal class MainMenuHud : BaseMenu
 {
@@ -59,6 +60,9 @@ internal class MainMenuHud : BaseMenu
         Debug.WriteLine($"ButtonAreaPressed: {assetpart}");
         switch ((UiMenuMainPart)assetpart)
         {
+            case UiMenuMainPart.Start:
+                this.ButtonHasPressedEvent?.Invoke(HudOptionView.Game);
+                break;
             case UiMenuMainPart.MapEditor:
                 this.ButtonHasPressedEvent?.Invoke(HudOptionView.MapEditor);
                 break;

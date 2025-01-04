@@ -13,26 +13,20 @@ namespace MiniShipDelivery.Components.Character
     {
         private readonly CharacterType _characterType;
 
-        public CharacterNpc(
-            TexturesCharacter spriteManager, 
-            Vector2 position, 
-            CharacterType characterType) : base(spriteManager)
+        public CharacterNpc(TexturesCharacter texturesCharacter,
+            TexturesEmote texturesEmote,
+            Vector2 position,
+            CharacterType characterType) : base(texturesCharacter, texturesEmote)
         {
             this._characterType = characterType;
             this.Collider.Position = position;
         }
-
+        
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             
-            // if(this.Collisions.Any(a => a.GetType() == typeof(CharacterPlayer)))
-            // {
-            //     this._spriteManager.Draw(
-            //         spriteBatch, 
-            //         this.Collider.Position - new Vector2(0, 16), 
-            //         EmotePart.EmoteLoveDouble);
-            // }
+            this.Emote = EmotePart.EmoteLoveDouble;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

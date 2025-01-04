@@ -11,11 +11,11 @@ namespace MiniShipDelivery.Components.Character
         private readonly Vector2 _screenPosition;
         private readonly CharacterType _characterType;
 
-        public CharacterPlayer(
-            TexturesCharacter textures, 
-            InputManager input, 
+        public CharacterPlayer(TexturesCharacter textures,
+            TexturesEmote texturesEmote,
+            InputManager input,
             Vector2 screenPosition,
-            CharacterType characterType) : base(textures)
+            CharacterType characterType) : base(textures, texturesEmote)
         {
             this._input = input;
             this._screenPosition = screenPosition;
@@ -29,6 +29,8 @@ namespace MiniShipDelivery.Components.Character
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
+            this.Emote = EmotePart.EmoteLove;
             
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
            this.Direction = this._input.Inputs.MovementCharacter;
@@ -63,20 +65,6 @@ namespace MiniShipDelivery.Components.Character
                 this.Collider.Position, 
                 tp,
                 this._characterType);
-            
-            // this._assetManager.Draw(
-            //     spriteBatch, 
-            //     this.Collider.Position, 
-            //     tp, 
-            //     this._characterType);
-
-            // if (this.Collisions.Any( a => a.GetType() == typeof(CharacterNpc)))
-            // {
-            //     this._assetManager.Draw(
-            //         spriteBatch, 
-            //         this.Collider.Position - new Vector2(0, 16), 
-            //         EmotePart.EmoteLove);
-            // }
         }
     }
 }

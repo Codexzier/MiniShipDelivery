@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Assets.Textures
 {
-    public class TexturesEmote(Texture2D texture) : ISpriteProperties<EmotePart>, IAssetTexture
+    public class TexturesEmote(Game game) : ISpriteProperties<EmotePart>, IAssetTexture
     {
-        public Texture2D Texture { get; } = texture;
+        public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
         public IDictionary<EmotePart, Rectangle> SpriteContent { get; } = new Dictionary<EmotePart, Rectangle>
         {
             { EmotePart.EmoteHappy, new Rectangle(0, 0, 16, 16) },

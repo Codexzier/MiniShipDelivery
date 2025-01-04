@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 
@@ -11,7 +10,6 @@ namespace MiniShipDelivery.Components.Character;
 
 public class CharacterManager : DrawableGameComponent
 {
-    private readonly AssetManager _assetManager;
     private readonly OrthographicCamera _camera;
     private readonly SpriteBatch _spriteBatch;
     
@@ -23,22 +21,31 @@ public class CharacterManager : DrawableGameComponent
     
     public CharacterManager(Game game,
         Vector2 screenPosition,
-        AssetManager assetManager,
         InputManager input, OrthographicCamera camera) : base(game)
     {
-        this._assetManager = assetManager;
         this._camera = camera;
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
-        var texturesCharacter = new TexturesCharacter(game);
         
-        this.Player = new CharacterPlayer(texturesCharacter, input, screenPosition, CharacterType.Men)
+        var texturesCharacter = new TexturesCharacter(game);
+        var texturesEmote = new TexturesEmote(game);
+        
+        this.Player = new CharacterPlayer(
+            texturesCharacter,
+            texturesEmote,
+            input, 
+            screenPosition, 
+            CharacterType.Men)
         {
             Direction = Vector2.Zero,
-            Speed = 40,
+            Speed = 20,
             FramesPerSecond = 5
         };
         
-        var characterNpc = new CharacterNpc(texturesCharacter, new Vector2(20, 20), CharacterType.Women)
+        var characterNpc = new CharacterNpc(
+            texturesCharacter, 
+            texturesEmote,
+            new Vector2(20, 20), 
+            CharacterType.Women)
         {
             Direction = Vector2.Zero,
             Speed = 20,
@@ -75,8 +82,6 @@ public class CharacterManager : DrawableGameComponent
             {
                 charToDraw.DrawEmote(
                     this._spriteBatch, 
-                    this._assetManager.Emotes.Texture,
-                    this._assetManager.Emotes.SpriteContent[EmotePart.EmoteLoveDouble],
                     charToDraw.Collider.Position - new Vector2(0, 16));
             }
         }

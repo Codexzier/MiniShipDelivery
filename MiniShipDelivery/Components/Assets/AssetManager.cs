@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Assets.Textures;
-using MiniShipDelivery.Components.Character;
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +27,7 @@ namespace MiniShipDelivery.Components.Assets
             this.UserInterfacesMouse = new UserInterfacesMouse(game.Content.Load<Texture2D>("Interface/tilemap_packed"));
             
             //this.Tilemaps = new TexturesTilemap(game.Content.Load<Texture2D>("RpgUrban/tilemap"));
-            this.Emotes = new TexturesEmote(game.Content.Load<Texture2D>("Emote/pixel_style1"));
+            //this.Emotes = new TexturesEmote(game.Content.Load<Texture2D>("Emote/pixel_style1"));
 
             // register all textures
             //this._sprites.Add(nameof(TilemapPart), this.Tilemaps);
@@ -36,7 +35,7 @@ namespace MiniShipDelivery.Components.Assets
             this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions);
             this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
             this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse);
-            this._sprites.Add(nameof(EmotePart), this.Emotes);
+            //this._sprites.Add(nameof(EmotePart), this.Emotes);
             //this._sprites.Add(nameof(CharacterPart), this.Characters);
             this._sprites.Add(nameof(UiMenuMainPart), this.TexturesUiMenuMainButtons);
         }
@@ -50,7 +49,7 @@ namespace MiniShipDelivery.Components.Assets
         //private TexturesCharacter Characters { get; }
         private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
         //private TexturesTilemap Tilemaps { get; }
-        public TexturesEmote Emotes { get; }
+        //public TexturesEmote Emotes { get; }
 
         private void Draw<TAssetPart>(
             SpriteBatch spriteBatch, 
@@ -80,10 +79,10 @@ namespace MiniShipDelivery.Components.Assets
         //     this.Draw(spriteBatch, position, part, this.Tilemaps);
         // }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart part)
-        {
-            this.Draw(spriteBatch, position, part, this.Emotes);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart part)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.Emotes);
+        // }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuFramePart part)
         {
