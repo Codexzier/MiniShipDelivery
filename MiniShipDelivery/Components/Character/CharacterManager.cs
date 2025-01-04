@@ -20,10 +20,9 @@ public class CharacterManager : DrawableGameComponent
     
     
     public CharacterManager(Game game,
-        Vector2 screenPosition,
-        InputManager input, OrthographicCamera camera) : base(game)
+        Vector2 screenPosition) : base(game)
     {
-        this._camera = camera;
+        this._camera = game.GetComponent<CameraManager>().Camera;
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         
         var texturesCharacter = new TexturesCharacter(game);
@@ -32,7 +31,7 @@ public class CharacterManager : DrawableGameComponent
         this.Player = new CharacterPlayer(
             texturesCharacter,
             texturesEmote,
-            input, 
+            game.GetComponent<InputManager>(), 
             screenPosition, 
             CharacterType.Men)
         {

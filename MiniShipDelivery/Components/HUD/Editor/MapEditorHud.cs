@@ -21,12 +21,14 @@ namespace MiniShipDelivery.Components.HUD.Editor
         private readonly MapEditorMenu _mapEditorMenu;
 
         public MapEditorHud(Game game, AssetManager spriteManager,
-            InputManager input,
-            OrthographicCamera camera,
             int screenWidth, int screenHeight)
         {
             this._screenWidth = screenWidth;
             this._screenHeight = screenHeight;
+            
+            var input = game.GetComponent<InputManager>();
+            
+            var camera = game.GetComponent<CameraManager>().Camera;
 
             this._mapEditorMenuCommon = new MapEditorMenuCommon(
                 spriteManager,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -25,27 +26,26 @@ namespace MiniShipDelivery.Components.HUD
 
         public HudManager(Game game,
             AssetManager assetManager,
-            InputManager input,
-            OrthographicCamera camera,
             CharacterManager characterManager,
             int screenWidth,
             int screenHeight) : base(game)
         {
             this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            
-            this._input = input;
-            this._camera = camera;
+
+            this._input = game.GetComponent<InputManager>();
+            this._camera = game.GetComponent<CameraManager>().Camera;
             this._characterManager = characterManager;
-            this._mainMenuHud = new MainMenuHud(assetManager, input, camera, screenWidth, screenHeight);
+            this._mainMenuHud = new MainMenuHud(assetManager, this._input, this._camera, screenWidth, screenHeight);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
             
-            this._mapEditorHud = new MapEditorHud(game, assetManager, 
-                input,
-                camera,
+            this._mapEditorHud = new MapEditorHud(
+                game, 
+                assetManager, 
                 screenWidth, screenHeight);
+            
             this._consoleManager = new ConsoleManager(
                 assetManager,
-                camera, 
+                this._camera, 
                 screenHeight);
         }
 

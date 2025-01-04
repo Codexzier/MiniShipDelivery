@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.ObjectModel;
+using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
@@ -26,14 +27,9 @@ namespace MiniShipDelivery
             this.Window.Title = "Mini Ship Delivery";
             this.IsMouseVisible = true;
             
-            var viewportAdapter = new BoxingViewportAdapter(
-                this.Window, 
-                this.GraphicsDevice, 
-                ScreenWidth, 
-                ScreenHeight);
-            
-            var camera = new OrthographicCamera(viewportAdapter);
-
+            var cameraManager = new CameraManager(this, ScreenWidth, ScreenHeight);
+            cameraManager.UpdateOrder = 0;
+            this.Components.Add(cameraManager);
 
             // add all components
             var input = new InputManager( 
@@ -48,7 +44,7 @@ namespace MiniShipDelivery
             this.Components.Add(assetManager);
 
             // Map
-            var map = new MapManager(this, camera);
+            var map = new MapManager(this);
             map.UpdateOrder = 3;
             map.DrawOrder = 1;
             this.Components.Add(map);
@@ -56,9 +52,7 @@ namespace MiniShipDelivery
             // Player
             var characterManager = new CharacterManager(
                 this, 
-                new Vector2(152f, 82f),
-                input,
-                camera);
+                new Vector2(152f, 82f));
             characterManager.UpdateOrder = 3;
             characterManager.DrawOrder = 2;
             this.Components.Add(characterManager);
@@ -72,9 +66,7 @@ namespace MiniShipDelivery
             
             var hudManager = new HudManager(
                 this,
-                assetManager, 
-                input,
-                camera,
+                assetManager,
                 characterManager,
                 ScreenWidth,
                 ScreenHeight);

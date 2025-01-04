@@ -28,11 +28,11 @@ namespace MiniShipDelivery.Components.World
             [33],
         ];
 
-        public MapManager(Game game, OrthographicCamera camera) :base(game)
+        public MapManager(Game game) :base(game)
         {
             this._texturesTilemap = new TexturesTilemap(game);
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._camera = camera;
+            this._camera = game.GetComponent<CameraManager>().Camera;
         }
 
         public override void Draw(GameTime gameTime)
