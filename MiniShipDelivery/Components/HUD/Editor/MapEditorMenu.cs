@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
@@ -39,8 +38,6 @@ public class MapEditorMenu : BaseMenu
 
         this._functionBarMapOption.FillOptions<MapEditorOption>(3);
         this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
-        //this._functionBarMapOption.ButtonAreaHasExecutedEvent += this.MapMapOptionButtonAreaHasExecutedEvent;
-
 
         this._functionBarMapSprites = new FunctionBar(
             game,
@@ -53,40 +50,8 @@ public class MapEditorMenu : BaseMenu
 
         this._functionBarMapSprites.FillOptions<TilemapPart>(3);
         this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
-        //this._functionBarMapSprites.ButtonAreaHasExecutedEvent += this.MapSpritesButtonAreaHasExecuted;
-    }
-
-    #region map sprite buttons
-
-    private void DrawButtonMapSprite(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
-    {
-        spriteBatch.Draw(
-            this._texturesTilemap.Texture, 
-            position + new Vector2(1, 1), 
-            this._texturesTilemap.SpriteContent[(TilemapPart)functionItem.AssetPart],
-            Color.White);
     }
     
-    private Color ChangeColorForActiveMapSprite(FunctionItem functionItem, Color color)
-    {
-        if (functionItem.Selected)
-        {
-            color = Color.Yellow;
-        }
-        
-        return color;
-    }
-
-  
-    
-    private void MapSpritesButtonAreaWasPressed(FunctionItem item)
-    {
-        item.Selected = true;
-        this._functionBarMapSprites.ResetAllSelected(item);
-    }
-
-    #endregion
-
     #region map option
 
     private void MapMapOptionButtonAreaPressed(FunctionItem functionItem)
@@ -137,82 +102,42 @@ public class MapEditorMenu : BaseMenu
 
     #endregion
     
-    
+    #region map sprite buttons
 
+    private void DrawButtonMapSprite(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
+    {
+        spriteBatch.Draw(
+            this._texturesTilemap.Texture, 
+            position + new Vector2(1, 1), 
+            this._texturesTilemap.SpriteContent[(TilemapPart)functionItem.AssetPart],
+            Color.White);
+    }
+    
+    private Color ChangeColorForActiveMapSprite(FunctionItem functionItem, Color color)
+    {
+        if (functionItem.Selected)
+        {
+            color = Color.Yellow;
+        }
+        
+        return color;
+    }
+
+  
+    
+    private void MapSpritesButtonAreaWasPressed(FunctionItem item)
+    {
+        item.Selected = true;
+        this._functionBarMapSprites.ResetAllSelected(item);
+    }
+
+    #endregion
+    
     public void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         this._functionBarMapOption.Draw(spriteBatch);
         this._functionBarMapSprites.Draw(spriteBatch);
-    }
-    
-    private void MapMapOptionButtonAreaHasExecutedEvent(
-        SpriteBatch spriteBatch,
-        bool inRange,
-        Vector2 position,
-        FunctionItem functionItem)
-    {
-        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
-
-        spriteBatch.DrawRectangle(
-            position,
-            functionItem.Size,
-            isInRangeColor);
-        
-        var shiftPosition = position + new Vector2(1, 1);
-
-        var menuMapOption = UiMenuMapOptionPart.None;
-        switch (functionItem.AssetPart)
-        {
-            case MapEditorOption.OnOffGrid:
-                menuMapOption = UiMenuMapOptionPart.ExclamationWithe;
-                break;
-            case MapEditorOption.ArrowLeft:
-                menuMapOption = UiMenuMapOptionPart.ArrowLeft;
-                break;
-            case MapEditorOption.ArrowRight:
-                menuMapOption = UiMenuMapOptionPart.ArrowRight;
-                break;
-        }
-        
-        spriteBatch.Draw(
-            this._texturesUiMenuMapOptions.Texture,
-            shiftPosition,
-            this._texturesUiMenuMapOptions.SpriteContent[menuMapOption],
-            Color.AliceBlue);
-    }
-
-    
-    
-
-    private void MapSpritesButtonAreaHasExecuted(
-        SpriteBatch spriteBatch,
-        bool inRange,
-        Vector2 position,
-        FunctionItem functionItem)
-    {
-        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
-
-        if (functionItem.Selected)
-        {
-            isInRangeColor = Color.Yellow;
-        }
-
-        spriteBatch.DrawRectangle(
-            position,
-            functionItem.Size,
-            isInRangeColor);
-
-        spriteBatch.Draw(
-            this._texturesTilemap.Texture, 
-            position + new Vector2(1, 1), 
-            this._texturesTilemap.SpriteContent[(TilemapPart)functionItem.AssetPart],
-            Color.White);
-        
-        // Used only for debug
-        //spriteBatch.WriteLine(this._spriteManager.Font,
-        //    $"{item.TilemapPart}",
-        //    pos + new Vector2(-40, 1));
     }
 }

@@ -32,7 +32,6 @@ public class MapEditorMenuCommon : BaseMenu
 
         this._functionBar.FillOptions<InterfaceMenuEditorOptionPart>(6);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
-        //this._functionBar.ButtonAreaHasExecutedEvent += this.ButtonAreaHasExecute;
     }
 
     private void DrawButton(
@@ -69,29 +68,6 @@ public class MapEditorMenuCommon : BaseMenu
         }
     }
     
-    private void ButtonAreaHasExecute(
-        SpriteBatch spriteBatch,
-        bool inRange,
-        Vector2 position,
-        FunctionItem functionItem)
-    {
-        // TODO: Wrong area to draw the button
-        
-
-        // if (MapManager.ShowGrid && 
-        //     (InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
-        // {
-        //     spriteBatch.DrawRectangle(
-        //         position,
-        //         new SizeF(rect.Width, rect.Height),
-        //         Color.Yellow);   
-        // }
-
-        // this._assetManager.Draw(spriteBatch,
-        //     position + new Vector2(1, 1),
-        //     (InterfaceMenuEditorOptionPart)functionItem.AssetPart);
-    }
-
     internal void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
