@@ -13,7 +13,7 @@ namespace MiniShipDelivery.Components.HUD
         private readonly MainMenuHud _mainMenuHud;
         private readonly MapEditorHud _mapEditorHud;
 
-        private HudOptionView _hudOptionView = HudOptionView.MainMenu;
+        public static HudOptionView HudView = HudOptionView.MainMenu;
         private readonly CameraManager _camera;
 
         public HudManager(Game game) : base(game)
@@ -30,7 +30,7 @@ namespace MiniShipDelivery.Components.HUD
 
         private void MenuButtonHasPressed(HudOptionView view)
         {
-            this._hudOptionView = view;
+            HudView = view;
         }
 
         public override void Update(GameTime gameTime)
@@ -42,7 +42,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
-            switch (this._hudOptionView)
+            switch (HudView)
             {
                 case HudOptionView.Game:
                     break;

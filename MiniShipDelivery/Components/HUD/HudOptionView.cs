@@ -1,6 +1,6 @@
 ﻿namespace MiniShipDelivery.Components.HUD
 {
-    internal enum HudOptionView
+    public enum HudOptionView
     {
         None = 0,
         MainMenu = 1,

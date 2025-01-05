@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
@@ -18,6 +19,8 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapOption;
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
+
+    public static List<RectangleF> MenuField = new List<RectangleF>();
 
     public MapEditorMenu(Game game) : base(
         game,
@@ -50,6 +53,10 @@ public class MapEditorMenu : BaseMenu
 
         this._functionBarMapSprites.FillOptions<TilemapPart>(3);
         this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
+
+        var left = GlobaleGameParameters.ScreenWidth - MenuWidth;
+        MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
+        MenuField.Add(new RectangleF(left, 20, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
     }
     
     #region map option
@@ -58,8 +65,7 @@ public class MapEditorMenu : BaseMenu
     {
         switch (functionItem.AssetPart)
         {
-            case MapEditorOption.OnOffGrid:
-                //MapManager.ShowGrid = !MapManager.ShowGrid;
+            case MapEditorOption.None:
                 break;
             case MapEditorOption.ArrowLeft:
                 this._functionBarMapSprites.PageDown();
@@ -128,6 +134,11 @@ public class MapEditorMenu : BaseMenu
     private void MapSpritesButtonAreaWasPressed(FunctionItem item)
     {
         item.Selected = true;
+        if (item.AssetPart is TilemapPart tilemapPart)
+        {
+            MapManager.SelectedTilemapPart = tilemapPart;    
+        }
+        
         this._functionBarMapSprites.ResetAllSelected(item);
     }
 

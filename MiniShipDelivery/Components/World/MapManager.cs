@@ -1,7 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.HUD;
+using MiniShipDelivery.Components.HUD.Controls;
+using MiniShipDelivery.Components.HUD.Editor;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -13,26 +18,68 @@ namespace MiniShipDelivery.Components.World
         
         private readonly CameraManager _camera;
 
-        private readonly int[][] _map =
-        [
-            [13, 14, 14, 14, 15, 0, 0, 0, 0, 22, 23, 0, 0, 26, 27],
-            [16, 17, 17, 17, 18, 0, 0, 0, 0, 24, 25, 0, 0, 28, 29],
-            [19, 20, 20, 20, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 13, 14, 14, 14, 15],
-            [30, 31, 32, 0, 0, 0, 0, 0,16, 17, 17, 17, 18, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 19, 20, 20, 20, 21, 0, 0],
-            [0, 0, 33, 0, 0, 0, 0],
-            [33],
-        ];
+        private readonly MapTile[][] _map;
+        
+        private readonly IEnumerable<int> _listOfValidateTileNumbers;
+        private readonly InputManager _input;
 
         public MapManager(Game game) :base(game)
         {
             this._texturesTilemap = new TexturesTilemap(game);
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             this._camera = game.GetComponent<CameraManager>();
+            this._input = game.GetComponent<InputManager>();
+
+            // collected validate tiles
+            this._listOfValidateTileNumbers = Enum.GetValues<TilemapPart>().Select(s => (int)s);
+            
+            // y, x
+            this._map = new MapTile[10][];
+            for (int indexY = 0; indexY < 10; indexY++)
+            {
+                this._map[indexY] = new MapTile[20];
+                for (int indexX = 0; indexX < 20; indexX++)
+                {
+                    this._map[indexY][indexX] = new MapTile(
+                        TilemapPart.GrassAndBrick_MiddleMiddle,
+                        new Vector2(indexX * 16, indexY * 16));
+                }
+            }
         }
         
         public static bool ShowGrid { get; set; }
+        public static TilemapPart SelectedTilemapPart { get; set; }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            
+            
+            
+            // HUD depended content
+            if(HudManager.HudView != HudOptionView.MapEditor) return;
+            if(SelectedTilemapPart == TilemapPart.None) return;
+            
+            
+            var result = this.GetMapTile();
+            if(result == null) return;
+            
+            // not selectable map area, well the menu is there.
+            var rect = new RectangleF(result.Position.X, result.Position.Y, 16, 16);
+            foreach (var rectangle in MapEditorMenu.MenuField)
+            {
+                if (rectangle.Intersects(rect))
+                {
+                    return;
+                }
+            }
+            
+            
+            if (this._input.GetMouseLeftButtonReleasedState(result.Position, new SizeF(16, 16), UiMenuMainPart.None))
+            {
+                result.UpdateTilemapPart(SelectedTilemapPart);
+            }
+        }
 
         public override void Draw(GameTime gameTime)
         {
@@ -44,17 +91,111 @@ namespace MiniShipDelivery.Components.World
             {
                 for (var x = 0; x < this._map[y].Length; x++)
                 {
+                    var tileNumber = this._map[y][x].TilemapPart;
+                    if (!this._listOfValidateTileNumbers.Contains((int)tileNumber))
+                    {
+                        tileNumber = TilemapPart.GrassAndBrick_AroundOutBorder;
+                    }
+                    
                     this._spriteBatch.Draw(
                         this._texturesTilemap.Texture, 
-                        new Vector2(x * 16, y * 16), 
-                        this._texturesTilemap.SpriteContent[(TilemapPart)this._map[y][x]],
+                        this._map[y][x].Position, 
+                        this._texturesTilemap.SpriteContent[tileNumber],
                         Color.White);
                 }
             }
+
+            this.DrawSelectedMapTile();
+            this.DrawHoverEffectOnGrid();
             
+            var pos = this._input.Inputs.MousePosition;
+            pos += this._camera.Camera.Position;
+            this._spriteBatch.DrawRectangle(
+                pos,
+                new SizeF(4, 4),
+                Color.Red);
+
+            if (HudManager.HudView == HudOptionView.MapEditor && SelectedTilemapPart != TilemapPart.None)
+            {
+                var result = this.GetMapTile();
+                if (result != null)
+                {
+                    // not selectable map area, well the menu is there.
+                    var rect = new RectangleF(result.Position.X, result.Position.Y, 16, 16);
+                    var t = false;
+                    foreach (var rectangle in MapEditorMenu.MenuField)
+                    {
+                        if (rectangle.Intersects(rect))
+                        {
+                            t = true;
+                        }
+                    }
+
+                    this._spriteBatch.DrawRectangle(
+                        pos,
+                        new SizeF(4, 4),
+                        t ? Color.Yellow: Color.Red);
+                }
+            }
+
+
             this._spriteBatch.End();
         }
-        
+
+        private void DrawSelectedMapTile()
+        {
+            var result = this.GetMapTile();
+            if(result == null) return;
+            
+            if (!this._listOfValidateTileNumbers.Contains((int)SelectedTilemapPart))
+            {
+                return;
+            }
+            
+            this._spriteBatch.Draw(
+                this._texturesTilemap.Texture, 
+                result.Position, 
+                this._texturesTilemap.SpriteContent[SelectedTilemapPart],
+                Color.White);
+        }
+
+        private void DrawHoverEffectOnGrid()
+        {
+            var result = this.GetMapTile();
+            if(result == null) return;
+            
+            this._spriteBatch.DrawRectangle(
+                result.Position,
+                new SizeF(16, 16),
+                Color.White);
+
+        }
+
+        private MapTile GetMapTile()
+        {
+            var pos = this._input.Inputs.MousePosition;
+            pos += this._camera.Camera.Position;
+            
+            // Example
+            // -------------------
+            // |  1  |  2  |  3  |
+            // |  4  |  5  |  6  |
+            // |  7  |  8  |  9  |
+            // -------------------
+            
+            // pos is bei x=20, y=10
+            // so it must be field 2
+            // 20 / 16 = 1 for x
+            // 10 / 16 = 0 for y
+
+            var x = (int)pos.X / 16;
+            var y = (int)pos.Y / 16;
+
+            if(x < 0 || y < 0 || y >= this._map.Length || x >= this._map[y].Length) return null;
+            
+            return this._map[y][x];
+        }
+
         private void DrawGrid()
         {
             if (!ShowGrid) return;
