@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.Assets;
+﻿namespace MiniShipDelivery.Components.HUD.Editor;
 
 public enum UiMenuMapOptionPart
 {
@@ -7,9 +7,9 @@ public enum UiMenuMapOptionPart
     ArrowUp,
     ArrowRight,
     ArrowDown,
-    ExlamationWithe,
-    ExlamationYellow,
-    ExlamationRed,
+    ExclamationWithe,
+    ExclamationYellow,
+    ExclamationRed,
     SelectRed,
     SelectGreen
 }

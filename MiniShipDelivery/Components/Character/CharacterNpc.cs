@@ -3,10 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using System.Linq;
-using MiniShipDelivery.Components.Assets.Textures;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.HUD.Helpers;
 
 namespace MiniShipDelivery.Components.Character
 {

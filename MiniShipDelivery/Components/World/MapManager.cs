@@ -4,7 +4,6 @@ using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Character;
 using System.Collections.Generic;
-using MiniShipDelivery.Components.Assets.Textures;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
@@ -35,10 +34,14 @@ namespace MiniShipDelivery.Components.World
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             this._camera = game.GetComponent<CameraManager>();
         }
+        
+        public static bool ShowGrid { get; set; }
 
         public override void Draw(GameTime gameTime)
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
+            
+            this.DrawGrid();
             
             for (var y = 0; y < this._map.Length; y++)
             {
@@ -53,6 +56,25 @@ namespace MiniShipDelivery.Components.World
             }
             
             this._spriteBatch.End();
+        }
+        
+        private void DrawGrid()
+        {
+            if (!ShowGrid) return;
+
+            const int maxY = GlobaleGameParameters.ScreenHeight / 16;
+            const int maxX = GlobaleGameParameters.ScreenWidth / 16;
+            for (var iY = 0; iY < maxY; iY++)
+            {
+                for (var iX = 0; iX < maxX; iX++)
+                {
+                    this._spriteBatch.DrawRectangle(
+                        new Vector2(iX * 16, iY * 16),
+                        new SizeF(16.5f, 16.5f),
+                        Color.Gray,
+                        .5f);
+                }
+            }
         }
     }
 }

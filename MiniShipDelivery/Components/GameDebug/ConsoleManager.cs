@@ -3,15 +3,12 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
-using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components.HUD.Helpers;
+namespace MiniShipDelivery.Components.GameDebug;
 
-internal class ConsoleManager(
-    Game game,
-    int screenHeight) : DrawableGameComponent(game)
+internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 {
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly InputManager _input = game.GetComponent<InputManager>();
@@ -19,7 +16,7 @@ internal class ConsoleManager(
     private readonly SpriteBatch _spriteBatch = new(game.GraphicsDevice);
     
 
-    private readonly Vector2 _startPosition = new(3, screenHeight - 43);
+    private readonly Vector2 _startPosition = new(3, GlobaleGameParameters.ScreenHeight - 43);
     private readonly StringBuilder _stringBuilder = new();
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 

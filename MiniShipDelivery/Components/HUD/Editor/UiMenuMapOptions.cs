@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Textures;
+using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 
@@ -16,9 +16,9 @@ public class UiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOptionPart
         { UiMenuMapOptionPart.ArrowRight, new Rectangle(32, 0, 16, 16) },
         { UiMenuMapOptionPart.ArrowDown, new Rectangle(48, 0, 16, 16) },
                 
-        { UiMenuMapOptionPart.ExlamationWithe, new Rectangle(64, 0, 16, 16) },
-        { UiMenuMapOptionPart.ExlamationYellow, new Rectangle(80, 0, 16, 16) },
-        { UiMenuMapOptionPart.ExlamationRed, new Rectangle(96, 0, 16, 16) },
+        { UiMenuMapOptionPart.ExclamationWithe, new Rectangle(64, 0, 16, 16) },
+        { UiMenuMapOptionPart.ExclamationYellow, new Rectangle(80, 0, 16, 16) },
+        { UiMenuMapOptionPart.ExclamationRed, new Rectangle(96, 0, 16, 16) },
                 
         { UiMenuMapOptionPart.SelectRed, new Rectangle(112, 0, 16, 16) },
         { UiMenuMapOptionPart.SelectGreen, new Rectangle(128, 0, 16, 16) },

@@ -18,20 +18,19 @@ internal class MainMenuHud : BaseMenu
     
     private readonly Vector2 _menuFramePosition;
 
-    public MainMenuHud(Game game,
-        int screenWidth,
-        int screenHeight) 
+    public MainMenuHud(Game game) 
         : base(
             game, 
-            screenWidth, screenHeight,
-            new Vector2(screenWidth / 2 - 70, screenHeight / 2 - 50),
+            new Vector2(GlobaleGameParameters.ScreenWidth / 2 - 70, GlobaleGameParameters.ScreenHeight / 2 - 50),
             new Size(140, 100))
     {
         this._menuFrame = new MenuFrame(game);
-        this._menuFramePosition = new Vector2(this.ScreenWidth / 2 - 40, this.ScreenHeight / 2 - 20);
+        this._menuFramePosition = new Vector2(
+            GlobaleGameParameters.ScreenWidth / 2 - 40, 
+            GlobaleGameParameters.ScreenHeight / 2 - 20);
         
-        var middleStartX = screenWidth / 2 - 32;
-        var middleStartY = screenHeight / 2 - 12;
+        const int middleStartX = GlobaleGameParameters.ScreenWidth / 2 - 32;
+        const int middleStartY = GlobaleGameParameters.ScreenHeight / 2 - 12;
         
         this._menuButtonStartGame = new MenuButton(
             game,

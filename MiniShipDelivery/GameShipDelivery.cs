@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components;
 using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Cursor;
-using MiniShipDelivery.Components.HUD.Helpers;
 using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.World;
 
@@ -11,29 +11,23 @@ namespace MiniShipDelivery
 {
     public class GameShipDelivery : Game
     {
-        private const int ScreenWidth = 320;
-        private const int ScreenHeight = 180;
-
         public GameShipDelivery()
         {
             var graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = GlobaleGameParameters.PreferredBackBufferWidth;
+            graphics.PreferredBackBufferHeight = GlobaleGameParameters.PreferredBackBufferHeight;
             graphics.ApplyChanges();
             
             this.Content.RootDirectory = "Content";
             this.Window.Title = "Mini Ship Delivery";
             this.IsMouseVisible = false;
             
-            var cameraManager = new CameraManager(this, ScreenWidth, ScreenHeight);
+            var cameraManager = new CameraManager(this);
             cameraManager.UpdateOrder = 0;
             this.Components.Add(cameraManager);
 
             // add all components
-            var input = new InputManager( 
-                this,
-                ScreenWidth / (float)graphics.PreferredBackBufferWidth , 
-                ScreenHeight / (float)graphics.PreferredBackBufferHeight);
+            var input = new InputManager(this);
             input.UpdateOrder = 1;
             this.Components.Add(input);
 
@@ -58,10 +52,7 @@ namespace MiniShipDelivery
             this.Components.Add(colliderManager);
             
             
-            var hudManager = new HudManager(
-                this,
-                ScreenWidth,
-                ScreenHeight);
+            var hudManager = new HudManager(this);
             hudManager.UpdateOrder = 5;
             hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
@@ -72,9 +63,7 @@ namespace MiniShipDelivery
             this.Components.Add(cursor);
             
             // only for debug purpose
-            var consoleManager = new ConsoleManager(
-                this, 
-                ScreenHeight);
+            var consoleManager = new ConsoleManager(this);
             consoleManager.UpdateOrder = 7;
             consoleManager.DrawOrder = 7;
             this.Components.Add(consoleManager);
@@ -87,5 +76,15 @@ namespace MiniShipDelivery
             
             base.Draw(gameTime);
         }
+    }
+
+    public static class GlobaleGameParameters
+    {
+        public const int ScreenWidth = 320;
+        public const int ScreenHeight = 180;
+
+        public const int PreferredBackBufferWidth = 1280;
+        public const int PreferredBackBufferHeight = 720;
+
     }
 }

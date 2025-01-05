@@ -3,20 +3,23 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.HUD.Controls;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components
 {
     public class InputManager(
-        Game game,
-        float scaledMouseMoveX,
-        float scaleMouseMoveY)
+        Game game)
         : GameComponent(game)
     {
         private bool _mouseLeftButtonReleased;
         private bool _mouseLeftButtonHasPressed;
 
-        public InputData Inputs { get; set; } = new();
+        private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
+
+        private const float ScaleMouseMovingY = GlobaleGameParameters.ScreenHeight / (float)GlobaleGameParameters.PreferredBackBufferHeight;
+
+        public InputData Inputs { get; } = new();
 
         public override void Update(GameTime gameTime)
         {
@@ -27,8 +30,8 @@ namespace MiniShipDelivery.Components
             // mouse state
             var mouseState = Mouse.GetState();
             this.Inputs.MousePosition = new Vector2(
-                mouseState.X * scaledMouseMoveX, 
-                mouseState.Y * scaleMouseMoveY);
+                mouseState.X * ScaledMouseMovingX, 
+                mouseState.Y * ScaleMouseMovingY);
 
             this._mouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;
             if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)

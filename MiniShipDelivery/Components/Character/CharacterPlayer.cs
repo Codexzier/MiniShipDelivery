@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.Character
 {

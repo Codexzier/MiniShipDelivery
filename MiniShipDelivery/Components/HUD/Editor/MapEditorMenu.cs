@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
@@ -19,14 +18,10 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly UiMenuMapOptions _uiMenuMapOptions;
 
-    public MapEditorMenu(Game game, 
-        int screenWidth,
-        int screenHeight) : base(
+    public MapEditorMenu(Game game) : base(
         game,
-        screenWidth,
-        screenHeight,
-        new Vector2(screenWidth - MenuWidth, 24),
-        new Size(MenuWidth, screenHeight - 24))
+        new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
+        new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
     {
         this._texturesTilemap = new TexturesTilemap(game);
         this._uiMenuMapOptions = new UiMenuMapOptions(game);
@@ -34,7 +29,7 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapOption = new FunctionBar(
             game,
             new Vector2(0, 0),
-            new Size(MenuWidth, screenHeight - 24),
+            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
             this.GetPositionArea,
             this.IsMouseInRange);
 
@@ -46,7 +41,7 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapSprites = new FunctionBar(
             game,
             new Vector2(0, 20),
-            new Size(MenuWidth, screenHeight - 24),
+            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
             this.GetPositionArea,
             this.IsMouseInRange);
 
@@ -54,8 +49,6 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
         this._functionBarMapSprites.ButtonAreaHasExecutedEvent += this.MapSpritesButtonAreaHasExecuted;
     }
-
-    public bool ShowGrid { get; private set; }
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -70,7 +63,7 @@ public class MapEditorMenu : BaseMenu
         switch (functionItem.AssetPart)
         {
             case MapEditorOption.OnOffGrid:
-                this.ShowGrid = !this.ShowGrid;
+                MapManager.ShowGrid = !MapManager.ShowGrid;
                 break;
             case MapEditorOption.ArrowLeft:
                 break;
@@ -87,11 +80,6 @@ public class MapEditorMenu : BaseMenu
     {
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
 
-        if (this.ShowGrid && (MapEditorOption)functionItem.AssetPart == MapEditorOption.OnOffGrid)
-        {
-            isInRangeColor = Color.Yellow;
-        }
-
         spriteBatch.DrawRectangle(
             position,
             functionItem.Size,
@@ -103,7 +91,7 @@ public class MapEditorMenu : BaseMenu
         switch (functionItem.AssetPart)
         {
             case MapEditorOption.OnOffGrid:
-                menuMapOption = UiMenuMapOptionPart.ExlamationWithe;
+                menuMapOption = UiMenuMapOptionPart.ExclamationWithe;
                 break;
             case MapEditorOption.ArrowLeft:
                 menuMapOption = UiMenuMapOptionPart.ArrowLeft;

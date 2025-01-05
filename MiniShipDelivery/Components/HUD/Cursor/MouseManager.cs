@@ -27,7 +27,7 @@ public class MouseManager : DrawableGameComponent
         this._spriteBatch.Draw(
             this._userInterfaceMouse.Texture,
             this._input.Inputs.MousePosition + this._camera.Camera.Position,
-            new Rectangle(7 * 16, 4 * 16, 16, 16),
+            this._userInterfaceMouse.SpriteContent[MousePart.Cursor],
             Color.AliceBlue);
         
         this._spriteBatch.End();

@@ -6,13 +6,13 @@ namespace MiniShipDelivery.Components;
 
 public class CameraManager : GameComponent
 {
-    public CameraManager(Game game, int screenWidth, int screenHeight) : base(game)
+    public CameraManager(Game game) : base(game)
     {
         var viewportAdapter = new BoxingViewportAdapter(
             this.Game.Window, 
             this.Game.GraphicsDevice, 
-            screenWidth, 
-            screenHeight);
+            GlobaleGameParameters.ScreenWidth, 
+            GlobaleGameParameters.ScreenHeight);
         
         this.Camera = new OrthographicCamera(viewportAdapter);
     }

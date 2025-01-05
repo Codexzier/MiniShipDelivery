@@ -16,25 +16,16 @@ namespace MiniShipDelivery.Components.HUD
         private HudOptionView _hudOptionView = HudOptionView.MainMenu;
         private readonly CameraManager _camera;
 
-        public HudManager(
-            Game game,
-            int screenWidth,
-            int screenHeight) : base(game)
+        public HudManager(Game game) : base(game)
         {
             this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
             this._camera = game.GetComponent<CameraManager>();
             
-            this._mainMenuHud = new MainMenuHud(
-                game, 
-                screenWidth, 
-                screenHeight);
+            this._mainMenuHud = new MainMenuHud(game);
             
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
             
-            this._mapEditorHud = new MapEditorHud(
-                game, 
-                screenWidth, 
-                screenHeight);
+            this._mapEditorHud = new MapEditorHud(game);
         }
 
         private void MenuButtonHasPressed(HudOptionView view)

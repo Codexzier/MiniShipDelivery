@@ -8,8 +8,6 @@ namespace MiniShipDelivery.Components.HUD.Base;
 
 public abstract class BaseMenu(
     Game game,
-    int screenWidth,
-    int screenHeight,
     Vector2 position,
     Size size)
 {
@@ -17,9 +15,6 @@ public abstract class BaseMenu(
         
     private readonly InputManager _input = game.GetComponent<InputManager>();
     protected readonly CameraManager Camera = game.GetComponent<CameraManager>();
-
-    protected readonly int ScreenWidth = screenWidth;
-    protected readonly int ScreenHeight = screenHeight;
 
     protected void DrawBaseFrame(SpriteBatch spriteBatch, MenuFrameType type)
     {
@@ -41,7 +36,7 @@ public abstract class BaseMenu(
     {
         var pasInX = multiply / columns;
         var multiplyX = multiply < columns ? multiply : multiply - (pasInX * columns);
-        var x = this.ScreenWidth - width + 3 + ((multiplyX * 16) + (multiplyX * 2));
+        var x = GlobaleGameParameters.ScreenWidth - width + 3 + ((multiplyX * 16) + (multiplyX * 2));
         var y = position.Y + 3 + ((pasInX * 16) + (pasInX * 2));
 
         return new Vector2(x, y);
