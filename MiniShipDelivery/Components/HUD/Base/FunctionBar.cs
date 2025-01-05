@@ -3,38 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
 
-public class FunctionBar
+public class FunctionBar(
+    Game game,
+    Vector2 startPosition,
+    Size size,
+    Func<int, int, int, Vector2> funcGetPositionArea,
+    Func<Vector2, SizeF, bool> isMouseInRange)
 {
-    private readonly InputManager _input;
-    private readonly OrthographicCamera _camera;
-    private readonly Vector2 _sideMenuMapTilePositionStart;
-    private readonly Size _size;
-    private readonly Func<int, int, int, Vector2> _funcGetPositionArea;
-    private readonly Func<Vector2, SizeF, bool> _isMouseInRange;
+    private readonly InputManager _input = game.GetComponent<InputManager>();
+    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly List<FunctionItem> _functionItems = new();
-
-    public FunctionBar(
-        InputManager input, 
-        OrthographicCamera camera, 
-        Vector2 startPosition,
-        Size size,
-        Func<int, int, int, Vector2> funcGetPositionArea,
-        Func<Vector2, SizeF, bool> isMouseInRange)
-    {
-        this._input = input;
-        this._camera = camera;
-        this._sideMenuMapTilePositionStart = startPosition;
-        this._size = size;
-        this._funcGetPositionArea = funcGetPositionArea;
-        this._isMouseInRange = isMouseInRange;
-    }
 
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
@@ -55,14 +39,14 @@ public class FunctionBar
     
     private void DrawSelectableArea(SpriteBatch spriteBatch, FunctionItem item)
     {
-        var pos = this._camera.Position + 
+        var pos = this._camera.Camera.Position + 
                   item.Position + 
-                  this._sideMenuMapTilePositionStart;
+                  startPosition;
             
         var positionSelectable = item.Position +
-                                 this._sideMenuMapTilePositionStart;
+                                 startPosition;
             
-        var inRange = this._isMouseInRange(positionSelectable, item.Size);
+        var inRange = isMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
             if (this._input.GetMouseLeftButtonReleasedState(positionSelectable, item.Size, UiMenuMainPart.None))
@@ -89,7 +73,7 @@ public class FunctionBar
     {
         this._functionItems.Add(
             new FunctionItem(
-                this._funcGetPositionArea(this._functionItems.Count, this._size.Width, columns),
+                funcGetPositionArea(this._functionItems.Count, size.Width, columns),
                 new SizeF(18, 18),
                 part));
     }

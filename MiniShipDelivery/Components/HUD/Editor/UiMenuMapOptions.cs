@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Assets.Textures;
 
-namespace MiniShipDelivery.Components.Assets.Textures;
+namespace MiniShipDelivery.Components.HUD.Editor;
 
-public class UiMenuMapOptions(Texture2D texture) : ISpriteProperties<UiMenuMapOptionPart>, IAssetTexture
+public class UiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOptionPart>
 {
     public IDictionary<UiMenuMapOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<UiMenuMapOptionPart, Rectangle>
     {
@@ -22,5 +24,5 @@ public class UiMenuMapOptions(Texture2D texture) : ISpriteProperties<UiMenuMapOp
         { UiMenuMapOptionPart.SelectGreen, new Rectangle(128, 0, 16, 16) },
     };
 
-    public Texture2D Texture { get; } = texture;
+    public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuMapOptions");
 }

@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public class TexturesCharacter : ISpriteProperties<CharacterPart>, IAssetTexture
+    public class TexturesCharacter : ISpriteProperties<CharacterPart>
     {
         public Texture2D Texture { get; }
         public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }

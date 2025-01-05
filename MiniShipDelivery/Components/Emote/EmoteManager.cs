@@ -7,7 +7,7 @@ using MiniShipDelivery.Components.Assets.Parts;
 namespace MiniShipDelivery.Components.Emote
 {
     [Obsolete("Bin noch nicht sicher, ob ich das noch brauche.")]
-    public class EmoteManager(AssetManager assetManager)
+    public class EmoteManager()
     {
         public void Draw(SpriteBatch spriteBatch, Vector2 position, EmotePart tilemapPart)
         {

@@ -1,50 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor
 {
-    internal class MapEditorHud
+    internal class MapEditorHud(
+        Game game,
+        int screenWidth,
+        int screenHeight)
     {
-        private readonly int _screenWidth;
-        private readonly int _screenHeight;
-
         /// <summary>
         /// Top Menu bar
         /// </summary>
-        private readonly MapEditorMenuCommon _mapEditorMenuCommon;
+        private readonly MapEditorMenuCommon _mapEditorMenuCommon = new(
+            game,
+            screenWidth,
+            screenHeight);
 
         /// <summary>
         /// right Side menu
         /// </summary>
-        private readonly MapEditorMenu _mapEditorMenu;
-
-        public MapEditorHud(Game game, AssetManager spriteManager,
-            int screenWidth, int screenHeight)
-        {
-            this._screenWidth = screenWidth;
-            this._screenHeight = screenHeight;
-            
-            var input = game.GetComponent<InputManager>();
-            
-            var camera = game.GetComponent<CameraManager>().Camera;
-
-            this._mapEditorMenuCommon = new MapEditorMenuCommon(game,
-                input,
-                camera,
-                screenWidth,
-                screenHeight);
-
-            this._mapEditorMenu = new MapEditorMenu(
-                game,
-                spriteManager,
-                input,
-                camera,
-                screenWidth,
-                screenHeight);
-        }
+        private readonly MapEditorMenu _mapEditorMenu = new(
+            game,
+            screenWidth,
+            screenHeight);
 
         internal void Update(GameTime gameTime)
         {
@@ -62,8 +41,8 @@ namespace MiniShipDelivery.Components.HUD.Editor
         {
             if (!this._mapEditorMenu.ShowGrid) return;
 
-            var maxY = this._screenHeight / 16;
-            var maxX = this._screenWidth / 16;
+            var maxY = screenHeight / 16;
+            var maxX = screenWidth / 16;
             for (int iY = 0; iY < maxY; iY++)
             {
                 for (int iX = 0; iX < maxX; iX++)

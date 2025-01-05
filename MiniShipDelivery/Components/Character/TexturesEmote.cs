@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using MiniShipDelivery.Components.Assets.Parts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Assets.Textures;
 
-namespace MiniShipDelivery.Components.Assets.Textures
+namespace MiniShipDelivery.Components.Character
 {
-    public class TexturesEmote(Game game) : ISpriteProperties<EmotePart>, IAssetTexture
+    public class TexturesEmote(Game game) : ISpriteProperties<EmotePart>
     {
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
         public IDictionary<EmotePart, Rectangle> SpriteContent { get; } = new Dictionary<EmotePart, Rectangle>

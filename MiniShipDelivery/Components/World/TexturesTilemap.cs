@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets.Textures;
 
 namespace MiniShipDelivery.Components.World
 {
-    internal class TexturesTilemap : ISpriteProperties<TilemapPart>, IAssetTexture
+    internal class TexturesTilemap : ISpriteProperties<TilemapPart>
     {
         public Texture2D Texture { get; }
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
@@ -30,7 +30,7 @@ namespace MiniShipDelivery.Components.World
                 { TilemapPart.GrassAndBrick_DownRight, new Rectangle((16 * (2 + shiftX)) + 2, (16 * 2) + 2 + shiftY, 16, 16) }
             };
 
-            // brick border and green floor with Out and in borders
+            // brick border and green floor without and in borders
             shiftX = 3;
             shiftY = 0;
             this.SpriteContent.Add(TilemapPart.GrassAndBrick_OutBorderTopLeft_InBorder_RightDown, new Rectangle((16 * shiftX) + shiftX, (16 * shiftY) + shiftY, 16, 16));

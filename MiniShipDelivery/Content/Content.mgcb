@@ -92,7 +92,7 @@
 /processorParam:TextureFormat=Color
 /build:Interface/MenuMapOptions.png
 
-#begin Interface/tilemap_packed.png
+#begin Interface/mouseCursorIcons_packed.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,7 +102,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Interface/tilemap_packed.png
+/build:Interface/mouseCursorIcons_packed.png
 
 #begin RpgUrban/tilemap.png
 /importer:TextureImporter

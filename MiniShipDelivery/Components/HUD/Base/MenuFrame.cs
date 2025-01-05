@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base
@@ -16,8 +15,7 @@ namespace MiniShipDelivery.Components.HUD.Base
             { MenuFrameType.Type3, 18 }
         };
 
-        private readonly TexturesUiMenuMapFrames _uiMenuMapFrames = new(
-            game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
+        private readonly TexturesUiMenuMapFrames _uiMenuMapFrames = new(game);
 
         private UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
         {

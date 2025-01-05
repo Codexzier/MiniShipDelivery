@@ -16,21 +16,20 @@ public class MapEditorMenuCommon : BaseMenu
     private readonly FunctionBar _functionBar;
     private readonly TexturesInterfaceMenuEditorOptions _userInterfacesMenuEditorOptions;
 
-    public MapEditorMenuCommon(Game game,
-        InputManager input,
-        OrthographicCamera camera,
+    public MapEditorMenuCommon(
+        Game game,
         int screenWidth,
         int screenHeight)
-        : base(game, input, camera,
-            screenWidth, screenHeight,
+        : base(
+            game, 
+            screenWidth, 
+            screenHeight,
             new Vector2(0, 0), new Size(screenWidth, 24))
     {
-        this._userInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(
-            game.Content.Load<Texture2D>("Interface/MenuEditorOptions"));
+        this._userInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game);
         
         this._functionBar = new FunctionBar(
-            input,
-            camera,
+            game,
             new Vector2(0, 0),
             new Size(screenWidth, 24),
             this.GetPositionArea,

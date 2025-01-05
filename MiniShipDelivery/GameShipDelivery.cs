@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.HUD;
+using MiniShipDelivery.Components.HUD.Cursor;
 using MiniShipDelivery.Components.HUD.Helpers;
 using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.World;
@@ -23,7 +23,7 @@ namespace MiniShipDelivery
             
             this.Content.RootDirectory = "Content";
             this.Window.Title = "Mini Ship Delivery";
-            this.IsMouseVisible = true;
+            this.IsMouseVisible = false;
             
             var cameraManager = new CameraManager(this, ScreenWidth, ScreenHeight);
             cameraManager.UpdateOrder = 0;
@@ -36,10 +36,6 @@ namespace MiniShipDelivery
                 ScreenHeight / (float)graphics.PreferredBackBufferHeight);
             input.UpdateOrder = 1;
             this.Components.Add(input);
-            
-            var assetManager = new AssetManager(this);
-            assetManager.UpdateOrder = 2;
-            this.Components.Add(assetManager);
 
             // Map
             var map = new MapManager(this);
@@ -64,18 +60,22 @@ namespace MiniShipDelivery
             
             var hudManager = new HudManager(
                 this,
-                assetManager,
                 ScreenWidth,
                 ScreenHeight);
             hudManager.UpdateOrder = 5;
             hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
+
+            var cursor = new MouseManager(this);
+            cursor.UpdateOrder = 6;
+            cursor.DrawOrder = 100; // cursor must render at last
+            this.Components.Add(cursor);
             
             // only for debug purpose
             var consoleManager = new ConsoleManager(
                 this, 
                 ScreenHeight);
-            consoleManager.UpdateOrder = 6;
+            consoleManager.UpdateOrder = 7;
             consoleManager.DrawOrder = 7;
             this.Components.Add(consoleManager);
             

@@ -2,9 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets.Textures;
 using MiniShipDelivery.Components.Helpers;
-using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Character;
 

@@ -2,14 +2,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Assets.Textures;
 
-namespace MiniShipDelivery.Components.Assets.Textures;
+namespace MiniShipDelivery.Components.HUD.Controls;
 
-public class TexturesUiMenuMainButtons : ISpriteProperties<UiMenuMainPart>, IAssetTexture
+public class TexturesUiMenuMainButtons : ISpriteProperties<UiMenuMainPart>
 {
-    public TexturesUiMenuMainButtons(Texture2D texture)
+    public TexturesUiMenuMainButtons(Game game)
     {
-        this.Texture = texture;
+        this.Texture = game.Content.Load<Texture2D>("Interface/MainMenuButtons");
             
         this.SpriteContent.Add(UiMenuMainPart.None, new Rectangle(0, 0, 0, 0));
         this.SpriteContent.Add(UiMenuMainPart.Start, new Rectangle(0, 0, 64, 16));

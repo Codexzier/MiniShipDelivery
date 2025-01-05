@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Assets.Textures;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
-using MiniShipDelivery.Components.HUD.Helpers;
 using MiniShipDelivery.Components.World;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
@@ -21,26 +19,20 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly UiMenuMapOptions _uiMenuMapOptions;
 
-    public MapEditorMenu(Game game, AssetManager assetManager,
-        InputManager input,
-        OrthographicCamera camera,
+    public MapEditorMenu(Game game, 
         int screenWidth,
         int screenHeight) : base(
         game,
-        input,
-        camera,
         screenWidth,
         screenHeight,
         new Vector2(screenWidth - MenuWidth, 24),
         new Size(MenuWidth, screenHeight - 24))
     {
         this._texturesTilemap = new TexturesTilemap(game);
-        this._uiMenuMapOptions = new UiMenuMapOptions(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
-
+        this._uiMenuMapOptions = new UiMenuMapOptions(game);
         
         this._functionBarMapOption = new FunctionBar(
-            input,
-            camera,
+            game,
             new Vector2(0, 0),
             new Size(MenuWidth, screenHeight - 24),
             this.GetPositionArea,
@@ -52,8 +44,7 @@ public class MapEditorMenu : BaseMenu
 
 
         this._functionBarMapSprites = new FunctionBar(
-            input,
-            camera,
+            game,
             new Vector2(0, 20),
             new Size(MenuWidth, screenHeight - 24),
             this.GetPositionArea,
@@ -113,25 +104,12 @@ public class MapEditorMenu : BaseMenu
         {
             case MapEditorOption.OnOffGrid:
                 menuMapOption = UiMenuMapOptionPart.ExlamationWithe;
-                
-                // this._assetManager.Draw(
-                //     spriteBatch,
-                //     shiftPosition,
-                //     UiMenuMapOptionPart.ExlamationWithe);
                 break;
             case MapEditorOption.ArrowLeft:
                 menuMapOption = UiMenuMapOptionPart.ArrowLeft;
-                // this._assetManager.Draw(
-                //     spriteBatch,
-                //     shiftPosition,
-                //     UiMenuMapOptionPart.ArrowLeft);
                 break;
             case MapEditorOption.ArrowRight:
                 menuMapOption = UiMenuMapOptionPart.ArrowRight;
-                // this._assetManager.Draw(
-                //     spriteBatch,
-                //     shiftPosition,
-                //     UiMenuMapOptionPart.ArrowRight);
                 break;
         }
         
@@ -139,13 +117,13 @@ public class MapEditorMenu : BaseMenu
             this._uiMenuMapOptions.Texture,
             shiftPosition,
             this._uiMenuMapOptions.SpriteContent[menuMapOption],
-            isInRangeColor);
+            Color.AliceBlue);
     }
 
-    private void MapSpritesButtonAreaWasPressed(FunctionItem functionitem)
+    private void MapSpritesButtonAreaWasPressed(FunctionItem item)
     {
-        functionitem.Selected = true;
-        this._functionBarMapSprites.ResetAllSelected(functionitem);
+        item.Selected = true;
+        this._functionBarMapSprites.ResetAllSelected(item);
     }
 
     private void MapSpritesButtonAreaHasExecuted(
