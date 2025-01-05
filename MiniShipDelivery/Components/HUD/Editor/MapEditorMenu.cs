@@ -30,7 +30,7 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapOption = new FunctionBar(
             game,
             new Vector2(0, 0),
-            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
+            new Size(MenuWidth, 24),
             this.GetPositionArea,
             this.IsMouseInRange,
             this.DrawButtonMapOption,
@@ -62,8 +62,10 @@ public class MapEditorMenu : BaseMenu
                 //MapManager.ShowGrid = !MapManager.ShowGrid;
                 break;
             case MapEditorOption.ArrowLeft:
+                this._functionBarMapSprites.PageDown();
                 break;
             case MapEditorOption.ArrowRight:
+                this._functionBarMapSprites.PageUp();
                 break;
         }
     }
@@ -123,8 +125,6 @@ public class MapEditorMenu : BaseMenu
         return color;
     }
 
-  
-    
     private void MapSpritesButtonAreaWasPressed(FunctionItem item)
     {
         item.Selected = true;

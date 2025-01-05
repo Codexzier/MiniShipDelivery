@@ -21,10 +21,23 @@ public class FunctionBar(
 {
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
-    private readonly List<FunctionItem> _functionItems = new();
+
+    /// <summary>
+    /// I use the dictionary for paging.
+    /// </summary>
+    private readonly Dictionary<int, List<FunctionItem>> _functionItems = new()
+    {
+        { 0, new List<FunctionItem>() }
+    };
+
+    private int _maxPerPage = 18;
+    private int _indexForPaging = 0;
 
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
+        var rows = (int)(size.Height - startPosition.Y) / 18;
+        this._maxPerPage = rows * columns;
+        
         foreach (var valPart in Enum.GetValues(typeof(TAssertPart)))
         {
             if((int)valPart == 0) continue;
@@ -32,9 +45,31 @@ public class FunctionBar(
         }
     }
 
+    public void PageUp()
+    {
+        if (this._indexForPaging >= this._functionItems.Count)
+        {
+            this._indexForPaging = this._functionItems.Count - 1;
+            return;
+        }
+        
+        this._indexForPaging++;
+    }
+
+    public void PageDown()
+    {
+        if (this._indexForPaging <= 0)
+        {
+            this._indexForPaging = 0;
+            return;
+        }
+        
+        this._indexForPaging--;
+    }
+
     public void Draw(SpriteBatch spriteBatch)
     {
-        foreach (var item in this._functionItems)
+        foreach (var item in this._functionItems[this._indexForPaging])
         {
             this.DrawSelectableArea(spriteBatch, item);
         }
@@ -68,19 +103,20 @@ public class FunctionBar(
             isInRangeColor);
         
         drawButton?.Invoke(spriteBatch, pos, item);
-        
-        // this.ButtonAreaHasExecutedEvent?.Invoke(
-        //     spriteBatch,
-        //     inRange,
-        //     pos,
-        //     item);
     }
     
     private void AddFunctionItem(object part, int columns)
     {
-        this._functionItems.Add(
+        var index = this._functionItems.Count - 1;
+        if (this._functionItems[index].Count >= this._maxPerPage)
+        {
+            this._functionItems.Add(index + 1, new List<FunctionItem>());
+            index = this._functionItems.Count - 1;
+        }
+        
+        this._functionItems[index].Add(
             new FunctionItem(
-                funcGetPositionArea(this._functionItems.Count, size.Width, columns),
+                funcGetPositionArea(this._functionItems[index].Count, size.Width, columns),
                 new SizeF(18, 18),
                 part));
     }
@@ -88,18 +124,15 @@ public class FunctionBar(
     public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
 
-    // public delegate void ButtonAreaHasExecutedEventHandler(
-    //     SpriteBatch spriteBatch,
-    //     bool inRange,
-    //     Vector2 position,
-    //     FunctionItem functionItem);
-    // public event ButtonAreaHasExecutedEventHandler ButtonAreaHasExecutedEvent;
 
-    public void ResetAllSelected(FunctionItem functionitem)
+    public void ResetAllSelected(FunctionItem functionItem)
     {
-        foreach (var item in this._functionItems.Where(w => !w.Equals(functionitem)))
+        foreach (var keyValuePair in this._functionItems)
         {
-            item.Selected = false;
+            foreach (var item in keyValuePair.Value.Where(w => !w.Equals(functionItem)))
+            {
+                item.Selected = false;
+            }
         }
     }
 }

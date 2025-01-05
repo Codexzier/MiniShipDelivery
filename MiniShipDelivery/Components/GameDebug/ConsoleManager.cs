@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
@@ -24,7 +23,6 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
     {
         base.Update(gameTime);
         
-        this.AddText($"{DateTime.Now:f}");
         this.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
         this.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._character.Player.Collider.Position)}");
 
