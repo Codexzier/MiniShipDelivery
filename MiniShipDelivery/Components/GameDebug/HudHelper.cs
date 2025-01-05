@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MiniShipDelivery.Components.HUD.Helpers;
+namespace MiniShipDelivery.Components.GameDebug;
 
 public static class HudHelper
 {

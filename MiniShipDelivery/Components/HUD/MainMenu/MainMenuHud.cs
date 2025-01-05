@@ -17,14 +17,14 @@ internal class MainMenuHud : BaseMenu
     private readonly MenuButton _menuButtonStartGame;
     private readonly MenuButton _menuButtonMapEditor;
 
-    public MainMenuHud(
+    public MainMenuHud(Game game,
         AssetManager assetManager,
         InputManager input,
         OrthographicCamera camera,
         int screenWidth,
         int screenHeight) 
         : base(
-            assetManager, 
+            game, 
             input, 
             camera, 
             screenWidth, screenHeight,
@@ -34,7 +34,7 @@ internal class MainMenuHud : BaseMenu
         
         this._camera = camera;
         
-        this._menuFrame = new MenuFrame(assetManager);
+        this._menuFrame = new MenuFrame(game);
         
         var middleStartX = screenWidth / 2 - 32;
         var middleStartY = screenHeight / 2 - 12;

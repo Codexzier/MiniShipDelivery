@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
@@ -70,6 +71,13 @@ public class FunctionBar
             }
         }
 
+        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
+
+        spriteBatch.DrawRectangle(
+            pos,
+            new SizeF(18, 18),
+            isInRangeColor);
+        
         this.ButtonAreaHasExecutedEvent?.Invoke(
             spriteBatch,
             inRange,

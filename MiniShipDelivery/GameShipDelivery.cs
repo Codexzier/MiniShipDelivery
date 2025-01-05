@@ -1,13 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.HUD;
+using MiniShipDelivery.Components.HUD.Helpers;
 using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.World;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
 
 namespace MiniShipDelivery
 {
@@ -67,12 +65,20 @@ namespace MiniShipDelivery
             var hudManager = new HudManager(
                 this,
                 assetManager,
-                characterManager,
                 ScreenWidth,
                 ScreenHeight);
             hudManager.UpdateOrder = 5;
             hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
+            
+            // only for debug purpose
+            var consoleManager = new ConsoleManager(
+                this, 
+                ScreenHeight);
+            consoleManager.UpdateOrder = 6;
+            consoleManager.DrawOrder = 7;
+            this.Components.Add(consoleManager);
+            
         }
 
         protected override void Draw(GameTime gameTime)

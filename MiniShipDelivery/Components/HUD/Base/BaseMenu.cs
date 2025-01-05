@@ -9,7 +9,6 @@ public abstract class BaseMenu
 {
     private readonly MenuFrame _menuFrame;
         
-    protected readonly AssetManager _assetManager;
     private readonly InputManager _input;
     private readonly OrthographicCamera _camera;
 
@@ -18,8 +17,7 @@ public abstract class BaseMenu
     protected readonly int _screenWidth;
     protected readonly int _screenHeight;
         
-    protected BaseMenu(
-        AssetManager assetManager,
+    protected BaseMenu(Game game,
         InputManager input,
         OrthographicCamera camera, 
         int screenWidth, 
@@ -27,9 +25,8 @@ public abstract class BaseMenu
         Vector2 position,
         Size size)
     {
-        this._menuFrame = new MenuFrame(assetManager);
+        this._menuFrame = new MenuFrame(game);
 
-        this._assetManager = assetManager;
         this._input = input;
         this._camera = camera;
             

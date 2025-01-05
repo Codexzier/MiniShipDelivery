@@ -7,25 +7,16 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components
 {
-    public class InputManager : GameComponent
+    public class InputManager(
+        Game game,
+        float scaledMouseMoveX,
+        float scaleMouseMoveY)
+        : GameComponent(game)
     {
-        private readonly float _scaledMouseMoveX;
-        private readonly float _scaleMouseMoveY;
-
         private bool _mouseLeftButtonReleased;
         private bool _mouseLeftButtonHasPressed;
 
-        public InputManager(
-            Game game,
-            float scaledMouseMoveX, float scaleMouseMoveY) : base(game)
-        {
-            this._scaledMouseMoveX = scaledMouseMoveX;
-            this._scaleMouseMoveY = scaleMouseMoveY;
-            
-            this.Inputs = new InputData();
-        }
-
-        public InputData Inputs { get; set; }
+        public InputData Inputs { get; set; } = new();
 
         public override void Update(GameTime gameTime)
         {
@@ -36,8 +27,8 @@ namespace MiniShipDelivery.Components
             // mouse state
             var mouseState = Mouse.GetState();
             this.Inputs.MousePosition = new Vector2(
-                mouseState.X * this._scaledMouseMoveX, 
-                mouseState.Y * this._scaleMouseMoveY);
+                mouseState.X * scaledMouseMoveX, 
+                mouseState.Y * scaleMouseMoveY);
 
             this._mouseLeftButton = mouseState.LeftButton == ButtonState.Pressed;
             if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)

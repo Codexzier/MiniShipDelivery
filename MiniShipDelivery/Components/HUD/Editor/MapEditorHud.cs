@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
+using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor
@@ -30,8 +31,7 @@ namespace MiniShipDelivery.Components.HUD.Editor
             
             var camera = game.GetComponent<CameraManager>().Camera;
 
-            this._mapEditorMenuCommon = new MapEditorMenuCommon(
-                spriteManager,
+            this._mapEditorMenuCommon = new MapEditorMenuCommon(game,
                 input,
                 camera,
                 screenWidth,

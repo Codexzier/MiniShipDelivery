@@ -2,15 +2,15 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Textures;
+using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Character;
 
 public class CharacterManager : DrawableGameComponent
 {
-    private readonly OrthographicCamera _camera;
+    private readonly CameraManager _camera;
     private readonly SpriteBatch _spriteBatch;
     
     public readonly List<CharacterNpc> CharacterNpCs = new ();
@@ -22,7 +22,7 @@ public class CharacterManager : DrawableGameComponent
     public CharacterManager(Game game,
         Vector2 screenPosition) : base(game)
     {
-        this._camera = game.GetComponent<CameraManager>().Camera;
+        this._camera = game.GetComponent<CameraManager>();
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         
         var texturesCharacter = new TexturesCharacter(game);
@@ -58,8 +58,8 @@ public class CharacterManager : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        var delta = this.Player.GetScreenPosition() - this._camera.Position;
-        this._camera.Position += delta * 0.08f;
+        var delta = this.Player.GetScreenPosition() - this._camera.Camera.Position;
+        this._camera.Camera.Position += delta * 0.08f;
         
         foreach (var npc in this._drawableCharacters)
         {
@@ -72,7 +72,7 @@ public class CharacterManager : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        this._spriteBatch.Begin(transformMatrix: this._camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+        this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
         foreach (var charToDraw in this._drawableCharacters.OrderBy(o => o.Collider.Position.Y))
         {
             charToDraw.Draw(this._spriteBatch);

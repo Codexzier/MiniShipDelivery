@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Assets.Textures;
+using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Helpers;
 using MonoGame.Extended;
@@ -12,17 +14,20 @@ namespace MiniShipDelivery.Components.HUD.Editor;
 public class MapEditorMenuCommon : BaseMenu
 {
     private readonly FunctionBar _functionBar;
+    private readonly TexturesInterfaceMenuEditorOptions _userInterfacesMenuEditorOptions;
 
-    public MapEditorMenuCommon(
-        AssetManager assetManager,
+    public MapEditorMenuCommon(Game game,
         InputManager input,
         OrthographicCamera camera,
         int screenWidth,
         int screenHeight)
-        : base(assetManager, input, camera,
+        : base(game, input, camera,
             screenWidth, screenHeight,
             new Vector2(0, 0), new Size(screenWidth, 24))
     {
+        this._userInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(
+            game.Content.Load<Texture2D>("Interface/MenuEditorOptions"));
+        
         this._functionBar = new FunctionBar(
             input,
             camera,
@@ -47,16 +52,17 @@ public class MapEditorMenuCommon : BaseMenu
         Vector2 position,
         FunctionItem functionItem)
     {
-        var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
-
-        spriteBatch.DrawRectangle(
-            position,
-            new SizeF(18, 18),
-            isInRangeColor);
-
-        this._assetManager.Draw(spriteBatch,
+        // TODO: Wrong area to draw the button
+        var tt = (InterfaceMenuEditorOptionPart)functionItem.AssetPart;
+        spriteBatch.Draw(
+            this._userInterfacesMenuEditorOptions.Texture,
             position + new Vector2(1, 1),
-            (InterfaceMenuEditorOptionPart)functionItem.AssetPart);
+            this._userInterfacesMenuEditorOptions.SpriteContent[tt],
+            Color.AliceBlue);
+
+        // this._assetManager.Draw(spriteBatch,
+        //     position + new Vector2(1, 1),
+        //     (InterfaceMenuEditorOptionPart)functionItem.AssetPart);
     }
 
     internal void Draw(SpriteBatch spriteBatch)

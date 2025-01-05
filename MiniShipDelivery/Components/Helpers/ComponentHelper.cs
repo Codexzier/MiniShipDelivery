@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 
-namespace MiniShipDelivery.Components;
+namespace MiniShipDelivery.Components.Helpers;
 
 public static class ComponentHelper
 {

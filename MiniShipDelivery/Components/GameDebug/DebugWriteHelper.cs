@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.HUD.Helpers
+namespace MiniShipDelivery.Components.GameDebug
 {
     public static class DebugWriteHelper
     {

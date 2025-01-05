@@ -1,13 +1,9 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor;
-using MiniShipDelivery.Components.HUD.Helpers;
 using MiniShipDelivery.Components.HUD.MainMenu;
-using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
 {
@@ -17,36 +13,27 @@ namespace MiniShipDelivery.Components.HUD
         
         private readonly MainMenuHud _mainMenuHud;
         private readonly MapEditorHud _mapEditorHud;
-        private readonly ConsoleManager _consoleManager;
 
         private HudOptionView _hudOptionView = HudOptionView.MainMenu;
-        private readonly InputManager _input;
-        private readonly OrthographicCamera _camera;
-        private readonly CharacterManager _characterManager;
+        private readonly CameraManager _camera;
 
         public HudManager(Game game,
             AssetManager assetManager,
-            CharacterManager characterManager,
             int screenWidth,
             int screenHeight) : base(game)
         {
             this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
 
-            this._input = game.GetComponent<InputManager>();
-            this._camera = game.GetComponent<CameraManager>().Camera;
-            this._characterManager = characterManager;
-            this._mainMenuHud = new MainMenuHud(assetManager, this._input, this._camera, screenWidth, screenHeight);
+            var input = game.GetComponent<InputManager>();
+            this._camera = game.GetComponent<CameraManager>();
+            
+            this._mainMenuHud = new MainMenuHud(game, assetManager, input, this._camera.Camera, screenWidth, screenHeight);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
             
             this._mapEditorHud = new MapEditorHud(
                 game, 
                 assetManager, 
                 screenWidth, screenHeight);
-            
-            this._consoleManager = new ConsoleManager(
-                assetManager,
-                this._camera, 
-                screenHeight);
         }
 
         private void MenuButtonHasPressed(HudOptionView view)
@@ -57,22 +44,11 @@ namespace MiniShipDelivery.Components.HUD
         public override void Update(GameTime gameTime)
         {
             this._mapEditorHud.Update(gameTime);
-
-            this._consoleManager.AddText($"{DateTime.Now:f}");
-            this._consoleManager.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
-            this._consoleManager.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._characterManager.Player.Collider.Position)}");
-
-            foreach (var charNpc in this._characterManager.CharacterNpCs)
-            {
-                this._consoleManager.AddText($"NPC: {charNpc.Collider.Position}");
-            }
         }
 
         public override void Draw(GameTime gameTime)
         {
-            this._spriteBatch.Begin(
-                transformMatrix: this._camera.GetViewMatrix(), 
-                samplerState: SamplerState.PointClamp);
+            this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
             switch (this._hudOptionView)
             {
@@ -85,8 +61,6 @@ namespace MiniShipDelivery.Components.HUD
                     this._mapEditorHud.Draw(this._spriteBatch);
                     break;
             }
-
-            this._consoleManager.DrawText(this._spriteBatch);
             
             this._spriteBatch.End();
         }

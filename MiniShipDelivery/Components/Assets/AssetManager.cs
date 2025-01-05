@@ -18,11 +18,11 @@ namespace MiniShipDelivery.Components.Assets
 
             //this.Characters = new TexturesCharacter(game);
             
-            this.UiMenuMapFrames = new TexturesUiMenuMapFrames(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
-            this.UiMenuMapOptions = new UiMenuMapOptions(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
+            //this.UiMenuMapFrames = new TexturesUiMenuMapFrames(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
+            //this.UiMenuMapOptions = new UiMenuMapOptions(game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
             
             this.TexturesUiMenuMainButtons = new TexturesUiMenuMainButtons(game.Content.Load<Texture2D>("Interface/MainMenuButtons"));
-            this.UserInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game.Content.Load<Texture2D>("Interface/MenuEditorOptions"));
+            //this.UserInterfacesMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game.Content.Load<Texture2D>("Interface/MenuEditorOptions"));
 
             this.UserInterfacesMouse = new UserInterfacesMouse(game.Content.Load<Texture2D>("Interface/tilemap_packed"));
             
@@ -31,9 +31,9 @@ namespace MiniShipDelivery.Components.Assets
 
             // register all textures
             //this._sprites.Add(nameof(TilemapPart), this.Tilemaps);
-            this._sprites.Add(nameof(UiMenuFramePart), this.UiMenuMapFrames);
-            this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions);
-            this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
+            //this._sprites.Add(nameof(UiMenuFramePart), this.UiMenuMapFrames);
+            //this._sprites.Add(nameof(UiMenuMapOptionPart), this.UiMenuMapOptions);
+            //this._sprites.Add(nameof(InterfaceMenuEditorOptionPart), this.UserInterfacesMenuEditorOptions);
             this._sprites.Add(nameof(MousePart), this.UserInterfacesMouse);
             //this._sprites.Add(nameof(EmotePart), this.Emotes);
             //this._sprites.Add(nameof(CharacterPart), this.Characters);
@@ -42,12 +42,12 @@ namespace MiniShipDelivery.Components.Assets
 
         public TexturesUiMenuMainButtons TexturesUiMenuMainButtons { get; }
 
-        private TexturesUiMenuMapFrames UiMenuMapFrames { get; }
-        private UiMenuMapOptions UiMenuMapOptions { get; }
+        //private TexturesUiMenuMapFrames UiMenuMapFrames { get; }
+        //private UiMenuMapOptions UiMenuMapOptions { get; }
         private UserInterfacesMouse UserInterfacesMouse { get; }
         public SpriteFont Font { get; }
         //private TexturesCharacter Characters { get; }
-        private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
+        //private TexturesInterfaceMenuEditorOptions UserInterfacesMenuEditorOptions { get; }
         //private TexturesTilemap Tilemaps { get; }
         //public TexturesEmote Emotes { get; }
 
@@ -84,15 +84,15 @@ namespace MiniShipDelivery.Components.Assets
         //     this.Draw(spriteBatch, position, part, this.Emotes);
         // }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuFramePart part)
-        {
-            this.Draw(spriteBatch, position, part, this.UiMenuMapFrames);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuFramePart part)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.UiMenuMapFrames);
+        // }
         
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuMapOptionPart part)
-        {
-            this.Draw(spriteBatch, position, part, this.UiMenuMapOptions);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuMapOptionPart part)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.UiMenuMapOptions);
+        // }
 
         // public void Draw(SpriteBatch spriteBatch, Vector2 position, CharacterPart part, CharacterType characterType)
         // {
@@ -107,10 +107,10 @@ namespace MiniShipDelivery.Components.Assets
         //     spriteBatch.Draw(this._sprites[nameof(CharacterPart)].Texture, position, rect, Color.AliceBlue);
         // }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfaceMenuEditorOptionPart part)
-        {
-            this.Draw(spriteBatch, position, part, this.UserInterfacesMenuEditorOptions);
-        }
+        // public void Draw(SpriteBatch spriteBatch, Vector2 position, InterfaceMenuEditorOptionPart part)
+        // {
+        //     this.Draw(spriteBatch, position, part, this.UserInterfacesMenuEditorOptions);
+        // }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, UiMenuMainPart part)
         {

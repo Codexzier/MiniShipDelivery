@@ -5,6 +5,7 @@ using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Character;
 using System.Collections.Generic;
 using MiniShipDelivery.Components.Assets.Textures;
+using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -14,7 +15,7 @@ namespace MiniShipDelivery.Components.World
         private readonly SpriteBatch _spriteBatch;
         private readonly TexturesTilemap _texturesTilemap;
         
-        private readonly OrthographicCamera _camera;
+        private readonly CameraManager _camera;
 
         private readonly int[][] _map =
         [
@@ -32,14 +33,12 @@ namespace MiniShipDelivery.Components.World
         {
             this._texturesTilemap = new TexturesTilemap(game);
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._camera = game.GetComponent<CameraManager>().Camera;
+            this._camera = game.GetComponent<CameraManager>();
         }
 
         public override void Draw(GameTime gameTime)
         {
-            this._spriteBatch.Begin(
-                transformMatrix: this._camera.GetViewMatrix(),
-                samplerState: SamplerState.PointClamp);
+            this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
             for (var y = 0; y < this._map.Length; y++)
             {
