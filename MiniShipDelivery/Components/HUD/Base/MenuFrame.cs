@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -8,9 +7,8 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base
 {
-    public class MenuFrame
+    public class MenuFrame(Game game)
     {
-        //private readonly AssetManager _assetManager;
         private readonly Dictionary<MenuFrameType, int> _menuShift = new()
         {
             { MenuFrameType.Type1, 0 },
@@ -18,17 +16,10 @@ namespace MiniShipDelivery.Components.HUD.Base
             { MenuFrameType.Type3, 18 }
         };
 
-        private readonly TexturesUiMenuMapFrames _uiMenuMapFrames;
+        private readonly TexturesUiMenuMapFrames _uiMenuMapFrames = new(
+            game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
 
-        public MenuFrame(Game game)
-        {
-            this._uiMenuMapFrames = new TexturesUiMenuMapFrames(
-                game.Content.Load<Texture2D>("Interface/MenuMapOptions"));
-            
-            //this._assetManager = assetManager;
-        }
-
-        public UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
+        private UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
         {
             return (UiMenuFramePart)((int)part + this._menuShift[mft]);
         }
@@ -38,9 +29,7 @@ namespace MiniShipDelivery.Components.HUD.Base
             Size size,
             MenuFrameType mft)
         {
-            var shift = this._menuShift[mft];
-
-            var countMiddleForWidth = ((size.Width - (2 * 4)) / 4);
+            var countMiddleForWidth = (size.Width - (2 * 4)) / 4;
             var countMiddleForHeight = (size.Height / 4) - 1;
 
             this.CreateScreenWidthFrame(spriteBatch,
@@ -73,13 +62,6 @@ namespace MiniShipDelivery.Components.HUD.Base
                 mft);
         }
 
-        private Func<Vector2, int, Vector2>[] _funcs = new Func<Vector2, int, Vector2>[]
-        {
-            (vec, m) => vec,
-            (vec, m) => vec + new Vector2(4 + (m * 4), 0),
-            (vec, m) => vec + new Vector2(4 + (m * 4), 0)
-        };
-
         private void CreateScreenWidthFrame(SpriteBatch spriteBatch, 
             int countMiddleForWidth, 
             Vector2 shiftPosition, 
@@ -94,29 +76,18 @@ namespace MiniShipDelivery.Components.HUD.Base
 
             this.DrawScreenWidthFramePart(spriteBatch, shiftPosition, left);
             
-            // this._assetManager.Draw(spriteBatch, 
-            //     shiftPosition, 
-            //     left);
-            
             for (var x = 0; x < countMiddleForWidth; x++)
             {
                 this.DrawScreenWidthFramePart(
                     spriteBatch, 
                     shiftPosition  + new Vector2(4 + (x * 4), 0), 
                     middle);
-                // this._assetManager.Draw(spriteBatch, 
-                //     shiftPosition + new Vector2(4 + (x * 4), 0), 
-                //     middle);
             }
             
             this.DrawScreenWidthFramePart(
                 spriteBatch, 
                 shiftPosition  + new Vector2(4 + (countMiddleForWidth * 4), 0), 
                 right);
-            
-            // this._assetManager.Draw(spriteBatch, 
-            //     shiftPosition + new Vector2(4 + (countMiddleForWidth * 4), 0), 
-            //     right);
         }
 
         private void DrawScreenWidthFramePart(
@@ -128,7 +99,7 @@ namespace MiniShipDelivery.Components.HUD.Base
                 this._uiMenuMapFrames.Texture,
                 position,
                 this._uiMenuMapFrames.SpriteContent[part],
-                Color.Aquamarine);
+                Color.AliceBlue);
         }
     }
 }
