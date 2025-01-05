@@ -15,7 +15,9 @@ public class FunctionBar(
     Vector2 startPosition,
     Size size,
     Func<int, int, int, Vector2> funcGetPositionArea,
-    Func<Vector2, SizeF, bool> isMouseInRange)
+    Func<Vector2, SizeF, bool> isMouseInRange,
+    Action<SpriteBatch, Vector2, FunctionItem> drawButton,
+    Func<FunctionItem, Color, Color> changeColorForActive)
 {
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
@@ -58,16 +60,20 @@ public class FunctionBar(
 
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
 
+        isInRangeColor = changeColorForActive(item, isInRangeColor);
+        
         spriteBatch.DrawRectangle(
             pos,
             new SizeF(18, 18),
             isInRangeColor);
         
-        this.ButtonAreaHasExecutedEvent?.Invoke(
-            spriteBatch,
-            inRange,
-            pos,
-            item);
+        drawButton?.Invoke(spriteBatch, pos, item);
+        
+        // this.ButtonAreaHasExecutedEvent?.Invoke(
+        //     spriteBatch,
+        //     inRange,
+        //     pos,
+        //     item);
     }
     
     private void AddFunctionItem(object part, int columns)
@@ -82,12 +88,12 @@ public class FunctionBar(
     public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
 
-    public delegate void ButtonAreaHasExecutedEventHandler(
-        SpriteBatch spriteBatch,
-        bool inRange,
-        Vector2 position,
-        FunctionItem functionItem);
-    public event ButtonAreaHasExecutedEventHandler ButtonAreaHasExecutedEvent;
+    // public delegate void ButtonAreaHasExecutedEventHandler(
+    //     SpriteBatch spriteBatch,
+    //     bool inRange,
+    //     Vector2 position,
+    //     FunctionItem functionItem);
+    // public event ButtonAreaHasExecutedEventHandler ButtonAreaHasExecutedEvent;
 
     public void ResetAllSelected(FunctionItem functionitem)
     {

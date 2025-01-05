@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.Assets.Parts
+﻿namespace MiniShipDelivery.Components.HUD.Editor.Options
 {
     public enum InterfaceMenuEditorOptionPart
     {

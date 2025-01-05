@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.HUD.Editor.Options;
 
-namespace MiniShipDelivery.Components.HUD.Editor;
+namespace MiniShipDelivery.Components.HUD.Editor.Textures;
 
-public class UiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOptionPart>
+public class TexturesUiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOptionPart>
 {
     public IDictionary<UiMenuMapOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<UiMenuMapOptionPart, Rectangle>
     {

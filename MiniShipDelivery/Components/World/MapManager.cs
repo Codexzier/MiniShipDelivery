@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Character;
-using System.Collections.Generic;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 

@@ -35,7 +35,7 @@ namespace MiniShipDelivery.Components.HUD
 
         public override void Update(GameTime gameTime)
         {
-            this._mapEditorHud.Update(gameTime);
+            
         }
 
         public override void Draw(GameTime gameTime)
