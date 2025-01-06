@@ -7,5 +7,6 @@
         Load = 2,
         Save = 3,
         Grid = 4,
+        Close = 5
     }
 }

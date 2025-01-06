@@ -19,8 +19,8 @@ namespace MiniShipDelivery.Components.World
         private readonly CameraManager _camera;
 
         private readonly MapTile[][] _map;
-        
         private readonly IEnumerable<int> _listOfValidateTileNumbers;
+        
         private readonly InputManager _input;
 
         public MapManager(Game game) :base(game)
@@ -54,11 +54,9 @@ namespace MiniShipDelivery.Components.World
         {
             base.Update(gameTime);
             
-            
             // HUD depended content
-            if(HudManager.HudView != HudOptionView.MapEditor) return;
+            if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
             if(SelectedTilemapPart == TilemapPart.None) return;
-            
             
             this.UpdateSetMapTile();
         }
@@ -114,7 +112,7 @@ namespace MiniShipDelivery.Components.World
 
         private void HudDependedDrawContent()
         {
-            if(HudManager.HudView != HudOptionView.MapEditor) return;
+            if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
             
             this.DrawGrid();
             

@@ -64,9 +64,14 @@ public class MapEditorMenuCommon : BaseMenu
     private void ButtonAreaPressed(FunctionItem functionItem)
     {
         Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
-        if ((InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
+        switch (functionItem.AssetPart)
         {
-            MapManager.ShowGrid = !MapManager.ShowGrid;
+            case InterfaceMenuEditorOptionPart.Grid:
+                MapManager.ShowGrid = !MapManager.ShowGrid;
+                break;
+            case InterfaceMenuEditorOptionPart.Close:
+                GlobaleGameParameters.HudView = HudOptionView.MainMenu;
+                break;
         }
     }
     
