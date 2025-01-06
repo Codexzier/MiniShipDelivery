@@ -32,6 +32,8 @@ public class MapEditorMenuCommon : BaseMenu
 
         this._functionBar.FillOptions<InterfaceMenuEditorOptionPart>(6);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
+        
+        MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobaleGameParameters.ScreenWidth, 24));
     }
 
     private void DrawButton(

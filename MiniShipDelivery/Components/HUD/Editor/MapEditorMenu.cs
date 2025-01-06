@@ -20,7 +20,7 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
 
-    public static List<RectangleF> MenuField = new List<RectangleF>();
+    public static List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
         game,

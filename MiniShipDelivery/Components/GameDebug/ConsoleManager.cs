@@ -16,8 +16,15 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
     
 
     private readonly Vector2 _startPosition = new(3, GlobaleGameParameters.ScreenHeight - 43);
-    private readonly StringBuilder _stringBuilder = new();
+    
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
+
+    private static StringBuilder _stringBuilder { get; } = new();
+
+    public static void AddTextToDraw(string text)
+    {
+        _stringBuilder.AppendLine(text);
+    }
 
     public override void Update(GameTime gameTime)
     {
@@ -44,7 +51,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
         this.DrawConsoleWindow();
         
         this._spriteBatch.DrawString(this._font,
-            this._stringBuilder.ToString(),
+            _stringBuilder.ToString(),
             this._startPosition + this._camera.Camera.Position + new Vector2(3, 5),
             Color.White,
             0f,
@@ -52,14 +59,14 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
             0.3f,
             SpriteEffects.None, 1);
 
-        this._stringBuilder.Clear();
+        _stringBuilder.Clear();
         
         this._spriteBatch.End();
     }
 
     private void AddText(string text)
     {
-        this._stringBuilder.AppendLine(text);
+        _stringBuilder.AppendLine(text);
     }
 
     private void DrawConsoleWindow()

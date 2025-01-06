@@ -100,6 +100,19 @@ namespace MiniShipDelivery.Components
 
             return false;
         }
+        
+        internal bool GetMouseLeftButtonReleasedStateOnMap(Vector2 relativPosition, Vector2 position, SizeF sizeArea, UiMenuMainPart menuMainPart)
+        {
+            if (this._mouseLeftButtonReleased)
+            {
+                this._mouseLeftButtonReleased = false;
+                
+                Debug.WriteLine($"Menu Main Part: {menuMainPart}");
+                return IsMouseInRangeLastAndNowPosition(position, sizeArea);
+            }
+
+            return false;
+        }
 
         internal bool IsMouseInRangeLastAndNowPosition(Vector2 position, SizeF size)
         {

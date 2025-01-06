@@ -55,17 +55,22 @@ namespace MiniShipDelivery.Components.World
             base.Update(gameTime);
             
             
-            
             // HUD depended content
             if(HudManager.HudView != HudOptionView.MapEditor) return;
             if(SelectedTilemapPart == TilemapPart.None) return;
             
             
+            this.UpdateSetMapTile();
+        }
+
+        private void UpdateSetMapTile()
+        {
             var result = this.GetMapTile();
             if(result == null) return;
             
             // not selectable map area, well the menu is there.
-            var rect = new RectangleF(result.Position.X, result.Position.Y, 16, 16);
+            var rePosition = result.Position - this._camera.Camera.Position ;
+            var rect = new RectangleF(rePosition.X, rePosition.Y, 16, 16);
             foreach (var rectangle in MapEditorMenu.MenuField)
             {
                 if (rectangle.Intersects(rect))
@@ -74,8 +79,7 @@ namespace MiniShipDelivery.Components.World
                 }
             }
             
-            
-            if (this._input.GetMouseLeftButtonReleasedState(result.Position, new SizeF(16, 16), UiMenuMainPart.None))
+            if (this._input.GetMouseLeftButtonReleasedState(rePosition, new SizeF(16, 16), UiMenuMainPart.None))
             {
                 result.UpdateTilemapPart(SelectedTilemapPart);
             }
@@ -84,8 +88,6 @@ namespace MiniShipDelivery.Components.World
         public override void Draw(GameTime gameTime)
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
-            
-            this.DrawGrid();
             
             for (var y = 0; y < this._map.Length; y++)
             {
@@ -104,44 +106,26 @@ namespace MiniShipDelivery.Components.World
                         Color.White);
                 }
             }
-
-            this.DrawSelectedMapTile();
-            this.DrawHoverEffectOnGrid();
             
-            var pos = this._input.Inputs.MousePosition;
-            pos += this._camera.Camera.Position;
-            this._spriteBatch.DrawRectangle(
-                pos,
-                new SizeF(4, 4),
-                Color.Red);
-
-            if (HudManager.HudView == HudOptionView.MapEditor && SelectedTilemapPart != TilemapPart.None)
-            {
-                var result = this.GetMapTile();
-                if (result != null)
-                {
-                    // not selectable map area, well the menu is there.
-                    var rect = new RectangleF(result.Position.X, result.Position.Y, 16, 16);
-                    var t = false;
-                    foreach (var rectangle in MapEditorMenu.MenuField)
-                    {
-                        if (rectangle.Intersects(rect))
-                        {
-                            t = true;
-                        }
-                    }
-
-                    this._spriteBatch.DrawRectangle(
-                        pos,
-                        new SizeF(4, 4),
-                        t ? Color.Yellow: Color.Red);
-                }
-            }
-
-
+            this.HudDependedDrawContent();
+            
             this._spriteBatch.End();
         }
 
+        private void HudDependedDrawContent()
+        {
+            if(HudManager.HudView != HudOptionView.MapEditor) return;
+            
+            this.DrawGrid();
+            
+            if(SelectedTilemapPart == TilemapPart.None) return;
+
+            this.DrawSelectedMapTile();
+            this.DrawHoverEffectOnGrid();
+        }
+        
+        
+        
         private void DrawSelectedMapTile()
         {
             var result = this.GetMapTile();
