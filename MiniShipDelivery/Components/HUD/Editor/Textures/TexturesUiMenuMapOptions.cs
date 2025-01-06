@@ -19,9 +19,17 @@ public class TexturesUiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOp
         { UiMenuMapOptionPart.ExclamationWithe, new Rectangle(64, 0, 16, 16) },
         { UiMenuMapOptionPart.ExclamationYellow, new Rectangle(80, 0, 16, 16) },
         { UiMenuMapOptionPart.ExclamationRed, new Rectangle(96, 0, 16, 16) },
-                
-        { UiMenuMapOptionPart.SelectRed, new Rectangle(112, 0, 16, 16) },
-        { UiMenuMapOptionPart.SelectGreen, new Rectangle(128, 0, 16, 16) },
+        
+        { UiMenuMapOptionPart.BoxBrown, new Rectangle(112, 0, 16, 16) },
+        { UiMenuMapOptionPart.BoxGray , new Rectangle(128, 0, 16, 16)},
+        
+        { UiMenuMapOptionPart.SelectRed, new Rectangle(144, 0, 16, 16) },
+        { UiMenuMapOptionPart.SelectGreen, new Rectangle(160, 0, 16, 16) },
+        
+        { UiMenuMapOptionPart.TilemapGrass, new Rectangle(176, 0, 16, 16) },
+        { UiMenuMapOptionPart.TilemapSidewalk, new Rectangle(192, 0, 16, 16) },
+        { UiMenuMapOptionPart.TilemapGrayRoof, new Rectangle(208, 0, 16, 16) },
+        { UiMenuMapOptionPart.TilemapBrownRoof, new Rectangle(224, 0, 16, 16) },
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuMapOptions");

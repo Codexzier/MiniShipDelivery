@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets.Parts;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
@@ -19,8 +18,9 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapOption;
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
-
-    public static List<RectangleF> MenuField = new();
+    
+    public static LevelPart TilemapLevel = LevelPart.Grass;
+    public static readonly List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
         game,
@@ -39,7 +39,13 @@ public class MapEditorMenu : BaseMenu
             this.DrawButtonMapOption,
             this.ChangeColorForActive);
 
-        this._functionBarMapOption.FillOptions<MapEditorOption>(3);
+        this._functionBarMapOption.ManuelOptions(
+        [
+            UiMenuMapOptionPart.ArrowLeft,
+            UiMenuMapOptionPart.TilemapSelect,
+            UiMenuMapOptionPart.ArrowRight
+        ], 3);
+        
         this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
 
         this._functionBarMapSprites = new FunctionBar(
@@ -65,12 +71,17 @@ public class MapEditorMenu : BaseMenu
     {
         switch (functionItem.AssetPart)
         {
-            case MapEditorOption.None:
+            case UiMenuMapOptionPart.TilemapSelect:
+                TilemapLevel += 1;
+                if(TilemapLevel > LevelPart.BrownRoof)
+                {
+                    TilemapLevel = LevelPart.Grass;
+                }
                 break;
-            case MapEditorOption.ArrowLeft:
+            case UiMenuMapOptionPart.ArrowLeft:
                 this._functionBarMapSprites.PageDown();
                 break;
-            case MapEditorOption.ArrowRight:
+            case UiMenuMapOptionPart.ArrowRight:
                 this._functionBarMapSprites.PageUp();
                 break;
         }
@@ -87,18 +98,17 @@ public class MapEditorMenu : BaseMenu
         FunctionItem functionItem)
     {
         var shiftPosition = position + new Vector2(1, 1);
-        var menuMapOption = UiMenuMapOptionPart.None;
-        switch (functionItem.AssetPart)
+        var menuMapOption = (UiMenuMapOptionPart)functionItem.AssetPart;
+        if (menuMapOption == UiMenuMapOptionPart.TilemapSelect)
         {
-            case MapEditorOption.OnOffGrid:
-                menuMapOption = UiMenuMapOptionPart.ExclamationWithe;
-                break;
-            case MapEditorOption.ArrowLeft:
-                menuMapOption = UiMenuMapOptionPart.ArrowLeft;
-                break;
-            case MapEditorOption.ArrowRight:
-                menuMapOption = UiMenuMapOptionPart.ArrowRight;
-                break;
+            menuMapOption = TilemapLevel switch
+            {
+                LevelPart.Grass => UiMenuMapOptionPart.TilemapGrass,
+                LevelPart.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
+                LevelPart.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
+                LevelPart.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
+                _ => menuMapOption
+            };
         }
         
         spriteBatch.Draw(
@@ -117,7 +127,7 @@ public class MapEditorMenu : BaseMenu
         spriteBatch.Draw(
             this._texturesTilemap.Texture, 
             position + new Vector2(1, 1), 
-            this._texturesTilemap.SpriteContent[(TilemapPart)functionItem.AssetPart],
+            this._texturesTilemap.GetSprite(TilemapLevel, (TilemapPart)functionItem.AssetPart),
             Color.White);
     }
     

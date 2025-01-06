@@ -7,9 +7,21 @@ public enum UiMenuMapOptionPart
     ArrowUp,
     ArrowRight,
     ArrowDown,
+    
     ExclamationWithe,
     ExclamationYellow,
     ExclamationRed,
+    
+    BoxBrown,
+    BoxGray,
+    
     SelectRed,
-    SelectGreen
+    SelectGreen,
+    
+    TilemapSelect,
+    
+    TilemapGrass,
+    TilemapSidewalk,
+    TilemapGrayRoof,
+    TilemapBrownRoof
 }

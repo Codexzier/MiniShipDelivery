@@ -1,6 +1,6 @@
 ﻿namespace MiniShipDelivery.Components.HUD.Editor.Options;
 
-public enum MapEditorOption
+public enum MapEditorOptionObsolet
 {
     None = 0,
     OnOffGrid = 1,

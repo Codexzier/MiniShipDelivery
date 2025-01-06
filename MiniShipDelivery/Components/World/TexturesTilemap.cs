@@ -6,13 +6,11 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.World
 {
-    internal class TexturesTilemap : ISpriteProperties<TilemapPart>
+    public class TexturesTilemap : ISpriteProperties<TilemapPart>
     {
         public Texture2D Texture { get; }
         
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
-
-        private IDictionary<int, Rectangle> _template = new Dictionary<int, Rectangle>();
         
         public TexturesTilemap(Game game)
         {
@@ -21,64 +19,78 @@ namespace MiniShipDelivery.Components.World
             var shiftY = 0;
             this.SpriteContent = new Dictionary<TilemapPart, Rectangle>
             {
-                { TilemapPart.None, new Rectangle(0, 0, 2, 2) },
+                { TilemapPart.None, new Rectangle(0, 0, 0, 0) },
                 // brick border and green floor
-                { TilemapPart.GrassAndBrick_TopLeft, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16) },
-                { TilemapPart.GrassAndBrick_TopMiddle, new Rectangle((16 * (1 + shiftX))  + shiftX, (16 * shiftY), 16, 16) },
-                { TilemapPart.GrassAndBrick_TopRight, new Rectangle((16 * (2 + shiftX))  + shiftX, (16 * shiftY), 16, 16) },
-                { TilemapPart.GrassAndBrick_MiddleLeft, new Rectangle((16 * shiftX), (16 * (1 + shiftY)) , 16, 16) },
-                { TilemapPart.GrassAndBrick_MiddleMiddle, new Rectangle((16 * (1 + shiftX)) , (16 * 1)  + shiftY, 16, 16) },
-                { TilemapPart.GrassAndBrick_MiddleRight, new Rectangle((16 * (2 +  shiftX)) , (16 * 1)  + shiftY, 16, 16) },
-                { TilemapPart.GrassAndBrick_DownLeft, new Rectangle((16 * shiftX) , (16 * 2)  + shiftY, 16, 16) },
-                { TilemapPart.GrassAndBrick_DownMiddle, new Rectangle((16 * (1 +  shiftX)) , (16 * 2)  + shiftY, 16, 16) },
-                { TilemapPart.GrassAndBrick_DownRight, new Rectangle((16 * (2 + shiftX)) , (16 * 2)  + shiftY, 16, 16) }
+                { TilemapPart.TopLeft, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16) },
+                { TilemapPart.TopMiddle, new Rectangle((16 * (1 + shiftX))  + shiftX, (16 * shiftY), 16, 16) },
+                { TilemapPart.TopRight, new Rectangle((16 * (2 + shiftX))  + shiftX, (16 * shiftY), 16, 16) },
+                { TilemapPart.MiddleLeft, new Rectangle((16 * shiftX), (16 * (1 + shiftY)) , 16, 16) },
+                { TilemapPart.MiddleMiddle, new Rectangle((16 * (1 + shiftX)) , (16 * 1)  + shiftY, 16, 16) },
+                { TilemapPart.MiddleRight, new Rectangle((16 * (2 +  shiftX)) , (16 * 1)  + shiftY, 16, 16) },
+                { TilemapPart.DownLeft, new Rectangle((16 * shiftX) , (16 * 2)  + shiftY, 16, 16) },
+                { TilemapPart.DownMiddle, new Rectangle((16 * (1 +  shiftX)) , (16 * 2)  + shiftY, 16, 16) },
+                { TilemapPart.DownRight, new Rectangle((16 * (2 + shiftX)) , (16 * 2)  + shiftY, 16, 16) }
             };
-
+            
             // brick border and green floor without and in borders
             shiftX = 3;
             shiftY = 0;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_OutBorderTopLeft_InBorder_RightDown, new Rectangle((16 * shiftX), (16 * shiftY) + shiftY, 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_OutBorderTopRight_InBorder_LeftDown, new Rectangle((16 * (1 + shiftX)) , (16 * shiftY) + shiftY, 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_OutBorderDownLeft_InBorder_RightTop, new Rectangle((16 * shiftX) , (16 * (1 + shiftY))  + shiftY, 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_OutBorderDownRight_InBorder_LeftTop, new Rectangle((16 * (1 + shiftX)) , (16 * (1 + shiftY))  + shiftY, 16, 16));
-
+            this.SpriteContent.Add(TilemapPart.OutBorderTopLeft_InBorder_RightDown, new Rectangle((16 * shiftX), (16 * shiftY) + shiftY, 16, 16));
+            this.SpriteContent.Add(TilemapPart.OutBorderTopRight_InBorder_LeftDown, new Rectangle((16 * (1 + shiftX)) , (16 * shiftY) + shiftY, 16, 16));
+            this.SpriteContent.Add(TilemapPart.OutBorderDownLeft_InBorder_RightTop, new Rectangle((16 * shiftX) , (16 * (1 + shiftY))  + shiftY, 16, 16));
+            this.SpriteContent.Add(TilemapPart.OutBorderDownRight_InBorder_LeftTop, new Rectangle((16 * (1 + shiftX)) , (16 * (1 + shiftY))  + shiftY, 16, 16));
+            
             // brick border and green floor with in borders
             shiftX = 5;
             shiftY = 0;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_TopLeft_InBorder_RightDown, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_TopRight_InBorder_LeftDown, new Rectangle((16 * (1 + shiftX)), (16 * shiftY), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_DownLeft_InBorder_RightTop, new Rectangle((16 * shiftX), (16 * (1 + shiftY)), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_DownRight_InBorder_LeftTop, new Rectangle((16 * (1 + shiftX)), (16 * (1 + shiftY)), 16, 16));
-
+            this.SpriteContent.Add(TilemapPart.TopLeft_InBorder_RightDown, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
+            this.SpriteContent.Add(TilemapPart.TopRight_InBorder_LeftDown, new Rectangle((16 * (1 + shiftX)), (16 * shiftY), 16, 16));
+            this.SpriteContent.Add(TilemapPart.DownLeft_InBorder_RightTop, new Rectangle((16 * shiftX), (16 * (1 + shiftY)), 16, 16));
+            this.SpriteContent.Add(TilemapPart.DownRight_InBorder_LeftTop, new Rectangle((16 * (1 + shiftX)), (16 * (1 + shiftY)), 16, 16));
+            
             // brick border and green small floor horizontal with in borders
             shiftX = 3;
             shiftY = 2;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDownLeft_OutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDown_OutBorder, new Rectangle((16 * (1 + shiftX)), (16 * shiftY), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_HorizontalTopDownRight_OutBorder, new Rectangle((16 * (2 + shiftX)), (16 * shiftY), 16, 16));
-
+            this.SpriteContent.Add(TilemapPart.HorizontalTopDownLeft_OutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
+            this.SpriteContent.Add(TilemapPart.HorizontalTopDown_OutBorder, new Rectangle((16 * (1 + shiftX)), (16 * shiftY), 16, 16));
+            this.SpriteContent.Add(TilemapPart.HorizontalTopDownRight_OutBorder, new Rectangle((16 * (2 + shiftX)), (16 * shiftY), 16, 16));
+            
             // brick border and green single floor with in borders
             shiftX = 6;
             shiftY = 2;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_AroundOutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
-
+            this.SpriteContent.Add(TilemapPart.AroundOutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
+            
             // brick border and green small floor vertical with in borders
             shiftX = 7;
             shiftY = 0;
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRightTop_OutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRight_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 1)), 16, 16));
-            this.SpriteContent.Add(TilemapPart.GrassAndBrick_VerticalLeftRightDown_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 2)), 16, 16));
+            this.SpriteContent.Add(TilemapPart.VerticalLeftRightTop_OutBorder, new Rectangle((16 * shiftX), (16 * shiftY), 16, 16));
+            this.SpriteContent.Add(TilemapPart.VerticalLeftRight_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 1)), 16, 16));
+            this.SpriteContent.Add(TilemapPart.VerticalLeftRightDown_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 2)), 16, 16));
+        }
 
-            // gray wall and brown floor
-            //{ TilemapPart.RoomGray_TopLeft, new Rectangle((16 * 0) + 0, (16 * 3) + 3, 16, 16) },
-            //{ TilemapPart.RoomGray_TopMiddle, new Rectangle((16 * 1) + 1, (16 * 3) + 3, 16, 16) },
-            //{ TilemapPart.RoomGray_TopRight, new Rectangle((16 * 2) + 2, (16 * 3) + 3, 16, 16) },
-            //{ TilemapPart.RoomGray_MiddleLeft, new Rectangle((16 * 0) + 0, (16 * 4) + 4, 16, 16) },
-            //{ TilemapPart.RoomGray_MiddleMiddle, new Rectangle((16 * 1) + 1, (16 * 4) + 4, 16, 16) },
-            //{ TilemapPart.RoomGray_MiddleRight, new Rectangle((16 * 2) + 2, (16 * 4) + 4, 16, 16) },
-            //{ TilemapPart.RoomGray_DownLeft, new Rectangle((16 * 0) + 0, (16 * 5) + 5, 16, 16) },
-            //{ TilemapPart.RoomGray_DownMiddle, new Rectangle((16 * 1) + 1, (16 * 5) + 5, 16, 16) },
-            //{ TilemapPart.RoomGray_DownRight, new Rectangle((16 * 2) + 2, (16 * 5) + 5, 16, 16) },
+        public Rectangle GetSprite(LevelPart level, TilemapPart tilemapPart)
+        {
+            var mapTile = this.SpriteContent[tilemapPart];
+            if (level == LevelPart.Grass)
+            {
+                return mapTile;
+            }
+
+            switch (level)
+            {
+                case LevelPart.Sidewalk:
+                    mapTile.X += 16 * 8;
+                    break;
+                case LevelPart.GrayRoof:
+                    mapTile.Y += 16 * 3;
+                    break;
+                case LevelPart.BrownRoof:
+                    mapTile.X += 16 * 8;
+                    mapTile.Y += 16 * 3;
+                    break;
+            }
+            
+            return mapTile;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Controls;
 using MonoGame.Extended;
@@ -45,9 +44,20 @@ public class FunctionBar(
         }
     }
 
+    public void ManuelOptions<TAssertPart>(List<TAssertPart> parts, int columns) where TAssertPart : Enum
+    {
+        var rows = (int)(size.Height - startPosition.Y) / 18;
+        this._maxPerPage = rows * columns;
+
+        foreach (var valPart in parts)
+        {
+            this.AddFunctionItem(valPart, columns);
+        }
+    }
+
     public void PageUp()
     {
-        if (this._indexForPaging >= this._functionItems.Count)
+        if (this._indexForPaging >= this._functionItems.Count - 1)
         {
             this._indexForPaging = this._functionItems.Count - 1;
             return;
@@ -135,4 +145,6 @@ public class FunctionBar(
             }
         }
     }
+
+    
 }

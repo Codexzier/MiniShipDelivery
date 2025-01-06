@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
@@ -18,8 +20,8 @@ namespace MiniShipDelivery.Components.World
         
         private readonly CameraManager _camera;
 
-        private readonly MapTile[][] _map;
-        private readonly IEnumerable<int> _listOfValidateTileNumbers;
+        private readonly WorldMap _worldMap = new();
+        
         
         private readonly InputManager _input;
 
@@ -29,22 +31,10 @@ namespace MiniShipDelivery.Components.World
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             this._camera = game.GetComponent<CameraManager>();
             this._input = game.GetComponent<InputManager>();
-
-            // collected validate tiles
-            this._listOfValidateTileNumbers = Enum.GetValues<TilemapPart>().Select(s => (int)s);
             
-            // y, x
-            this._map = new MapTile[10][];
-            for (int indexY = 0; indexY < 10; indexY++)
-            {
-                this._map[indexY] = new MapTile[20];
-                for (int indexX = 0; indexX < 20; indexX++)
-                {
-                    this._map[indexY][indexX] = new MapTile(
-                        TilemapPart.GrassAndBrick_MiddleMiddle,
-                        new Vector2(indexX * 16, indexY * 16));
-                }
-            }
+            NewMapEvent += this.NewMapReset;
+            LoadMapFromFileEvent += this.LoadMapFromFile;
+            SaveMapToFileEvent += this.SaveMapToFile;
         }
         
         public static bool ShowGrid { get; set; }
@@ -87,23 +77,7 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
-            for (var y = 0; y < this._map.Length; y++)
-            {
-                for (var x = 0; x < this._map[y].Length; x++)
-                {
-                    var tileNumber = this._map[y][x].TilemapPart;
-                    if (!this._listOfValidateTileNumbers.Contains((int)tileNumber))
-                    {
-                        tileNumber = TilemapPart.GrassAndBrick_AroundOutBorder;
-                    }
-                    
-                    this._spriteBatch.Draw(
-                        this._texturesTilemap.Texture, 
-                        this._map[y][x].Position, 
-                        this._texturesTilemap.SpriteContent[tileNumber],
-                        Color.White);
-                }
-            }
+            this._worldMap.DrawAllLevels(this._spriteBatch, this._texturesTilemap);
             
             this.HudDependedDrawContent();
             
@@ -122,14 +96,12 @@ namespace MiniShipDelivery.Components.World
             this.DrawHoverEffectOnGrid();
         }
         
-        
-        
         private void DrawSelectedMapTile()
         {
             var result = this.GetMapTile();
             if(result == null) return;
-            
-            if (!this._listOfValidateTileNumbers.Contains((int)SelectedTilemapPart))
+
+            if (!this._worldMap.ValidTileNumber((int)SelectedTilemapPart, MapEditorMenu.TilemapLevel))
             {
                 return;
             }
@@ -137,7 +109,7 @@ namespace MiniShipDelivery.Components.World
             this._spriteBatch.Draw(
                 this._texturesTilemap.Texture, 
                 result.Position, 
-                this._texturesTilemap.SpriteContent[SelectedTilemapPart],
+                this._texturesTilemap.GetSprite(MapEditorMenu.TilemapLevel, SelectedTilemapPart),
                 Color.White);
         }
 
@@ -173,9 +145,12 @@ namespace MiniShipDelivery.Components.World
             var x = (int)pos.X / 16;
             var y = (int)pos.Y / 16;
 
-            if(x < 0 || y < 0 || y >= this._map.Length || x >= this._map[y].Length) return null;
+            if(this._worldMap.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result))
+            {
+                return result;
+            }
             
-            return this._map[y][x];
+            return null;
         }
 
         private void DrawGrid()
@@ -196,5 +171,98 @@ namespace MiniShipDelivery.Components.World
                 }
             }
         }
+        
+        private delegate void NewMapDelegateEventHandler();
+        private static event NewMapDelegateEventHandler NewMapEvent;
+        private delegate void SaveMapToFileDelegateEventHandler();
+        private static event SaveMapToFileDelegateEventHandler SaveMapToFileEvent;
+        private delegate void LoadMapFromFileDelegateEventHandler();
+        private static event LoadMapFromFileDelegateEventHandler LoadMapFromFileEvent;
+
+        
+        public static void NewMap()
+        {
+            NewMapEvent?.Invoke();
+        }
+        public static void SaveMap()
+        {
+            SaveMapToFileEvent?.Invoke();
+        }
+        public static void LoadMap()
+        {
+            LoadMapFromFileEvent?.Invoke();
+        }
+        
+        private readonly string _mapFile = $"{Environment.CurrentDirectory}/map.txt";
+        
+        private void NewMapReset()
+        {
+            foreach (var worldMapLevel in this._worldMap.WorldMapLevels.Values)
+            {
+                for (var y = 0; y < worldMapLevel.Map.Length; y++)
+                {
+                    for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
+                    {
+                        worldMapLevel.Map[y][x].UpdateTilemapPart(TilemapPart.None);
+                    }
+                }
+            }
+        }
+        
+        private void SaveMapToFile()
+        {
+            using var file = new StreamWriter(this._mapFile);
+            var str = new StringBuilder();
+
+            foreach (var worldMapLevel in this._worldMap.WorldMapLevels.Values)
+            {
+                foreach (var mapTile in worldMapLevel.Map)
+                {
+                    foreach (var tile in mapTile)
+                    {
+                        str.Append($"{worldMapLevel.LevelPart}:{(int)tile.TilemapPart}");
+                        str.Append("; ");
+                    }
+                    str.AppendLine();
+                }
+            }
+                
+            file.Write(str.ToString());
+        }
+
+        private void LoadMapFromFile()
+        {
+            var lines = File.ReadAllLines(this._mapFile);
+
+            //var dd = new Dictionary<>();
+            
+            // rows
+            foreach (var line in lines)
+            {
+                // row --> Sidewalk:5; Sidewalk:5;...
+                var parts = line.Split(";");
+                foreach (var part in parts)
+                {
+                    // cell --> Sidewalk:5
+                    var data = part.Split(":").Select(s => s.Trim()).ToArray();
+                    
+                    if(data.Length == 0 || string.IsNullOrEmpty(data[0])) continue;
+                    
+                    var levelPart = (LevelPart)Enum.Parse(typeof(LevelPart), data[0]);
+                    var tilemapPart = (TilemapPart)int.Parse(data[1]);
+                    
+                    
+                }
+            }
+            
+            // for (var y = 0; y < this._worldMap.WorldMapLevels[levelPart].Map.Length; y++)
+            // {
+            //     for (var x = 0; x < this._worldMap.WorldMapLevels[levelPart].Map[y].Length; x++)
+            //     {
+            //         this._worldMap.WorldMapLevels[levelPart].Map[y][x].UpdateTilemapPart(tilemapPart);
+            //     }
+            // }
+        }
+
     }
 }

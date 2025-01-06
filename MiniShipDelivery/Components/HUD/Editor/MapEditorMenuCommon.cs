@@ -66,6 +66,15 @@ public class MapEditorMenuCommon : BaseMenu
         Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
         switch (functionItem.AssetPart)
         {
+            case InterfaceMenuEditorOptionPart.New:
+                MapManager.NewMap();
+                break;
+            case InterfaceMenuEditorOptionPart.Load:
+                MapManager.LoadMap();
+                break;
+            case InterfaceMenuEditorOptionPart.Save:
+                MapManager.SaveMap();
+                break;
             case InterfaceMenuEditorOptionPart.Grid:
                 MapManager.ShowGrid = !MapManager.ShowGrid;
                 break;
