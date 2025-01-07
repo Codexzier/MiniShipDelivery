@@ -220,7 +220,7 @@ namespace MiniShipDelivery.Components.World
                 {
                     foreach (var tile in mapTile)
                     {
-                        str.Append($"{worldMapLevel.LevelPart}:{(int)tile.TilemapPart}");
+                        str.Append($"{worldMapLevel.LevelPart}:{tile.TilemapPart}:{tile.Position.X}:{tile.Position.Y}");
                         str.Append("; ");
                     }
                     str.AppendLine();
