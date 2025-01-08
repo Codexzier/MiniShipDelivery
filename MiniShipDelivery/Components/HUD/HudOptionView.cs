@@ -2,9 +2,8 @@
 {
     public enum HudOptionView
     {
-        None = 0,
-        MainMenu = 1,
-        MapEditor = 2,
-        Game = 3
+        MainMenu = 0,
+        MapEditor = 1,
+        Game = 2
     }
 }

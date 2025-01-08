@@ -70,7 +70,6 @@ namespace MiniShipDelivery
             this.Components.Add(cursor);
             
             
-            
             // only for debug purpose
             var consoleManager = new ConsoleManager(this);
             consoleManager.UpdateOrder = 8;

@@ -4,7 +4,6 @@ using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor;
-using MiniShipDelivery.Components.Persistence;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -161,7 +160,6 @@ namespace MiniShipDelivery.Components.World
             var posX = ((int)pos.X / 16) * 16 + (maxX * 16) + (maxX * 16 / 2) - 8;
             var posY = ((int)pos.Y / 16) * 16 + (maxY * 16 / 2) + 8;
 
-            
             for (var iY = 0; iY < maxY; iY++)
             {
                 for (var iX = 0; iX < maxX; iX++)
