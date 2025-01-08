@@ -31,3 +31,22 @@ public class WorldMapLevel
         }
     }
 }
+
+public class WorldMapChunk
+{
+    public WorldMapLevel[] WorldMapLevels { get; set; }
+
+    public WorldMapChunk()
+    {
+        // sidewalk and grass
+        this.WorldMapLevels = new WorldMapLevel[Enum.GetValues<LevelPart>().Length];
+        this.WorldMapLevels[(int)LevelPart.Sidewalk] = new WorldMapLevel(LevelPart.Sidewalk, true);
+        this.WorldMapLevels[(int)LevelPart.Grass] = new WorldMapLevel(LevelPart.Grass, false);
+        
+        // TODO: add more levels
+        
+        // roof
+        this.WorldMapLevels[(int)LevelPart.GrayRoof] = new WorldMapLevel(LevelPart.GrayRoof, false);
+        this.WorldMapLevels[(int)LevelPart.BrownRoof] = new WorldMapLevel(LevelPart.BrownRoof, false);
+    }
+}

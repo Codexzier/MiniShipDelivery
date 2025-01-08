@@ -197,7 +197,7 @@ namespace MiniShipDelivery.Components.World
         
         private void NewMapReset()
         {
-            foreach (var worldMapLevel in this._worldMap.WorldMapLevels.Values)
+            foreach (var worldMapLevel in this._worldMap.WorldMapChunk.WorldMapLevels)
             {
                 for (var y = 0; y < worldMapLevel.Map.Length; y++)
                 {
@@ -214,7 +214,7 @@ namespace MiniShipDelivery.Components.World
             using var file = new StreamWriter(this._mapFile);
             var str = new StringBuilder();
 
-            foreach (var worldMapLevel in this._worldMap.WorldMapLevels.Values)
+            foreach (var worldMapLevel in this._worldMap.WorldMapChunk.WorldMapLevels)
             {
                 foreach (var mapTile in worldMapLevel.Map)
                 {
