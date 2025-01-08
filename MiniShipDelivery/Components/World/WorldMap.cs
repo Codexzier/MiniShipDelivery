@@ -25,19 +25,21 @@ public class WorldMap
     
     private WorldMapLevel CreateWorldMapLevel(LevelPart levelPart, bool fill)
     {
+        const int fieldXy = 10;
+        
         var wml = new WorldMapLevel
         {
             LevelPart = levelPart,
             // collected validate tiles
             ListOfValidateTileNumbers = Enum.GetValues<TilemapPart>().Select(s => (int)s).ToArray(),
             // y, x
-            Map = new MapTile[10][]
+            Map = new MapTile[fieldXy][]
         };
 
-        for (int indexY = 0; indexY < 10; indexY++)
+        for (int indexY = 0; indexY < fieldXy; indexY++)
         {
-            wml.Map[indexY] = new MapTile[20];
-            for (int indexX = 0; indexX < 20; indexX++)
+            wml.Map[indexY] = new MapTile[fieldXy];
+            for (int indexX = 0; indexX < fieldXy; indexX++)
             {
                 wml.Map[indexY][indexX] = new MapTile
                 {

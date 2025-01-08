@@ -11,8 +11,7 @@ namespace MiniShipDelivery.Components.Persistence;
 
 public class PersistenceManager : GameComponent
 {
-    private readonly string _mapFile = $"{Environment.CurrentDirectory}/map.txt";
-    private readonly string _mapFileJson = $"{Environment.CurrentDirectory}/map.json";
+    private readonly string _mapFileJson = $"{Environment.CurrentDirectory}/map00.json";
     private readonly WorldManager _world;
     
     public PersistenceManager(Game game) : base(game)
@@ -53,26 +52,8 @@ public class PersistenceManager : GameComponent
     
     private void SaveMapToFile()
     {
-        using var file = new StreamWriter(this._mapFile);
-        var str = new StringBuilder();
-
        var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunk);
        File.WriteAllText(this._mapFileJson, saveContent);
-        
-        foreach (var worldMapLevel in this._world.Map.WorldMapChunk.WorldMapLevels)
-        {
-            foreach (var mapTile in worldMapLevel.Map)
-            {
-                foreach (var tile in mapTile)
-                {
-                    str.Append($"{worldMapLevel.LevelPart}:{tile.TilemapPart}:{tile.Position.X}:{tile.Position.Y}");
-                    str.Append("; ");
-                }
-                str.AppendLine();
-            }
-        }
-            
-        file.Write(str.ToString());
     }
 
     private void LoadMapFromFile()

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MiniShipDelivery.Components.World;
+﻿namespace MiniShipDelivery.Components.World;
 
 public class WorldMapChunk
 {

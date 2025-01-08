@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.HUD;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.GameDebug;
@@ -21,29 +22,27 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 
     private static StringBuilder _stringBuilder { get; } = new();
 
-    public static void AddTextToDraw(string text)
-    {
-        _stringBuilder.AppendLine(text);
-    }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         
-        this.AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
-        this.AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._character.Player.Collider.Position)}");
-
-        foreach (var charNpc in this._character.CharacterNpCs)
-        {
-            this.AddText($"NPC: {charNpc.Collider.Position}");
-        }
+        // if mouse out of window, no need to update
+        if(this._input.Inputs.MousePosition.X < 0 || this._input.Inputs.MousePosition.Y < 0) return;
+        if(this._input.Inputs.MousePosition.X > GlobaleGameParameters.ScreenWidth || 
+           this._input.Inputs.MousePosition.Y > GlobaleGameParameters.ScreenHeight) return;
+        
+        AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._input.Inputs.MousePosition)}");
+        AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._character.Player.Collider.Position)}");
     }
 
     public override void Draw(GameTime gameTime)
     {
+        if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
+        if(!GlobaleGameParameters.ShowConsoleWindow ) return;
+        
         base.Draw(gameTime);
        
-        
         this._spriteBatch.Begin(
             transformMatrix: this._camera.Camera.GetViewMatrix(), 
             samplerState: SamplerState.PointClamp);
@@ -64,7 +63,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
         this._spriteBatch.End();
     }
 
-    private void AddText(string text)
+    public static void AddText(string text)
     {
         _stringBuilder.AppendLine(text);
     }

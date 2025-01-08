@@ -31,7 +31,7 @@ public class MapEditorMenuCommon : BaseMenu
             this.DrawButton,
             this.ChangeColorForActive);
 
-        this._functionBar.FillOptions<InterfaceMenuEditorOptionPart>(6);
+        this._functionBar.FillOptions<InterfaceMenuEditorOptionPart>(7);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobaleGameParameters.ScreenWidth, 24));
@@ -53,7 +53,7 @@ public class MapEditorMenuCommon : BaseMenu
 
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
-        if (WorldManager.ShowGrid && 
+        if (GlobaleGameParameters.ShowGrid && 
             (InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
@@ -77,7 +77,10 @@ public class MapEditorMenuCommon : BaseMenu
                 PersistenceManager.SaveMap();
                 break;
             case InterfaceMenuEditorOptionPart.Grid:
-                WorldManager.ShowGrid = !WorldManager.ShowGrid;
+                GlobaleGameParameters.ShowGrid = !GlobaleGameParameters.ShowGrid;
+                break;
+            case InterfaceMenuEditorOptionPart.ConsoleWindow:
+                GlobaleGameParameters.ShowConsoleWindow = !GlobaleGameParameters.ShowConsoleWindow;
                 break;
             case InterfaceMenuEditorOptionPart.Close:
                 GlobaleGameParameters.HudView = HudOptionView.MainMenu;

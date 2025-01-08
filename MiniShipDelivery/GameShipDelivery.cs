@@ -77,6 +77,8 @@ namespace MiniShipDelivery
             consoleManager.DrawOrder = 7;
             this.Components.Add(consoleManager);
             
+            // TODO: sollte ich das nicht anders machen?
+            PersistenceManager.LoadMap();
         }
 
         protected override void Draw(GameTime gameTime)

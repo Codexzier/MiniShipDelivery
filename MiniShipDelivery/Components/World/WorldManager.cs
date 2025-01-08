@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor;
+using MiniShipDelivery.Components.Persistence;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -33,7 +29,6 @@ namespace MiniShipDelivery.Components.World
             this._input = game.GetComponent<InputManager>();
         }
         
-        public static bool ShowGrid { get; set; }
         public static TilemapPart SelectedTilemapPart { get; set; }
 
         public override void Update(GameTime gameTime)
@@ -156,16 +151,23 @@ namespace MiniShipDelivery.Components.World
 
         private void DrawGrid()
         {
-            if (!ShowGrid) return;
+            if (!GlobaleGameParameters.ShowGrid) return;
+            
+            var pos = this._camera.Camera.Position;
 
-            const int maxY = GlobaleGameParameters.ScreenHeight / 16;
-            const int maxX = GlobaleGameParameters.ScreenWidth / 16;
+            const int maxY = 5;
+            const int maxX = 5;
+            
+            var posX = ((int)pos.X / 16) * 16 + (maxX * 16) + (maxX * 16 / 2) - 8;
+            var posY = ((int)pos.Y / 16) * 16 + (maxY * 16 / 2) + 8;
+
+            
             for (var iY = 0; iY < maxY; iY++)
             {
                 for (var iX = 0; iX < maxX; iX++)
                 {
                     this._spriteBatch.DrawRectangle(
-                        new Vector2(iX * 16, iY * 16),
+                        new Vector2(iX * 16 + posX, iY * 16 + posY),
                         new SizeF(16.5f, 16.5f),
                         Color.Gray,
                         .5f);

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.HUD.Controls;
 using MonoGame.Extended;
 
@@ -14,6 +12,8 @@ namespace MiniShipDelivery.Components
     {
         private bool _mouseLeftButtonReleased;
         private bool _mouseLeftButtonHasPressed;
+        
+        private readonly int _playerIndex = 0;
 
         private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
 
@@ -54,18 +54,18 @@ namespace MiniShipDelivery.Components
 
         private Vector2 GetMovement()
         {
-            var movement = Vector2.Zero;
+            var movement = GamePad.GetState(this._playerIndex).ThumbSticks.Left;
 
             var keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
             {
-                movement.Y = -1;
+                movement.Y = 1;
             }
 
             if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
             {
-                movement.Y = 1;
+                movement.Y = -1;
             }
 
             if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
@@ -78,10 +78,10 @@ namespace MiniShipDelivery.Components
                 movement.X = 1;
             }
 
-            return movement;
+            return new Vector2(movement.X, -movement.Y);
         }
 
-        internal bool HasPressToClose()
+        private bool HasPressToClose()
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
@@ -114,7 +114,7 @@ namespace MiniShipDelivery.Components
             return false;
         }
 
-        internal bool IsMouseInRangeLastAndNowPosition(Vector2 position, SizeF size)
+        private bool IsMouseInRangeLastAndNowPosition(Vector2 position, SizeF size)
         {
             var wasInRange = this._mouseLeftButtonHasPressedPosition.X > position.X && 
                              this._mouseLeftButtonHasPressedPosition.Y > position.Y &&

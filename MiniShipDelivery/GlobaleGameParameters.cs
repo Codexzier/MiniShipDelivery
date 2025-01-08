@@ -11,4 +11,7 @@ public static class GlobaleGameParameters
     public const int PreferredBackBufferHeight = 720;
 
     public static HudOptionView HudView = HudOptionView.MainMenu;
+    
+    public static bool ShowGrid = false;
+    public static bool ShowConsoleWindow = false;
 }

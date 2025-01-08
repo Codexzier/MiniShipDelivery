@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.GameDebug;
 using MonoGame.Extended;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
@@ -136,6 +137,8 @@ public class MapEditorMenu : BaseMenu
         if (functionItem.Selected)
         {
             color = Color.Yellow;
+            
+            ConsoleManager.AddText($"Select map tile: {functionItem.AssetPart}");
         }
         
         return color;
@@ -146,7 +149,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
         {
-            WorldManager.SelectedTilemapPart = tilemapPart;    
+            WorldManager.SelectedTilemapPart = tilemapPart;
         }
         
         this._functionBarMapSprites.ResetAllSelected(item);
