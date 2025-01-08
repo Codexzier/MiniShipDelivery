@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
+using MiniShipDelivery.Components.Persistence;
 using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 
@@ -52,7 +53,7 @@ public class MapEditorMenuCommon : BaseMenu
 
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
-        if (MapManager.ShowGrid && 
+        if (WorldManager.ShowGrid && 
             (InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
@@ -67,16 +68,16 @@ public class MapEditorMenuCommon : BaseMenu
         switch (functionItem.AssetPart)
         {
             case InterfaceMenuEditorOptionPart.New:
-                MapManager.NewMap();
+                PersistenceManager.NewMap();
                 break;
             case InterfaceMenuEditorOptionPart.Load:
-                MapManager.LoadMap();
+                PersistenceManager.LoadMap();
                 break;
             case InterfaceMenuEditorOptionPart.Save:
-                MapManager.SaveMap();
+                PersistenceManager.SaveMap();
                 break;
             case InterfaceMenuEditorOptionPart.Grid:
-                MapManager.ShowGrid = !MapManager.ShowGrid;
+                WorldManager.ShowGrid = !WorldManager.ShowGrid;
                 break;
             case InterfaceMenuEditorOptionPart.Close:
                 GlobaleGameParameters.HudView = HudOptionView.MainMenu;

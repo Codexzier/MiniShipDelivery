@@ -13,28 +13,24 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
 {
-    public class MapManager : DrawableGameComponent
+    public class WorldManager : DrawableGameComponent
     {
         private readonly SpriteBatch _spriteBatch;
         private readonly TexturesTilemap _texturesTilemap;
         
         private readonly CameraManager _camera;
 
-        private readonly WorldMap _worldMap = new();
+        public readonly WorldMap Map = new();
         
         
         private readonly InputManager _input;
 
-        public MapManager(Game game) :base(game)
+        public WorldManager(Game game) :base(game)
         {
             this._texturesTilemap = new TexturesTilemap(game);
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             this._camera = game.GetComponent<CameraManager>();
             this._input = game.GetComponent<InputManager>();
-            
-            NewMapEvent += this.NewMapReset;
-            LoadMapFromFileEvent += this.LoadMapFromFile;
-            SaveMapToFileEvent += this.SaveMapToFile;
         }
         
         public static bool ShowGrid { get; set; }
@@ -69,7 +65,7 @@ namespace MiniShipDelivery.Components.World
             
             if (this._input.GetMouseLeftButtonReleasedState(rePosition, new SizeF(16, 16), UiMenuMainPart.None))
             {
-                result.UpdateTilemapPart(SelectedTilemapPart);
+                result.TilemapPart = SelectedTilemapPart;
             }
         }
 
@@ -77,7 +73,7 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
-            this._worldMap.DrawAllLevels(this._spriteBatch, this._texturesTilemap);
+            this.Map.DrawAllLevels(this._spriteBatch, this._texturesTilemap);
             
             this.HudDependedDrawContent();
             
@@ -101,7 +97,12 @@ namespace MiniShipDelivery.Components.World
             var result = this.GetMapTile();
             if(result == null) return;
 
-            if (!this._worldMap.ValidTileNumber((int)SelectedTilemapPart, MapEditorMenu.TilemapLevel))
+            if (!this.Map.ValidTileNumber((int)SelectedTilemapPart, MapEditorMenu.TilemapLevel))
+            {
+                return;
+            }
+
+            if (result.TilemapPart == SelectedTilemapPart)
             {
                 return;
             }
@@ -110,7 +111,7 @@ namespace MiniShipDelivery.Components.World
                 this._texturesTilemap.Texture, 
                 result.Position, 
                 this._texturesTilemap.GetSprite(MapEditorMenu.TilemapLevel, SelectedTilemapPart),
-                Color.White);
+                new Color(Color.Gray, 0.8f));
         }
 
         private void DrawHoverEffectOnGrid()
@@ -145,7 +146,7 @@ namespace MiniShipDelivery.Components.World
             var x = (int)pos.X / 16;
             var y = (int)pos.Y / 16;
 
-            if(this._worldMap.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result))
+            if(this.Map.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result))
             {
                 return result;
             }
@@ -171,98 +172,5 @@ namespace MiniShipDelivery.Components.World
                 }
             }
         }
-        
-        private delegate void NewMapDelegateEventHandler();
-        private static event NewMapDelegateEventHandler NewMapEvent;
-        private delegate void SaveMapToFileDelegateEventHandler();
-        private static event SaveMapToFileDelegateEventHandler SaveMapToFileEvent;
-        private delegate void LoadMapFromFileDelegateEventHandler();
-        private static event LoadMapFromFileDelegateEventHandler LoadMapFromFileEvent;
-
-        
-        public static void NewMap()
-        {
-            NewMapEvent?.Invoke();
-        }
-        public static void SaveMap()
-        {
-            SaveMapToFileEvent?.Invoke();
-        }
-        public static void LoadMap()
-        {
-            LoadMapFromFileEvent?.Invoke();
-        }
-        
-        private readonly string _mapFile = $"{Environment.CurrentDirectory}/map.txt";
-        
-        private void NewMapReset()
-        {
-            foreach (var worldMapLevel in this._worldMap.WorldMapChunk.WorldMapLevels)
-            {
-                for (var y = 0; y < worldMapLevel.Map.Length; y++)
-                {
-                    for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
-                    {
-                        worldMapLevel.Map[y][x].UpdateTilemapPart(TilemapPart.None);
-                    }
-                }
-            }
-        }
-        
-        private void SaveMapToFile()
-        {
-            using var file = new StreamWriter(this._mapFile);
-            var str = new StringBuilder();
-
-            foreach (var worldMapLevel in this._worldMap.WorldMapChunk.WorldMapLevels)
-            {
-                foreach (var mapTile in worldMapLevel.Map)
-                {
-                    foreach (var tile in mapTile)
-                    {
-                        str.Append($"{worldMapLevel.LevelPart}:{tile.TilemapPart}:{tile.Position.X}:{tile.Position.Y}");
-                        str.Append("; ");
-                    }
-                    str.AppendLine();
-                }
-            }
-                
-            file.Write(str.ToString());
-        }
-
-        private void LoadMapFromFile()
-        {
-            var lines = File.ReadAllLines(this._mapFile);
-
-            //var dd = new Dictionary<>();
-            
-            // rows
-            foreach (var line in lines)
-            {
-                // row --> Sidewalk:5; Sidewalk:5;...
-                var parts = line.Split(";");
-                foreach (var part in parts)
-                {
-                    // cell --> Sidewalk:5
-                    var data = part.Split(":").Select(s => s.Trim()).ToArray();
-                    
-                    if(data.Length == 0 || string.IsNullOrEmpty(data[0])) continue;
-                    
-                    var levelPart = (LevelPart)Enum.Parse(typeof(LevelPart), data[0]);
-                    var tilemapPart = (TilemapPart)int.Parse(data[1]);
-                    
-                    
-                }
-            }
-            
-            // for (var y = 0; y < this._worldMap.WorldMapLevels[levelPart].Map.Length; y++)
-            // {
-            //     for (var x = 0; x < this._worldMap.WorldMapLevels[levelPart].Map[y].Length; x++)
-            //     {
-            //         this._worldMap.WorldMapLevels[levelPart].Map[y][x].UpdateTilemapPart(tilemapPart);
-            //     }
-            // }
-        }
-
     }
 }

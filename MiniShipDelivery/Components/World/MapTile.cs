@@ -2,13 +2,8 @@
 
 namespace MiniShipDelivery.Components.World;
 
-public class MapTile(TilemapPart tilemapPart, Vector2 position)
+public class MapTile
 {
-    public TilemapPart TilemapPart { get; private set; } = tilemapPart;
-    public Vector2 Position { get; } = position;
-
-    public void UpdateTilemapPart(TilemapPart selectedTilemapPart)
-    {
-        this.TilemapPart = selectedTilemapPart;
-    }
+    public TilemapPart TilemapPart { get; set; }
+    public Vector2 Position { get; set; }
 }

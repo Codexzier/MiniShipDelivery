@@ -75,7 +75,7 @@ public class MapEditorMenu : BaseMenu
                 TilemapLevel += 1;
                 if(TilemapLevel > LevelPart.BrownRoof)
                 {
-                    TilemapLevel = LevelPart.Grass;
+                    TilemapLevel = 0;
                 }
                 break;
             case UiMenuMapOptionPart.ArrowLeft:
@@ -146,7 +146,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
         {
-            MapManager.SelectedTilemapPart = tilemapPart;    
+            WorldManager.SelectedTilemapPart = tilemapPart;    
         }
         
         this._functionBarMapSprites.ResetAllSelected(item);

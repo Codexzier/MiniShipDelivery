@@ -5,6 +5,7 @@ using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Cursor;
 using MiniShipDelivery.Components.Objects;
+using MiniShipDelivery.Components.Persistence;
 using MiniShipDelivery.Components.World;
 
 namespace MiniShipDelivery
@@ -32,10 +33,12 @@ namespace MiniShipDelivery
             this.Components.Add(input);
 
             // Map
-            var map = new MapManager(this);
+            var map = new WorldManager(this);
             map.UpdateOrder = 3;
             map.DrawOrder = 1;
             this.Components.Add(map);
+            
+            
 
             // Player
             var characterManager = new CharacterManager(
@@ -51,20 +54,26 @@ namespace MiniShipDelivery
             colliderManager.UpdateOrder = 4;
             this.Components.Add(colliderManager);
             
+            // Persistence
+            var persistenceManager = new PersistenceManager(this);
+            persistenceManager.UpdateOrder = 5;
+            this.Components.Add(persistenceManager);
             
             var hudManager = new HudManager(this);
-            hudManager.UpdateOrder = 5;
+            hudManager.UpdateOrder = 6;
             hudManager.DrawOrder = 6;
             this.Components.Add(hudManager);
 
             var cursor = new MouseManager(this);
-            cursor.UpdateOrder = 6;
+            cursor.UpdateOrder = 7;
             cursor.DrawOrder = 100; // cursor must render at last
             this.Components.Add(cursor);
             
+            
+            
             // only for debug purpose
             var consoleManager = new ConsoleManager(this);
-            consoleManager.UpdateOrder = 7;
+            consoleManager.UpdateOrder = 8;
             consoleManager.DrawOrder = 7;
             this.Components.Add(consoleManager);
             

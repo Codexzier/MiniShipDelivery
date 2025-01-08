@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,23 +7,53 @@ namespace MiniShipDelivery.Components.World;
 
 public class WorldMap
 {
-    public WorldMapChunk WorldMapChunk { get; } = new(); 
-    //public readonly IDictionary<LevelPart, WorldMapLevel> WorldMapLevels = new Dictionary<LevelPart, WorldMapLevel>();
+    public WorldMapChunk WorldMapChunk { get; set; } = new();
 
     public WorldMap()
     {
-        // this.WorldMapLevels.Add(LevelPart.Sidewalk, new WorldMapLevel(LevelPart.Sidewalk, true));
-        // this.WorldMapLevels.Add(LevelPart.Grass, new WorldMapLevel(LevelPart.Grass, false));
-        //
-        // this.WorldMapLevels.Add(LevelPart.GrayRoof, new WorldMapLevel(LevelPart.GrayRoof, false));
-        // this.WorldMapLevels.Add(LevelPart.BrownRoof, new WorldMapLevel(LevelPart.BrownRoof, false));
+        // sidewalk and grass
+        this.WorldMapChunk.WorldMapLevels = new WorldMapLevel[Enum.GetValues<LevelPart>().Length];
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Sidewalk] = this.CreateWorldMapLevel(LevelPart.Sidewalk, true);
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Grass] = this.CreateWorldMapLevel(LevelPart.Grass, false);
+        
+        // TODO: add more levels
+        
+        // roof
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.GrayRoof] = this.CreateWorldMapLevel(LevelPart.GrayRoof, false);
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.BrownRoof] = this.CreateWorldMapLevel(LevelPart.BrownRoof, false);
+    }
+    
+    private WorldMapLevel CreateWorldMapLevel(LevelPart levelPart, bool fill)
+    {
+        var wml = new WorldMapLevel
+        {
+            LevelPart = levelPart,
+            // collected validate tiles
+            ListOfValidateTileNumbers = Enum.GetValues<TilemapPart>().Select(s => (int)s).ToArray(),
+            // y, x
+            Map = new MapTile[10][]
+        };
+
+        for (int indexY = 0; indexY < 10; indexY++)
+        {
+            wml.Map[indexY] = new MapTile[20];
+            for (int indexX = 0; indexX < 20; indexX++)
+            {
+                wml.Map[indexY][indexX] = new MapTile
+                {
+                    TilemapPart = fill ? TilemapPart.MiddleMiddle : TilemapPart.None,
+                    Position = new Vector2(indexX * 16, indexY * 16)
+                };
+            }
+        }
+
+        return wml;
     }
 
     public bool ValidTileNumber(int selectedTilemapPart, LevelPart tilemapLevel)
     {
         return this.WorldMapChunk.WorldMapLevels[(int)tilemapLevel]
             .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
-        //return this.WorldMapLevels[tilemapLevel].ListOfValidateTileNumbers.Contains(selectedTilemapPart);
     }
 
     public void DrawAllLevels(SpriteBatch spriteBatch, TexturesTilemap texturesTilemap)
