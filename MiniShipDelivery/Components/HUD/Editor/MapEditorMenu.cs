@@ -7,6 +7,7 @@ using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.World;
+using CodexzierGameEngine.DataModels.World;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 

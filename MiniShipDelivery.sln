@@ -5,6 +5,12 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniShipDelivery", "MiniShipDelivery\MiniShipDelivery.csproj", "{BAC689CA-8E00-4754-9779-B3586385D1F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.DataModels", "CodexzierGameEngine.DataModels\CodexzierGameEngine.DataModels.csproj", "{FF1A17EE-6EFC-499B-B93E-98F7B55A5F56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.Component.Persistence.Database", "CodexzierGameEngine.Component.Persistence.Database\CodexzierGameEngine.Component.Persistence.Database.csproj", "{E24EF281-73AE-4B23-978B-BAB62C68CE8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.Component.Persistence.Database.Test", "CodexzierGameEngine.Component.Persistence.Database.Test\CodexzierGameEngine.Component.Persistence.Database.Test.csproj", "{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{BAC689CA-8E00-4754-9779-B3586385D1F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAC689CA-8E00-4754-9779-B3586385D1F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAC689CA-8E00-4754-9779-B3586385D1F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF1A17EE-6EFC-499B-B93E-98F7B55A5F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF1A17EE-6EFC-499B-B93E-98F7B55A5F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF1A17EE-6EFC-499B-B93E-98F7B55A5F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF1A17EE-6EFC-499B-B93E-98F7B55A5F56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E24EF281-73AE-4B23-978B-BAB62C68CE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E24EF281-73AE-4B23-978B-BAB62C68CE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E24EF281-73AE-4B23-978B-BAB62C68CE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E24EF281-73AE-4B23-978B-BAB62C68CE8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

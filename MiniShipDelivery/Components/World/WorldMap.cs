@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Helpers;
 
 namespace MiniShipDelivery.Components.World;
 
@@ -43,8 +45,8 @@ public class WorldMap
             {
                 wml.Map[indexY][indexX] = new MapTile
                 {
-                    TilemapPart = fill ? TilemapPart.MiddleMiddle : TilemapPart.None,
-                    Position = new Vector2(indexX * 16, indexY * 16)
+                    TilemapPart = fill ? (int)TilemapPart.MiddleMiddle : 0,
+                    Position = new TilePosition(indexX * 16, indexY * 16)
                 };
             }
         }
@@ -68,17 +70,17 @@ public class WorldMap
                 {
                     var tileNumber = worldMapLevel.Map[y][x].TilemapPart;
                     
-                    if(tileNumber == TilemapPart.None) continue;
+                    if(tileNumber == 0) continue;
                     
                     if (!worldMapLevel.ListOfValidateTileNumbers.Contains((int)tileNumber))
                     {
-                        tileNumber = TilemapPart.AroundOutBorder;
+                        tileNumber = (int)TilemapPart.AroundOutBorder;
                     }
                     
                     spriteBatch.Draw(
                         texturesTilemap.Texture, 
-                        worldMapLevel.Map[y][x].Position, 
-                        texturesTilemap.GetSprite(worldMapLevel.LevelPart, tileNumber),
+                        worldMapLevel.Map[y][x].Position.TilePositionToVector(), 
+                        texturesTilemap.GetSprite(worldMapLevel.LevelPart, (TilemapPart)tileNumber),
                         Color.White);
                 }
             }

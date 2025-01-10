@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.World;
@@ -44,7 +45,7 @@ public class PersistenceManager : GameComponent
             {
                 for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
                 {
-                    worldMapLevel.Map[y][x].TilemapPart = TilemapPart.None;
+                    worldMapLevel.Map[y][x].TilemapPart = 0;
                 }
             }
         }
@@ -59,10 +60,17 @@ public class PersistenceManager : GameComponent
     private void LoadMapFromFile()
     {
         if(!File.Exists(this._mapFileJson)) return;
-        
-        var content = File.ReadAllText(this._mapFileJson);
-        var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
-        this._world.Map.WorldMapChunk = worldMapChunk;
+
+        try
+        {
+            var content = File.ReadAllText(this._mapFileJson);
+            var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
+            this._world.Map.WorldMapChunk = worldMapChunk;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }  
     }
         
     #region delegates

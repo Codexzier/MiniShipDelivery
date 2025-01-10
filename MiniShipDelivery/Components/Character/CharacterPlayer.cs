@@ -49,21 +49,31 @@ namespace MiniShipDelivery.Components.Character
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            var tp = this.Direction switch
+            if (this.IsMoving)
             {
-                { X: < 0 } => CharacterPart.StandLeft,
-                { X: > 0 } => CharacterPart.StandRight,
-                { Y: > 0 } => CharacterPart.StandFront,
-                { Y: < 0 } => CharacterPart.StandBack,
-                _ => CharacterPart.StandFront
-            };
+                var tp = this.Direction switch
+                {
+                    { X: < 0 } => CharacterPart.StandLeft,
+                    { X: > 0 } => CharacterPart.StandRight,
+                    { Y: > 0 } => CharacterPart.StandFront,
+                    { Y: < 0 } => CharacterPart.StandBack,
+                    _ => CharacterPart.StandFront
+                };
 
-            tp = this.GetWalkingFrame(tp);
+                tp = this.GetWalkingFrame(tp);
 
-            this.Draw(spriteBatch,
-                this.Collider.Position, 
-                tp,
-                this._characterType);
+                this.Draw(spriteBatch,
+                    this.Collider.Position,
+                    tp,
+                    this._characterType);
+            }
+            else
+            {
+                this.Draw(spriteBatch,
+                    this.Collider.Position,
+                    this.GetStandAnimation(),
+                    this._characterType);
+            }
         }
     }
 }

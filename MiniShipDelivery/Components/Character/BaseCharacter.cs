@@ -12,6 +12,10 @@ namespace MiniShipDelivery.Components.Character
         private int _currentFrame;
         private float _timeToUpdate;
         private float _timeElapsed;
+        
+        private int _currentFrameStand;
+        private float _timeToUpdateStand;
+        private float _timeElapsedStand;
 
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
@@ -26,7 +30,11 @@ namespace MiniShipDelivery.Components.Character
 
         public float FramesPerSecond
         {
-            set => this._timeToUpdate = 1f / value;
+            set
+            {
+                this._timeToUpdate = 1f / value;
+                this._timeToUpdateStand = 1.5f / value;
+            }
         }
 
         private readonly Dictionary<int, CharacterPart> _walkingFrames = new()
@@ -67,9 +75,23 @@ namespace MiniShipDelivery.Components.Character
                     this._currentFrame = 0;
                 }
             }
+
+            this._timeElapsedStand += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (this._timeElapsedStand > this._timeToUpdateStand)
+            {
+                this._timeElapsedStand -= this._timeToUpdateStand;
+                if (this._currentFrameStand < 3)
+                {
+                    this._currentFrameStand++;
+                }
+                else
+                {
+                    this._currentFrameStand = 0;
+                }
+            }
         }
 
-        private readonly IDictionary<CharacterPart, int> _charDirection = new Dictionary<CharacterPart, int>()
+        private readonly IDictionary<CharacterPart, int> _charDirection = new Dictionary<CharacterPart, int>
         {
             {CharacterPart.StandFront, 0 },
             {CharacterPart.StandLeft, 4 },
@@ -83,8 +105,12 @@ namespace MiniShipDelivery.Components.Character
             {
                 return tp;
             }
-
             return this._walkingFrames[this._currentFrame + this._charDirection[tp]];
+        }
+
+        protected CharacterStandPart GetStandAnimation()
+        {
+            return (CharacterStandPart)this._currentFrameStand;
         }
 
         public void OnCollision(ICollider otherCollider)
@@ -126,6 +152,25 @@ namespace MiniShipDelivery.Components.Character
                 texturesCharacter.Texture,
                 position,
                 rect,
+                Color.White);
+        }
+        
+        protected void Draw(
+            SpriteBatch spriteBatch, 
+            Vector2 position, 
+            CharacterStandPart tp, 
+            CharacterType characterType)
+        {
+            if (characterType != CharacterType.Men)
+            {
+                this.Draw(spriteBatch, position, CharacterPart.StandFront, characterType);
+                return;
+            }
+            
+            spriteBatch.Draw(
+                texturesCharacter.TextureStand,
+                position,
+                texturesCharacter.SpriteContentStand[tp],
                 Color.White);
         }
         

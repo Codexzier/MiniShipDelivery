@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CodexzierGameEngine.DataModels.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
@@ -47,7 +48,7 @@ namespace MiniShipDelivery.Components.World
             if(result == null) return;
             
             // not selectable map area, well the menu is there.
-            var rePosition = result.Position - this._camera.Camera.Position ;
+            var rePosition = result.Position.TilePositionToVector() - this._camera.Camera.Position ;
             var rect = new RectangleF(rePosition.X, rePosition.Y, 16, 16);
             foreach (var rectangle in MapEditorMenu.MenuField)
             {
@@ -59,7 +60,7 @@ namespace MiniShipDelivery.Components.World
             
             if (this._input.GetMouseLeftButtonReleasedState(rePosition, new SizeF(16, 16), UiMenuMainPart.None))
             {
-                result.TilemapPart = SelectedTilemapPart;
+                result.TilemapPart = (int)SelectedTilemapPart;
             }
         }
 
@@ -96,14 +97,14 @@ namespace MiniShipDelivery.Components.World
                 return;
             }
 
-            if (result.TilemapPart == SelectedTilemapPart)
+            if (result.TilemapPart == (int)SelectedTilemapPart)
             {
                 return;
             }
             
             this._spriteBatch.Draw(
                 this._texturesTilemap.Texture, 
-                result.Position, 
+                result.Position.TilePositionToVector(), 
                 this._texturesTilemap.GetSprite(MapEditorMenu.TilemapLevel, SelectedTilemapPart),
                 new Color(Color.Gray, 0.8f));
         }
@@ -114,7 +115,7 @@ namespace MiniShipDelivery.Components.World
             if(result == null) return;
             
             this._spriteBatch.DrawRectangle(
-                result.Position,
+                result.Position.TilePositionToVector(),
                 new SizeF(16, 16),
                 Color.White);
 
