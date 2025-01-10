@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Text;
 using Microsoft.Data.Sqlite;
 
 namespace CodexzierGameEngine.Component.Persistence.Database
@@ -19,7 +20,9 @@ namespace CodexzierGameEngine.Component.Persistence.Database
 
         public IEnumerable<TDataModel> GetAll<TDataModel>()
         {
-            throw new NotImplementedException();
+            var tt = this.ExecuteWithReturn<TDataModel>(CommandSelectTableHost.GetCommandByDataModel<TDataModel>());
+
+            return tt;
         }
 
         public TDataModel GetById<TDataModel>(long id)
@@ -67,10 +70,45 @@ namespace CodexzierGameEngine.Component.Persistence.Database
                     ex);
             }
         }
+        
+        private IEnumerable<TDataModel> ExecuteWithReturn<TDataModel>(string commandSql)
+        {
+            try
+            {
+                using var connection = new SqliteConnection($"Data Source={this._database}");
+                connection.Open();
+            
+                using var command = connection.CreateCommand();
+                command.CommandText = commandSql;
+                var reader = command.ExecuteReader();
+
+                var list = new List<TDataModel>();
+                while (reader.Read())
+                {
+                    //reader.GetName()
+                }
+      
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new SqLiteDatabaseException(
+                    $"Fail to execute sql command. Database: {this._database}",
+                    ex);
+            }
+        }
 
         #endregion
 
 
        
+    }
+
+    public class CommandSelectTableHost
+    {
+        public static string GetCommandByDataModel<TDataModel>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
