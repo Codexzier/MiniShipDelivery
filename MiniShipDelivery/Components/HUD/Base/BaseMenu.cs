@@ -41,4 +41,8 @@ public abstract class BaseMenu(
 
         return new Vector2(x, y);
     }
+
+    public virtual void Draw(SpriteBatch spriteBatch)
+    {
+    }
 }

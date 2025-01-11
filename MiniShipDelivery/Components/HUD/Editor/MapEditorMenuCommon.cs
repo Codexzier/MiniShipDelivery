@@ -104,8 +104,10 @@ public class MapEditorMenuCommon : BaseMenu
         }
     }
     
-    internal void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
+        base.Draw(spriteBatch);
+
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         this._functionBar.Draw(spriteBatch);

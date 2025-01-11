@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor;
+using MiniShipDelivery.Components.HUD.GameMenu;
 using MiniShipDelivery.Components.HUD.MainMenu;
 
 namespace MiniShipDelivery.Components.HUD
@@ -11,8 +12,10 @@ namespace MiniShipDelivery.Components.HUD
         private readonly SpriteBatch _spriteBatch;
         
         private readonly MainMenuHud _mainMenuHud;
-        private readonly MapEditorHud _mapEditorHud;
+        private readonly GameMenuManager _gameMenuManager;
 
+        private readonly MapEditorHud _mapEditorHud;
+        
         private readonly CameraManager _camera;
 
         public HudManager(Game game) : base(game)
@@ -21,8 +24,9 @@ namespace MiniShipDelivery.Components.HUD
             this._camera = game.GetComponent<CameraManager>();
             
             this._mainMenuHud = new MainMenuHud(game);
-            
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
+
+            this._gameMenuManager = new GameMenuManager(game); 
             
             this._mapEditorHud = new MapEditorHud(game);
         }
@@ -44,6 +48,7 @@ namespace MiniShipDelivery.Components.HUD
             switch (GlobaleGameParameters.HudView)
             {
                 case HudOptionView.Game:
+                    this._gameMenuManager.Draw(this._spriteBatch);
                     break;
                 case HudOptionView.MainMenu:
                     this._mainMenuHud.Draw(this._spriteBatch);
