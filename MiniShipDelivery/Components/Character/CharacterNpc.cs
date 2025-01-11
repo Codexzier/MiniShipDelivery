@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
 using MiniShipDelivery.Components.Assets.Parts;
-using System.Linq;
 using MiniShipDelivery.Components.GameDebug;
-using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery.Components.Character
 {
@@ -26,15 +23,28 @@ namespace MiniShipDelivery.Components.Character
             base.Update(gameTime);
             
             this.Emote = EmotePart.EmoteLoveDouble;
+            
+            this.IsMoving = false;
+            this.UpdateFrame(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.Draw(
-                spriteBatch, 
-                this.Collider.Position, 
-                CharacterPart.StandFront, 
-                this._characterType);
+            if (this.IsMoving)
+            {
+                this.Draw(
+                    spriteBatch, 
+                    this.Collider.Position, 
+                    CharacterPart.StandFront, 
+                    this._characterType);
+            }
+            else
+            {
+                this.Draw(spriteBatch,
+                    this.Collider.Position,
+                    this.GetStandAnimation(),
+                    this._characterType);
+            }
         }
 
         public override string ToString()

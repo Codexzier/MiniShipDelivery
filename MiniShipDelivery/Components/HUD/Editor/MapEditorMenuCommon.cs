@@ -5,7 +5,6 @@ using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.Persistence;
-using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
@@ -13,6 +12,7 @@ namespace MiniShipDelivery.Components.HUD.Editor;
 public class MapEditorMenuCommon : BaseMenu
 {
     private readonly FunctionBar _functionBar;
+    private readonly FunctionBar _functionBarWindow;
     private readonly TexturesInterfaceMenuEditorOptions _textureUiMenuEditorOptions;
 
     public MapEditorMenuCommon(Game game)
@@ -31,8 +31,24 @@ public class MapEditorMenuCommon : BaseMenu
             this.DrawButton,
             this.ChangeColorForActive);
 
-        this._functionBar.FillOptions<InterfaceMenuEditorOptionPart>(7);
+        this._functionBar.AddOption(InterfaceMenuEditorOptionPart.New);
+        this._functionBar.AddOption(InterfaceMenuEditorOptionPart.Load);
+        this._functionBar.AddOption(InterfaceMenuEditorOptionPart.Save);
+        this._functionBar.AddOption(InterfaceMenuEditorOptionPart.Grid);
+        this._functionBar.AddOption(InterfaceMenuEditorOptionPart.ConsoleWindow);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
+        
+        // on right side
+        this._functionBarWindow = new FunctionBar(
+            game,
+            new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
+            new Size(GlobaleGameParameters.ScreenWidth, 24),
+            this.GetPositionArea,
+            this.IsMouseInRange,
+            this.DrawButton,
+            this.ChangeColorForActive);
+        this._functionBarWindow.AddOption(InterfaceMenuEditorOptionPart.Close);
+        this._functionBarWindow.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobaleGameParameters.ScreenWidth, 24));
     }
@@ -93,5 +109,6 @@ public class MapEditorMenuCommon : BaseMenu
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         this._functionBar.Draw(spriteBatch);
+        this._functionBarWindow.Draw(spriteBatch);
     }
 }

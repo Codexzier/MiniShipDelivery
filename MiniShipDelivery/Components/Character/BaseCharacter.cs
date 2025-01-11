@@ -33,7 +33,7 @@ namespace MiniShipDelivery.Components.Character
             set
             {
                 this._timeToUpdate = 1f / value;
-                this._timeToUpdateStand = 1.5f / value;
+                this._timeToUpdateStand = 2.5f / value;
             }
         }
 
@@ -161,17 +161,30 @@ namespace MiniShipDelivery.Components.Character
             CharacterStandPart tp, 
             CharacterType characterType)
         {
-            if (characterType != CharacterType.Men)
+            if (characterType != CharacterType.Men && characterType != CharacterType.Women)
             {
                 this.Draw(spriteBatch, position, CharacterPart.StandFront, characterType);
                 return;
             }
+
+            switch (characterType)
+            {
+                case CharacterType.Men:
+                    spriteBatch.Draw(
+                        texturesCharacter.TextureStandMen,
+                        position,
+                        texturesCharacter.SpriteContentStandMen[tp],
+                        Color.White);
+                    break;
+                case CharacterType.Women:
+                    spriteBatch.Draw(
+                        texturesCharacter.TextureStandWomen,
+                        position,
+                        texturesCharacter.SpriteContentStandWomen[tp],
+                        Color.White);
+                    break;
+            }
             
-            spriteBatch.Draw(
-                texturesCharacter.TextureStand,
-                position,
-                texturesCharacter.SpriteContentStand[tp],
-                Color.White);
         }
         
         public virtual void DrawEmote(

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Controls;
+using MiniShipDelivery.Components.HUD.Editor.Options;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
@@ -130,6 +131,15 @@ public class FunctionBar(
                 new SizeF(18, 18),
                 part));
     }
+    
+    /// <summary>
+    /// Default for max 20 columns
+    /// </summary>
+    /// <param name="part"></param>
+    public void AddOption(object part)
+    {
+        this.AddFunctionItem(part, 20);
+    }
 
     public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
@@ -146,5 +156,4 @@ public class FunctionBar(
         }
     }
 
-    
 }
