@@ -71,5 +71,7 @@ internal class MainMenuHud : BaseMenu
         
         this._menuButtonStartGame.Draw(spriteBatch);
         this._menuButtonMapEditor.Draw(spriteBatch);
+        
+        
     }
 }

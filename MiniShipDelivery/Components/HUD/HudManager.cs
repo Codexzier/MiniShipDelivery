@@ -65,7 +65,7 @@ namespace MiniShipDelivery.Components.HUD
             }
             
             // draw fields with rectangle
-            this.DrawRectangles();
+            //this.DrawRectangles();
             
             this._spriteBatch.End();
         }

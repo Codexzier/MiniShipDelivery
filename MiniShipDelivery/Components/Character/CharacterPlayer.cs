@@ -10,11 +10,14 @@ namespace MiniShipDelivery.Components.Character
         private readonly Vector2 _screenPosition;
         private readonly CharacterType _characterType;
 
-        public CharacterPlayer(TexturesCharacter textures,
+        public CharacterPlayer(
+            TexturesCharacter textures,
+            TexturesCharacterShadow texturesCharacterShadow,
             TexturesEmote texturesEmote,
             InputManager input,
             Vector2 screenPosition,
-            CharacterType characterType) : base(textures, texturesEmote)
+            CharacterType characterType) 
+            : base(textures, texturesCharacterShadow, texturesEmote)
         {
             this._input = input;
             this._screenPosition = screenPosition;
@@ -74,6 +77,8 @@ namespace MiniShipDelivery.Components.Character
                     this.GetStandAnimation(),
                     this._characterType);
             }
+            
+            base.Draw(spriteBatch);
         }
     }
 }

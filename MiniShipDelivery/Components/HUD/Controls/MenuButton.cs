@@ -20,7 +20,7 @@ public class MenuButton(
         var pos = this._camera.Camera.Position + position;
 
         var buttonSize = new SizeF(64, 16);
-        var inRange =  HudHelper.IsMouseInRange(pos, buttonSize);
+        var inRange =  HudHelper.IsMouseInRange(position, buttonSize);
         
         if (inRange && this._input.GetMouseLeftButtonReleasedState(position, buttonSize, menuMainPart))
         {
