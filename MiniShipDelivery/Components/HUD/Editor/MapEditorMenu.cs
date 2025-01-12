@@ -34,10 +34,9 @@ public class MapEditorMenu : BaseMenu
         
         this._functionBarMapOption = new FunctionBar(
             game,
+            this.Position,
             new Vector2(0, 0),
             new Size(MenuWidth, 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButtonMapOption,
             this.ChangeColorForActive);
 
@@ -52,10 +51,9 @@ public class MapEditorMenu : BaseMenu
 
         this._functionBarMapSprites = new FunctionBar(
             game,
+            this.Position,
             new Vector2(0, 20),
             new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButtonMapSprite,
             this.ChangeColorForActiveMapSprite);
 
@@ -64,7 +62,7 @@ public class MapEditorMenu : BaseMenu
 
         var left = GlobaleGameParameters.ScreenWidth - MenuWidth;
         MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
-        MenuField.Add(new RectangleF(left, 20, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
+        MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
     }
     
     #region map option
@@ -158,7 +156,7 @@ public class MapEditorMenu : BaseMenu
 
     #endregion
     
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 

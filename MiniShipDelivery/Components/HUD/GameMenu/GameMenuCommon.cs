@@ -21,10 +21,9 @@ internal class GameMenuCommon : BaseMenu
     {
         this._functionBar = new FunctionBar(
             game,
+            this.Position,
             new Vector2(0, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButtonGamingOptions,
             this.ChangeColorForActiveGamingOptions);
         
@@ -32,10 +31,9 @@ internal class GameMenuCommon : BaseMenu
         this._textureUiMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game);
         this._functionBarWindow = new FunctionBar(
             game,
+            this.Position,
             new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButtonOptions,
             this.ChangeColorForActiveOptions);
         this._functionBarWindow.AddOption(InterfaceMenuEditorOptionPart.Close);

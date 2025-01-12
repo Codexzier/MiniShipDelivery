@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor.Options;
@@ -12,10 +13,9 @@ namespace MiniShipDelivery.Components.HUD.Base;
 
 public class FunctionBar(
     Game game,
+    Vector2 position,
     Vector2 startPosition,
     Size size,
-    Func<int, int, int, Vector2> funcGetPositionArea,
-    Func<Vector2, SizeF, bool> isMouseInRange,
     Action<SpriteBatch, Vector2, FunctionItem> drawButton,
     Func<FunctionItem, Color, Color> changeColorForActive)
 {
@@ -95,7 +95,7 @@ public class FunctionBar(
         var positionSelectable = item.Position +
                                  startPosition;
             
-        var inRange = isMouseInRange(positionSelectable, item.Size);
+        var inRange = HudHelper.IsMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
             if (this._input.GetMouseLeftButtonReleasedState(positionSelectable, item.Size, UiMenuMainPart.None))
@@ -127,7 +127,7 @@ public class FunctionBar(
         
         this._functionItems[index].Add(
             new FunctionItem(
-                funcGetPositionArea(this._functionItems[index].Count, size.Width, columns),
+                HudHelper.GetPositionArea(position.Y, this._functionItems[index].Count, size.Width, columns),
                 new SizeF(18, 18),
                 part));
     }
