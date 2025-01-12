@@ -12,3 +12,4 @@ Yes ok, you can move the figure.
 - Mini map
 - mini pong (a game in game)
 - drive a boat, a car and a plane
+- npc generator
