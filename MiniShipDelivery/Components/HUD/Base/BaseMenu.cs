@@ -12,6 +12,7 @@ public abstract class BaseMenu(
     Size size)
 {
     private readonly MenuFrame _menuFrame = new(game);
+    protected readonly Game Game = game;
     
     public Vector2 Position => position;
     public Size Size => size;

@@ -80,6 +80,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/BaseFont.spritefont
 
+#begin Interface/bookFlip1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/bookFlip1.ogg
+
+#begin Interface/click3.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/click3.ogg
+
 #begin Interface/GameMenuOptions.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -152,6 +164,30 @@
 /processorParam:TextureFormat=Color
 /build:Interface/mouseCursorIcons_packed.png
 
+#begin Interface/OptionsMenuButton.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Interface/OptionsMenuButton.png
+
+#begin Interface/rollover1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/rollover1.ogg
+
+#begin Interface/switch7.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/switch7.ogg
+
 #begin Mouse/MouseCursor.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -163,6 +199,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Mouse/MouseCursor.png
+
+#begin Music/Flowing Rocks.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Flowing Rocks.ogg
+
+#begin Music/Retro Reggae.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Retro Reggae.ogg
 
 #begin RpgUrban/tilemap.png
 /importer:TextureImporter

@@ -67,7 +67,7 @@ internal class GameMenuCommon : BaseMenu
                 functionItem.Selected = !functionItem.Selected;
                 break;
             case GameMenuPart.Map:
-                GameMenuMapManager.ShowGameMap = !GameMenuMapManager.ShowGameMap;
+                GameMenuMapManager.Show = !GameMenuMapManager.Show;
                 functionItem.Selected = !functionItem.Selected;
                 break;
         }

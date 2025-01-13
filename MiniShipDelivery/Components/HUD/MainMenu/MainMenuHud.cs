@@ -10,11 +10,13 @@ namespace MiniShipDelivery.Components.HUD.MainMenu;
 internal class MainMenuHud : BaseMenu
 {
     private readonly MenuFrame _menuFrame;
+    private readonly Vector2 _menuFramePosition;
     
     private readonly MenuButton _menuButtonStartGame;
     private readonly MenuButton _menuButtonMapEditor;
+    private readonly MenuButton _menuButtonOptions;
+    private readonly MenuButton _menuButtonExit;
     
-    private readonly Vector2 _menuFramePosition;
 
     public MainMenuHud(Game game, int screenHalfWidth, int screenHalfHeight) 
         : base(
@@ -28,7 +30,7 @@ internal class MainMenuHud : BaseMenu
             screenHalfHeight - 20);
         
         var middleStartX = screenHalfWidth - 32;
-        var middleStartY = screenHalfHeight - 12;
+        var middleStartY = screenHalfHeight - 15;
         
         this._menuButtonStartGame = new MenuButton(
             game,
@@ -41,6 +43,18 @@ internal class MainMenuHud : BaseMenu
             UiMenuMainPart.MapEditor,
             new Vector2(middleStartX, middleStartY + 18));
         this._menuButtonMapEditor.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
+        
+        this._menuButtonOptions = new MenuButton(
+            game,
+            UiMenuMainPart.Options,
+            new Vector2(middleStartX, middleStartY + 36));
+        this._menuButtonOptions.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
+        
+        this._menuButtonExit = new MenuButton(
+            game,
+            UiMenuMainPart.Exit,
+            new Vector2(middleStartX, middleStartY + 54));
+        this._menuButtonExit.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
     }
 
     private void ButtonAreaPressed(object assetPart)
@@ -53,6 +67,12 @@ internal class MainMenuHud : BaseMenu
                 break;
             case UiMenuMainPart.MapEditor:
                 this.ButtonHasPressedEvent?.Invoke(HudOptionView.MapEditor);
+                break;
+            case UiMenuMainPart.Options:
+                this.ButtonHasPressedEvent?.Invoke(HudOptionView.Options);
+                break;
+            case UiMenuMainPart.Exit:
+                this.Game.Exit();
                 break;
         }
     }
@@ -71,7 +91,7 @@ internal class MainMenuHud : BaseMenu
         
         this._menuButtonStartGame.Draw(spriteBatch);
         this._menuButtonMapEditor.Draw(spriteBatch);
-        
-        
+        this._menuButtonOptions.Draw(spriteBatch);
+        this._menuButtonExit.Draw(spriteBatch);
     }
 }

@@ -5,7 +5,8 @@ public enum UiMenuMainPart
     None,
     Start,
     Continue,
-    Option,
+    Options,
     MapEditor,
-    Back
+    Back,
+    Exit
 }

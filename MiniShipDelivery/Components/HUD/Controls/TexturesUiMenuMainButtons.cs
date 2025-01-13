@@ -15,9 +15,10 @@ public class TexturesUiMenuMainButtons : ISpriteProperties<UiMenuMainPart>
         this.SpriteContent.Add(UiMenuMainPart.None, new Rectangle(0, 0, 0, 0));
         this.SpriteContent.Add(UiMenuMainPart.Start, new Rectangle(0, 0, 64, 16));
         this.SpriteContent.Add(UiMenuMainPart.Continue, new Rectangle(64, 0, 64, 16));
-        this.SpriteContent.Add(UiMenuMainPart.Option, new Rectangle(128, 0, 64, 16));
+        this.SpriteContent.Add(UiMenuMainPart.Options, new Rectangle(128, 0, 64, 16));
         this.SpriteContent.Add(UiMenuMainPart.MapEditor, new Rectangle(192, 0, 64, 16));
-        this.SpriteContent.Add(UiMenuMainPart.Back, new Rectangle(258, 0, 64, 16));
+        this.SpriteContent.Add(UiMenuMainPart.Back, new Rectangle(256, 0, 64, 16));
+        this.SpriteContent.Add(UiMenuMainPart.Exit, new Rectangle(320, 0, 64, 16));
     }
 
     public IDictionary<UiMenuMainPart, Rectangle> SpriteContent { get; } =

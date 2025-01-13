@@ -79,7 +79,12 @@ namespace MiniShipDelivery
             
             // TODO: sollte ich das nicht anders machen?
             PersistenceManager.LoadMap();
+            
+            // Music
+            this.MusicManagerInstance = new MusicManager(this);
         }
+
+        public MusicManager MusicManagerInstance { get; set; }
 
         protected override void Draw(GameTime gameTime)
         {

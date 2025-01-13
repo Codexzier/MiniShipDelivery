@@ -98,7 +98,7 @@ public class FunctionBar(
         var inRange = HudHelper.IsMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
-            if (this._input.GetMouseLeftButtonReleasedState(positionSelectable, item.Size, UiMenuMainPart.None))
+            if (this._input.GetMouseLeftButtonReleasedState(positionSelectable, item.Size))
             {
                 this.ButtonAreaWasPressedEvent?.Invoke(item);
             }

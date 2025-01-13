@@ -45,8 +45,7 @@ namespace MiniShipDelivery.Components.World
             
             if (this._input.GetMouseLeftButtonReleasedState(
                     rePosition, 
-                    new SizeF(16, 16), 
-                    UiMenuMainPart.None))
+                    new SizeF(16, 16)))
             {
                 this._currentMapTile.TilemapPart = (int)SelectedTilemapPart;
             }

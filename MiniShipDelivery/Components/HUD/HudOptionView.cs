@@ -4,6 +4,7 @@
     {
         MainMenu = 0,
         MapEditor = 1,
-        Game = 2
+        Game = 2,
+        Options = 3
     }
 }

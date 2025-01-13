@@ -8,6 +8,7 @@ using MiniShipDelivery.Components.HUD.GameMenu;
 using MiniShipDelivery.Components.HUD.GameMenuMap;
 using MiniShipDelivery.Components.HUD.GameMenuQuest;
 using MiniShipDelivery.Components.HUD.MainMenu;
+using MiniShipDelivery.Components.HUD.OptionsMenu;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD
@@ -18,12 +19,14 @@ namespace MiniShipDelivery.Components.HUD
         
         private readonly MainMenuHud _mainMenuHud;
         private readonly GameMenuManager _gameMenuManager;
+        private readonly GameMenuQuestManager _gameMenuQuestManager;
         private readonly GameMenuMapManager _gameMenuMapManager;
 
         private readonly MapEditorHud _mapEditorHud;
         
+        private readonly OptionsMenuManager _optionsMenuManager;
+        
         private readonly CameraManager _camera;
-        private readonly GameMenuQuestManager _gameMenuQuestManager;
 
         public HudManager(Game game) : base(game)
         {
@@ -37,10 +40,12 @@ namespace MiniShipDelivery.Components.HUD
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
 
             this._gameMenuManager = new GameMenuManager(game); 
-            this._gameMenuMapManager = new GameMenuMapManager(game);
             this._gameMenuQuestManager = new GameMenuQuestManager(game);
+            this._gameMenuMapManager = new GameMenuMapManager(game);
             
             this._mapEditorHud = new MapEditorHud(game);
+            
+            this._optionsMenuManager = new OptionsMenuManager(game);
         }
 
         private void MenuButtonHasPressed(HudOptionView view)
@@ -51,6 +56,8 @@ namespace MiniShipDelivery.Components.HUD
         public override void Update(GameTime gameTime)
         {
             this.UpdateCurrentMouseOverMenuState();
+            
+            this._optionsMenuManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -69,6 +76,9 @@ namespace MiniShipDelivery.Components.HUD
                     break;
                 case HudOptionView.MapEditor:
                     this._mapEditorHud.Draw(this._spriteBatch);
+                    break;
+                case HudOptionView.Options:
+                    this._optionsMenuManager.Draw(this._spriteBatch);
                     break;
             }
             

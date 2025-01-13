@@ -7,7 +7,7 @@ public class GameMenuMapManager
 {
     private readonly GameMenuMapOptions _gameMenuMapOptions;
     
-    public static bool ShowGameMap { get; set; }
+    public static bool Show { get; set; }
     
     public GameMenuMapManager(Game game)
     {
@@ -16,7 +16,7 @@ public class GameMenuMapManager
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(!ShowGameMap) return;
+        if(!Show) return;
         
         this._gameMenuMapOptions.Draw(spriteBatch);
     }
