@@ -18,16 +18,16 @@ public class MapEditorMenuCommon : BaseMenu
     public MapEditorMenuCommon(Game game)
         : base(
             game, 
-            new Vector2(0, 0), new Size(GlobaleGameParameters.ScreenWidth, 24))
+            new Vector2(0, 0), 
+            new Size(GlobaleGameParameters.ScreenWidth, 24))
     {
         this._textureUiMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game);
         
         this._functionBar = new FunctionBar(
             game,
+            this.Position,
             new Vector2(0, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButton,
             this.ChangeColorForActive);
 
@@ -41,10 +41,9 @@ public class MapEditorMenuCommon : BaseMenu
         // on right side
         this._functionBarWindow = new FunctionBar(
             game,
+            this.Position,
             new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),
-            this.GetPositionArea,
-            this.IsMouseInRange,
             this.DrawButton,
             this.ChangeColorForActive);
         this._functionBarWindow.AddOption(InterfaceMenuEditorOptionPart.Close);
@@ -104,8 +103,10 @@ public class MapEditorMenuCommon : BaseMenu
         }
     }
     
-    internal void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
+        base.Draw(spriteBatch);
+
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         this._functionBar.Draw(spriteBatch);

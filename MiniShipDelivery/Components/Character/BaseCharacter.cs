@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public abstract class BaseCharacter(TexturesCharacter texturesCharacter, TexturesEmote texturesEmote) : ICollider
+    public abstract class BaseCharacter(
+        TexturesCharacter texturesCharacter,
+        TexturesCharacterShadow texturesCharacterShadow,
+        TexturesEmote texturesEmote) : ICollider
     {
         private int _currentFrame;
         private float _timeToUpdate;
@@ -17,6 +20,10 @@ namespace MiniShipDelivery.Components.Character
         private float _timeToUpdateStand;
         private float _timeElapsedStand;
 
+        private int _currenFrameShadow;
+        private float _timeToUpdateShadow;
+        private float _timeElapsedShadow;
+        
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
         public bool IsColliding { get; private set; }
@@ -34,6 +41,7 @@ namespace MiniShipDelivery.Components.Character
             {
                 this._timeToUpdate = 1f / value;
                 this._timeToUpdateStand = 2.5f / value;
+                this._timeToUpdateShadow = 1f / value;
             }
         }
 
@@ -133,6 +141,7 @@ namespace MiniShipDelivery.Components.Character
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            this.DrawShadow(spriteBatch);
         }
         
         protected void Draw(
@@ -185,6 +194,16 @@ namespace MiniShipDelivery.Components.Character
                     break;
             }
             
+        }
+
+
+        private void DrawShadow(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                texturesCharacterShadow.Texture,
+                this.Collider.Position + new Vector2(0, 7),
+                texturesCharacterShadow.SpriteContent[0],
+                Color.White);
         }
         
         public virtual void DrawEmote(

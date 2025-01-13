@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MonoGame.Extended;
 
@@ -9,8 +9,7 @@ namespace MiniShipDelivery.Components.HUD.Controls;
 public class MenuButton(
     Game game,
     UiMenuMainPart menuMainPart,
-    Vector2 position,
-    Func<Vector2, SizeF, bool> isMouseInRange)
+    Vector2 position)
 {
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
@@ -21,9 +20,7 @@ public class MenuButton(
         var pos = this._camera.Camera.Position + position;
 
         var buttonSize = new SizeF(64, 16);
-        var inRange = isMouseInRange(
-            position, 
-            buttonSize);
+        var inRange =  HudHelper.IsMouseInRange(position, buttonSize);
         
         if (inRange && this._input.GetMouseLeftButtonReleasedState(position, buttonSize, menuMainPart))
         {

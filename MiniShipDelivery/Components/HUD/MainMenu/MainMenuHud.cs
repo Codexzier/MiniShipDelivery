@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Controls;
 using MonoGame.Extended;
@@ -18,32 +16,30 @@ internal class MainMenuHud : BaseMenu
     
     private readonly Vector2 _menuFramePosition;
 
-    public MainMenuHud(Game game) 
+    public MainMenuHud(Game game, int screenHalfWidth, int screenHalfHeight) 
         : base(
             game, 
-            new Vector2(GlobaleGameParameters.ScreenWidth / 2 - 70, GlobaleGameParameters.ScreenHeight / 2 - 50),
+            new Vector2(screenHalfWidth - 70, screenHalfHeight - 50),
             new Size(140, 100))
     {
         this._menuFrame = new MenuFrame(game);
         this._menuFramePosition = new Vector2(
-            GlobaleGameParameters.ScreenWidth / 2 - 40, 
-            GlobaleGameParameters.ScreenHeight / 2 - 20);
+            screenHalfWidth - 40, 
+            screenHalfHeight - 20);
         
-        const int middleStartX = GlobaleGameParameters.ScreenWidth / 2 - 32;
-        const int middleStartY = GlobaleGameParameters.ScreenHeight / 2 - 12;
+        var middleStartX = screenHalfWidth - 32;
+        var middleStartY = screenHalfHeight - 12;
         
         this._menuButtonStartGame = new MenuButton(
             game,
             UiMenuMainPart.Start,
-            new Vector2(middleStartX, middleStartY),
-            this.IsMouseInRange);
+            new Vector2(middleStartX, middleStartY));
         this._menuButtonStartGame.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         this._menuButtonMapEditor = new MenuButton(
             game,
             UiMenuMainPart.MapEditor,
-            new Vector2(middleStartX, middleStartY + 18),
-            this.IsMouseInRange);
+            new Vector2(middleStartX, middleStartY + 18));
         this._menuButtonMapEditor.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
     }
 
@@ -64,7 +60,7 @@ internal class MainMenuHud : BaseMenu
     public delegate void ButtonHasPressedEventHandle(HudOptionView view);
     public event ButtonHasPressedEventHandle ButtonHasPressedEvent;
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         var pos = this.Camera.Camera.Position + this._menuFramePosition;
         
@@ -75,5 +71,7 @@ internal class MainMenuHud : BaseMenu
         
         this._menuButtonStartGame.Draw(spriteBatch);
         this._menuButtonMapEditor.Draw(spriteBatch);
+        
+        
     }
 }

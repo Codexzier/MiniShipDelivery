@@ -9,10 +9,13 @@ namespace MiniShipDelivery.Components.Character
     {
         private readonly CharacterType _characterType;
 
-        public CharacterNpc(TexturesCharacter texturesCharacter,
+        public CharacterNpc(
+            TexturesCharacter texturesCharacter,
+            TexturesCharacterShadow texturesCharacterShadow,
             TexturesEmote texturesEmote,
             Vector2 position,
-            CharacterType characterType) : base(texturesCharacter, texturesEmote)
+            CharacterType characterType) 
+            : base(texturesCharacter, texturesCharacterShadow, texturesEmote)
         {
             this._characterType = characterType;
             this.Collider.Position = position;
@@ -45,6 +48,8 @@ namespace MiniShipDelivery.Components.Character
                     this.GetStandAnimation(),
                     this._characterType);
             }
+            
+            base.Draw(spriteBatch);
         }
 
         public override string ToString()

@@ -24,10 +24,12 @@ public class CharacterManager : DrawableGameComponent
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         
         var texturesCharacter = new TexturesCharacter(game);
+        var texturesCharacterShadow = new TexturesCharacterShadow(game);
         var texturesEmote = new TexturesEmote(game);
         
         this.Player = new CharacterPlayer(
             texturesCharacter,
+            texturesCharacterShadow,
             texturesEmote,
             game.GetComponent<InputManager>(), 
             screenPosition, 
@@ -40,6 +42,7 @@ public class CharacterManager : DrawableGameComponent
         
         var characterNpc = new CharacterNpc(
             texturesCharacter, 
+            texturesCharacterShadow,
             texturesEmote,
             new Vector2(20, 20), 
             CharacterType.Women)

@@ -31,6 +31,7 @@ namespace MiniShipDelivery
             var input = new InputManager(this);
             input.UpdateOrder = 1;
             this.Components.Add(input);
+            HudHelper.Inputs = input.Inputs;
 
             // Map
             var map = new WorldManager(this);

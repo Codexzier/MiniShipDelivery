@@ -9,26 +9,20 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
 {
-    public class WorldManager : DrawableGameComponent
+    public class WorldManager(Game game) : DrawableGameComponent(game)
     {
-        private readonly SpriteBatch _spriteBatch;
-        private readonly TexturesTilemap _texturesTilemap;
+        private readonly SpriteBatch _spriteBatch = new( game.GraphicsDevice );
+        private readonly TexturesTilemap _texturesTilemap = new(game);
         
-        private readonly CameraManager _camera;
+        private readonly CameraManager _camera = game.GetComponent<CameraManager>();
 
         public readonly WorldMap Map = new();
         
         
-        private readonly InputManager _input;
-
-        public WorldManager(Game game) :base(game)
-        {
-            this._texturesTilemap = new TexturesTilemap(game);
-            this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._camera = game.GetComponent<CameraManager>();
-            this._input = game.GetComponent<InputManager>();
-        }
+        private readonly InputManager _input = game.GetComponent<InputManager>();
         
+        private MapTile _currentMapTile;
+
         public static TilemapPart SelectedTilemapPart { get; set; }
 
         public override void Update(GameTime gameTime)
@@ -44,23 +38,17 @@ namespace MiniShipDelivery.Components.World
 
         private void UpdateSetMapTile()
         {
-            var result = this.GetMapTile();
-            if(result == null) return;
+            this.UpdateCurrentSelectableMapTile();
+            if(this._currentMapTile == null) return;
             
-            // not selectable map area, well the menu is there.
-            var rePosition = result.Position.TilePositionToVector() - this._camera.Camera.Position ;
-            var rect = new RectangleF(rePosition.X, rePosition.Y, 16, 16);
-            foreach (var rectangle in MapEditorMenu.MenuField)
-            {
-                if (rectangle.Intersects(rect))
-                {
-                    return;
-                }
-            }
+            var rePosition = this._currentMapTile.Position.TilePositionToVector() - this._camera.Camera.Position ;
             
-            if (this._input.GetMouseLeftButtonReleasedState(rePosition, new SizeF(16, 16), UiMenuMainPart.None))
+            if (this._input.GetMouseLeftButtonReleasedState(
+                    rePosition, 
+                    new SizeF(16, 16), 
+                    UiMenuMainPart.None))
             {
-                result.TilemapPart = (int)SelectedTilemapPart;
+                this._currentMapTile.TilemapPart = (int)SelectedTilemapPart;
             }
         }
 
@@ -89,40 +77,40 @@ namespace MiniShipDelivery.Components.World
         
         private void DrawSelectedMapTile()
         {
-            var result = this.GetMapTile();
-            if(result == null) return;
+            if(this._currentMapTile == null) return;
 
             if (!this.Map.ValidTileNumber((int)SelectedTilemapPart, MapEditorMenu.TilemapLevel))
             {
                 return;
             }
 
-            if (result.TilemapPart == (int)SelectedTilemapPart)
+            if (this._currentMapTile.TilemapPart == (int)SelectedTilemapPart)
             {
                 return;
             }
             
             this._spriteBatch.Draw(
                 this._texturesTilemap.Texture, 
-                result.Position.TilePositionToVector(), 
+                _currentMapTile.Position.TilePositionToVector(), 
                 this._texturesTilemap.GetSprite(MapEditorMenu.TilemapLevel, SelectedTilemapPart),
                 new Color(Color.Gray, 0.8f));
         }
 
         private void DrawHoverEffectOnGrid()
         {
-            var result = this.GetMapTile();
-            if(result == null) return;
+            if(this._currentMapTile == null) return;
             
             this._spriteBatch.DrawRectangle(
-                result.Position.TilePositionToVector(),
+                this._currentMapTile.Position.TilePositionToVector(),
                 new SizeF(16, 16),
                 Color.White);
-
         }
 
-        private MapTile GetMapTile()
+        private void UpdateCurrentSelectableMapTile()
         {
+            this._currentMapTile = null;
+            if(HudManager.MouseIsOverMenu) return;
+            
             var pos = this._input.Inputs.MousePosition;
             pos += this._camera.Camera.Position;
             
@@ -141,12 +129,9 @@ namespace MiniShipDelivery.Components.World
             var x = (int)pos.X / 16;
             var y = (int)pos.Y / 16;
 
-            if(this.Map.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result))
-            {
-                return result;
-            }
+            if (!this.Map.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result)) return;
             
-            return null;
+            this._currentMapTile = result;
         }
 
         private void DrawGrid()
