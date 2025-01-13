@@ -5,6 +5,8 @@ using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor;
 using MiniShipDelivery.Components.HUD.GameMenu;
+using MiniShipDelivery.Components.HUD.GameMenuMap;
+using MiniShipDelivery.Components.HUD.GameMenuQuest;
 using MiniShipDelivery.Components.HUD.MainMenu;
 using MonoGame.Extended;
 
@@ -16,10 +18,12 @@ namespace MiniShipDelivery.Components.HUD
         
         private readonly MainMenuHud _mainMenuHud;
         private readonly GameMenuManager _gameMenuManager;
+        private readonly GameMenuMapManager _gameMenuMapManager;
 
         private readonly MapEditorHud _mapEditorHud;
         
         private readonly CameraManager _camera;
+        private readonly GameMenuQuestManager _gameMenuQuestManager;
 
         public HudManager(Game game) : base(game)
         {
@@ -28,11 +32,13 @@ namespace MiniShipDelivery.Components.HUD
             
             this._mainMenuHud = new MainMenuHud(
                 game, 
-                GlobaleGameParameters.ScreenWidth / 2, 
-                GlobaleGameParameters.ScreenHeight / 2);
+                GlobaleGameParameters.ScreenWidthHalf, 
+                GlobaleGameParameters.ScreenHeightHalf);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
 
             this._gameMenuManager = new GameMenuManager(game); 
+            this._gameMenuMapManager = new GameMenuMapManager(game);
+            this._gameMenuQuestManager = new GameMenuQuestManager(game);
             
             this._mapEditorHud = new MapEditorHud(game);
         }
@@ -55,6 +61,8 @@ namespace MiniShipDelivery.Components.HUD
             {
                 case HudOptionView.Game:
                     this._gameMenuManager.Draw(this._spriteBatch);
+                    this._gameMenuMapManager.Draw(this._spriteBatch);
+                    this._gameMenuQuestManager.Draw(this._spriteBatch);
                     break;
                 case HudOptionView.MainMenu:
                     this._mainMenuHud.Draw(this._spriteBatch);

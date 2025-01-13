@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
+using MiniShipDelivery.Components.HUD.GameMenuMap;
+using MiniShipDelivery.Components.HUD.GameMenuQuest;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.GameMenu;
@@ -61,6 +63,12 @@ internal class GameMenuCommon : BaseMenu
         switch (functionItem.AssetPart)
         {
             case GameMenuPart.QuestLog:
+                GameMenuQuestManager.Show = !GameMenuQuestManager.Show;
+                functionItem.Selected = !functionItem.Selected;
+                break;
+            case GameMenuPart.Map:
+                GameMenuMapManager.ShowGameMap = !GameMenuMapManager.ShowGameMap;
+                functionItem.Selected = !functionItem.Selected;
                 break;
         }
     }
