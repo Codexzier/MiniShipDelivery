@@ -2,9 +2,11 @@
 {
     public enum LevelPart
     {
+        Street,
         Sidewalk,
         Grass,
         GrayRoof,
-        BrownRoof
+        BrownRoof,
+        
     }
 }

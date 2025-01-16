@@ -45,7 +45,7 @@ public class PersistenceManager : GameComponent
             {
                 for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
                 {
-                    worldMapLevel.Map[y][x].TilemapPart = 0;
+                    worldMapLevel.Map[y][x].NumberPart = 0;
                 }
             }
         }

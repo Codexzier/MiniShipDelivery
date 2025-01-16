@@ -12,7 +12,7 @@
         /// Vielleicht durch id ersetzten?
         /// </summary>
         [Obsolete("Ist Redundant, vielleicht entfernen")]
-        public int TilemapPart { get; set; }
+        public int NumberPart { get; set; }
         public TilePosition Position { get; set; }
         
     }

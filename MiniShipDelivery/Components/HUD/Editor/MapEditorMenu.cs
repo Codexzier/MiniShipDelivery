@@ -8,6 +8,7 @@ using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.World;
 using CodexzierGameEngine.DataModels.World;
+using MiniShipDelivery.Components.World.Textures;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 
@@ -21,7 +22,7 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
     
-    public static LevelPart TilemapLevel = LevelPart.Grass;
+    public static LevelPart TilemapLevel = LevelPart.Sidewalk;
     public static readonly List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
@@ -75,7 +76,7 @@ public class MapEditorMenu : BaseMenu
                 TilemapLevel += 1;
                 if(TilemapLevel > LevelPart.BrownRoof)
                 {
-                    TilemapLevel = 0;
+                    TilemapLevel = LevelPart.Sidewalk;
                 }
                 break;
             case UiMenuMapOptionPart.ArrowLeft:

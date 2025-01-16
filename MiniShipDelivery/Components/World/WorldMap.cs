@@ -4,6 +4,7 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.World.Textures;
 
 namespace MiniShipDelivery.Components.World;
 
@@ -13,9 +14,13 @@ public class WorldMap
 
     public WorldMap()
     {
-        // sidewalk and grass
         this.WorldMapChunk.WorldMapLevels = new WorldMapLevel[Enum.GetValues<LevelPart>().Length];
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Sidewalk] = this.CreateWorldMapLevel(LevelPart.Sidewalk, true);
+        
+        // street
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Street] = this.CreateWorldMapLevel(LevelPart.Street, true);
+        
+        // sidewalk and grass
+        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Sidewalk] = this.CreateWorldMapLevel(LevelPart.Sidewalk, false);
         this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Grass] = this.CreateWorldMapLevel(LevelPart.Grass, false);
         
         // TODO: add more levels
@@ -45,13 +50,37 @@ public class WorldMap
             {
                 wml.Map[indexY][indexX] = new MapTile
                 {
-                    TilemapPart = fill ? (int)TilemapPart.MiddleMiddle : 0,
+                    NumberPart = GetDefaultNumberByLevelPart(levelPart, fill),
                     Position = new TilePosition(indexX * 16, indexY * 16)
                 };
             }
         }
 
         return wml;
+    }
+    
+    private int GetDefaultNumberByLevelPart(LevelPart levelPart, bool fill)
+    {
+        var defaultNumber = 0;
+        
+        if(!fill) return defaultNumber;
+        
+        switch (levelPart)
+        {
+            case LevelPart.Street:
+                defaultNumber = (int)StreetPart.Street01;
+                break;
+            case LevelPart.Sidewalk:
+            case LevelPart.Grass:
+            case LevelPart.GrayRoof:
+            case LevelPart.BrownRoof:
+                defaultNumber = (int)TilemapPart.MiddleMiddle;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(levelPart), levelPart, null);
+        }
+        
+        return defaultNumber;
     }
 
     public bool ValidTileNumber(int selectedTilemapPart, LevelPart tilemapLevel)
@@ -60,7 +89,7 @@ public class WorldMap
             .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
     }
 
-    public void DrawAllLevels(SpriteBatch spriteBatch, TexturesTilemap texturesTilemap)
+    public void DrawAllLevels(SpriteBatch spriteBatch, TexturesTilemap texturesTilemap, TexturesStreet texturesStreet)
     {
         foreach (var worldMapLevel in this.WorldMapChunk.WorldMapLevels)
         {
@@ -68,23 +97,63 @@ public class WorldMap
             {
                 for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
                 {
-                    var tileNumber = worldMapLevel.Map[y][x].TilemapPart;
+                    var tileNumber = worldMapLevel.Map[y][x].NumberPart;
                     
                     if(tileNumber == 0) continue;
                     
                     if (!worldMapLevel.ListOfValidateTileNumbers.Contains((int)tileNumber))
                     {
-                        tileNumber = (int)TilemapPart.AroundOutBorder;
+                        tileNumber = this.GetDefaultNumberByLevelPart(worldMapLevel.LevelPart, true); // (int)TilemapPart.AroundOutBorder;
                     }
                     
-                    spriteBatch.Draw(
-                        texturesTilemap.Texture, 
-                        worldMapLevel.Map[y][x].Position.TilePositionToVector(), 
-                        texturesTilemap.GetSprite(worldMapLevel.LevelPart, (TilemapPart)tileNumber),
-                        Color.White);
+                    this.DrawSpriteByLevelPart(
+                        spriteBatch,
+                        texturesTilemap,
+                        texturesStreet,
+                        worldMapLevel.LevelPart,
+                        tileNumber,
+                        worldMapLevel.Map[y][x].Position.TilePositionToVector());
+                    
+                    // spriteBatch.Draw(
+                    //     texturesTilemap.Texture, 
+                    //     worldMapLevel.Map[y][x].Position.TilePositionToVector(), 
+                    //     texturesTilemap.GetSprite(worldMapLevel.LevelPart, (TilemapPart)tileNumber),
+                    //     Color.White);
                 }
             }
         }
+    }
+    
+    private void DrawSpriteByLevelPart(SpriteBatch spriteBatch,
+        TexturesTilemap texturesTilemap,
+        TexturesStreet texturesStreet,
+        LevelPart levelPart,
+        int numberPart,
+        Vector2 position)
+    {
+        switch (levelPart)
+        {
+            case LevelPart.Street:
+                spriteBatch.Draw(
+                    texturesStreet.Texture, 
+                    position, 
+                    texturesStreet.SpriteContent[(StreetPart)numberPart],
+                    Color.White);
+                break;
+            case LevelPart.Sidewalk:
+            case LevelPart.Grass:
+            case LevelPart.GrayRoof:
+            case LevelPart.BrownRoof:
+                spriteBatch.Draw(
+                    texturesTilemap.Texture, 
+                    position, 
+                    texturesTilemap.GetSprite(levelPart, (TilemapPart)numberPart),
+                    Color.White);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(levelPart), levelPart, null);
+        }
+        
     }
 
     public bool TryTilemap(LevelPart levelPart, int x, int y, out MapTile mapTile)

@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.World
+﻿namespace MiniShipDelivery.Components.World.Textures
 {
     public enum TilemapPart
     {

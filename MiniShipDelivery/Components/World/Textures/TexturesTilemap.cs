@@ -3,9 +3,8 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
 
-namespace MiniShipDelivery.Components.World
+namespace MiniShipDelivery.Components.World.Textures
 {
     public class TexturesTilemap : ISpriteProperties<TilemapPart>
     {

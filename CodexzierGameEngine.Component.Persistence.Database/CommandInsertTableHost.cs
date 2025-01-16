@@ -57,7 +57,7 @@ public static class CommandInsertTableHost
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO MapTile (WorldMapLevelId, MapTileX, MapTileY, TilemapPart) VALUES (");
         sb.AppendLine($"{dataModel.WorldMapLevelID}, {dataModel.MapTileX}, {dataModel.MapTileY}" +
-                      $", {dataModel.TilemapPart}");
+                      $", {dataModel.NumberPart}");
         sb.AppendLine(")");
 
         return sb.ToString();

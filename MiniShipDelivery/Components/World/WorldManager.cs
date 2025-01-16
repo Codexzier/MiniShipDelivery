@@ -5,6 +5,7 @@ using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor;
+using MiniShipDelivery.Components.World.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World
@@ -13,6 +14,7 @@ namespace MiniShipDelivery.Components.World
     {
         private readonly SpriteBatch _spriteBatch = new( game.GraphicsDevice );
         private readonly TexturesTilemap _texturesTilemap = new(game);
+        private readonly TexturesStreet _texturesStreet = new(game);
         
         private readonly CameraManager _camera = game.GetComponent<CameraManager>();
 
@@ -47,7 +49,7 @@ namespace MiniShipDelivery.Components.World
                     rePosition, 
                     new SizeF(16, 16)))
             {
-                this._currentMapTile.TilemapPart = (int)SelectedTilemapPart;
+                this._currentMapTile.NumberPart = (int)SelectedTilemapPart;
             }
         }
 
@@ -55,7 +57,10 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
             
-            this.Map.DrawAllLevels(this._spriteBatch, this._texturesTilemap);
+            this.Map.DrawAllLevels(
+                this._spriteBatch, 
+                this._texturesTilemap, 
+                this._texturesStreet);
             
             this.HudDependedDrawContent();
             
@@ -83,7 +88,7 @@ namespace MiniShipDelivery.Components.World
                 return;
             }
 
-            if (this._currentMapTile.TilemapPart == (int)SelectedTilemapPart)
+            if (this._currentMapTile.NumberPart == (int)SelectedTilemapPart)
             {
                 return;
             }

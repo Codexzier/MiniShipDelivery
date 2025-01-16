@@ -41,7 +41,7 @@ public static class DataModelHelper
         var mapTile = new MapTile
         {
             Id = 1,
-            TilemapPart = 1,
+            NumberPart = 1,
             Position = new TilePosition(1, 1)
         };
         return mapTile;
