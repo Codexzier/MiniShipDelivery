@@ -20,13 +20,12 @@ public class CheckBox(
 
     public void Update()
     {
-        var pos = this._positionRectangle;
         var inRange =  HudHelper.IsMouseInRange(
-            pos, 
+            this._positionRectangle, 
             this._size);
         
         if (inRange && this._input.GetMouseLeftButtonReleasedState(
-                pos,
+                this._positionRectangle,
                 this._size))
         {
             this.IsChecked = !this.IsChecked;
