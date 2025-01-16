@@ -15,6 +15,7 @@ public class OptionsMenuOptions : BaseMenu
     private readonly MenuButton _buttonBack;
 
     private readonly CheckBox _checkBoxMusicOnOff;
+    private readonly CheckBox _checkBoxDebugMode;
 
     public OptionsMenuOptions(Game game) 
         : base(
@@ -45,12 +46,26 @@ public class OptionsMenuOptions : BaseMenu
                 GlobaleGameParameters.ScreenHeightHalf - 50));
         this._checkBoxMusicOnOff.IsCheckedChangedEvent += this.CheckBoxMusicOnOffIsCheckedChangedEvent;
         this._checkBoxMusicOnOff.IsChecked = true;
+        
+        this._checkBoxDebugMode = new CheckBox(
+            game, 
+            "Debug mode",
+            new Vector2(
+                GlobaleGameParameters.ScreenWidthHalf - 45, 
+                GlobaleGameParameters.ScreenHeightHalf - 29));
+        this._checkBoxDebugMode.IsCheckedChangedEvent += this.CheckBoxDebugModeIsCheckedChangedEvent;
+        this._checkBoxDebugMode.IsChecked = false;
     }
+
+   
+
+    #region reveived events
 
     private void ButtonPressed(object assetPart)
     {
         GlobaleGameParameters.HudView = HudOptionView.MainMenu;
     }
+    
     private void CheckBoxMusicOnOffIsCheckedChangedEvent(bool isChecked)
     {
         if (isChecked)
@@ -63,9 +78,18 @@ public class OptionsMenuOptions : BaseMenu
         }
     }
     
-    public void Update(GameTime gameTime)
+    private void CheckBoxDebugModeIsCheckedChangedEvent(bool isChecked)
+    {
+        GlobaleGameParameters.DebugMode = isChecked;
+    }
+    
+    #endregion
+    
+    
+    public override void Update()
     {
         this._checkBoxMusicOnOff.Update();
+        this._checkBoxDebugMode.Update();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -84,6 +108,10 @@ public class OptionsMenuOptions : BaseMenu
         
         this._checkBoxMusicOnOff.Draw(
             spriteBatch, 
+            this.Camera.Camera.Position);
+        
+        this._checkBoxDebugMode.Draw(
+            spriteBatch,
             this.Camera.Camera.Position);
     }
 }

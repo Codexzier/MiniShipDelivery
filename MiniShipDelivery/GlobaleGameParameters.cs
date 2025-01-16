@@ -17,4 +17,5 @@ public static class GlobaleGameParameters
     
     public static bool ShowGrid = false;
     public static bool ShowConsoleWindow = false;
+    public static bool DebugMode = false;
 }

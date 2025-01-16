@@ -27,6 +27,10 @@ public abstract class BaseMenu(
             type);
     }
 
+    public virtual void Update()
+    {
+    }
+    
     public virtual void Draw(SpriteBatch spriteBatch)
     {
     }

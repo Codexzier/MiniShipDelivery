@@ -57,7 +57,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this.UpdateCurrentMouseOverMenuState();
             
-            this._optionsMenuManager.Update(gameTime);
+            this._optionsMenuManager.Update();
         }
 
         public override void Draw(GameTime gameTime)
@@ -81,9 +81,12 @@ namespace MiniShipDelivery.Components.HUD
                     this._optionsMenuManager.Draw(this._spriteBatch);
                     break;
             }
-            
-            // draw fields with rectangle
-            //this.DrawRectangles();
+
+            if (GlobaleGameParameters.DebugMode)
+            {
+                // draw fields with rectangle
+                this.DrawRectangles();
+            }
             
             this._spriteBatch.End();
         }

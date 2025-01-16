@@ -8,9 +8,9 @@ public class OptionsMenuManager(Game game)
     private readonly OptionsMenuOptions _optionsMenuOptions = new(game);
     
     
-    public void Update(GameTime gameTime)
+    public void Update()
     {
-        this._optionsMenuOptions.Update(gameTime);
+        this._optionsMenuOptions.Update();
     }
     
     public void Draw(SpriteBatch spriteBatch)

@@ -6,32 +6,21 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Controls;
 
-public class CheckBox
+public class CheckBox(
+    Game game,
+    string textLabel,
+    Vector2 postion)
 {
-    private readonly SpriteFont _font;
-    private readonly string _textLabel;
-    private readonly Vector2 _position;
-    private readonly Vector2 _positionReactangle;
-    private readonly InputManager _input;
+    private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
+    private readonly Vector2 _positionRectangle = postion + new Vector2(75, -3);
+    private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly SizeF _size = new(20, 20);
-
-    public CheckBox(
-        Game game, 
-        string textLabel, 
-        Vector2 postion)
-    {
-        this._font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
-        this._input = game.GetComponent<InputManager>();
-        this._textLabel = textLabel;
-        this._position = postion;
-        this._positionReactangle = postion + new Vector2(70, -3);
-    }
 
     public bool IsChecked { get; set; }
 
     public void Update()
     {
-        var pos = this._positionReactangle;
+        var pos = this._positionRectangle;
         var inRange =  HudHelper.IsMouseInRange(
             pos, 
             this._size);
@@ -45,16 +34,13 @@ public class CheckBox
         }
     }
     
-    public delegate void IsCheckedChangedEventHandler(bool isChecked);
-    public event IsCheckedChangedEventHandler IsCheckedChangedEvent;
-    
     public void Draw(SpriteBatch spriteBatch, Vector2 cameraPosition)
     {
-        var pos = cameraPosition + this._position;
-        var posRectangle = cameraPosition + this._positionReactangle;
+        var pos = cameraPosition + postion;
+        var posRectangle = cameraPosition + this._positionRectangle;
 
         spriteBatch.DrawString(this._font,
-            this._textLabel,
+            textLabel,
             pos,
             Color.White,
             0f,
@@ -66,6 +52,11 @@ public class CheckBox
             posRectangle,
             new SizeF(20, 20),
             Color.Gray);
+        
+        spriteBatch.DrawRectangle(
+            posRectangle,
+            new SizeF(20, 20),
+            Color.Black);
 
         if (this.IsChecked)
         {
@@ -75,4 +66,11 @@ public class CheckBox
                 Color.Black);
         }
     }
+    
+    #region event handler
+    
+    public delegate void IsCheckedChangedEventHandler(bool isChecked);
+    public event IsCheckedChangedEventHandler IsCheckedChangedEvent;
+    
+    #endregion
 }
