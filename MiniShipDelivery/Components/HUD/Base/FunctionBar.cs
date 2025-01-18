@@ -160,6 +160,15 @@ public class FunctionBar(
 
     public void SetOption(UiMenuMapOptionPart uiMenuMapOptionPart)
     {
-        
+        foreach (var functionItem in this._functionItems)
+        {
+            foreach (var item in functionItem.Value)
+            {
+                if (item.AssetPart is UiMenuMapOptionPart menuMapOption)
+                {
+                    item.Selected = menuMapOption == uiMenuMapOptionPart;
+                }
+            }
+        }
     }
 }

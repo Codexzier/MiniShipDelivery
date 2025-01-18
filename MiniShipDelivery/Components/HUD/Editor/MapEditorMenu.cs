@@ -22,7 +22,7 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
     
-    public static LevelPart TilemapLevel = LevelPart.Sidewalk;
+    public static LayerPart TilemapLayer = LayerPart.Sidewalk;
     public static readonly List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
@@ -83,10 +83,10 @@ public class MapEditorMenu : BaseMenu
         switch (functionItem.AssetPart)
         {
             case UiMenuMapOptionPart.TilemapSelect:
-                TilemapLevel += 1;
-                if(TilemapLevel > LevelPart.BrownRoof)
+                TilemapLayer += 1;
+                if(TilemapLayer > LayerPart.BrownRoof)
                 {
-                    TilemapLevel = LevelPart.Sidewalk;
+                    TilemapLayer = LayerPart.Sidewalk;
                 }
                 break;
             case UiMenuMapOptionPart.ArrowLeft:
@@ -96,7 +96,7 @@ public class MapEditorMenu : BaseMenu
                 this._functionBarMapSprites.PageUp();
                 break;
             case UiMenuMapOptionPart.Street:
-                WorldMapAdjuster.SelectedMapLayer = LevelPart.Street;
+                WorldMapAdjuster.SelectedMapLayer = LayerPart.Street;
                 WorldMapAdjuster.SelectedTilemapPart = 0;
                 break;
         }
@@ -116,12 +116,12 @@ public class MapEditorMenu : BaseMenu
         var menuMapOption = (UiMenuMapOptionPart)functionItem.AssetPart;
         if (menuMapOption == UiMenuMapOptionPart.TilemapSelect)
         {
-            menuMapOption = TilemapLevel switch
+            menuMapOption = TilemapLayer switch
             {
-                LevelPart.Grass => UiMenuMapOptionPart.TilemapGrass,
-                LevelPart.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
-                LevelPart.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
-                LevelPart.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
+                LayerPart.Grass => UiMenuMapOptionPart.TilemapGrass,
+                LayerPart.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
+                LayerPart.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
+                LayerPart.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
                 _ => menuMapOption
             };
         }
@@ -148,7 +148,7 @@ public class MapEditorMenu : BaseMenu
         spriteBatch.Draw(
             this._texturesTilemap.Texture, 
             position + new Vector2(1, 1), 
-            this._texturesTilemap.GetSprite(TilemapLevel, (TilemapPart)functionItem.AssetPart),
+            this._texturesTilemap.GetSprite(TilemapLayer, (TilemapPart)functionItem.AssetPart),
             Color.White);
     }
     

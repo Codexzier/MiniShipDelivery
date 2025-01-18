@@ -68,23 +68,23 @@ namespace MiniShipDelivery.Components.World.Textures
             this.SpriteContent.Add(TilemapPart.VerticalLeftRightDown_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 2)), 16, 16));
         }
 
-        public Rectangle GetSprite(LevelPart level, TilemapPart tilemapPart)
+        public Rectangle GetSprite(LayerPart layer, TilemapPart tilemapPart)
         {
             var mapTile = this.SpriteContent[tilemapPart];
-            if (level == LevelPart.Grass)
+            if (layer == LayerPart.Grass)
             {
                 return mapTile;
             }
 
-            switch (level)
+            switch (layer)
             {
-                case LevelPart.Sidewalk:
+                case LayerPart.Sidewalk:
                     mapTile.X += 16 * 8;
                     break;
-                case LevelPart.GrayRoof:
+                case LayerPart.GrayRoof:
                     mapTile.Y += 16 * 3;
                     break;
-                case LevelPart.BrownRoof:
+                case LayerPart.BrownRoof:
                     mapTile.X += 16 * 8;
                     mapTile.Y += 16 * 3;
                     break;

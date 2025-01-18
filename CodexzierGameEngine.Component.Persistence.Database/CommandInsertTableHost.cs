@@ -46,7 +46,7 @@ public static class CommandInsertTableHost
     {
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO WorldMapLevel (WorldMapChunkId, LevelPart) VALUES (");
-        sb.AppendLine($"{dataModel.WorldMapChunkID}, {(int)dataModel.LevelPart}");
+        sb.AppendLine($"{dataModel.WorldMapChunkID}, {(int)dataModel.LayerPart}");
         sb.AppendLine(")");
 
         return sb.ToString();

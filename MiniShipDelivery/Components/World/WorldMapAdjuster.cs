@@ -15,7 +15,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     private readonly InputManager _input = game.GetComponent<InputManager>();
         
     public MapTile CurrentMapTile { get; set; }
-    public static LevelPart SelectedMapLayer { get; set; }
+    public static LayerPart SelectedMapLayer { get; set; }
 
     public static int SelectedTilemapPart { get; set; }
         
@@ -57,7 +57,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         var x = (int)pos.X / 16;
         var y = (int)pos.Y / 16;
 
-        if (!map.TryTilemap(MapEditorMenu.TilemapLevel, x, y, out var result)) return;
+        if (!map.TryTilemap(MapEditorMenu.TilemapLayer, x, y, out var result)) return;
             
         this.CurrentMapTile = result;
     }
@@ -84,7 +84,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!map.ValidTileNumber(SelectedTilemapPart, MapEditorMenu.TilemapLevel))
+        if (!map.ValidTileNumber(SelectedTilemapPart, MapEditorMenu.TilemapLayer))
         {
             return;
         }
@@ -98,7 +98,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
             worldMapTextures.TexturesTilemap.Texture, 
             this.CurrentMapTile.Position.TilePositionToVector(), 
             worldMapTextures.TexturesTilemap.GetSprite(
-                MapEditorMenu.TilemapLevel, 
+                MapEditorMenu.TilemapLayer, 
                 (TilemapPart)SelectedTilemapPart),
             new Color(Color.Gray, 0.8f));
     }

@@ -1,6 +1,6 @@
 ﻿namespace CodexzierGameEngine.DataModels.World
 {
-    public enum LevelPart
+    public enum LayerPart
     {
         Street,
         Sidewalk,

@@ -14,29 +14,29 @@ public class WorldMap
 
     public WorldMap()
     {
-        this.WorldMapChunk.WorldMapLevels = new WorldMapLevel[Enum.GetValues<LevelPart>().Length];
+        this.WorldMapChunk.WorldMapLevels = new WorldMapLevel[Enum.GetValues<LayerPart>().Length];
         
         // street
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Street] = this.CreateWorldMapLevel(LevelPart.Street, true);
+        this.WorldMapChunk.WorldMapLevels[(int)LayerPart.Street] = this.CreateWorldMapLevel(LayerPart.Street, true);
         
         // sidewalk and grass
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Sidewalk] = this.CreateWorldMapLevel(LevelPart.Sidewalk, false);
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.Grass] = this.CreateWorldMapLevel(LevelPart.Grass, false);
+        this.WorldMapChunk.WorldMapLevels[(int)LayerPart.Sidewalk] = this.CreateWorldMapLevel(LayerPart.Sidewalk, false);
+        this.WorldMapChunk.WorldMapLevels[(int)LayerPart.Grass] = this.CreateWorldMapLevel(LayerPart.Grass, false);
         
         // TODO: add more levels
         
         // roof
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.GrayRoof] = this.CreateWorldMapLevel(LevelPart.GrayRoof, false);
-        this.WorldMapChunk.WorldMapLevels[(int)LevelPart.BrownRoof] = this.CreateWorldMapLevel(LevelPart.BrownRoof, false);
+        this.WorldMapChunk.WorldMapLevels[(int)LayerPart.GrayRoof] = this.CreateWorldMapLevel(LayerPart.GrayRoof, false);
+        this.WorldMapChunk.WorldMapLevels[(int)LayerPart.BrownRoof] = this.CreateWorldMapLevel(LayerPart.BrownRoof, false);
     }
     
-    private WorldMapLevel CreateWorldMapLevel(LevelPart levelPart, bool fill)
+    private WorldMapLevel CreateWorldMapLevel(LayerPart layerPart, bool fill)
     {
         const int fieldXy = 10;
         
         var wml = new WorldMapLevel
         {
-            LevelPart = levelPart,
+            LayerPart = layerPart,
             // collected validate tiles
             ListOfValidateTileNumbers = Enum.GetValues<TilemapPart>().Select(s => (int)s).ToArray(),
             // y, x
@@ -50,7 +50,7 @@ public class WorldMap
             {
                 wml.Map[indexY][indexX] = new MapTile
                 {
-                    NumberPart = GetDefaultNumberByLevelPart(levelPart, fill),
+                    NumberPart = GetDefaultNumberByLevelPart(layerPart, fill),
                     Position = new TilePosition(indexX * 16, indexY * 16)
                 };
             }
@@ -59,33 +59,33 @@ public class WorldMap
         return wml;
     }
     
-    private int GetDefaultNumberByLevelPart(LevelPart levelPart, bool fill)
+    private int GetDefaultNumberByLevelPart(LayerPart layerPart, bool fill)
     {
         var defaultNumber = 0;
         
         if(!fill) return defaultNumber;
         
-        switch (levelPart)
+        switch (layerPart)
         {
-            case LevelPart.Street:
+            case LayerPart.Street:
                 defaultNumber = (int)StreetPart.Street01;
                 break;
-            case LevelPart.Sidewalk:
-            case LevelPart.Grass:
-            case LevelPart.GrayRoof:
-            case LevelPart.BrownRoof:
+            case LayerPart.Sidewalk:
+            case LayerPart.Grass:
+            case LayerPart.GrayRoof:
+            case LayerPart.BrownRoof:
                 defaultNumber = (int)TilemapPart.MiddleMiddle;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(levelPart), levelPart, null);
+                throw new ArgumentOutOfRangeException(nameof(layerPart), layerPart, null);
         }
         
         return defaultNumber;
     }
 
-    public bool ValidTileNumber(int selectedTilemapPart, LevelPart tilemapLevel)
+    public bool ValidTileNumber(int selectedTilemapPart, LayerPart tilemapLayer)
     {
-        return this.WorldMapChunk.WorldMapLevels[(int)tilemapLevel]
+        return this.WorldMapChunk.WorldMapLevels[(int)tilemapLayer]
             .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
     }
 
@@ -105,14 +105,14 @@ public class WorldMap
                     
                     if (!worldMapLevel.ListOfValidateTileNumbers.Contains((int)tileNumber))
                     {
-                        tileNumber = this.GetDefaultNumberByLevelPart(worldMapLevel.LevelPart, true); 
+                        tileNumber = this.GetDefaultNumberByLevelPart(worldMapLevel.LayerPart, true); 
                         // (int)TilemapPart.AroundOutBorder;
                     }
                     
                     this.DrawSpriteByLevelPart(
                         spriteBatch,
                         worldMapTextures,
-                        worldMapLevel.LevelPart,
+                        worldMapLevel.LayerPart,
                         tileNumber,
                         worldMapLevel.Map[y][x].Position.TilePositionToVector());
                 }
@@ -123,40 +123,40 @@ public class WorldMap
     private void DrawSpriteByLevelPart(
         SpriteBatch spriteBatch,
         WorldMapTextures worldMapTextures,
-        LevelPart levelPart,
+        LayerPart layerPart,
         int numberPart,
         Vector2 position)
     {
-        switch (levelPart)
+        switch (layerPart)
         {
-            case LevelPart.Street:
+            case LayerPart.Street:
                 spriteBatch.Draw(
                     worldMapTextures.TexturesStreet.Texture, 
                     position, 
                     worldMapTextures.TexturesStreet.SpriteContent[(StreetPart)numberPart],
                     Color.White);
                 break;
-            case LevelPart.Sidewalk:
-            case LevelPart.Grass:
-            case LevelPart.GrayRoof:
-            case LevelPart.BrownRoof:
+            case LayerPart.Sidewalk:
+            case LayerPart.Grass:
+            case LayerPart.GrayRoof:
+            case LayerPart.BrownRoof:
                 spriteBatch.Draw(
                     worldMapTextures.TexturesTilemap.Texture, 
                     position, 
-                    worldMapTextures.TexturesTilemap.GetSprite(levelPart, (TilemapPart)numberPart),
+                    worldMapTextures.TexturesTilemap.GetSprite(layerPart, (TilemapPart)numberPart),
                     Color.White);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(levelPart), levelPart, null);
+                throw new ArgumentOutOfRangeException(nameof(layerPart), layerPart, null);
         }
         
     }
 
-    public bool TryTilemap(LevelPart levelPart, int x, int y, out MapTile mapTile)
+    public bool TryTilemap(LayerPart layerPart, int x, int y, out MapTile mapTile)
     {
         mapTile = null;
         
-        var map = this.WorldMapChunk.WorldMapLevels[(int)levelPart].Map;
+        var map = this.WorldMapChunk.WorldMapLevels[(int)layerPart].Map;
         
         if(x < 0 || y < 0 || y >= map.Length || 
            x >= map[y].Length) return false;

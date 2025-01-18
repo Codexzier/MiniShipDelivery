@@ -31,7 +31,7 @@ public static class DataModelHelper
         {
             Id = 1,
             WorldMapChunkID = 1,
-            LevelPart = LevelPart.Grass
+            LayerPart = LayerPart.Grass
         };
         return worldMapLevel;
     }
