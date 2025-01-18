@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
@@ -22,7 +23,6 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapSprites;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
     
-    public static LayerPart TilemapLayer = LayerPart.Sidewalk;
     public static readonly List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
@@ -78,15 +78,15 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
     }
 
-    private void MapMapOptionButtonAreaPressed(FunctionItem functionItem)
+    private void MapMapOptionButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
         switch (functionItem.AssetPart)
         {
             case UiMenuMapOptionPart.TilemapSelect:
-                TilemapLayer += 1;
-                if(TilemapLayer > LayerPart.BrownRoof)
+                WorldMapAdjuster.SelectedMapMapLayer += 1;
+                if(WorldMapAdjuster.SelectedMapMapLayer > MapLayer.BrownRoof)
                 {
-                    TilemapLayer = LayerPart.Sidewalk;
+                    WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
                 }
                 break;
             case UiMenuMapOptionPart.ArrowLeft:
@@ -96,15 +96,36 @@ public class MapEditorMenu : BaseMenu
                 this._functionBarMapSprites.PageUp();
                 break;
             case UiMenuMapOptionPart.Street:
-                WorldMapAdjuster.SelectedMapLayer = LayerPart.Street;
+                WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Street;
                 WorldMapAdjuster.SelectedTilemapPart = 0;
+                functionItem.Selected = true;
+                itemSetup(functionItem);
                 break;
+            case UiMenuMapOptionPart.Sidewalk:
+                WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
+                WorldMapAdjuster.SelectedTilemapPart = 0;
+                functionItem.Selected = true;
+                itemSetup(functionItem);
+                break;
+            // case UiMenuMapOptionPart.Building:
+            //     WorldMapAdjuster.SelectedMapLayer = LayerPart.Building;
+            //     WorldMapAdjuster.SelectedTilemapPart = 0;
+            //     break;
         }
     }
     
-    private Color ChangeColorForActive(FunctionItem arg1, Color arg2)
+    private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
-        return arg2;
+        if ((UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Street ||
+            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Sidewalk)
+        {
+            if (functionItem.Selected)
+            {
+                color = Color.Yellow;
+            }
+        }
+        
+        return color;
     }
     
     private void DrawButtonMapOption(
@@ -116,15 +137,17 @@ public class MapEditorMenu : BaseMenu
         var menuMapOption = (UiMenuMapOptionPart)functionItem.AssetPart;
         if (menuMapOption == UiMenuMapOptionPart.TilemapSelect)
         {
-            menuMapOption = TilemapLayer switch
+            menuMapOption = WorldMapAdjuster.SelectedMapMapLayer switch
             {
-                LayerPart.Grass => UiMenuMapOptionPart.TilemapGrass,
-                LayerPart.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
-                LayerPart.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
-                LayerPart.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
+                MapLayer.Street => UiMenuMapOptionPart.Street,
+                MapLayer.Grass => UiMenuMapOptionPart.TilemapGrass,
+                MapLayer.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
+                MapLayer.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
+                MapLayer.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
                 _ => menuMapOption
             };
         }
+
         
         spriteBatch.Draw(
             this._texturesUiMenuMapOptions.Texture,
@@ -148,7 +171,7 @@ public class MapEditorMenu : BaseMenu
         spriteBatch.Draw(
             this._texturesTilemap.Texture, 
             position + new Vector2(1, 1), 
-            this._texturesTilemap.GetSprite(TilemapLayer, (TilemapPart)functionItem.AssetPart),
+            this._texturesTilemap.GetSprite(WorldMapAdjuster.SelectedMapMapLayer, (TilemapPart)functionItem.AssetPart),
             Color.White);
     }
     
@@ -164,7 +187,7 @@ public class MapEditorMenu : BaseMenu
         return color;
     }
 
-    private void MapSpritesButtonAreaWasPressed(FunctionItem item)
+    private void MapSpritesButtonAreaWasPressed(FunctionItem item, Action<FunctionItem> itemSetup)
     {
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
@@ -172,7 +195,7 @@ public class MapEditorMenu : BaseMenu
             WorldMapAdjuster.SelectedTilemapPart = (int)tilemapPart;
         }
         
-        this._functionBarMapSprites.ResetAllSelected(item);
+        itemSetup(item);
     }
 
     #endregion

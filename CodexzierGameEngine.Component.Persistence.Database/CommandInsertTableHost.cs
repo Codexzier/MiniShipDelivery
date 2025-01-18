@@ -46,7 +46,7 @@ public static class CommandInsertTableHost
     {
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO WorldMapLevel (WorldMapChunkId, LevelPart) VALUES (");
-        sb.AppendLine($"{dataModel.WorldMapChunkID}, {(int)dataModel.LayerPart}");
+        sb.AppendLine($"{dataModel.WorldMapChunkID}, {(int)dataModel.MapLayer}");
         sb.AppendLine(")");
 
         return sb.ToString();
@@ -56,8 +56,8 @@ public static class CommandInsertTableHost
     {
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO MapTile (WorldMapLevelId, MapTileX, MapTileY, TilemapPart) VALUES (");
-        sb.AppendLine($"{dataModel.WorldMapLevelID}, {dataModel.MapTileX}, {dataModel.MapTileY}" +
-                      $", {dataModel.NumberPart}");
+        sb.AppendLine($"{dataModel.WorldMapLayerID}, {dataModel.MapTileX}, {dataModel.MapTileY}" +
+                      $", {dataModel.AssetNumber}");
         sb.AppendLine(")");
 
         return sb.ToString();

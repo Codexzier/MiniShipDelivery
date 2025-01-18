@@ -6,6 +6,7 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.World;
+using MiniShipDelivery.Components.World.Textures;
 using Newtonsoft.Json;
 
 namespace MiniShipDelivery.Components.Persistence;
@@ -45,7 +46,7 @@ public class PersistenceManager : GameComponent
             {
                 for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
                 {
-                    worldMapLevel.Map[y][x].NumberPart = 0;
+                    worldMapLevel.Map[y][x].AssetNumber = (int)StreetPart.Street01;
                 }
             }
         }

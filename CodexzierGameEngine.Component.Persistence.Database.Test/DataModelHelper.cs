@@ -31,7 +31,7 @@ public static class DataModelHelper
         {
             Id = 1,
             WorldMapChunkID = 1,
-            LayerPart = LayerPart.Grass
+            MapLayer = MapLayer.Grass
         };
         return worldMapLevel;
     }
@@ -41,7 +41,7 @@ public static class DataModelHelper
         var mapTile = new MapTile
         {
             Id = 1,
-            NumberPart = 1,
+            AssetNumber = 1,
             Position = new TilePosition(1, 1)
         };
         return mapTile;

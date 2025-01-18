@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
@@ -9,18 +10,18 @@ namespace MiniShipDelivery.Components.World
     public class WorldManager : DrawableGameComponent
     {
         private readonly SpriteBatch _spriteBatch;
-        private readonly WorldMapTextures _textures;
         private readonly WorldMapAdjuster _adjuster;
         
-        public readonly WorldMap Map = new();
+        public readonly WorldMap Map;
         
         public WorldManager(Game game) : base(game)
         {
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._textures = new WorldMapTextures(game);
-
-            game.GetComponent<InputManager>();
-            this._adjuster = new WorldMapAdjuster(game, this.Map);
+            
+            var textures = new WorldMapTextures(game);
+            WorldMapHelper.SetMapTextures(textures);
+            this.Map = new WorldMap();
+            this._adjuster = new WorldMapAdjuster(game, this.Map, textures);
         }
 
         public override void Update(GameTime gameTime)
@@ -38,13 +39,8 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch.BeginWithCameraViewMatrix();
             
-            this.Map.DrawAllLevels(
-                this._spriteBatch, 
-                this._textures);
-            
-            this._adjuster.Draw(
-                this._spriteBatch,
-                this._textures);
+            this.Map.DrawAllLayers(this._spriteBatch);
+            this._adjuster.Draw(this._spriteBatch);
             
             this._spriteBatch.End();
         }

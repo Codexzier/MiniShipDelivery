@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
@@ -58,7 +59,7 @@ internal class GameMenuCommon : BaseMenu
         return color;
     }
     
-    private void ButtonAreaPressedGameMenu(FunctionItem functionItem)
+    private void ButtonAreaPressedGameMenu(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
         switch (functionItem.AssetPart)
         {
@@ -99,7 +100,7 @@ internal class GameMenuCommon : BaseMenu
         return color;
     }
     
-    private void ButtonAreaPressedOptions(FunctionItem functionItem)
+    private void ButtonAreaPressedOptions(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
         if ((InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Close)
         {

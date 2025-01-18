@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MonoGame.Extended;
 
@@ -31,7 +30,7 @@ public class FunctionBar(
     };
 
     private int _maxPerPage = 18;
-    private int _indexForPaging = 0;
+    private int _indexForPaging;
 
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
@@ -102,7 +101,7 @@ public class FunctionBar(
                     positionSelectable, 
                     item.Size))
             {
-                this.ButtonAreaWasPressedEvent?.Invoke(item);
+                this.ButtonAreaWasPressedEvent?.Invoke(item, this.ResetAllSelected);
             }
         }
 
@@ -117,7 +116,7 @@ public class FunctionBar(
         
         drawButton?.Invoke(spriteBatch, pos, item);
     }
-    
+
     private void AddFunctionItem(object part, int columns)
     {
         var index = this._functionItems.Count - 1;
@@ -143,11 +142,11 @@ public class FunctionBar(
         this.AddFunctionItem(part, 20);
     }
 
-    public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem);
+    public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem, Action<FunctionItem> itemSetup);
     public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
 
 
-    public void ResetAllSelected(FunctionItem functionItem)
+    private void ResetAllSelected(FunctionItem functionItem)
     {
         foreach (var keyValuePair in this._functionItems)
         {

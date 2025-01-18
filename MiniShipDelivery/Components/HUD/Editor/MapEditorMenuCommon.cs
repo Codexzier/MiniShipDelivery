@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.HUD.Base;
@@ -77,7 +78,7 @@ public class MapEditorMenuCommon : BaseMenu
         return color;
     }
 
-    private void ButtonAreaPressed(FunctionItem functionItem)
+    private void ButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
         Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
         switch (functionItem.AssetPart)

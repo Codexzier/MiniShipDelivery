@@ -3,19 +3,18 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.HUD.Editor;
 using MiniShipDelivery.Components.World.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World;
 
-public class WorldMapAdjuster(Game game, WorldMap map)
+public class WorldMapAdjuster(Game game, WorldMap map, WorldMapTextures textures)
 {
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly InputManager _input = game.GetComponent<InputManager>();
-        
-    public MapTile CurrentMapTile { get; set; }
-    public static LayerPart SelectedMapLayer { get; set; }
+
+    private MapTile CurrentMapTile { get; set; }
+    public static MapLayer SelectedMapMapLayer { get; set; } = MapLayer.Sidewalk;
 
     public static int SelectedTilemapPart { get; set; }
         
@@ -30,11 +29,11 @@ public class WorldMapAdjuster(Game game, WorldMap map)
                 rePosition, 
                 new SizeF(16, 16)))
         {
-            this.CurrentMapTile.NumberPart = SelectedTilemapPart;
+            this.CurrentMapTile.AssetNumber = SelectedTilemapPart;
         }
     }
-    
-    public void UpdateCurrentSelectableMapTile()
+
+    private void UpdateCurrentSelectableMapTile()
     {
         this.CurrentMapTile = null;
         if(HudManager.MouseIsOverMenu) return;
@@ -57,14 +56,13 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         var x = (int)pos.X / 16;
         var y = (int)pos.Y / 16;
 
-        if (!map.TryTilemap(MapEditorMenu.TilemapLayer, x, y, out var result)) return;
+        if (!map.TryTilemap(SelectedMapMapLayer, x, y, out var result)) return;
             
         this.CurrentMapTile = result;
     }
     
     public void Draw(
-        SpriteBatch spriteBatch,
-        WorldMapTextures worldMapTextures)
+        SpriteBatch spriteBatch)
     {
         if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
             
@@ -72,33 +70,30 @@ public class WorldMapAdjuster(Game game, WorldMap map)
             
         if(SelectedTilemapPart == 0) return;
 
-        this.DrawSelectedMapTile(
-            spriteBatch,
-            worldMapTextures);
+        this.DrawSelectedMapTile(spriteBatch);
         this.DrawHoverEffectOnGrid(spriteBatch);
     }
 
     private void DrawSelectedMapTile(
-        SpriteBatch spriteBatch,
-        WorldMapTextures worldMapTextures)
+        SpriteBatch spriteBatch)
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!map.ValidTileNumber(SelectedTilemapPart, MapEditorMenu.TilemapLayer))
+        if (!map.ValidTileNumber(SelectedTilemapPart, SelectedMapMapLayer))
         {
             return;
         }
 
-        if (this.CurrentMapTile.NumberPart == SelectedTilemapPart)
+        if (this.CurrentMapTile.AssetNumber == SelectedTilemapPart)
         {
             return;
         }
             
         spriteBatch.Draw(
-            worldMapTextures.TexturesTilemap.Texture, 
+            textures.TexturesTilemap.Texture, 
             this.CurrentMapTile.Position.TilePositionToVector(), 
-            worldMapTextures.TexturesTilemap.GetSprite(
-                MapEditorMenu.TilemapLayer, 
+            textures.TexturesTilemap.GetSprite(
+                SelectedMapMapLayer, 
                 (TilemapPart)SelectedTilemapPart),
             new Color(Color.Gray, 0.8f));
     }

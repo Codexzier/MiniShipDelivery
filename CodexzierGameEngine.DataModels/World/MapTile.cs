@@ -3,16 +3,10 @@
     public class MapTile
     {
         public int Id { get; set; }
-        
-        public int WorldMapLevelID { get; set; }
+        public int WorldMapLayerID { get; set; }
         public int MapTileX { get;set; }
         public int MapTileY { get; set; }
-        
-        /// <summary>
-        /// Vielleicht durch id ersetzten?
-        /// </summary>
-        [Obsolete("Ist Redundant, vielleicht entfernen")]
-        public int NumberPart { get; set; }
+        public int AssetNumber { get; set; }
         public TilePosition Position { get; set; }
         
     }
