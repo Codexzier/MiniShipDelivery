@@ -158,4 +158,8 @@ public class FunctionBar(
         }
     }
 
+    public void SetOption(UiMenuMapOptionPart uiMenuMapOptionPart)
+    {
+        
+    }
 }

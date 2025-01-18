@@ -33,40 +33,50 @@ public class MapEditorMenu : BaseMenu
         this._texturesTilemap = new TexturesTilemap(game);
         this._texturesUiMenuMapOptions = new TexturesUiMenuMapOptions(game);
         
+
         this._functionBarMapOption = new FunctionBar(
             game,
             this.Position,
             new Vector2(0, 0),
-            new Size(MenuWidth, 24),
+            new Size(MenuWidth, 40),
             this.DrawButtonMapOption,
             this.ChangeColorForActive);
+        this.InitMapOption();
+        
+        this._functionBarMapSprites = new FunctionBar(
+            game,
+            this.Position,
+            new Vector2(0, 36),
+            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 40),
+            this.DrawButtonMapSprite,
+            this.ChangeColorForActiveMapSprite);
 
+        this.InitMapSprites();
+
+        const int left = GlobaleGameParameters.ScreenWidth - MenuWidth;
+        MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
+        MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
+    }
+
+    #region map option
+    
+    private void InitMapOption()
+    {
         this._functionBarMapOption.ManuelOptions(
         [
+            UiMenuMapOptionPart.Street,
+            UiMenuMapOptionPart.Sidewalk,
+            UiMenuMapOptionPart.Building,
+            
             UiMenuMapOptionPart.ArrowLeft,
             UiMenuMapOptionPart.TilemapSelect,
             UiMenuMapOptionPart.ArrowRight
         ], 3);
+
+        this._functionBarMapOption.SetOption(UiMenuMapOptionPart.Sidewalk);
         
         this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
-
-        this._functionBarMapSprites = new FunctionBar(
-            game,
-            this.Position,
-            new Vector2(0, 20),
-            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
-            this.DrawButtonMapSprite,
-            this.ChangeColorForActiveMapSprite);
-
-        this._functionBarMapSprites.FillOptions<TilemapPart>(3);
-        this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
-
-        var left = GlobaleGameParameters.ScreenWidth - MenuWidth;
-        MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
-        MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
     }
-    
-    #region map option
 
     private void MapMapOptionButtonAreaPressed(FunctionItem functionItem)
     {
@@ -84,6 +94,10 @@ public class MapEditorMenu : BaseMenu
                 break;
             case UiMenuMapOptionPart.ArrowRight:
                 this._functionBarMapSprites.PageUp();
+                break;
+            case UiMenuMapOptionPart.Street:
+                WorldMapAdjuster.SelectedMapLayer = LevelPart.Street;
+                WorldMapAdjuster.SelectedTilemapPart = 0;
                 break;
         }
     }
@@ -123,6 +137,12 @@ public class MapEditorMenu : BaseMenu
     
     #region map sprite buttons
 
+    private void InitMapSprites()
+    {
+        this._functionBarMapSprites.FillOptions<TilemapPart>(3);
+        this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
+    }
+
     private void DrawButtonMapSprite(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
     {
         spriteBatch.Draw(
@@ -149,7 +169,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
         {
-            WorldMapAdjuster.SelectedTilemapPart = tilemapPart;
+            WorldMapAdjuster.SelectedTilemapPart = (int)tilemapPart;
         }
         
         this._functionBarMapSprites.ResetAllSelected(item);

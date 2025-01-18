@@ -30,6 +30,11 @@ public class TexturesUiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOp
         { UiMenuMapOptionPart.TilemapSidewalk, new Rectangle(192, 0, 16, 16) },
         { UiMenuMapOptionPart.TilemapGrayRoof, new Rectangle(208, 0, 16, 16) },
         { UiMenuMapOptionPart.TilemapBrownRoof, new Rectangle(224, 0, 16, 16) },
+
+        { UiMenuMapOptionPart.Street, new Rectangle(240, 0, 16, 16) },
+        { UiMenuMapOptionPart.Sidewalk, new Rectangle(256, 0, 16, 16) },
+        { UiMenuMapOptionPart.Building, new Rectangle(272, 0, 16, 16) },
+        { UiMenuMapOptionPart.Water, new Rectangle(288, 0, 16, 16) },
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuMapOptions");

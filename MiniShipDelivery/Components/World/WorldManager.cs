@@ -9,18 +9,18 @@ namespace MiniShipDelivery.Components.World
     public class WorldManager : DrawableGameComponent
     {
         private readonly SpriteBatch _spriteBatch;
-        private readonly WorldMapTextures _worldMapTextures;
-        private readonly WorldMapAdjuster _worldMapAdjuster;
+        private readonly WorldMapTextures _textures;
+        private readonly WorldMapAdjuster _adjuster;
         
         public readonly WorldMap Map = new();
         
         public WorldManager(Game game) : base(game)
         {
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
-            this._worldMapTextures = new WorldMapTextures(game);
+            this._textures = new WorldMapTextures(game);
 
             game.GetComponent<InputManager>();
-            this._worldMapAdjuster = new (game, this.Map);
+            this._adjuster = new WorldMapAdjuster(game, this.Map);
         }
 
         public override void Update(GameTime gameTime)
@@ -29,9 +29,9 @@ namespace MiniShipDelivery.Components.World
             
             // HUD depended content
             if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
-            if(WorldMapAdjuster.SelectedTilemapPart == TilemapPart.None) return;
+            if(WorldMapAdjuster.SelectedTilemapPart == 0) return;
             
-            this._worldMapAdjuster.UpdateSetMapTile();
+            this._adjuster.UpdateSetMapTile();
         }
        
         public override void Draw(GameTime gameTime)
@@ -40,11 +40,11 @@ namespace MiniShipDelivery.Components.World
             
             this.Map.DrawAllLevels(
                 this._spriteBatch, 
-                this._worldMapTextures);
+                this._textures);
             
-            this._worldMapAdjuster.Draw(
+            this._adjuster.Draw(
                 this._spriteBatch,
-                this._worldMapTextures);
+                this._textures);
             
             this._spriteBatch.End();
         }

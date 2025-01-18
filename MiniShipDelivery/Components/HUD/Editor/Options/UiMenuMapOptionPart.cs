@@ -23,5 +23,9 @@ public enum UiMenuMapOptionPart
     TilemapGrass,
     TilemapSidewalk,
     TilemapGrayRoof,
-    TilemapBrownRoof
+    TilemapBrownRoof,
+    Street,
+    Sidewalk,
+    Building,
+    Water
 }
