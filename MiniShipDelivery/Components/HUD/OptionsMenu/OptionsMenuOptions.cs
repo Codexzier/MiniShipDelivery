@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Controls;
+using MiniShipDelivery.Components.Persistence;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.OptionsMenu;
@@ -36,7 +37,7 @@ public class OptionsMenuOptions : BaseMenu
             new Vector2(
                 GlobaleGameParameters.ScreenWidthHalf - 32, 
                 GlobaleGameParameters.ScreenHeightHalf + 40));
-        this._buttonBack.ButtonAreaWasPressedEvent += this.ButtonPressed;
+        this._buttonBack.ButtonAreaWasPressedEvent += this.ButtonPressedBack;
         
         this._checkBoxMusicOnOff = new CheckBox(
             game, 
@@ -45,7 +46,7 @@ public class OptionsMenuOptions : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf - 45, 
                 GlobaleGameParameters.ScreenHeightHalf - 50));
         this._checkBoxMusicOnOff.IsCheckedChangedEvent += this.CheckBoxMusicOnOffIsCheckedChangedEvent;
-        this._checkBoxMusicOnOff.IsChecked = true;
+        this._checkBoxMusicOnOff.IsChecked = GameSettingManager.GameSetting.MusicOn;
         
         this._checkBoxDebugMode = new CheckBox(
             game, 
@@ -54,15 +55,16 @@ public class OptionsMenuOptions : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf - 45, 
                 GlobaleGameParameters.ScreenHeightHalf - 29));
         this._checkBoxDebugMode.IsCheckedChangedEvent += this.CheckBoxDebugModeIsCheckedChangedEvent;
-        this._checkBoxDebugMode.IsChecked = false;
+        this._checkBoxDebugMode.IsChecked = GameSettingManager.GameSetting.DebugMode;
     }
 
    
 
     #region reveived events
 
-    private void ButtonPressed(object assetPart)
+    private void ButtonPressedBack(object assetPart)
     {
+        GameSettingManager.SaveGameSetting();
         GlobaleGameParameters.HudView = HudOptionView.MainMenu;
     }
     
@@ -76,11 +78,14 @@ public class OptionsMenuOptions : BaseMenu
         {
             MediaPlayer.Stop();
         }
+        
+        GameSettingManager.GameSetting.MusicOn = isChecked;
     }
     
     private void CheckBoxDebugModeIsCheckedChangedEvent(bool isChecked)
     {
         GlobaleGameParameters.DebugMode = isChecked;
+        GameSettingManager.GameSetting.DebugMode = isChecked;
     }
     
     #endregion

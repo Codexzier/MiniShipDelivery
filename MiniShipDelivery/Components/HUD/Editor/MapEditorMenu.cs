@@ -149,7 +149,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
         {
-            WorldManager.SelectedTilemapPart = tilemapPart;
+            WorldMapAdjuster.SelectedTilemapPart = tilemapPart;
         }
         
         this._functionBarMapSprites.ResetAllSelected(item);

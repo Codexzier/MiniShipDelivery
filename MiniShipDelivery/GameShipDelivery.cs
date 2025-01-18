@@ -14,6 +14,8 @@ namespace MiniShipDelivery
     {
         public GameShipDelivery()
         {
+            GameSettingManager.LoadGameSetting();
+            
             var graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = GlobaleGameParameters.PreferredBackBufferWidth;
             graphics.PreferredBackBufferHeight = GlobaleGameParameters.PreferredBackBufferHeight;
@@ -92,5 +94,7 @@ namespace MiniShipDelivery
             
             base.Draw(gameTime);
         }
+        
+        
     }
 }
