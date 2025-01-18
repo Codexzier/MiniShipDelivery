@@ -5,16 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
-public class WorldMapTextures : IWorldMapTextures
+public class WorldMapTextures(Game game) : IWorldMapTextures
 {
-    public TexturesTilemap TexturesTilemap { get; }
-    public TexturesStreet TexturesStreet { get; }
-
-    public WorldMapTextures(Game game)
-    {
-        this.TexturesTilemap = new TexturesTilemap(game);
-        this.TexturesStreet = new TexturesStreet(game);
-    }
+    private readonly TexturesTilemap _texturesTilemap = new(game);
+    private readonly TexturesStreet _texturesStreet = new(game);
 
     public bool TryGetTextureAndCutout(MapLayer mapLayer, int numberPart, out Texture2D texture, out Rectangle cutout)
     {
@@ -24,25 +18,15 @@ public class WorldMapTextures : IWorldMapTextures
         switch (mapLayer)
         {
             case MapLayer.Street:
-                texture = this.TexturesStreet.Texture;
-                cutout = this.TexturesStreet.SpriteContent[(StreetPart)numberPart];
-                // spriteBatch.Draw(
-                //     this._textures.TexturesStreet.Texture, 
-                //     position, 
-                //     this._textures.TexturesStreet.SpriteContent[(StreetPart)numberPart],
-                //     Color.White);
+                texture = this._texturesStreet.Texture;
+                cutout = this._texturesStreet.SpriteContent[(StreetPart)numberPart];
                 break;
             case MapLayer.Sidewalk:
             case MapLayer.Grass:
             case MapLayer.GrayRoof:
             case MapLayer.BrownRoof:
-                texture = this.TexturesTilemap.Texture;
-                cutout = this.TexturesTilemap.GetSprite(mapLayer, (TilemapPart)numberPart);
-                // spriteBatch.Draw(
-                //     this._textures.TexturesTilemap.Texture, 
-                //     position, 
-                //     this._textures.TexturesTilemap.GetSprite(layerPart, (TilemapPart)numberPart),
-                //     Color.White);
+                texture = this._texturesTilemap.Texture;
+                cutout = this._texturesTilemap.GetSprite(mapLayer, (TilemapPart)numberPart);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(mapLayer), numberPart, "Missing Texture Layer");

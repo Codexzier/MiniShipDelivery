@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Helpers;
@@ -50,6 +49,13 @@ public class PersistenceManager : GameComponent
                 }
             }
         }
+
+        var ml = Enum.GetValues<MapLayer>();
+        var n = this._world.Map.WorldMapChunk.WorldMapLevels.Select(s => s.MapLayer).Distinct();
+        if (ml.Length == n.Count())
+        {
+            throw new MapSetupException("map layers are not the same count.");
+        }
     }
     
     private void SaveMapToFile()
@@ -84,6 +90,5 @@ public class PersistenceManager : GameComponent
     private static event LoadMapFromFileDelegateEventHandler LoadMapFromFileEvent;
     
     #endregion
-
 
 }

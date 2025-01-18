@@ -82,7 +82,7 @@ namespace MiniShipDelivery
             this.Components.Add(consoleManager);
             
             // TODO: sollte ich das nicht anders machen?
-            //PersistenceManager.LoadMap();
+            PersistenceManager.LoadMap();
             
             // Music
             this.MusicManagerInstance = new MusicManager(this);

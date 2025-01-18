@@ -31,4 +31,22 @@ public static class WorldMapHelper
             
         spriteBatch.Draw(texture, position, cutout, Color.White);
     }
+    
+    public static void DrawWithTransparency(
+        this SpriteBatch spriteBatch, 
+        Vector2 position,
+        MapLayer mapLayer,
+        int numberPart)
+    {
+        if (!_mapTextures.TryGetTextureAndCutout(
+                mapLayer,
+                numberPart,
+                out Texture2D texture,
+                out Rectangle cutout))
+        {
+            throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
+        }
+            
+        spriteBatch.Draw(texture, position, cutout, new Color(Color.Gray, 0.8f));
+    }
 }

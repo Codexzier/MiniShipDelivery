@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.World.Textures;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World;
 
-public class WorldMapAdjuster(Game game, WorldMap map, WorldMapTextures textures)
+public class WorldMapAdjuster(Game game, WorldMap map)
 {
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly InputManager _input = game.GetComponent<InputManager>();
@@ -88,14 +87,11 @@ public class WorldMapAdjuster(Game game, WorldMap map, WorldMapTextures textures
         {
             return;
         }
-            
-        spriteBatch.Draw(
-            textures.TexturesTilemap.Texture, 
-            this.CurrentMapTile.Position.TilePositionToVector(), 
-            textures.TexturesTilemap.GetSprite(
-                SelectedMapMapLayer, 
-                (TilemapPart)SelectedTilemapPart),
-            new Color(Color.Gray, 0.8f));
+         
+        spriteBatch.DrawWithTransparency(
+            this.CurrentMapTile.Position.TilePositionToVector(),
+            SelectedMapMapLayer,
+            SelectedTilemapPart);
     }
 
     private void DrawHoverEffectOnGrid(SpriteBatch spriteBatch)

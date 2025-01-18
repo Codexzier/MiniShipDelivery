@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
@@ -18,10 +17,10 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             
-            var textures = new WorldMapTextures(game);
-            WorldMapHelper.SetMapTextures(textures);
+            WorldMapHelper.SetMapTextures(new WorldMapTextures(game));
+            
             this.Map = new WorldMap();
-            this._adjuster = new WorldMapAdjuster(game, this.Map, textures);
+            this._adjuster = new WorldMapAdjuster(game, this.Map);
         }
 
         public override void Update(GameTime gameTime)
