@@ -22,7 +22,7 @@ namespace MiniShipDelivery.Components.Character
             this._input = input;
             this._screenPosition = screenPosition;
             this._characterType = characterType;
-            this.Collider.Position = screenPosition;
+            this.Collider.Position = new Vector2(70, 70);
         }
 
         public Vector2 GetScreenPosition() => this.Collider.Position - this._screenPosition;

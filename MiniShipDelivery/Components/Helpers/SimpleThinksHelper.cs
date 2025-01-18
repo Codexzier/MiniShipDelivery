@@ -6,13 +6,15 @@ namespace MiniShipDelivery.Components.Helpers;
 
 public static class SimpleThinksHelper
 {
+    public static CameraManager CameraManagerInstance { get; set; }
     public static Color BoolToColor(bool value) => value ? Color.LightGray : Color.Transparent;
+    
 
     public static void BeginWithCameraViewMatrix(
-        this SpriteBatch spriteBatch, CameraManager cameraManager)
+        this SpriteBatch spriteBatch)
     {
         spriteBatch.Begin(
-            transformMatrix: cameraManager.Camera.GetViewMatrix(),
+            transformMatrix: CameraManagerInstance.Camera.GetViewMatrix(),
             samplerState: SamplerState.PointClamp);
     }
 

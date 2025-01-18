@@ -73,7 +73,7 @@ public class CharacterManager : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
+        this._spriteBatch.BeginWithCameraViewMatrix();
         foreach (var charToDraw in this._drawableCharacters.OrderBy(o => o.Collider.Position.Y))
         {
             charToDraw.Draw(this._spriteBatch);
@@ -87,6 +87,4 @@ public class CharacterManager : DrawableGameComponent
         }
         this._spriteBatch.End();
     }
-    
-    
 }

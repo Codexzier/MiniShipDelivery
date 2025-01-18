@@ -2,6 +2,7 @@
 using MiniShipDelivery.Components;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.GameDebug;
+using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Cursor;
 using MiniShipDelivery.Components.Objects;
@@ -28,6 +29,7 @@ namespace MiniShipDelivery
             var cameraManager = new CameraManager(this);
             cameraManager.UpdateOrder = 0;
             this.Components.Add(cameraManager);
+            SimpleThinksHelper.CameraManagerInstance = cameraManager;
 
             // add all components
             var input = new InputManager(this);

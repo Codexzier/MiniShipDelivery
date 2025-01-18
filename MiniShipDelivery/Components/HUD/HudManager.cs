@@ -62,7 +62,7 @@ namespace MiniShipDelivery.Components.HUD
 
         public override void Draw(GameTime gameTime)
         {
-            this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
+            this._spriteBatch.BeginWithCameraViewMatrix();
             
             switch (GlobaleGameParameters.HudView)
             {

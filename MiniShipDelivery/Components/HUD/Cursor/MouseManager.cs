@@ -22,7 +22,7 @@ public class MouseManager : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        this._spriteBatch.BeginWithCameraViewMatrix(this._camera);
+        this._spriteBatch.BeginWithCameraViewMatrix();
         
         this._spriteBatch.Draw(
             this._userInterfaceMouse.Texture,

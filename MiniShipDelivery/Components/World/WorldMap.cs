@@ -89,7 +89,9 @@ public class WorldMap
             .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
     }
 
-    public void DrawAllLevels(SpriteBatch spriteBatch, TexturesTilemap texturesTilemap, TexturesStreet texturesStreet)
+    public void DrawAllLevels(
+        SpriteBatch spriteBatch, 
+        WorldMapTextures worldMapTextures)
     {
         foreach (var worldMapLevel in this.WorldMapChunk.WorldMapLevels)
         {
@@ -103,30 +105,24 @@ public class WorldMap
                     
                     if (!worldMapLevel.ListOfValidateTileNumbers.Contains((int)tileNumber))
                     {
-                        tileNumber = this.GetDefaultNumberByLevelPart(worldMapLevel.LevelPart, true); // (int)TilemapPart.AroundOutBorder;
+                        tileNumber = this.GetDefaultNumberByLevelPart(worldMapLevel.LevelPart, true); 
+                        // (int)TilemapPart.AroundOutBorder;
                     }
                     
                     this.DrawSpriteByLevelPart(
                         spriteBatch,
-                        texturesTilemap,
-                        texturesStreet,
+                        worldMapTextures,
                         worldMapLevel.LevelPart,
                         tileNumber,
                         worldMapLevel.Map[y][x].Position.TilePositionToVector());
-                    
-                    // spriteBatch.Draw(
-                    //     texturesTilemap.Texture, 
-                    //     worldMapLevel.Map[y][x].Position.TilePositionToVector(), 
-                    //     texturesTilemap.GetSprite(worldMapLevel.LevelPart, (TilemapPart)tileNumber),
-                    //     Color.White);
                 }
             }
         }
     }
     
-    private void DrawSpriteByLevelPart(SpriteBatch spriteBatch,
-        TexturesTilemap texturesTilemap,
-        TexturesStreet texturesStreet,
+    private void DrawSpriteByLevelPart(
+        SpriteBatch spriteBatch,
+        WorldMapTextures worldMapTextures,
         LevelPart levelPart,
         int numberPart,
         Vector2 position)
@@ -135,9 +131,9 @@ public class WorldMap
         {
             case LevelPart.Street:
                 spriteBatch.Draw(
-                    texturesStreet.Texture, 
+                    worldMapTextures.TexturesStreet.Texture, 
                     position, 
-                    texturesStreet.SpriteContent[(StreetPart)numberPart],
+                    worldMapTextures.TexturesStreet.SpriteContent[(StreetPart)numberPart],
                     Color.White);
                 break;
             case LevelPart.Sidewalk:
@@ -145,9 +141,9 @@ public class WorldMap
             case LevelPart.GrayRoof:
             case LevelPart.BrownRoof:
                 spriteBatch.Draw(
-                    texturesTilemap.Texture, 
+                    worldMapTextures.TexturesTilemap.Texture, 
                     position, 
-                    texturesTilemap.GetSprite(levelPart, (TilemapPart)numberPart),
+                    worldMapTextures.TexturesTilemap.GetSprite(levelPart, (TilemapPart)numberPart),
                     Color.White);
                 break;
             default:

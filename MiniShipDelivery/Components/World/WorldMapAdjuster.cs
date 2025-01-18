@@ -62,8 +62,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     
     public void Draw(
         SpriteBatch spriteBatch,
-        Texture2D texture,
-        Rectangle spriteCutout)
+        WorldMapTextures worldMapTextures)
     {
         if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
             
@@ -73,15 +72,13 @@ public class WorldMapAdjuster(Game game, WorldMap map)
 
         this.DrawSelectedMapTile(
             spriteBatch,
-            texture,
-            spriteCutout);
+            worldMapTextures);
         this.DrawHoverEffectOnGrid(spriteBatch);
     }
 
     private void DrawSelectedMapTile(
         SpriteBatch spriteBatch,
-        Texture2D texture,
-        Rectangle spriteCutout)
+        WorldMapTextures worldMapTextures)
     {
         if(this.CurrentMapTile == null) return;
 
@@ -96,9 +93,11 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         }
             
         spriteBatch.Draw(
-            texture, 
+            worldMapTextures.TexturesTilemap.Texture, 
             this.CurrentMapTile.Position.TilePositionToVector(), 
-            spriteCutout,
+            worldMapTextures.TexturesTilemap.GetSprite(
+                MapEditorMenu.TilemapLevel, 
+                SelectedTilemapPart),
             new Color(Color.Gray, 0.8f));
     }
 
