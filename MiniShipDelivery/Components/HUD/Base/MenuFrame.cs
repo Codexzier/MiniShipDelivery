@@ -14,7 +14,7 @@ namespace MiniShipDelivery.Components.HUD.Base
             { MenuFrameType.Type3, 18 }
         };
 
-        private readonly TexturesUiMenuMapFrames _uiMenuMapFrames = new(game);
+        private readonly TexturesUiMenuSpriteFrames _uiMenuSpriteFrames = new(game);
 
         private UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
         {
@@ -93,9 +93,9 @@ namespace MiniShipDelivery.Components.HUD.Base
             UiMenuFramePart part)
         {
             spriteBatch.Draw(
-                this._uiMenuMapFrames.Texture,
+                this._uiMenuSpriteFrames.Texture,
                 position,
-                this._uiMenuMapFrames.SpriteContent[part],
+                this._uiMenuSpriteFrames.SpriteContent[part],
                 Color.AliceBlue);
         }
     }

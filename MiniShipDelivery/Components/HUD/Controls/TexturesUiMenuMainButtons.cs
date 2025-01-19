@@ -7,7 +7,7 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.HUD.Controls;
 
-public class TexturesUiMenuMainButtons : ISpriteProperties<UiMenuMainPart>
+public class TexturesUiMenuMainButtons : ISpriteContent<UiMenuMainPart>
 {
     public TexturesUiMenuMainButtons(Game game)
     {

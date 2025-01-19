@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.HUD.Cursor;
 
-public class UserInterfacesMouse : ISpriteProperties<MousePart>
+public class UserInterfacesMouse : ISpriteContent<MousePart>
 {
     public UserInterfacesMouse(Game game)
     {

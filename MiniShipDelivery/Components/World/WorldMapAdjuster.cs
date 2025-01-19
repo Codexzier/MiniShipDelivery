@@ -15,7 +15,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     private MapTile CurrentMapTile { get; set; }
     public static MapLayer SelectedMapMapLayer { get; set; } = MapLayer.Sidewalk;
 
-    public static int SelectedTilemapPart { get; set; }
+    public static int SelectedNumberPart { get; set; }
         
     public void UpdateSetMapTile()
     {
@@ -28,7 +28,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
                 rePosition, 
                 new SizeF(16, 16)))
         {
-            this.CurrentMapTile.AssetNumber = SelectedTilemapPart;
+            this.CurrentMapTile.AssetNumber = SelectedNumberPart;
         }
     }
 
@@ -67,7 +67,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
             
         WorldManagerHelper.DrawGrid(spriteBatch, this._camera.Camera.Position);
             
-        if(SelectedTilemapPart == 0) return;
+        if(SelectedNumberPart == 0) return;
 
         this.DrawSelectedMapTile(spriteBatch);
         this.DrawHoverEffectOnGrid(spriteBatch);
@@ -78,12 +78,12 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!map.ValidTileNumber(SelectedTilemapPart, SelectedMapMapLayer))
+        if (!map.ValidTileNumber(SelectedNumberPart, SelectedMapMapLayer))
         {
             return;
         }
 
-        if (this.CurrentMapTile.AssetNumber == SelectedTilemapPart)
+        if (this.CurrentMapTile.AssetNumber == SelectedNumberPart)
         {
             return;
         }
@@ -91,7 +91,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         spriteBatch.DrawWithTransparency(
             this.CurrentMapTile.Position.TilePositionToVector(),
             SelectedMapMapLayer,
-            SelectedTilemapPart);
+            SelectedNumberPart);
     }
 
     private void DrawHoverEffectOnGrid(SpriteBatch spriteBatch)

@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.HUD.GameMenu;
 
-public class TexturesGameMenu(Game game) : ISpriteProperties<GameMenuPart>
+public class TexturesGameMenu(Game game) : ISpriteContent<GameMenuPart>
 {
     public IDictionary<GameMenuPart, Rectangle> SpriteContent { get; } = new Dictionary<GameMenuPart, Rectangle>
     {

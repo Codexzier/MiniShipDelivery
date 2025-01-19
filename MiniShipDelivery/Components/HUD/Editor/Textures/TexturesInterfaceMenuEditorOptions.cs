@@ -8,7 +8,7 @@ using MiniShipDelivery.Components.HUD.Editor.Options;
 namespace MiniShipDelivery.Components.HUD.Editor.Textures
 {
     public class TexturesInterfaceMenuEditorOptions(Game game)
-        : ISpriteProperties<InterfaceMenuEditorOptionPart>
+        : ISpriteContent<InterfaceMenuEditorOptionPart>
     {
         public IDictionary<InterfaceMenuEditorOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<InterfaceMenuEditorOptionPart, Rectangle>
         {

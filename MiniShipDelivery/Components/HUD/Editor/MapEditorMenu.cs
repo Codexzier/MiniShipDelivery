@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
@@ -17,10 +18,12 @@ public class MapEditorMenu : BaseMenu
 {
     private const int MenuWidth = 60;
 
+    private readonly FunctionBar _functionBarMapLayer;
     private readonly FunctionBar _functionBarMapOption;
     private readonly FunctionBar _functionBarMapTilemapBasement;
-    private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
-    
+    private readonly TexturesUiMenuSpriteOptions _texturesUiMenuSpriteOptions;
+    private readonly IEnumerable<EditableEnvironmentItem> _editableEnvironments;
+
     public static readonly List<RectangleF> MenuField = new();
 
     public MapEditorMenu(Game game) : base(
@@ -28,57 +31,112 @@ public class MapEditorMenu : BaseMenu
         new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
         new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
     {
-        this._texturesUiMenuMapOptions = new TexturesUiMenuMapOptions(game);
+        this._texturesUiMenuSpriteOptions = new TexturesUiMenuSpriteOptions(game);
+
+        this._editableEnvironments = WorldMapHelper.MapTextures.GetEditableEnvironments();
+        
+        this._functionBarMapLayer = new FunctionBar(
+            game,
+            this.Position,
+            new Vector2(0, 2),
+            new Size(MenuWidth, 20),
+            this.DrawButtonMapLayer,
+            this.ChangeColorForActiveLayer);
+        this._functionBarMapLayer.ManuelOptions(
+        [
+            UiMenuMapOptionPart.ArrowLeft,
+            UiMenuMapOptionPart.EnvironmentSelect,
+            UiMenuMapOptionPart.ArrowRight
+        ], 3);
+        this._functionBarMapLayer.ButtonAreaWasPressedEvent += this.MapMapLayerButtonAreaPressed;
         
         this._functionBarMapOption = new FunctionBar(
             game,
             this.Position,
-            new Vector2(0, 0),
+            new Vector2(0, 22),
             new Size(MenuWidth, 40),
             this.DrawButtonMapOption,
             this.ChangeColorForActive);
-        this.InitMapOption();
+        this._functionBarMapOption.ManuelOptions(
+        [
+            UiMenuMapOptionPart.ArrowLeft,
+            UiMenuMapOptionPart.EnvironmentSelect,
+            UiMenuMapOptionPart.ArrowRight
+        ], 3);
+        this._functionBarMapOption.SetOption(UiMenuMapOptionPart.Sidewalk);
+        this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
         
         this._functionBarMapTilemapBasement = new FunctionBar(
             game,
             this.Position,
-            new Vector2(0, 36),
-            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
+            new Vector2(0, 42),
+            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 30),
             this.DrawButtonMapSprite,
             this.ChangeColorForActiveMapSprite);
-
-        this.InitMapSprites();
+        this._functionBarMapTilemapBasement.FillOptions<TilemapPart>(3);
+        this._functionBarMapTilemapBasement.ButtonAreaWasPressedEvent += this.MapTilemapBasementButtonAreaWasPressed;
 
         const int left = GlobaleGameParameters.ScreenWidth - MenuWidth;
         MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
         MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
     }
 
-    #region map option
-    
-    private void InitMapOption()
-    {
-        this._functionBarMapOption.ManuelOptions(
-        [
-            UiMenuMapOptionPart.Street,
-            UiMenuMapOptionPart.Sidewalk,
-            UiMenuMapOptionPart.Building,
-            
-            UiMenuMapOptionPart.ArrowLeft,
-            UiMenuMapOptionPart.TilemapSelect,
-            UiMenuMapOptionPart.ArrowRight
-        ], 3);
+    #region map layer
 
-        this._functionBarMapOption.SetOption(UiMenuMapOptionPart.Sidewalk);
-        
-        this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
+    private int _editableEnvironmentsIndex;
+    private void DrawButtonMapLayer( 
+        SpriteBatch spriteBatch,
+        Vector2 position,
+        FunctionItem functionItem)
+    {
+        var shiftPosition = position + new Vector2(1, 1);
+        var menuMapOption = (UiMenuMapOptionPart)functionItem.AssetPart;
+
+        if (menuMapOption == UiMenuMapOptionPart.EnvironmentSelect)
+        {
+            var ee = this._editableEnvironments.ElementAt(this._editableEnvironmentsIndex);
+            
+            spriteBatch.Draw(
+                ee.Texture,
+                shiftPosition,
+                ee.Cutout,
+                Color.AliceBlue);
+        }
+        else
+        {
+            spriteBatch.Draw(
+                this._texturesUiMenuSpriteOptions.Texture,
+                shiftPosition,
+                this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption],
+                Color.AliceBlue);
+        }
     }
 
+    private Color ChangeColorForActiveLayer(FunctionItem functionItem, Color color) => color;
+    
+    private void MapMapLayerButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
+    {
+        this._editableEnvironmentsIndex++;
+
+        if (this._editableEnvironmentsIndex >= this._editableEnvironments.Count())
+        {
+            this._editableEnvironmentsIndex = 0;
+        }
+        
+        var ee = this._editableEnvironments.ElementAt(this._editableEnvironmentsIndex);
+        this._functionBarMapTilemapBasement.RefillOptions(ee.EnumType, 3);
+        WorldMapAdjuster.SelectedMapMapLayer = ee.Layer;
+    }
+
+    #endregion
+
+    #region map option
+    
     private void MapMapOptionButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
         switch (functionItem.AssetPart)
         {
-            case UiMenuMapOptionPart.TilemapSelect:
+            case UiMenuMapOptionPart.EnvironmentSelect:
                 WorldMapAdjuster.SelectedMapMapLayer += 1;
 
                 if (WorldMapAdjuster.SelectedMapMapLayer == MapLayer.BuildingRed)
@@ -103,19 +161,19 @@ public class MapEditorMenu : BaseMenu
                 break;
             case UiMenuMapOptionPart.Street:
                 WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Street;
-                WorldMapAdjuster.SelectedTilemapPart = 0;
+                WorldMapAdjuster.SelectedNumberPart = 0;
                 functionItem.Selected = true;
                 itemSetup(functionItem);
                 break;
             case UiMenuMapOptionPart.Sidewalk:
                 WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
-                WorldMapAdjuster.SelectedTilemapPart = 0;
+                WorldMapAdjuster.SelectedNumberPart = 0;
                 functionItem.Selected = true;
                 itemSetup(functionItem);
                 break;
             case UiMenuMapOptionPart.Building:
                 WorldMapAdjuster.SelectedMapMapLayer = MapLayer.BuildingRed;
-                WorldMapAdjuster.SelectedTilemapPart = 0;
+                WorldMapAdjuster.SelectedNumberPart = 0;
                 functionItem.Selected = true;
                 itemSetup(functionItem);
                 break;
@@ -124,14 +182,19 @@ public class MapEditorMenu : BaseMenu
     
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
-        if ((UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Street ||
-            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Sidewalk||
-            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Building)
+        // if ((UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Street ||
+        //     (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Sidewalk||
+        //     (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Building)
+        // {
+        //     if (functionItem.Selected)
+        //     {
+        //         color = Color.Yellow;
+        //     }
+        // }
+
+        if ((UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.EnvironmentSelect)
         {
-            if (functionItem.Selected)
-            {
-                color = Color.Yellow;
-            }
+            color = Color.Transparent;
         }
         
         return color;
@@ -144,24 +207,25 @@ public class MapEditorMenu : BaseMenu
     {
         var shiftPosition = position + new Vector2(1, 1);
         var menuMapOption = (UiMenuMapOptionPart)functionItem.AssetPart;
-        if (menuMapOption == UiMenuMapOptionPart.TilemapSelect)
+        if (menuMapOption == UiMenuMapOptionPart.EnvironmentSelect)
         {
-            menuMapOption = WorldMapAdjuster.SelectedMapMapLayer switch
-            {
-                MapLayer.Street => UiMenuMapOptionPart.Street,
-                MapLayer.Grass => UiMenuMapOptionPart.TilemapGrass,
-                MapLayer.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
-                MapLayer.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
-                MapLayer.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
-                MapLayer.BuildingRed => UiMenuMapOptionPart.Building,
-                _ => menuMapOption
-            };
+            // menuMapOption = WorldMapAdjuster.SelectedMapMapLayer switch
+            // {
+            //     MapLayer.Street => UiMenuMapOptionPart.Street,
+            //     MapLayer.Grass => UiMenuMapOptionPart.TilemapGrass,
+            //     MapLayer.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
+            //     MapLayer.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
+            //     MapLayer.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
+            //     MapLayer.BuildingRed => UiMenuMapOptionPart.Building,
+            //     _ => menuMapOption
+            // };
+            return;
         }
 
         spriteBatch.Draw(
-            this._texturesUiMenuMapOptions.Texture,
+            this._texturesUiMenuSpriteOptions.Texture,
             shiftPosition,
-            this._texturesUiMenuMapOptions.SpriteContent[menuMapOption],
+            this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption],
             Color.AliceBlue);
     }
 
@@ -169,17 +233,13 @@ public class MapEditorMenu : BaseMenu
     
     #region map sprite buttons
 
-    private void InitMapSprites()
-    {
-        this._functionBarMapTilemapBasement.FillOptions<TilemapPart>(3);
-        this._functionBarMapTilemapBasement.ButtonAreaWasPressedEvent += this.MapTilemapBasementButtonAreaWasPressed;
-    }
-
     private void DrawButtonMapSprite(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
     {
+        var ee = this._editableEnvironments.ElementAt(this._editableEnvironmentsIndex);
+        
         spriteBatch.Draw(
             position + new Vector2(1, 1),
-            WorldMapAdjuster.SelectedMapMapLayer,
+            ee.Layer,//WorldMapAdjuster.SelectedMapMapLayer,
             (int)functionItem.AssetPart);
     }
     
@@ -200,7 +260,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
         {
-            WorldMapAdjuster.SelectedTilemapPart = (int)tilemapPart;
+            WorldMapAdjuster.SelectedNumberPart = (int)tilemapPart;
         }
         
         itemSetup(item);
@@ -212,6 +272,7 @@ public class MapEditorMenu : BaseMenu
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
+        this._functionBarMapLayer.Draw(spriteBatch);
         this._functionBarMapOption.Draw(spriteBatch);
         this._functionBarMapTilemapBasement.Draw(spriteBatch);
     }

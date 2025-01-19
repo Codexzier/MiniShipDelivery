@@ -7,7 +7,7 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public class TexturesCharacter : ISpriteProperties<CharacterPart>
+    public class TexturesCharacter : ISpriteContent<CharacterPart>
     {
         public Texture2D Texture { get; }
         public Rectangle GetSprite(MapLayer mapLayer, CharacterPart numberPart) => this.SpriteContent[numberPart];

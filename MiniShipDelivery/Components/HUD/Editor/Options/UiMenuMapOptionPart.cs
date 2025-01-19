@@ -18,7 +18,7 @@ public enum UiMenuMapOptionPart
     SelectRed,
     SelectGreen,
     
-    TilemapSelect,
+    EnvironmentSelect,
     
     TilemapGrass,
     TilemapSidewalk,

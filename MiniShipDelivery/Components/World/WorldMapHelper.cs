@@ -9,11 +9,11 @@ namespace MiniShipDelivery.Components.World;
 
 public static class WorldMapHelper
 {
-    private static IWorldMapTextures _mapTextures;
+    public static IWorldMapTextures MapTextures {get; private set;}
 
     public static void SetMapTextures(IWorldMapTextures textureMaps)
     {
-        _mapTextures = textureMaps;
+        MapTextures = textureMaps;
     }
 
     public static WorldMapLayer[] CreateWorldMapLayers()
@@ -99,7 +99,7 @@ public static class WorldMapHelper
         MapLayer mapLayer,
         int numberPart)
     {
-        if (!_mapTextures.TryGetTextureAndCutout(
+        if (!MapTextures.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
@@ -117,7 +117,7 @@ public static class WorldMapHelper
         MapLayer mapLayer,
         int numberPart)
     {
-        if (!_mapTextures.TryGetTextureAndCutout(
+        if (!MapTextures.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,

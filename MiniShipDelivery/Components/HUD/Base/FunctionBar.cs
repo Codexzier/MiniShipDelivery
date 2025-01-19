@@ -26,12 +26,32 @@ public class FunctionBar(
     /// </summary>
     private readonly Dictionary<int, List<FunctionItem>> _functionItems = new()
     {
+        // Warum habe ich das nochmal gemacht?
         { 0, new List<FunctionItem>() }
     };
 
     private int _maxPerPage = 18;
     private int _indexForPaging;
 
+    public void RefillOptions(Type enumType, int columns) 
+    {
+        if (enumType.BaseType != typeof(Enum))
+        {
+            throw new ArgumentException("Only enums are supported");
+        }
+        
+        this._functionItems.Clear();
+        this._functionItems.Add(0, []);
+        
+        var rows = (int)(size.Height - startPosition.Y) / 18;
+        this._maxPerPage = rows * columns;
+        
+        foreach (var valPart in Enum.GetValues(enumType))
+        {
+            if((int)valPart == 0) continue;
+            this.AddFunctionItem(valPart, columns);
+        }
+    }
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
         var rows = (int)(size.Height - startPosition.Y) / 18;

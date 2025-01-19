@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,10 +8,28 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures
 {
-    public class TexturesTilemap : ISpriteProperties<TilemapPart>
+    public class TexturesTilemap : ISpriteContent<TilemapPart>, IMapEditableContent
     {
+        public bool IsLayer(MapLayer mapLayer)
+        {
+            return this.GetMapLayers().Contains(mapLayer);
+        }
+
+        public MapLayer[] GetMapLayers()
+        {
+            return
+            [
+                MapLayer.Sidewalk,
+                MapLayer.Grass,
+                MapLayer.GrayRoof,
+                MapLayer.BrownRoof
+            ];
+        }
+
         public Texture2D Texture { get; }
-        
+        public int NumberPartForIcon { get; } = (int)TilemapPart.AroundOutBorder;
+        public Type EnumType { get; } = typeof(TilemapPart);
+
         public IDictionary<TilemapPart, Rectangle> SpriteContent { get; }
         
         public TexturesTilemap(Game game)
@@ -68,8 +88,9 @@ namespace MiniShipDelivery.Components.World.Textures
             this.SpriteContent.Add(TilemapPart.VerticalLeftRightDown_OutBorder, new Rectangle((16 * shiftX), (16 * (shiftY + 2)), 16, 16));
         }
 
-        public Rectangle GetSprite(MapLayer mapLayer, TilemapPart tilemapPart)
+        public Rectangle GetSprite(MapLayer mapLayer, int numberPart)
         {
+            TilemapPart tilemapPart = (TilemapPart)numberPart;
             var mapTile = this.SpriteContent[tilemapPart];
             if (mapLayer == MapLayer.Grass)
             {

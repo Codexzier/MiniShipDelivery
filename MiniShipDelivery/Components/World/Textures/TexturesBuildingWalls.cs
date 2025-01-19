@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,7 +8,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
-public class TexturesBuildingWalls(Game game) : ISpriteProperties<BuildingWallPart>
+public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>, IMapEditableContent
 {
     public IDictionary<BuildingWallPart, Rectangle> SpriteContent { get; } = new Dictionary<BuildingWallPart, Rectangle>
     {
@@ -32,16 +34,29 @@ public class TexturesBuildingWalls(Game game) : ISpriteProperties<BuildingWallPa
         { BuildingWallPart.ElementWithDecorDownRight, new Rectangle(48, 48, 16, 16) },
     };
 
-    public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/BuildingWalls");
-
-    public Rectangle GetSprite(MapLayer mapLayer, BuildingWallPart numberPart)
+    public bool IsLayer(MapLayer mapLayer)
     {
-        if (!this.SpriteContent.ContainsKey(numberPart))
+        return this.GetMapLayers().Contains(mapLayer);
+    }
+
+    public MapLayer[] GetMapLayers()
+    {
+        return [MapLayer.BuildingRed, MapLayer.BuildingBrown];
+    }
+
+    public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/BuildingWalls");
+    public int NumberPartForIcon { get; } = (int) BuildingWallPart.SmallElementTop;
+    public Type EnumType { get; } = typeof(BuildingWallPart);
+
+    public Rectangle GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        BuildingWallPart buildingWallPart = (BuildingWallPart)numberPart;
+        if (!this.SpriteContent.ContainsKey(buildingWallPart))
         {
-            numberPart = BuildingWallPart.SmallElementTop;
+            buildingWallPart = BuildingWallPart.SmallElementTop;
         }
         
-        var mapTile = this.SpriteContent[numberPart];
+        var mapTile = this.SpriteContent[buildingWallPart];
         if (mapLayer == MapLayer.BuildingRed)
         {
             return mapTile;

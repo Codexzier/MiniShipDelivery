@@ -7,7 +7,7 @@ using MiniShipDelivery.Components.HUD.Editor.Options;
 
 namespace MiniShipDelivery.Components.HUD.Editor.Textures;
 
-public class TexturesUiMenuMapOptions(Game game) : ISpriteProperties<UiMenuMapOptionPart>
+public class TexturesUiMenuSpriteOptions(Game game) : ISpriteContent<UiMenuMapOptionPart>
 {
     public IDictionary<UiMenuMapOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<UiMenuMapOptionPart, Rectangle>
     {

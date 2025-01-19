@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.Character;
 
-public class TexturesCharacterShadow(Game game) : ISpriteProperties<CharacterShadowPart>
+public class TexturesCharacterShadow(Game game) : ISpriteContent<CharacterShadowPart>
 {
     public IDictionary<CharacterShadowPart, Rectangle> SpriteContent { get; } = new Dictionary<CharacterShadowPart, Rectangle>
     {

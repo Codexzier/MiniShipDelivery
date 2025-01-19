@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,7 +7,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
-public class TexturesStreet(Game game) : ISpriteProperties<StreetPart>
+public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditableContent
 {
     public IDictionary<StreetPart, Rectangle> SpriteContent { get; } = new Dictionary<StreetPart, Rectangle>
     {
@@ -45,10 +46,17 @@ public class TexturesStreet(Game game) : ISpriteProperties<StreetPart>
         { StreetPart.ParkingLineInnenDownRight, new Rectangle(128, 32, 16, 16) },
     };
 
+   
+
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/Street");
-    public Rectangle GetSprite(MapLayer mapLayer, StreetPart numberPart)
+    public int NumberPartForIcon { get; } = (int)StreetPart.StreetParking;
+    public Type EnumType { get; } = typeof(StreetPart);
+
+    public Rectangle GetSprite(MapLayer mapLayer, int numberPart)
     {
-        var mapTile = this.SpriteContent[numberPart];
+        StreetPart streetPart = (StreetPart)numberPart;
+            
+        var mapTile = this.SpriteContent[streetPart];
 
         if (mapLayer != MapLayer.Street)
         {
@@ -57,4 +65,7 @@ public class TexturesStreet(Game game) : ISpriteProperties<StreetPart>
         
         return mapTile;
     }
+
+    public bool IsLayer(MapLayer mapLayer) => mapLayer == MapLayer.Street;
+    public MapLayer[] GetMapLayers() => [MapLayer.Street];
 }
