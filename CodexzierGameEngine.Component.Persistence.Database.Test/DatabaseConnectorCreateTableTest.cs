@@ -38,7 +38,7 @@ namespace CodexzierGameEngine.Component.Persistence.Database.Test
             var instance = new DatabaseConnectorTable(SqliteDatabaseHelper.GetDatabasePath(1));
 
             // act
-            instance.Create<WorldMapLevel>();
+            instance.Create<WorldMapLayer>();
 
             // assert
             Assert.IsTrue(true);

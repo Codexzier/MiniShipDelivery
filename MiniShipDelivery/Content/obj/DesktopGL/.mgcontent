@@ -4,30 +4,32 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/CharacterShadow.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharacters.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharactersMen.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharactersWomen.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Emote/pixel_style1.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Fonts/BaseFont.spritefont</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/bookFlip1.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/click3.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/GameMenuOptions.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/interfacePack_16x_packed.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MainMenuButtons.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MenuEditorOptions.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MenuMapOptions.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/mouseCursorIcons_packed.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/OptionsMenuButton.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/rollover1.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/switch7.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Mouse/MouseCursor.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Flowing Rocks.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Retro Reggae.ogg</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/Street.png</File>
-    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/TilemapBasement.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/CharacterShadow.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharacters.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharactersMen.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Character/UrbanCharactersWomen.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Emote/pixel_style1.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Fonts/BaseFont.spritefont</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/bookFlip1.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/click3.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/GameMenuOptions.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/interfacePack_16x_packed.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MainMenuButtons.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MenuEditorOptions.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MenuMapOptions.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/mouseCursorIcons_packed.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/OptionsMenuButton.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/rollover1.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/switch7.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Mouse/MouseCursor.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Flowing Rocks.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Retro Reggae.ogg</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/BuildingWalls.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/Street.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/TilemapBasement.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

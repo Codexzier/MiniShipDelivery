@@ -15,12 +15,10 @@ namespace MiniShipDelivery.Components.HUD.Editor;
 
 public class MapEditorMenu : BaseMenu
 {
-    private readonly TexturesTilemap _texturesTilemap;
-    
     private const int MenuWidth = 60;
 
     private readonly FunctionBar _functionBarMapOption;
-    private readonly FunctionBar _functionBarMapSprites;
+    private readonly FunctionBar _functionBarMapTilemapBasement;
     private readonly TexturesUiMenuMapOptions _texturesUiMenuMapOptions;
     
     public static readonly List<RectangleF> MenuField = new();
@@ -30,10 +28,8 @@ public class MapEditorMenu : BaseMenu
         new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
         new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
     {
-        this._texturesTilemap = new TexturesTilemap(game);
         this._texturesUiMenuMapOptions = new TexturesUiMenuMapOptions(game);
         
-
         this._functionBarMapOption = new FunctionBar(
             game,
             this.Position,
@@ -43,11 +39,11 @@ public class MapEditorMenu : BaseMenu
             this.ChangeColorForActive);
         this.InitMapOption();
         
-        this._functionBarMapSprites = new FunctionBar(
+        this._functionBarMapTilemapBasement = new FunctionBar(
             game,
             this.Position,
             new Vector2(0, 36),
-            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 40),
+            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24),
             this.DrawButtonMapSprite,
             this.ChangeColorForActiveMapSprite);
 
@@ -84,16 +80,26 @@ public class MapEditorMenu : BaseMenu
         {
             case UiMenuMapOptionPart.TilemapSelect:
                 WorldMapAdjuster.SelectedMapMapLayer += 1;
+
+                if (WorldMapAdjuster.SelectedMapMapLayer == MapLayer.BuildingRed)
+                {
+                    WorldMapAdjuster.SelectedMapMapLayer += 1;
+                }
+                if (WorldMapAdjuster.SelectedMapMapLayer == MapLayer.BuildingBrown)
+                {
+                    WorldMapAdjuster.SelectedMapMapLayer += 1;
+                }
+                
                 if(WorldMapAdjuster.SelectedMapMapLayer > MapLayer.BrownRoof)
                 {
                     WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
                 }
                 break;
             case UiMenuMapOptionPart.ArrowLeft:
-                this._functionBarMapSprites.PageDown();
+                this._functionBarMapTilemapBasement.PageDown();
                 break;
             case UiMenuMapOptionPart.ArrowRight:
-                this._functionBarMapSprites.PageUp();
+                this._functionBarMapTilemapBasement.PageUp();
                 break;
             case UiMenuMapOptionPart.Street:
                 WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Street;
@@ -107,17 +113,20 @@ public class MapEditorMenu : BaseMenu
                 functionItem.Selected = true;
                 itemSetup(functionItem);
                 break;
-            // case UiMenuMapOptionPart.Building:
-            //     WorldMapAdjuster.SelectedMapLayer = LayerPart.Building;
-            //     WorldMapAdjuster.SelectedTilemapPart = 0;
-            //     break;
+            case UiMenuMapOptionPart.Building:
+                WorldMapAdjuster.SelectedMapMapLayer = MapLayer.BuildingRed;
+                WorldMapAdjuster.SelectedTilemapPart = 0;
+                functionItem.Selected = true;
+                itemSetup(functionItem);
+                break;
         }
     }
     
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
         if ((UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Street ||
-            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Sidewalk)
+            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Sidewalk||
+            (UiMenuMapOptionPart)functionItem.AssetPart == UiMenuMapOptionPart.Building)
         {
             if (functionItem.Selected)
             {
@@ -144,11 +153,11 @@ public class MapEditorMenu : BaseMenu
                 MapLayer.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
                 MapLayer.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
                 MapLayer.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
+                MapLayer.BuildingRed => UiMenuMapOptionPart.Building,
                 _ => menuMapOption
             };
         }
 
-        
         spriteBatch.Draw(
             this._texturesUiMenuMapOptions.Texture,
             shiftPosition,
@@ -162,17 +171,16 @@ public class MapEditorMenu : BaseMenu
 
     private void InitMapSprites()
     {
-        this._functionBarMapSprites.FillOptions<TilemapPart>(3);
-        this._functionBarMapSprites.ButtonAreaWasPressedEvent += this.MapSpritesButtonAreaWasPressed;
+        this._functionBarMapTilemapBasement.FillOptions<TilemapPart>(3);
+        this._functionBarMapTilemapBasement.ButtonAreaWasPressedEvent += this.MapTilemapBasementButtonAreaWasPressed;
     }
 
     private void DrawButtonMapSprite(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
     {
         spriteBatch.Draw(
-            this._texturesTilemap.Texture, 
-            position + new Vector2(1, 1), 
-            this._texturesTilemap.GetSprite(WorldMapAdjuster.SelectedMapMapLayer, (TilemapPart)functionItem.AssetPart),
-            Color.White);
+            position + new Vector2(1, 1),
+            WorldMapAdjuster.SelectedMapMapLayer,
+            (int)functionItem.AssetPart);
     }
     
     private Color ChangeColorForActiveMapSprite(FunctionItem functionItem, Color color)
@@ -187,7 +195,7 @@ public class MapEditorMenu : BaseMenu
         return color;
     }
 
-    private void MapSpritesButtonAreaWasPressed(FunctionItem item, Action<FunctionItem> itemSetup)
+    private void MapTilemapBasementButtonAreaWasPressed(FunctionItem item, Action<FunctionItem> itemSetup)
     {
         item.Selected = true;
         if (item.AssetPart is TilemapPart tilemapPart)
@@ -205,6 +213,6 @@ public class MapEditorMenu : BaseMenu
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type2);
 
         this._functionBarMapOption.Draw(spriteBatch);
-        this._functionBarMapSprites.Draw(spriteBatch);
+        this._functionBarMapTilemapBasement.Draw(spriteBatch);
     }
 }

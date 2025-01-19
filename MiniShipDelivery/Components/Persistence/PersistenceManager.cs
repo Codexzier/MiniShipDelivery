@@ -39,20 +39,10 @@ public class PersistenceManager : GameComponent
     
     private void NewMapReset()
     {
-        foreach (var worldMapLevel in this._world.Map.WorldMapChunk.WorldMapLevels)
-        {
-            for (var y = 0; y < worldMapLevel.Map.Length; y++)
-            {
-                for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
-                {
-                    worldMapLevel.Map[y][x].AssetNumber = (int)StreetPart.Street01;
-                }
-            }
-        }
-
+        this._world.Map.WorldMapChunk.WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
         var ml = Enum.GetValues<MapLayer>();
-        var n = this._world.Map.WorldMapChunk.WorldMapLevels.Select(s => s.MapLayer).Distinct();
-        if (ml.Length == n.Count())
+        var n = this._world.Map.WorldMapChunk.WorldMapLayers.Select(s => s.MapLayer).Distinct();
+        if (ml.Length != n.Count())
         {
             throw new MapSetupException("map layers are not the same count.");
         }

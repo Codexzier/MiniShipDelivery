@@ -9,6 +9,7 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
 {
     private readonly TexturesTilemap _texturesTilemap = new(game);
     private readonly TexturesStreet _texturesStreet = new(game);
+    private readonly TexturesBuildingWalls _texturesBuildingWalls = new(game);
 
     public bool TryGetTextureAndCutout(MapLayer mapLayer, int numberPart, out Texture2D texture, out Rectangle cutout)
     {
@@ -27,6 +28,11 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
             case MapLayer.BrownRoof:
                 texture = this._texturesTilemap.Texture;
                 cutout = this._texturesTilemap.GetSprite(mapLayer, (TilemapPart)numberPart);
+                break;
+            case MapLayer.BuildingRed:
+            case MapLayer.BuildingBrown:
+                texture = this._texturesBuildingWalls.Texture;
+                cutout = this._texturesBuildingWalls.GetSprite(mapLayer, (BuildingWallPart)numberPart);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(mapLayer), numberPart, "Missing Texture Layer");

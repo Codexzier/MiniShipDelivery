@@ -9,7 +9,7 @@ public static class DataModelHelper
         var worldMapChunk = new WorldMapChunk
         {
             Id = id,
-            WorldMapLevels = []
+            WorldMapLayers = []
         };
         return worldMapChunk;
     }
@@ -25,9 +25,9 @@ public static class DataModelHelper
         return worldMapChunkPosition;
     }
 
-    public static WorldMapLevel CreateWorldMapLevel()
+    public static WorldMapLayer CreateWorldMapLevel()
     {
-        var worldMapLevel = new WorldMapLevel
+        var worldMapLevel = new WorldMapLayer
         {
             Id = 1,
             WorldMapChunkID = 1,

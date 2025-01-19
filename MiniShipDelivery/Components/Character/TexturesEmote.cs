@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -9,6 +10,8 @@ namespace MiniShipDelivery.Components.Character
     public class TexturesEmote(Game game) : ISpriteProperties<EmotePart>
     {
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
+        public Rectangle GetSprite(MapLayer mapLayer, EmotePart numberPart) => this.SpriteContent[numberPart];
+
         public IDictionary<EmotePart, Rectangle> SpriteContent { get; } = new Dictionary<EmotePart, Rectangle>
         {
             { EmotePart.EmoteHappy, new Rectangle(0, 0, 16, 16) },

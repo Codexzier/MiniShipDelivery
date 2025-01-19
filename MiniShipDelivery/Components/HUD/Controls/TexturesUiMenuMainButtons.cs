@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -24,4 +25,5 @@ public class TexturesUiMenuMainButtons : ISpriteProperties<UiMenuMainPart>
     public IDictionary<UiMenuMainPart, Rectangle> SpriteContent { get; } =
         new Dictionary<UiMenuMainPart, Rectangle>();
     public Texture2D Texture { get; }
+    public Rectangle GetSprite(MapLayer mapLayer, UiMenuMainPart numberPart) => this.SpriteContent[numberPart];
 }

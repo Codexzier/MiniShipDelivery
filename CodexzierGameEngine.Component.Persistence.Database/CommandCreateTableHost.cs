@@ -9,7 +9,7 @@ public static class CommandCreateTableHost
     {
         {typeof(WorldMapChunk), CreateTableWorldMapChunk},
         {typeof(WorldMapChunkPosition), CreateTableWorldMapChunkPosition},
-        {typeof(WorldMapLevel), CreateTableWorldMapLevel},
+        {typeof(WorldMapLayer), CreateTableWorldMapLevel},
         {typeof(MapTile), CreateTableMapTile}
     };
 

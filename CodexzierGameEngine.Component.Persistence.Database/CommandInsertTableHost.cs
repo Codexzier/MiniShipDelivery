@@ -13,8 +13,8 @@ public static class CommandInsertTableHost
                 return InsertTableWorldMapChunk((WorldMapChunk)dataModel);
             case nameof(WorldMapChunkPosition):
                 return InsertTableWorldMapChunkPosition((WorldMapChunkPosition)dataModel);
-            case nameof(WorldMapLevel):
-                return InsertTableWorldMapLevel((WorldMapLevel)dataModel);
+            case nameof(WorldMapLayer):
+                return InsertTableWorldMapLevel((WorldMapLayer)dataModel);
             case nameof(MapTile):
                 return InsertTableMapTile((MapTile)dataModel);
         }
@@ -42,7 +42,7 @@ public static class CommandInsertTableHost
         return sb.ToString();
     }
     
-    private static string InsertTableWorldMapLevel(WorldMapLevel dataModel)
+    private static string InsertTableWorldMapLevel(WorldMapLayer dataModel)
     {
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO WorldMapLevel (WorldMapChunkId, LevelPart) VALUES (");

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -17,4 +18,5 @@ public class UserInterfacesMouse : ISpriteProperties<MousePart>
 
     public IDictionary<MousePart, Rectangle> SpriteContent { get; } = new Dictionary<MousePart, Rectangle>();
     public Texture2D Texture { get; }
+    public Rectangle GetSprite(MapLayer mapLayer, MousePart numberPart) => this.SpriteContent[numberPart];
 }

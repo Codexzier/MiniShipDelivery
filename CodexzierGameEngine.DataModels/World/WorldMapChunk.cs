@@ -2,7 +2,7 @@
 {
     public class WorldMapChunk
     {
-        public WorldMapLevel[] WorldMapLevels { get; set; }
+        public WorldMapLayer[] WorldMapLayers { get; set; }
         public int Id { get; set; }
         
         public int WorldMapChunkPositionID { get; set; }

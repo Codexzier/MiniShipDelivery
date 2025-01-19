@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -16,4 +17,5 @@ public class TexturesCharacterShadow(Game game) : ISpriteProperties<CharacterSha
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>(@"Character\CharacterShadow");
+    public Rectangle GetSprite(MapLayer mapLayer, CharacterShadowPart numberPart) => this.SpriteContent[numberPart];
 }

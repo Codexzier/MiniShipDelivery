@@ -1,6 +1,6 @@
 ﻿namespace CodexzierGameEngine.DataModels.World
 {
-    public class WorldMapLevel
+    public class WorldMapLayer
     {
         public int Id { get; set; }
         public int WorldMapChunkID { get; set; }

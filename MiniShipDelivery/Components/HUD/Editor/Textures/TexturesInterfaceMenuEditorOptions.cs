@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -20,5 +21,9 @@ namespace MiniShipDelivery.Components.HUD.Editor.Textures
         };
 
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuEditorOptions");
+        public Rectangle GetSprite(MapLayer mapLayer, InterfaceMenuEditorOptionPart numberPart)
+        {
+            return this.SpriteContent[numberPart];
+        }
     }
 }

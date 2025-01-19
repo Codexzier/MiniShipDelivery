@@ -5,9 +5,11 @@
         Street,
         Sidewalk,
         Grass,
+        BuildingRed,
+        BuildingBrown,
         GrayRoof,
         BrownRoof,
 
-        //Building
+       
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -13,5 +14,8 @@ public class TexturesGameMenu(Game game) : ISpriteProperties<GameMenuPart>
         { GameMenuPart.Map , new Rectangle(16, 0, 16, 16) }
     };
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/GameMenuOptions");
-    
+    public Rectangle GetSprite(MapLayer mapLayer, GameMenuPart numberPart)
+    {
+        return this.SpriteContent[numberPart];
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -9,6 +10,8 @@ namespace MiniShipDelivery.Components.Character
     public class TexturesCharacter : ISpriteProperties<CharacterPart>
     {
         public Texture2D Texture { get; }
+        public Rectangle GetSprite(MapLayer mapLayer, CharacterPart numberPart) => this.SpriteContent[numberPart];
+
         public IDictionary<CharacterPart, Rectangle> SpriteContent { get; }
         
         public Texture2D TextureStandMen { get; }
