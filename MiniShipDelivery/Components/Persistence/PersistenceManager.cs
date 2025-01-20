@@ -62,6 +62,11 @@ public class PersistenceManager : GameComponent
         {
             var content = File.ReadAllText(this._mapFileJson);
             var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
+            
+            if(worldMapChunk.WorldMapLayers == null || worldMapChunk.WorldMapLayers.Length == 0)
+            {
+                throw new MapSetupException("map layers are not the same count.");
+            }
             this._world.Map.WorldMapChunk = worldMapChunk;
         }
         catch (Exception e)

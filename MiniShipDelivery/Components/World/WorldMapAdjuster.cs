@@ -30,6 +30,13 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         {
             this.CurrentMapTile.AssetNumber = SelectedNumberPart;
         }
+        
+        if (this._input.GetMouseRightButtonReleasedState(
+                rePosition, 
+                new SizeF(16, 16)))
+        {
+            this.CurrentMapTile.AssetNumber = 0;
+        }
     }
 
     private void UpdateCurrentSelectableMapTile()
