@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;

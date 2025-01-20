@@ -58,7 +58,7 @@ public class MapEditorMenuCommon : BaseMenu
         Vector2 position,
         FunctionItem functionItem)
     {
-        var tt = (InterfaceMenuEditorOptionPart)functionItem.AssetPart;
+        var tt = (InterfaceMenuEditorOptionPart)functionItem.NumberPart;
         var rect = this._textureUiMenuEditorOptions.SpriteContent[tt];
         spriteBatch.Draw(
             this._textureUiMenuEditorOptions.Texture,
@@ -70,7 +70,7 @@ public class MapEditorMenuCommon : BaseMenu
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
         if (GlobaleGameParameters.ShowGrid && 
-            (InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
+            (InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
         }
@@ -80,8 +80,8 @@ public class MapEditorMenuCommon : BaseMenu
 
     private void ButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
-        Debug.WriteLine($"ButtonAreaPressed: {functionItem.AssetPart}");
-        switch (functionItem.AssetPart)
+        Debug.WriteLine($"ButtonAreaPressed: {functionItem.NumberPart}");
+        switch ((InterfaceMenuEditorOptionPart)functionItem.NumberPart)
         {
             case InterfaceMenuEditorOptionPart.New:
                 PersistenceManager.NewMap();

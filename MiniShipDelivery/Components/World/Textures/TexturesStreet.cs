@@ -11,7 +11,7 @@ public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditabl
 {
     public IDictionary<StreetPart, Rectangle> SpriteContent { get; } = new Dictionary<StreetPart, Rectangle>
     {
-        { StreetPart.None, new Rectangle(0, 0, 0, 0) },
+        // { StreetPart.None, new Rectangle(0, 0, 0, 0) },
                 
         { StreetPart.ZebraCrossingVerticalTop, new Rectangle(0, 0, 16, 16) },
         { StreetPart.ZebraCrossingVerticalMiddle, new Rectangle(0, 16, 16, 16) },
@@ -55,7 +55,12 @@ public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditabl
     public Rectangle GetSprite(MapLayer mapLayer, int numberPart)
     {
         StreetPart streetPart = (StreetPart)numberPart;
-            
+        
+        if(!this.SpriteContent.ContainsKey(streetPart))
+        {
+            return Rectangle.Empty;
+        }
+        
         var mapTile = this.SpriteContent[streetPart];
 
         if (mapLayer != MapLayer.Street)

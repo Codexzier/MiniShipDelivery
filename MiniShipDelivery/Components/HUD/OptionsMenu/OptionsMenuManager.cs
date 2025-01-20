@@ -10,6 +10,8 @@ public class OptionsMenuManager(Game game)
     
     public void Update()
     {
+        
+        if(GlobaleGameParameters.HudView != HudOptionView.Options) return;
         this._optionsMenuOptions.Update();
     }
     

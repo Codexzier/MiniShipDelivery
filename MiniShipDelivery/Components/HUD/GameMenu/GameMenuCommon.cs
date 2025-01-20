@@ -61,7 +61,7 @@ internal class GameMenuCommon : BaseMenu
     
     private void ButtonAreaPressedGameMenu(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
-        switch (functionItem.AssetPart)
+        switch ((GameMenuPart)functionItem.NumberPart)
         {
             case GameMenuPart.QuestLog:
                 GameMenuQuestManager.Show = !GameMenuQuestManager.Show;
@@ -76,7 +76,7 @@ internal class GameMenuCommon : BaseMenu
 
     private void DrawButtonGameMenu(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
     {
-        var tt = (GameMenuPart)functionItem.AssetPart;
+        var tt = (GameMenuPart)functionItem.NumberPart;
         var rect = this._texturesGameMenu.SpriteContent[tt];
         spriteBatch.Draw(
             this._texturesGameMenu.Texture,
@@ -92,7 +92,7 @@ internal class GameMenuCommon : BaseMenu
     private Color ChangeColorForActiveOptions(FunctionItem functionItem, Color color)
     {
         if (GlobaleGameParameters.ShowGrid && 
-            (InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Grid)
+            (InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
         }
@@ -102,7 +102,7 @@ internal class GameMenuCommon : BaseMenu
     
     private void ButtonAreaPressedOptions(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
-        if ((InterfaceMenuEditorOptionPart)functionItem.AssetPart == InterfaceMenuEditorOptionPart.Close)
+        if ((InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Close)
         {
             GlobaleGameParameters.HudView = HudOptionView.MainMenu;
         }
@@ -113,7 +113,7 @@ internal class GameMenuCommon : BaseMenu
         Vector2 position,
         FunctionItem functionItem)
     {
-        var tt = (InterfaceMenuEditorOptionPart)functionItem.AssetPart;
+        var tt = (InterfaceMenuEditorOptionPart)functionItem.NumberPart;
         var rect = this._textureUiMenuEditorOptions.SpriteContent[tt];
         spriteBatch.Draw(
             this._textureUiMenuEditorOptions.Texture,

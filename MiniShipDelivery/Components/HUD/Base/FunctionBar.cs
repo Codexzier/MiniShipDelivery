@@ -99,6 +99,8 @@ public class FunctionBar(
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(this._indexForPaging >= this._functionItems.Count) return;
+        
         foreach (var item in this._functionItems[this._indexForPaging])
         {
             this.DrawSelectableArea(spriteBatch, item);
@@ -137,7 +139,7 @@ public class FunctionBar(
         drawButton?.Invoke(spriteBatch, pos, item);
     }
 
-    private void AddFunctionItem(object part, int columns)
+    private void AddFunctionItem(object numberPart, int columns)
     {
         var index = this._functionItems.Count - 1;
         if (this._functionItems[index].Count >= this._maxPerPage)
@@ -150,16 +152,16 @@ public class FunctionBar(
             new FunctionItem(
                 HudHelper.GetPositionArea(position.Y, this._functionItems[index].Count, size.Width, columns),
                 new SizeF(18, 18),
-                part));
+                (int)numberPart));
     }
     
     /// <summary>
     /// Default for max 20 columns
     /// </summary>
-    /// <param name="part"></param>
-    public void AddOption(object part)
+    /// <param name="numberPart"></param>
+    public void AddOption(object numberPart)
     {
-        this.AddFunctionItem(part, 20);
+        this.AddFunctionItem(numberPart, 20);
     }
 
     public delegate void ButtonAreaWasPressedEventHandler(FunctionItem functionItem, Action<FunctionItem> itemSetup);
@@ -183,10 +185,10 @@ public class FunctionBar(
         {
             foreach (var item in functionItem.Value)
             {
-                if (item.AssetPart is UiMenuMapOptionPart menuMapOption)
-                {
-                    item.Selected = menuMapOption == uiMenuMapOptionPart;
-                }
+                // if ((UiMenuMapOptionPart)item.NumberPart == uiMenuMapOptionPart)
+                // {
+                    item.Selected = (UiMenuMapOptionPart)item.NumberPart == uiMenuMapOptionPart;
+                //}
             }
         }
     }

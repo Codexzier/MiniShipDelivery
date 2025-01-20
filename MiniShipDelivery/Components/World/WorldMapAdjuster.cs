@@ -7,13 +7,24 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World;
 
-public class WorldMapAdjuster(Game game, WorldMap map)
+public class WorldMapAdjuster
 {
-    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
-    private readonly InputManager _input = game.GetComponent<InputManager>();
+    private readonly CameraManager _camera;
+    private readonly InputManager _input;
+    private readonly WorldMap _map;
+
+    public WorldMapAdjuster(Game game, WorldMap map)
+    {
+        this._map = map;
+        this._camera = game.GetComponent<CameraManager>();
+        this._input = game.GetComponent<InputManager>();
+        
+        SelectedMapMapLayer = map.WorldMapChunk.WorldMapLayers[0].MapLayer;
+        SelectedNumberPart = -1;
+    }
 
     private MapTile CurrentMapTile { get; set; }
-    public static MapLayer SelectedMapMapLayer { get; set; } = MapLayer.Sidewalk;
+    public static MapLayer SelectedMapMapLayer { get; set; }
 
     public static int SelectedNumberPart { get; set; }
         
@@ -62,7 +73,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
         var x = (int)pos.X / 16;
         var y = (int)pos.Y / 16;
 
-        if (!map.TryTilemap(SelectedMapMapLayer, x, y, out var result)) return;
+        if (!this._map.TryTilemap(SelectedMapMapLayer, x, y, out var result)) return;
             
         this.CurrentMapTile = result;
     }
@@ -74,7 +85,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
             
         WorldManagerHelper.DrawGrid(spriteBatch, this._camera.Camera.Position);
             
-        if(SelectedNumberPart == 0) return;
+        if(SelectedNumberPart < 0) return;
 
         this.DrawSelectedMapTile(spriteBatch);
         this.DrawHoverEffectOnGrid(spriteBatch);
@@ -85,7 +96,7 @@ public class WorldMapAdjuster(Game game, WorldMap map)
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!map.ValidTileNumber(SelectedNumberPart, SelectedMapMapLayer))
+        if (!this._map.ValidTileNumber(SelectedNumberPart, SelectedMapMapLayer))
         {
             return;
         }
