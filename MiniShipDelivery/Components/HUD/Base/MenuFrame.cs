@@ -95,7 +95,7 @@ namespace MiniShipDelivery.Components.HUD.Base
             spriteBatch.Draw(
                 this._uiMenuSpriteFrames.Texture,
                 position,
-                this._uiMenuSpriteFrames.SpriteContent[part],
+                this._uiMenuSpriteFrames.SpriteContent[part].Cutout,
                 Color.AliceBlue);
         }
     }

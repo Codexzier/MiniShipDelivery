@@ -10,28 +10,28 @@ namespace MiniShipDelivery.Components.World.Textures;
 
 public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>, IMapEditableContent
 {
-    public IDictionary<BuildingWallPart, Rectangle> SpriteContent { get; } = new Dictionary<BuildingWallPart, Rectangle>
+    public IDictionary<BuildingWallPart, SpriteSetup> SpriteContent { get; } = new Dictionary<BuildingWallPart, SpriteSetup>
     {
-        { BuildingWallPart.SmallElementTop, new Rectangle(0, 0, 16, 16) },
-        { BuildingWallPart.SmallElementMiddle1, new Rectangle(0, 16, 16, 16) },
-        { BuildingWallPart.SmallElementMiddle2, new Rectangle(0, 32, 16, 16) },
-        { BuildingWallPart.SmallElementDown, new Rectangle(0, 48, 16, 16) },
+        { BuildingWallPart.SmallElementTop, new SpriteSetup { Cutout = new Rectangle(0, 0, 16, 16), IsTopLayer = true} },
+        { BuildingWallPart.SmallElementMiddle1, new SpriteSetup { Cutout = new Rectangle(0, 16, 16, 16), IsTopLayer = true} },
+        { BuildingWallPart.SmallElementMiddle2, new SpriteSetup { Cutout = new Rectangle(0, 32, 16, 16), IsTopLayer = true }},
+        { BuildingWallPart.SmallElementDown, new SpriteSetup { Cutout = new Rectangle(0, 48, 16, 16) }},
             
-        { BuildingWallPart.ElementWithDecorTopLeft, new Rectangle(16, 0, 16, 16) },
-        { BuildingWallPart.ElementWithDecorTopMiddle, new Rectangle(32, 0, 16, 16) },
-        { BuildingWallPart.ElementWithDecorTopRight, new Rectangle(48, 0, 16, 16) },
+        { BuildingWallPart.ElementWithDecorTopLeft, new SpriteSetup { Cutout = new Rectangle(16, 0, 16, 16), IsTopLayer = true} },
+        { BuildingWallPart.ElementWithDecorTopMiddle, new SpriteSetup { Cutout = new Rectangle(32, 0, 16, 16), IsTopLayer = true} },
+        { BuildingWallPart.ElementWithDecorTopRight, new SpriteSetup { Cutout = new Rectangle(48, 0, 16, 16), IsTopLayer = true }},
             
-        { BuildingWallPart.ElementWithDecorMiddle1Left, new Rectangle(16, 16, 16, 16) },
-        { BuildingWallPart.ElementWithDecorMiddle1Middle, new Rectangle(32, 16, 16, 16) },
-        { BuildingWallPart.ElementWithDecorMiddle1Right, new Rectangle(48, 16, 16, 16) },
+        { BuildingWallPart.ElementWithDecorMiddle1Left, new SpriteSetup { Cutout = new Rectangle(16, 16, 16, 16), IsTopLayer = true }},
+        { BuildingWallPart.ElementWithDecorMiddle1Middle, new SpriteSetup { Cutout = new Rectangle(32, 16, 16, 16), IsTopLayer = true }},
+        { BuildingWallPart.ElementWithDecorMiddle1Right, new SpriteSetup { Cutout = new Rectangle(48, 16, 16, 16), IsTopLayer = true }},
             
-        { BuildingWallPart.ElementWithDecorMiddle2Left, new Rectangle(16, 32, 16, 16) },
-        { BuildingWallPart.ElementWithDecorMiddle2Middle, new Rectangle(32, 32, 16, 16) },
-        { BuildingWallPart.ElementWithDecorMiddle2Right, new Rectangle(48, 32, 16, 16) },
+        { BuildingWallPart.ElementWithDecorMiddle2Left, new SpriteSetup { Cutout = new Rectangle(16, 32, 16, 16), IsTopLayer = true }},
+        { BuildingWallPart.ElementWithDecorMiddle2Middle, new SpriteSetup { Cutout = new Rectangle(32, 32, 16, 16), IsTopLayer = true }},
+        { BuildingWallPart.ElementWithDecorMiddle2Right, new SpriteSetup { Cutout = new Rectangle(48, 32, 16, 16), IsTopLayer = true }},
             
-        { BuildingWallPart.ElementWithDecorDownLeft, new Rectangle(16, 48, 16, 16) },
-        { BuildingWallPart.ElementWithDecorDownMiddle, new Rectangle(32, 48, 16, 16) },
-        { BuildingWallPart.ElementWithDecorDownRight, new Rectangle(48, 48, 16, 16) },
+        { BuildingWallPart.ElementWithDecorDownLeft, new SpriteSetup { Cutout = new Rectangle(16, 48, 16, 16) }},
+        { BuildingWallPart.ElementWithDecorDownMiddle, new SpriteSetup { Cutout = new Rectangle(32, 48, 16, 16) }},
+        { BuildingWallPart.ElementWithDecorDownRight, new SpriteSetup { Cutout = new Rectangle(48, 48, 16, 16) }},
     };
 
     public bool IsLayer(MapLayer mapLayer)
@@ -48,7 +48,7 @@ public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>
     public int NumberPartForIcon { get; } = (int) BuildingWallPart.SmallElementTop;
     public Type EnumType { get; } = typeof(BuildingWallPart);
 
-    public Rectangle GetSprite(MapLayer mapLayer, int numberPart)
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {
         BuildingWallPart buildingWallPart = (BuildingWallPart)numberPart;
         if (!this.SpriteContent.ContainsKey(buildingWallPart))
@@ -62,13 +62,17 @@ public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>
             return mapTile;
         }
 
+        var rec = mapTile.Cutout;
         switch (mapLayer)
         {
             case MapLayer.BuildingBrown:
-                mapTile.Y += 16 * 4;
+                rec = new Rectangle(mapTile.Cutout.X, mapTile.Cutout.Y + 16 * 4, 16, 16);
+                //rec.Y += 16 * 4;
                 break;
         }
         
-        return mapTile;
+        //mapTile.Cutout = rec;
+        
+        return new SpriteSetup{ Cutout = rec, IsTopLayer = mapTile.IsTopLayer};
     }
 }

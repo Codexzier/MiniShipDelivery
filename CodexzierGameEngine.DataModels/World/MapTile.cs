@@ -8,6 +8,6 @@
         public int MapTileY { get; set; }
         public int AssetNumber { get; set; }
         public TilePosition Position { get; set; }
-        
+        public bool DrawTop { get; set; }
     }
 }

@@ -12,7 +12,8 @@ public interface IWorldMapTextures
         MapLayer mapLayer, 
         int numberPart, 
         out Texture2D texture, 
-        out Rectangle cutout);
+        out Rectangle cutout,
+        out bool drawTop);
 
     IEnumerable<EditableEnvironmentItem> GetEditableEnvironments();
 }

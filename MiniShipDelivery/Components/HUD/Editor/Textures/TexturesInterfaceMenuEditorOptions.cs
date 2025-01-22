@@ -10,20 +10,20 @@ namespace MiniShipDelivery.Components.HUD.Editor.Textures
     public class TexturesInterfaceMenuEditorOptions(Game game)
         : ISpriteContent<InterfaceMenuEditorOptionPart>
     {
-        public IDictionary<InterfaceMenuEditorOptionPart, Rectangle> SpriteContent { get; } = new Dictionary<InterfaceMenuEditorOptionPart, Rectangle>
+        public IDictionary<InterfaceMenuEditorOptionPart, SpriteSetup> SpriteContent { get; } = new Dictionary<InterfaceMenuEditorOptionPart, SpriteSetup>
         {
-            { InterfaceMenuEditorOptionPart.Save, new Rectangle(0, 0, 16, 16) },
-            { InterfaceMenuEditorOptionPart.Load, new Rectangle(16, 0, 16, 16) },
-            { InterfaceMenuEditorOptionPart.New, new Rectangle(32, 0, 16, 16)},
-            { InterfaceMenuEditorOptionPart.Grid, new Rectangle(48, 0, 16, 16) },
-            { InterfaceMenuEditorOptionPart.Close, new Rectangle(64, 0, 16, 16) },
-            { InterfaceMenuEditorOptionPart.ConsoleWindow, new Rectangle(80, 0, 16, 16) },
+            { InterfaceMenuEditorOptionPart.Save, new SpriteSetup { Cutout = new Rectangle(0, 0, 16, 16) }},
+            { InterfaceMenuEditorOptionPart.Load, new SpriteSetup { Cutout = new Rectangle(16, 0, 16, 16) }},
+            { InterfaceMenuEditorOptionPart.New, new SpriteSetup { Cutout = new Rectangle(32, 0, 16, 16)}},
+            { InterfaceMenuEditorOptionPart.Grid, new SpriteSetup { Cutout = new Rectangle(48, 0, 16, 16) }},
+            { InterfaceMenuEditorOptionPart.Close, new SpriteSetup { Cutout = new Rectangle(64, 0, 16, 16) }},
+            { InterfaceMenuEditorOptionPart.ConsoleWindow, new SpriteSetup { Cutout = new Rectangle(80, 0, 16, 16) }},
         };
 
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuEditorOptions");
         public Rectangle GetSprite(MapLayer mapLayer, InterfaceMenuEditorOptionPart numberPart)
         {
-            return this.SpriteContent[numberPart];
+            return this.SpriteContent[numberPart].Cutout;
         }
     }
 }

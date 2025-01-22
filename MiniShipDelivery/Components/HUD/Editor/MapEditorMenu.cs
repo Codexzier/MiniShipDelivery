@@ -107,7 +107,7 @@ public class MapEditorMenu : BaseMenu
             spriteBatch.Draw(
                 this._texturesUiMenuSpriteOptions.Texture,
                 shiftPosition,
-                this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption],
+                this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
                 Color.AliceBlue);
         }
     }
@@ -228,7 +228,7 @@ public class MapEditorMenu : BaseMenu
         spriteBatch.Draw(
             this._texturesUiMenuSpriteOptions.Texture,
             shiftPosition,
-            this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption],
+            this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
             Color.AliceBlue);
     }
 
@@ -263,6 +263,7 @@ public class MapEditorMenu : BaseMenu
         item.Selected = true;
 
         WorldMapAdjuster.SelectedNumberPart = item.NumberPart;
+        WorldMapAdjuster.SelectedDrawTop = true;
 
         itemSetup(item);
     }

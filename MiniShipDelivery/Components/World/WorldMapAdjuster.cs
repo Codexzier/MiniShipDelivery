@@ -27,6 +27,7 @@ public class WorldMapAdjuster
     public static MapLayer SelectedMapMapLayer { get; set; }
 
     public static int SelectedNumberPart { get; set; }
+    public static bool SelectedDrawTop { get; set; }
         
     public void UpdateSetMapTile()
     {
@@ -40,6 +41,7 @@ public class WorldMapAdjuster
                 new SizeF(16, 16)))
         {
             this.CurrentMapTile.AssetNumber = SelectedNumberPart;
+            this.CurrentMapTile.DrawTop = SelectedDrawTop;
         }
         
         if (this._input.GetMouseRightButtonReleasedState(

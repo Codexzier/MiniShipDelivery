@@ -16,17 +16,25 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
         new TexturesBuildingWalls(game)
     ];
 
-    public bool TryGetTextureAndCutout(MapLayer mapLayer, int numberPart, out Texture2D texture, out Rectangle cutout)
+    public bool TryGetTextureAndCutout(
+        MapLayer mapLayer, 
+        int numberPart, 
+        out Texture2D texture, 
+        out Rectangle cutout,
+        out bool drawTop)
     {
         texture = null;
         cutout = Rectangle.Empty;
+        drawTop = false;
 
         foreach (var editorContent in this._editorContents)
         {
             if(!editorContent.IsLayer(mapLayer)) continue;
             
             texture = editorContent.Texture;
-            cutout = editorContent.GetSprite(mapLayer, numberPart);
+            var mapTile = editorContent.GetSprite(mapLayer, numberPart);
+            cutout = mapTile.Cutout;
+            drawTop = mapTile.IsTopLayer;
             break;
         }
 
@@ -52,13 +60,13 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
         foreach (var editorContent in this._editorContents)
         {
             var layers = editorContent.GetMapLayers();
-            foreach (var mapLayer in editorContent.GetMapLayers())
+            foreach (var mapLayer in layers)
             {
                 list.Add(new EditableEnvironmentItem(
                     mapLayer,
                     editorContent.NumberPartForIcon,
                     editorContent.Texture,
-                    editorContent.GetSprite(mapLayer, editorContent.NumberPartForIcon),
+                    editorContent.GetSprite(mapLayer, editorContent.NumberPartForIcon).Cutout,
                     editorContent.EnumType));
             }
         }

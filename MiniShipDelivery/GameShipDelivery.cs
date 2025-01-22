@@ -27,57 +27,63 @@ namespace MiniShipDelivery
             this.IsMouseVisible = false;
             
             var cameraManager = new CameraManager(this);
-            cameraManager.UpdateOrder = 0;
+            cameraManager.UpdateOrder = 1;
             this.Components.Add(cameraManager);
             SimpleThinksHelper.CameraManagerInstance = cameraManager;
 
             // add all components
             var input = new InputManager(this);
-            input.UpdateOrder = 1;
+            input.UpdateOrder = 2;
             this.Components.Add(input);
             HudHelper.Inputs = input.Inputs;
 
-            // Map
+            // Map down layer
             var map = new WorldManager(this);
             map.UpdateOrder = 3;
-            map.DrawOrder = 1;
+            map.DrawOrder = 3;
             this.Components.Add(map);
             
             
-
             // Player
             var characterManager = new CharacterManager(
                 this, 
                 new Vector2(152f, 82f));
-            characterManager.UpdateOrder = 3;
-            characterManager.DrawOrder = 2;
+            characterManager.UpdateOrder = 4;
+            characterManager.DrawOrder = 4;
             this.Components.Add(characterManager);
+            
+            // Map top layer
+            var mapTopLayer = new WorldManagerTopLayer(this);
+            mapTopLayer.UpdateOrder = 5;
+            mapTopLayer.DrawOrder = 5;
+            this.Components.Add(mapTopLayer);
             
             var colliderManager = new ColliderManager(
                 this,
                 characterManager);
-            colliderManager.UpdateOrder = 4;
+            colliderManager.UpdateOrder = 6;
             this.Components.Add(colliderManager);
+            
             
             // Persistence
             var persistenceManager = new PersistenceManager(this);
-            persistenceManager.UpdateOrder = 5;
+            persistenceManager.UpdateOrder = 7;
             this.Components.Add(persistenceManager);
             
             var hudManager = new HudManager(this);
-            hudManager.UpdateOrder = 6;
-            hudManager.DrawOrder = 6;
+            hudManager.UpdateOrder = 8;
+            hudManager.DrawOrder = 8;
             this.Components.Add(hudManager);
 
             var cursor = new MouseManager(this);
-            cursor.UpdateOrder = 7;
+            cursor.UpdateOrder = 9;
             cursor.DrawOrder = 100; // cursor must render at last
             this.Components.Add(cursor);
             
             
             // only for debug purpose
             var consoleManager = new ConsoleManager(this);
-            consoleManager.UpdateOrder = 8;
+            consoleManager.UpdateOrder = 10;
             consoleManager.DrawOrder = 7;
             this.Components.Add(consoleManager);
             

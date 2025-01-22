@@ -97,17 +97,43 @@ public static class WorldMapHelper
         this SpriteBatch spriteBatch, 
         Vector2 position,
         MapLayer mapLayer,
+        int numberPart,
+        bool isDrawTop)
+    {
+        if (!MapTextures.TryGetTextureAndCutout(
+                mapLayer,
+                numberPart,
+                out Texture2D texture,
+                out Rectangle cutout,
+                out bool drawTop))
+        {
+            throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
+        }
+
+        if (isDrawTop != drawTop)
+        {
+            return;
+        }
+        
+        spriteBatch.Draw(texture, position, cutout, Color.White);
+    }
+    
+    public static void Draw(
+        this SpriteBatch spriteBatch, 
+        Vector2 position,
+        MapLayer mapLayer,
         int numberPart)
     {
         if (!MapTextures.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
-                out Rectangle cutout))
+                out Rectangle cutout,
+                out _))
         {
             throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
         }
-            
+        
         spriteBatch.Draw(texture, position, cutout, Color.White);
     }
     
@@ -121,7 +147,8 @@ public static class WorldMapHelper
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
-                out Rectangle cutout))
+                out Rectangle cutout,
+                out bool drawTop))
         {
             throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
         }

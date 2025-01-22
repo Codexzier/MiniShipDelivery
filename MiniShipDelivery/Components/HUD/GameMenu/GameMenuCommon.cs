@@ -77,7 +77,7 @@ internal class GameMenuCommon : BaseMenu
     private void DrawButtonGameMenu(SpriteBatch spriteBatch, Vector2 position, FunctionItem functionItem)
     {
         var tt = (GameMenuPart)functionItem.NumberPart;
-        var rect = this._texturesGameMenu.SpriteContent[tt];
+        var rect = this._texturesGameMenu.SpriteContent[tt].Cutout;
         spriteBatch.Draw(
             this._texturesGameMenu.Texture,
             position + new Vector2(1, 1),
@@ -114,7 +114,7 @@ internal class GameMenuCommon : BaseMenu
         FunctionItem functionItem)
     {
         var tt = (InterfaceMenuEditorOptionPart)functionItem.NumberPart;
-        var rect = this._textureUiMenuEditorOptions.SpriteContent[tt];
+        var rect = this._textureUiMenuEditorOptions.SpriteContent[tt].Cutout;
         spriteBatch.Draw(
             this._textureUiMenuEditorOptions.Texture,
             position + new Vector2(1, 1),

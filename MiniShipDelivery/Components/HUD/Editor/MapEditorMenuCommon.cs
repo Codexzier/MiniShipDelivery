@@ -59,7 +59,7 @@ public class MapEditorMenuCommon : BaseMenu
         FunctionItem functionItem)
     {
         var tt = (InterfaceMenuEditorOptionPart)functionItem.NumberPart;
-        var rect = this._textureUiMenuEditorOptions.SpriteContent[tt];
+        var rect = this._textureUiMenuEditorOptions.SpriteContent[tt].Cutout;
         spriteBatch.Draw(
             this._textureUiMenuEditorOptions.Texture,
             position + new Vector2(1, 1),

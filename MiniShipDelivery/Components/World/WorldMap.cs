@@ -14,7 +14,7 @@ public class WorldMap
         this.WorldMapChunk.WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
     }
     
-    public void DrawAllLayers(SpriteBatch spriteBatch)
+    public void DrawAllLayers(SpriteBatch spriteBatch, bool drawTop = false)
     {
         foreach (var worldMapLevel in this.WorldMapChunk.WorldMapLayers)
         {
@@ -26,6 +26,8 @@ public class WorldMap
                     
                     if(tileNumber == 0) continue;
                     
+                    //if(drawTop != worldMapLevel.Map[y][x].DrawTop) continue;
+                    
                     if (!worldMapLevel.ListOfValidateTileNumbers.Contains(tileNumber))
                     {
                         tileNumber = WorldMapHelper.GetDefaultNumberByLevelPart(worldMapLevel.MapLayer, true);
@@ -34,7 +36,8 @@ public class WorldMap
                     spriteBatch.Draw(
                         worldMapLevel.Map[y][x].Position.TilePositionToVector(),
                         worldMapLevel.MapLayer,
-                        tileNumber);
+                        tileNumber,
+                        drawTop);
                 }
             }
         }

@@ -152,8 +152,8 @@ namespace MiniShipDelivery.Components.Character
         {
             var shift = (int)characterType * 3;
             var rect = new Rectangle(
-                texturesCharacter.SpriteContent[tp].X, 
-                     texturesCharacter.SpriteContent[tp].Y + (16 * shift), 
+                texturesCharacter.SpriteContent[tp].Cutout.X, 
+                     texturesCharacter.SpriteContent[tp].Cutout.Y + (16 * shift), 
                      16, 
                      16);
             
@@ -182,14 +182,14 @@ namespace MiniShipDelivery.Components.Character
                     spriteBatch.Draw(
                         texturesCharacter.TextureStandMen,
                         position,
-                        texturesCharacter.SpriteContentStandMen[tp],
+                        texturesCharacter.SpriteContentStandMen[tp].Cutout,
                         Color.White);
                     break;
                 case CharacterType.Women:
                     spriteBatch.Draw(
                         texturesCharacter.TextureStandWomen,
                         position,
-                        texturesCharacter.SpriteContentStandWomen[tp],
+                        texturesCharacter.SpriteContentStandWomen[tp].Cutout,
                         Color.White);
                     break;
             }
@@ -202,7 +202,7 @@ namespace MiniShipDelivery.Components.Character
             spriteBatch.Draw(
                 texturesCharacterShadow.Texture,
                 this.Collider.Position + new Vector2(0, 7),
-                texturesCharacterShadow.SpriteContent[0],
+                texturesCharacterShadow.SpriteContent[0].Cutout,
                 Color.White);
         }
         
@@ -213,7 +213,7 @@ namespace MiniShipDelivery.Components.Character
             spriteBatch.Draw(
                 texturesEmote.Texture, 
                 position, 
-                texturesEmote.SpriteContent[this.Emote], 
+                texturesEmote.SpriteContent[this.Emote].Cutout, 
                 Color.White);
         }
     }

@@ -38,7 +38,7 @@ public class MenuButton(
         spriteBatch.Draw(
             this._texturesButtons.Texture, 
             pos,
-            this._texturesButtons.SpriteContent[menuMainPart],
+            this._texturesButtons.SpriteContent[menuMainPart].Cutout,
             Color.AliceBlue);
         
         spriteBatch.DrawRectangle(

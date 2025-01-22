@@ -8,14 +8,14 @@ namespace MiniShipDelivery.Components.HUD.GameMenu;
 
 public class TexturesGameMenu(Game game) : ISpriteContent<GameMenuPart>
 {
-    public IDictionary<GameMenuPart, Rectangle> SpriteContent { get; } = new Dictionary<GameMenuPart, Rectangle>
+    public IDictionary<GameMenuPart, SpriteSetup> SpriteContent { get; } = new Dictionary<GameMenuPart, SpriteSetup>
     {
-        { GameMenuPart.QuestLog, new Rectangle(0, 0, 16, 16) },
-        { GameMenuPart.Map , new Rectangle(16, 0, 16, 16) }
+        { GameMenuPart.QuestLog,new SpriteSetup { Cutout =  new Rectangle(0, 0, 16, 16)} },
+        { GameMenuPart.Map ,new SpriteSetup { Cutout =  new Rectangle(16, 0, 16, 16) }}
     };
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/GameMenuOptions");
     public Rectangle GetSprite(MapLayer mapLayer, GameMenuPart numberPart)
     {
-        return this.SpriteContent[numberPart];
+        return this.SpriteContent[numberPart].Cutout;
     }
 }
