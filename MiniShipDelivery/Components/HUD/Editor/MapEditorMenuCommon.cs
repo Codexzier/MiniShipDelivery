@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.Persistence;
+using MiniShipDelivery.Components.Sound;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
@@ -15,6 +17,7 @@ public class MapEditorMenuCommon : BaseMenu
     private readonly FunctionBar _functionBar;
     private readonly FunctionBar _functionBarWindow;
     private readonly TexturesInterfaceMenuEditorOptions _textureUiMenuEditorOptions;
+    private readonly SoundManager _sound;
 
     public MapEditorMenuCommon(Game game)
         : base(
@@ -51,6 +54,8 @@ public class MapEditorMenuCommon : BaseMenu
         this._functionBarWindow.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobaleGameParameters.ScreenWidth, 24));
+        
+        this._sound = game.GetComponent<SoundManager>();
     }
 
     private void DrawButton(
@@ -102,6 +107,8 @@ public class MapEditorMenuCommon : BaseMenu
                 GlobaleGameParameters.HudView = HudOptionView.MainMenu;
                 break;
         }
+        
+        this._sound.PlayPressed();
     }
     
     public override void Draw(SpriteBatch spriteBatch)

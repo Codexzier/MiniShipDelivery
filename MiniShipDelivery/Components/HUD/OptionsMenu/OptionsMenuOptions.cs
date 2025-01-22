@@ -36,7 +36,8 @@ public class OptionsMenuOptions : BaseMenu
             UiMenuMainPart.Back,
             new Vector2(
                 GlobaleGameParameters.ScreenWidthHalf - 32, 
-                GlobaleGameParameters.ScreenHeightHalf + 40));
+                GlobaleGameParameters.ScreenHeightHalf + 40),
+            "Back");
         this._buttonBack.ButtonAreaWasPressedEvent += this.ButtonPressedBack;
         
         this._checkBoxMusicOnOff = new CheckBox(

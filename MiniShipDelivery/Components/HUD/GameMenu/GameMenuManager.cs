@@ -7,8 +7,14 @@ public class GameMenuManager(Game game)
 {
     private readonly GameMenuCommon _gameMenuCommon = new(game);
     
+    public void Update()
+    {
+        this._gameMenuCommon.Update();
+    }
+    
     public void Draw(SpriteBatch spriteBatch)
     {
         this._gameMenuCommon.Draw(spriteBatch);
     }
+
 }

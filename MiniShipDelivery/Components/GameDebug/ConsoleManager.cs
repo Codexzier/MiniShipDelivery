@@ -20,7 +20,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
     
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 
-    private static StringBuilder _stringBuilder { get; } = new();
+    private static StringBuilder TextToWrite { get; } = new();
 
 
     public override void Update(GameTime gameTime)
@@ -38,19 +38,20 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 
     public override void Draw(GameTime gameTime)
     {
-        if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
-        if(!GlobaleGameParameters.ShowConsoleWindow ) return;
+        //if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
+        if (!GlobaleGameParameters.ShowConsoleWindow &&
+            !GlobaleGameParameters.DebugMode) return;
         
         base.Draw(gameTime);
-       
+
         this._spriteBatch.Begin(
-            transformMatrix: this._camera.Camera.GetViewMatrix(), 
+            transformMatrix: this._camera.Camera.GetViewMatrix(),
             samplerState: SamplerState.PointClamp);
-        
+
         this.DrawConsoleWindow();
-        
+
         this._spriteBatch.DrawString(this._font,
-            _stringBuilder.ToString(),
+            TextToWrite.ToString(),
             this._startPosition + this._camera.Camera.Position + new Vector2(3, 5),
             Color.White,
             0f,
@@ -58,14 +59,14 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
             0.3f,
             SpriteEffects.None, 1);
 
-        _stringBuilder.Clear();
-        
+        TextToWrite.Clear();
+
         this._spriteBatch.End();
     }
 
     public static void AddText(string text)
     {
-        _stringBuilder.AppendLine(text);
+        TextToWrite.AppendLine(text);
     }
 
     private void DrawConsoleWindow()

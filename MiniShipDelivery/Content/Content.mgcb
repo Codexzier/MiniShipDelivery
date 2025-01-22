@@ -86,6 +86,18 @@
 /processorParam:Quality=Best
 /build:Interface/bookFlip1.ogg
 
+#begin Interface/click_002.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/click_002.ogg
+
+#begin Interface/click_005.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/click_005.ogg
+
 #begin Interface/click3.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
@@ -182,9 +194,15 @@
 /processorParam:Quality=Best
 /build:Interface/rollover1.ogg
 
-#begin Interface/switch7.ogg
+#begin Interface/switch_004.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Interface/switch_004.ogg
+
+#begin Interface/switch7.ogg
+/importer:OggImporter
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Interface/switch7.ogg
 

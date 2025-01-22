@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.Sound;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Controls;
@@ -10,26 +10,32 @@ namespace MiniShipDelivery.Components.HUD.Controls;
 public class MenuButton(
     Game game,
     UiMenuMainPart menuMainPart,
-    Vector2 position)
+    Vector2 position,
+    string text)
 {
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly TexturesUiMenuMainButtons _texturesButtons = new(game);
     
-    private readonly ButtonSound _buttonSound = new(game);
+    private readonly SoundManager _sound = game.GetComponent<SoundManager>();
 
+    private readonly SizeF _buttonSize = new(64, 16);
+    
+    public void Update()
+    {
+        var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
+        this._sound.PlayHover(inRange, text);
+    }
+    
     public void Draw(SpriteBatch spriteBatch)
     {
         var pos = this._camera.Camera.Position + position;
 
-        var buttonSize = new SizeF(64, 16);
-        var inRange =  HudHelper.IsMouseInRange(position, buttonSize);
-
-        this._buttonSound.PlayHover(inRange);
+        var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
         
-        if (inRange && this._input.GetMouseLeftButtonReleasedState(position, buttonSize))
+        if (inRange && this._input.GetMouseLeftButtonReleasedState(position, this._buttonSize))
         {
-            this._buttonSound.PlayPressed();
+            this._sound.PlayPressed();
             this.ButtonAreaWasPressedEvent?.Invoke(menuMainPart);
         }
         

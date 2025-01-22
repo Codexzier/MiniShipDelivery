@@ -15,6 +15,12 @@ namespace MiniShipDelivery.Components.HUD.Editor
         /// </summary>
         private readonly MapEditorMenu _mapEditorMenu = new(game);
 
+        public void Update()
+        {
+            this._mapEditorMenuCommon.Update();
+            this._mapEditorMenu.Update();
+        }
+        
         internal void Draw(SpriteBatch spriteBatch)
         {
             this._mapEditorMenuCommon.Draw(spriteBatch);

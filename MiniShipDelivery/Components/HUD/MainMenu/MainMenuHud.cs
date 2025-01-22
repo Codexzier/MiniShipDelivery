@@ -35,25 +35,29 @@ internal class MainMenuHud : BaseMenu
         this._menuButtonStartGame = new MenuButton(
             game,
             UiMenuMainPart.Start,
-            new Vector2(middleStartX, middleStartY));
+            new Vector2(middleStartX, middleStartY),
+            "Start");
         this._menuButtonStartGame.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         this._menuButtonMapEditor = new MenuButton(
             game,
             UiMenuMainPart.MapEditor,
-            new Vector2(middleStartX, middleStartY + 18));
+            new Vector2(middleStartX, middleStartY + 18),
+            "Map Editor");
         this._menuButtonMapEditor.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         this._menuButtonOptions = new MenuButton(
             game,
             UiMenuMainPart.Options,
-            new Vector2(middleStartX, middleStartY + 36));
+            new Vector2(middleStartX, middleStartY + 36),
+            "Options");
         this._menuButtonOptions.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
         this._menuButtonExit = new MenuButton(
             game,
             UiMenuMainPart.Exit,
-            new Vector2(middleStartX, middleStartY + 54));
+            new Vector2(middleStartX, middleStartY + 54),
+            "Exit");
         this._menuButtonExit.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
     }
 
@@ -79,6 +83,16 @@ internal class MainMenuHud : BaseMenu
     
     public delegate void ButtonHasPressedEventHandle(HudOptionView view);
     public event ButtonHasPressedEventHandle ButtonHasPressedEvent;
+
+    public override void Update()
+    {
+        base.Update();
+        
+        this._menuButtonStartGame.Update();
+        this._menuButtonMapEditor.Update();
+        this._menuButtonOptions.Update();
+        this._menuButtonExit.Update();
+    }
 
     public override void Draw(SpriteBatch spriteBatch)
     {

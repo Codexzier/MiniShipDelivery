@@ -10,6 +10,9 @@ using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.World;
 using CodexzierGameEngine.DataModels.World;
+using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.HUD.Controls;
+using MiniShipDelivery.Components.Sound;
 using MiniShipDelivery.Components.World.Textures;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
@@ -23,9 +26,10 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapTilemapBasement;
     private readonly TexturesUiMenuSpriteOptions _texturesUiMenuSpriteOptions;
     private readonly IEnumerable<EditableEnvironmentItem> _editableEnvironments;
+    private readonly SoundManager _sound;
 
     public static readonly List<RectangleF> MenuField = new();
-
+    
     public MapEditorMenu(Game game) : base(
         game,
         new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
@@ -79,11 +83,14 @@ public class MapEditorMenu : BaseMenu
         const int left = GlobaleGameParameters.ScreenWidth - MenuWidth;
         MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
         MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
+
+        this._sound = game.GetComponent<SoundManager>();
     }
 
     #region map layer
 
     private int _editableEnvironmentsIndex;
+
     private void DrawButtonMapLayer( 
         SpriteBatch spriteBatch,
         Vector2 position,
@@ -112,7 +119,15 @@ public class MapEditorMenu : BaseMenu
         }
     }
 
-    private Color ChangeColorForActiveLayer(FunctionItem functionItem, Color color) => color;
+    private Color ChangeColorForActiveLayer(FunctionItem functionItem, Color color)
+    {
+        if ((UiMenuMapOptionPart)functionItem.NumberPart == UiMenuMapOptionPart.EnvironmentSelect)
+        {
+            color = Color.Transparent;
+        }
+        
+        return color;
+    }
     
     private void MapMapLayerButtonAreaPressed(FunctionItem functionItem, Action<FunctionItem> itemSetup)
     {
@@ -139,6 +154,8 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapTilemapBasement.RefillOptions(ee.EnumType, 3);
         WorldMapAdjuster.SelectedMapMapLayer = ee.Layer;
         WorldMapAdjuster.SelectedNumberPart = -1;
+        
+        this._sound.PlaySwitch();
     }
 
     #endregion
@@ -149,48 +166,15 @@ public class MapEditorMenu : BaseMenu
     {
         switch ((UiMenuMapOptionPart)functionItem.NumberPart)
         {
-            // case UiMenuMapOptionPart.EnvironmentSelect:
-            //     WorldMapAdjuster.SelectedMapMapLayer += 1;
-            //
-            //     if (WorldMapAdjuster.SelectedMapMapLayer == MapLayer.BuildingRed)
-            //     {
-            //         WorldMapAdjuster.SelectedMapMapLayer += 1;
-            //     }
-            //     if (WorldMapAdjuster.SelectedMapMapLayer == MapLayer.BuildingBrown)
-            //     {
-            //         WorldMapAdjuster.SelectedMapMapLayer += 1;
-            //     }
-            //     
-            //     if(WorldMapAdjuster.SelectedMapMapLayer > MapLayer.BrownRoof)
-            //     {
-            //         WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
-            //     }
-            //     break;
             case UiMenuMapOptionPart.ArrowLeft:
                 this._functionBarMapTilemapBasement.PageDown();
                 break;
             case UiMenuMapOptionPart.ArrowRight:
                 this._functionBarMapTilemapBasement.PageUp();
                 break;
-            // case UiMenuMapOptionPart.Street:
-            //     WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Street;
-            //     WorldMapAdjuster.SelectedNumberPart = 0;
-            //     functionItem.Selected = true;
-            //     itemSetup(functionItem);
-            //     break;
-            // case UiMenuMapOptionPart.Sidewalk:
-            //     WorldMapAdjuster.SelectedMapMapLayer = MapLayer.Sidewalk;
-            //     WorldMapAdjuster.SelectedNumberPart = 0;
-            //     functionItem.Selected = true;
-            //     itemSetup(functionItem);
-            //     break;
-            // case UiMenuMapOptionPart.Building:
-            //     WorldMapAdjuster.SelectedMapMapLayer = MapLayer.BuildingRed;
-            //     WorldMapAdjuster.SelectedNumberPart = 0;
-            //     functionItem.Selected = true;
-            //     itemSetup(functionItem);
-            //     break;
         }
+        
+        this._sound.PlaySwitch();
     }
     
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
@@ -212,16 +196,6 @@ public class MapEditorMenu : BaseMenu
         var menuMapOption = (UiMenuMapOptionPart)functionItem.NumberPart;
         if (menuMapOption == UiMenuMapOptionPart.EnvironmentSelect)
         {
-            // menuMapOption = WorldMapAdjuster.SelectedMapMapLayer switch
-            // {
-            //     MapLayer.Street => UiMenuMapOptionPart.Street,
-            //     MapLayer.Grass => UiMenuMapOptionPart.TilemapGrass,
-            //     MapLayer.Sidewalk => UiMenuMapOptionPart.TilemapSidewalk,
-            //     MapLayer.GrayRoof => UiMenuMapOptionPart.TilemapGrayRoof,
-            //     MapLayer.BrownRoof => UiMenuMapOptionPart.TilemapBrownRoof,
-            //     MapLayer.BuildingRed => UiMenuMapOptionPart.Building,
-            //     _ => menuMapOption
-            // };
             return;
         }
 
@@ -242,7 +216,7 @@ public class MapEditorMenu : BaseMenu
         
         spriteBatch.Draw(
             position + new Vector2(1, 1),
-            ee.Layer,//WorldMapAdjuster.SelectedMapMapLayer,
+            ee.Layer,
             functionItem.NumberPart);
     }
     
@@ -264,6 +238,8 @@ public class MapEditorMenu : BaseMenu
 
         WorldMapAdjuster.SelectedNumberPart = item.NumberPart;
         WorldMapAdjuster.SelectedDrawTop = true;
+        
+        this._sound.PlaySelected();
 
         itemSetup(item);
     }

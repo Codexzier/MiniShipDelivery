@@ -3,17 +3,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.HUD.GameMenuMap;
 
-public class GameMenuMapManager
+public class GameMenuMapManager(Game game)
 {
-    private readonly GameMenuMapOptions _gameMenuMapOptions;
+    private readonly GameMenuMapOptions _gameMenuMapOptions = new(game);
     
     public static bool Show { get; set; }
-    
-    public GameMenuMapManager(Game game)
-    {
-        this._gameMenuMapOptions = new GameMenuMapOptions(game);
-    }
 
+    public void Update()
+    {
+        if(!Show) return;
+        
+        this._gameMenuMapOptions.Update();
+    }
+    
     public void Draw(SpriteBatch spriteBatch)
     {
         if(!Show) return;

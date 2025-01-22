@@ -56,8 +56,24 @@ namespace MiniShipDelivery.Components.HUD
         public override void Update(GameTime gameTime)
         {
             this.UpdateCurrentMouseOverMenuState();
-            
-            this._optionsMenuManager.Update();
+
+            switch (GlobaleGameParameters.HudView)
+            {
+                case HudOptionView.Game:
+                    this._gameMenuManager.Update();
+                    this._gameMenuMapManager.Update();
+                    this._gameMenuQuestManager.Update();
+                    break;
+                case HudOptionView.MainMenu:
+                    this._mainMenuHud.Update();
+                    break;
+                case HudOptionView.MapEditor:
+                    this._mapEditorHud.Update();
+                    break;
+                case HudOptionView.Options:
+                    this._optionsMenuManager.Update();
+                    break;
+            }
         }
 
         public override void Draw(GameTime gameTime)
