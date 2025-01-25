@@ -8,6 +8,11 @@ namespace MiniShipDelivery.Components.HUD.GameMenu;
 
 public class TexturesGameMenu(Game game) : ISpriteContent<GameMenuPart>
 {
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public IDictionary<GameMenuPart, SpriteSetup> SpriteContent { get; } = new Dictionary<GameMenuPart, SpriteSetup>
     {
         { GameMenuPart.QuestLog,new SpriteSetup { Cutout =  new Rectangle(0, 0, 16, 16)} },

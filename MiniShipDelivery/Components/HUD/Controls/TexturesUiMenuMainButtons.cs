@@ -22,6 +22,11 @@ public class TexturesUiMenuMainButtons : ISpriteContent<UiMenuMainPart>
         this.SpriteContent.Add(UiMenuMainPart.Exit, new SpriteSetup { Cutout = new Rectangle(320, 0, 64, 16)});
     }
 
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public IDictionary<UiMenuMainPart, SpriteSetup> SpriteContent { get; } =
         new Dictionary<UiMenuMainPart, SpriteSetup>();
     public Texture2D Texture { get; }

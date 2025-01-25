@@ -8,7 +8,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
-public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>, IMapEditableContent
+public class SpriteBaseBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>
 {
     public IDictionary<BuildingWallPart, SpriteSetup> SpriteContent { get; } = new Dictionary<BuildingWallPart, SpriteSetup>
     {
@@ -47,6 +47,7 @@ public class TexturesBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/BuildingWalls");
     public int NumberPartForIcon { get; } = (int) BuildingWallPart.SmallTop;
     public Type EnumType { get; } = typeof(BuildingWallPart);
+    
 
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {

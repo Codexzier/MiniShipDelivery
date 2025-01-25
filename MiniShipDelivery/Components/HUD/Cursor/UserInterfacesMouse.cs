@@ -16,6 +16,11 @@ public class UserInterfacesMouse : ISpriteContent<MousePart>
         
     }
 
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public IDictionary<MousePart, SpriteSetup> SpriteContent { get; } = new Dictionary<MousePart, SpriteSetup>();
     public Texture2D Texture { get; }
     public Rectangle GetSprite(MapLayer mapLayer, MousePart numberPart) => this.SpriteContent[numberPart].Cutout;

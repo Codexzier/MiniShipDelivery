@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +9,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures
 {
-    public class TexturesTilemap : ISpriteContent<TilemapPart>, IMapEditableContent
+    public class SpriteBaseTilemap : ISpriteContent<TilemapPart>
     {
         public bool IsLayer(MapLayer mapLayer)
         {
@@ -32,7 +33,7 @@ namespace MiniShipDelivery.Components.World.Textures
 
         public IDictionary<TilemapPart, SpriteSetup> SpriteContent { get; }
         
-        public TexturesTilemap(Game game)
+        public SpriteBaseTilemap(Game game)
         {
             this.Texture = game.Content.Load<Texture2D>("RpgUrban/TilemapBasement");
             var shiftX = 0;

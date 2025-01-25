@@ -148,7 +148,7 @@ public static class WorldMapHelper
                 numberPart,
                 out Texture2D texture,
                 out Rectangle cutout,
-                out bool drawTop))
+                out _))
         {
             throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
         }

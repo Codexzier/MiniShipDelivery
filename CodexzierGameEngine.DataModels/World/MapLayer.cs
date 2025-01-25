@@ -9,7 +9,5 @@
         BuildingBrown,
         GrayRoof,
         BrownRoof,
-
-       
     }
 }

@@ -9,6 +9,11 @@ namespace MiniShipDelivery.Components.HUD.Editor.Textures;
 
 public class TexturesUiMenuSpriteOptions(Game game) : ISpriteContent<UiMenuMapOptionPart>
 {
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public IDictionary<UiMenuMapOptionPart, SpriteSetup> SpriteContent { get; } = new Dictionary<UiMenuMapOptionPart, SpriteSetup>
     {
         { UiMenuMapOptionPart.None, new SpriteSetup { Cutout = new Rectangle(0, 0, 0, 0) }},

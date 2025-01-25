@@ -7,6 +7,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
+[MapLayerSetup("Street", 1, true)]
 public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditableContent
 {
     public IDictionary<StreetPart, SpriteSetup> SpriteContent { get; } = new Dictionary<StreetPart, SpriteSetup>
@@ -46,13 +47,23 @@ public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditabl
         { StreetPart.ParkingLineInnenDownRight, new SpriteSetup { Cutout = new Rectangle(128, 32, 16, 16) }},
     };
 
-   
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/Street");
-    public int NumberPartForIcon { get; } = (int)StreetPart.StreetParking;
+    public int NumberPartForIcon => (int)StreetPart.StreetParking;
     public Type EnumType { get; } = typeof(StreetPart);
+    public MapLayer Layer => MapLayer.Street;
 
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        if (mapLayer != MapLayer.Street)
+        {
+            throw new WrongTextureSetup($"Layer {mapLayer} not supported in texture street");
+        }
+        
+        return this.GetSprite(numberPart);
+    }
+
+    public SpriteSetup GetSprite(int numberPart)
     {
         StreetPart streetPart = (StreetPart)numberPart;
         
@@ -62,15 +73,10 @@ public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditabl
         }
         
         var mapTile = this.SpriteContent[streetPart];
-
-        if (mapLayer != MapLayer.Street)
-        {
-            throw new WrongTextureSetup($"Layer {mapLayer} not supported in texture street");
-        }
         
         return mapTile;
     }
 
     public bool IsLayer(MapLayer mapLayer) => mapLayer == MapLayer.Street;
-    public MapLayer[] GetMapLayers() => [MapLayer.Street];
+    //public MapLayer[] GetMapLayers() => [MapLayer.Street];
 }

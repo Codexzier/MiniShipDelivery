@@ -7,14 +7,25 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MiniShipDelivery.Components.World.Textures;
 
-public class WorldMapTextures(Game game) : IWorldMapTextures
+public class WorldMapTextures : IWorldMapTextures
 {
-    private readonly IMapEditableContent[] _editorContents =
-    [
-        new TexturesStreet(game),
-        new TexturesTilemap(game),
-        new TexturesBuildingWalls(game)
-    ];
+    private readonly IMapEditableContent[] _editorContents;
+
+    public WorldMapTextures(Game game)
+    {
+        var spriteBaseTilemap = new SpriteBaseTilemap(game);
+        var spriteBaseBuildingWalls = new SpriteBaseBuildingWalls(game);
+        
+        this._editorContents = [
+            new TexturesStreet(game),
+            new SpritesMapLayerSidewalk(spriteBaseTilemap),
+            new SpriteMapLayerGrass(spriteBaseTilemap),
+            new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
+            new SpriteMapLayerBuildingWallBrown(spriteBaseBuildingWalls),
+            new SpriteMapLayerGrayRoof(spriteBaseTilemap),
+            new SpriteMapLayerBrownRoof(spriteBaseTilemap)
+        ];
+    }
 
     public bool TryGetTextureAndCutout(
         MapLayer mapLayer, 
@@ -32,7 +43,8 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
             if(!editorContent.IsLayer(mapLayer)) continue;
             
             texture = editorContent.Texture;
-            var mapTile = editorContent.GetSprite(mapLayer, numberPart);
+            //var mapTile = editorContent.GetSprite(mapLayer, numberPart);
+            var mapTile = editorContent.GetSprite(numberPart);
             cutout = mapTile.Cutout;
             drawTop = mapTile.IsTopLayer;
             break;
@@ -59,16 +71,16 @@ public class WorldMapTextures(Game game) : IWorldMapTextures
         var list = new List<EditableEnvironmentItem>();
         foreach (var editorContent in this._editorContents)
         {
-            var layers = editorContent.GetMapLayers();
-            foreach (var mapLayer in layers)
-            {
+            // var layers = editorContent.GetMapLayers();
+            // foreach (var mapLayer in layers)
+            // {
                 list.Add(new EditableEnvironmentItem(
-                    mapLayer,
+                    editorContent.Layer,
                     editorContent.NumberPartForIcon,
                     editorContent.Texture,
-                    editorContent.GetSprite(mapLayer, editorContent.NumberPartForIcon).Cutout,
+                    editorContent.GetSprite(editorContent.NumberPartForIcon).Cutout,
                     editorContent.EnumType));
-            }
+            //}
         }
 
         return list;

@@ -8,6 +8,11 @@ namespace MiniShipDelivery.Components.Character;
 
 public class TexturesCharacterShadow(Game game) : ISpriteContent<CharacterShadowPart>
 {
+    public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public IDictionary<CharacterShadowPart, SpriteSetup> SpriteContent { get; } = new Dictionary<CharacterShadowPart, SpriteSetup>
     {
         { CharacterShadowPart.Shadow01, new SpriteSetup { Cutout = new Rectangle(0, 0, 16, 16) }},

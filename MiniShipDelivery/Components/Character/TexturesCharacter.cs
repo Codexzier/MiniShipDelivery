@@ -12,6 +12,11 @@ namespace MiniShipDelivery.Components.Character
         public Texture2D Texture { get; }
         public Rectangle GetSprite(MapLayer mapLayer, CharacterPart numberPart) => this.SpriteContent[numberPart].Cutout;
 
+        public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IDictionary<CharacterPart, SpriteSetup> SpriteContent { get; }
         
         public Texture2D TextureStandMen { get; }

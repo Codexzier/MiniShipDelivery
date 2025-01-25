@@ -12,6 +12,11 @@ namespace MiniShipDelivery.Components.Character
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
         public Rectangle GetSprite(MapLayer mapLayer, EmotePart numberPart) => this.SpriteContent[numberPart].Cutout;
 
+        public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IDictionary<EmotePart, SpriteSetup> SpriteContent { get; } = new Dictionary<EmotePart, SpriteSetup>
         {
             { EmotePart.EmoteHappy, new SpriteSetup { Cutout = new Rectangle(0, 0, 16, 16)} },
