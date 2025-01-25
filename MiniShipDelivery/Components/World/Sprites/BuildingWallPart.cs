@@ -1,4 +1,4 @@
-﻿namespace MiniShipDelivery.Components.World.Textures;
+﻿namespace MiniShipDelivery.Components.World.Sprites;
 
 public enum BuildingWallPart
 {

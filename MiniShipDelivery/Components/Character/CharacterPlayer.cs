@@ -11,13 +11,13 @@ namespace MiniShipDelivery.Components.Character
         private readonly CharacterType _characterType;
 
         public CharacterPlayer(
-            TexturesCharacter textures,
-            TexturesCharacterShadow texturesCharacterShadow,
-            TexturesEmote texturesEmote,
+            SpriteCharacter sprite,
+            SpriteCharacterShadow spriteCharacterShadow,
+            SpriteEmote spriteEmote,
             InputManager input,
             Vector2 screenPosition,
             CharacterType characterType) 
-            : base(textures, texturesCharacterShadow, texturesEmote)
+            : base(sprite, spriteCharacterShadow, spriteEmote)
         {
             this._input = input;
             this._screenPosition = screenPosition;

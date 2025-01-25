@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.World.Textures;
+using MiniShipDelivery.Components.World.Sprites;
 
 namespace MiniShipDelivery.Components.World
 {
@@ -17,7 +17,7 @@ namespace MiniShipDelivery.Components.World
         {
             this._spriteBatch = new SpriteBatch( game.GraphicsDevice );
             
-            WorldMapHelper.SetMapTextures(new WorldMapTextures(game));
+            WorldMapHelper.SetMapTextures(new WorldMapSprites(game));
             
             this.Map = new WorldMap();
             this._adjuster = new WorldMapAdjuster(game, this.Map);

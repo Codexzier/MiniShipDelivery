@@ -16,7 +16,7 @@ public class MapEditorMenuCommon : BaseMenu
 {
     private readonly FunctionBar _functionBar;
     private readonly FunctionBar _functionBarWindow;
-    private readonly TexturesInterfaceMenuEditorOptions _textureUiMenuEditorOptions;
+    private readonly SpriteUiMenuEditorOptions _textureUiMenuEditorOptions;
     private readonly SoundManager _sound;
 
     public MapEditorMenuCommon(Game game)
@@ -25,7 +25,7 @@ public class MapEditorMenuCommon : BaseMenu
             new Vector2(0, 0), 
             new Size(GlobaleGameParameters.ScreenWidth, 24))
     {
-        this._textureUiMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game);
+        this._textureUiMenuEditorOptions = new SpriteUiMenuEditorOptions(game);
         
         this._functionBar = new FunctionBar(
             game,

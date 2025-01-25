@@ -3,17 +3,17 @@ using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.World.Textures;
+using MiniShipDelivery.Components.World.Sprites;
 
 namespace MiniShipDelivery.Components.World;
 
 public static class WorldMapHelper
 {
-    public static IWorldMapTextures MapTextures {get; private set;}
+    public static IWorldMapSprites MapSprites {get; private set;}
 
-    public static void SetMapTextures(IWorldMapTextures textureMaps)
+    public static void SetMapTextures(IWorldMapSprites spriteMaps)
     {
-        MapTextures = textureMaps;
+        MapSprites = spriteMaps;
     }
 
     public static WorldMapLayer[] CreateWorldMapLayers()
@@ -100,14 +100,14 @@ public static class WorldMapHelper
         int numberPart,
         bool isDrawTop)
     {
-        if (!MapTextures.TryGetTextureAndCutout(
+        if (!MapSprites.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
                 out Rectangle cutout,
                 out bool drawTop))
         {
-            throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
+            throw new MissingSpriteAndCutout(numberPart, mapLayer);
         }
 
         if (isDrawTop != drawTop)
@@ -124,14 +124,14 @@ public static class WorldMapHelper
         MapLayer mapLayer,
         int numberPart)
     {
-        if (!MapTextures.TryGetTextureAndCutout(
+        if (!MapSprites.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
                 out Rectangle cutout,
                 out _))
         {
-            throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
+            throw new MissingSpriteAndCutout(numberPart, mapLayer);
         }
         
         spriteBatch.Draw(texture, position, cutout, Color.White);
@@ -143,14 +143,14 @@ public static class WorldMapHelper
         MapLayer mapLayer,
         int numberPart)
     {
-        if (!MapTextures.TryGetTextureAndCutout(
+        if (!MapSprites.TryGetTextureAndCutout(
                 mapLayer,
                 numberPart,
                 out Texture2D texture,
                 out Rectangle cutout,
                 out _))
         {
-            throw new MissingMapTexturesAndCutout(numberPart, mapLayer);
+            throw new MissingSpriteAndCutout(numberPart, mapLayer);
         }
             
         spriteBatch.Draw(texture, position, cutout, new Color(Color.Gray, 0.8f));

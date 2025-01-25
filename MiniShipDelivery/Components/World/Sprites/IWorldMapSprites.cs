@@ -4,9 +4,9 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
-public interface IWorldMapTextures
+public interface IWorldMapSprites
 {
     bool TryGetTextureAndCutout(
         MapLayer mapLayer, 

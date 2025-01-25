@@ -14,7 +14,7 @@ namespace MiniShipDelivery.Components.HUD.Base
             { MenuFrameType.Type3, 18 }
         };
 
-        private readonly TexturesUiMenuSpriteFrames _uiMenuSpriteFrames = new(game);
+        private readonly SpriteUiMenuSpriteFrames _uiMenuSpriteFrames = new(game);
 
         private UiMenuFramePart GetMenuFrameByType(UiMenuFramePart part, MenuFrameType mft)
         {

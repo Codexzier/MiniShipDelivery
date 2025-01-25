@@ -3,7 +3,7 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
 [MapLayerSetup("Sidewalk", 2, true)]
 public class SpritesMapLayerSidewalk(SpriteBaseTilemap spriteBase) : IMapEditableContent

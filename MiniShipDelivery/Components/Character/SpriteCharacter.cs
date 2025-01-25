@@ -7,14 +7,14 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public class TexturesCharacter : ISpriteContent<CharacterPart>
+    public class SpriteCharacter : ISpriteContent<CharacterPart>
     {
         public Texture2D Texture { get; }
         public Rectangle GetSprite(MapLayer mapLayer, CharacterPart numberPart) => this.SpriteContent[numberPart].Cutout;
 
         public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
         {
-            throw new System.NotImplementedException();
+            return this.SpriteContent[(CharacterPart)numberPart];
         }
 
         public IDictionary<CharacterPart, SpriteSetup> SpriteContent { get; }
@@ -24,7 +24,7 @@ namespace MiniShipDelivery.Components.Character
         public Texture2D TextureStandWomen { get; }
         public Dictionary<CharacterStandPart,SpriteSetup> SpriteContentStandWomen { get;  }
 
-        public TexturesCharacter(Game game)
+        public SpriteCharacter(Game game)
         {
             this.Texture = game.Content.Load<Texture2D>("Character/UrbanCharacters");
 

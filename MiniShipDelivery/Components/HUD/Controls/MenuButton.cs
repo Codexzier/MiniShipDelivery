@@ -15,7 +15,7 @@ public class MenuButton(
 {
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
-    private readonly TexturesUiMenuMainButtons _texturesButtons = new(game);
+    private readonly SpriteUiMenuMainButtons _spriteButtons = new(game);
     
     private readonly SoundManager _sound = game.GetComponent<SoundManager>();
 
@@ -42,9 +42,9 @@ public class MenuButton(
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
         
         spriteBatch.Draw(
-            this._texturesButtons.Texture, 
+            this._spriteButtons.Texture, 
             pos,
-            this._texturesButtons.SpriteContent[menuMainPart].Cutout,
+            this._spriteButtons.SpriteContent[menuMainPart].Cutout,
             Color.AliceBlue);
         
         spriteBatch.DrawRectangle(

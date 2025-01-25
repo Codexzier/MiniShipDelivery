@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
 public class MapLayerSetupAttribute : Attribute
 {

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
-public class WorldMapTextures : IWorldMapTextures
+public class WorldMapSprites : IWorldMapSprites
 {
     private readonly IMapEditableContent[] _editorContents;
 
-    public WorldMapTextures(Game game)
+    public WorldMapSprites(Game game)
     {
         var spriteBaseTilemap = new SpriteBaseTilemap(game);
         var spriteBaseBuildingWalls = new SpriteBaseBuildingWalls(game);
         
         this._editorContents = [
-            new TexturesStreet(game),
+            new SpriteMapStreet(game),
             new SpritesMapLayerSidewalk(spriteBaseTilemap),
             new SpriteMapLayerGrass(spriteBaseTilemap),
             new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
@@ -55,7 +54,7 @@ public class WorldMapTextures : IWorldMapTextures
             throw new ArgumentOutOfRangeException(
                 nameof(mapLayer), 
                 numberPart, 
-                "Missing Texture Layer");
+                "Missing Sprite Layer");
         }
 
         return texture != null && cutout != Rectangle.Empty;

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 
-namespace MiniShipDelivery.Components.World.Textures
+namespace MiniShipDelivery.Components.World.Sprites
 {
     public class SpriteBaseTilemap : ISpriteContent<TilemapPart>
     {

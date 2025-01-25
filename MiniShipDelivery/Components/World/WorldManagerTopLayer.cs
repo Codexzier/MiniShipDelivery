@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.World.Textures;
 
 namespace MiniShipDelivery.Components.World;
 

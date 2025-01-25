@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
 public class SpriteBaseBuildingWalls(Game game) : ISpriteContent<BuildingWallPart>
 {

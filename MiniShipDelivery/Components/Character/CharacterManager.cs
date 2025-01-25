@@ -23,9 +23,9 @@ public class CharacterManager : DrawableGameComponent
         this._camera = game.GetComponent<CameraManager>();
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         
-        var texturesCharacter = new TexturesCharacter(game);
-        var texturesCharacterShadow = new TexturesCharacterShadow(game);
-        var texturesEmote = new TexturesEmote(game);
+        var texturesCharacter = new SpriteCharacter(game);
+        var texturesCharacterShadow = new SpriteCharacterShadow(game);
+        var texturesEmote = new SpriteEmote(game);
         
         this.Player = new CharacterPlayer(
             texturesCharacter,

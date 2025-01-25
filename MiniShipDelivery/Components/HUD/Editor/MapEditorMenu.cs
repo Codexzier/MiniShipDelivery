@@ -13,7 +13,7 @@ using CodexzierGameEngine.DataModels.World;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.Sound;
-using MiniShipDelivery.Components.World.Textures;
+using MiniShipDelivery.Components.World.Sprites;
 
 namespace MiniShipDelivery.Components.HUD.Editor;
 
@@ -24,7 +24,7 @@ public class MapEditorMenu : BaseMenu
     private readonly FunctionBar _functionBarMapLayer;
     private readonly FunctionBar _functionBarMapOption;
     private readonly FunctionBar _functionBarMapTilemapBasement;
-    private readonly TexturesUiMenuSpriteOptions _texturesUiMenuSpriteOptions;
+    private readonly SpriteUiMenuSpriteOptions _spriteUiMenuSpriteOptions;
     private readonly IEnumerable<EditableEnvironmentItem> _editableEnvironments;
     private readonly SoundManager _sound;
 
@@ -35,9 +35,9 @@ public class MapEditorMenu : BaseMenu
         new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
         new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
     {
-        this._texturesUiMenuSpriteOptions = new TexturesUiMenuSpriteOptions(game);
+        this._spriteUiMenuSpriteOptions = new SpriteUiMenuSpriteOptions(game);
 
-        this._editableEnvironments = WorldMapHelper.MapTextures.GetEditableEnvironments();
+        this._editableEnvironments = WorldMapHelper.MapSprites.GetEditableEnvironments();
         
         this._functionBarMapLayer = new FunctionBar(
             game,
@@ -112,9 +112,9 @@ public class MapEditorMenu : BaseMenu
         else
         {
             spriteBatch.Draw(
-                this._texturesUiMenuSpriteOptions.Texture,
+                this._spriteUiMenuSpriteOptions.Texture,
                 shiftPosition,
-                this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
+                this._spriteUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
                 Color.AliceBlue);
         }
     }
@@ -200,9 +200,9 @@ public class MapEditorMenu : BaseMenu
         }
 
         spriteBatch.Draw(
-            this._texturesUiMenuSpriteOptions.Texture,
+            this._spriteUiMenuSpriteOptions.Texture,
             shiftPosition,
-            this._texturesUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
+            this._spriteUiMenuSpriteOptions.SpriteContent[menuMapOption].Cutout,
             Color.AliceBlue);
     }
 

@@ -7,7 +7,7 @@ using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.Character
 {
-    public class TexturesEmote(Game game) : ISpriteContent<EmotePart>
+    public class SpriteEmote(Game game) : ISpriteContent<EmotePart>
     {
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
         public Rectangle GetSprite(MapLayer mapLayer, EmotePart numberPart) => this.SpriteContent[numberPart].Cutout;

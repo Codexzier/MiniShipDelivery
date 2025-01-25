@@ -7,11 +7,11 @@ using MiniShipDelivery.Components.HUD.Editor.Options;
 
 namespace MiniShipDelivery.Components.HUD.Editor.Textures;
 
-public class TexturesUiMenuSpriteOptions(Game game) : ISpriteContent<UiMenuMapOptionPart>
+public class SpriteUiMenuSpriteOptions(Game game) : ISpriteContent<UiMenuMapOptionPart>
 {
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {
-        throw new System.NotImplementedException();
+        return this.SpriteContent[(UiMenuMapOptionPart)numberPart];
     }
 
     public IDictionary<UiMenuMapOptionPart, SpriteSetup> SpriteContent { get; } = new Dictionary<UiMenuMapOptionPart, SpriteSetup>

@@ -3,13 +3,12 @@ using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
 
 namespace MiniShipDelivery.Components.HUD.Controls;
 
-public class TexturesUiMenuMainButtons : ISpriteContent<UiMenuMainPart>
+public class SpriteUiMenuMainButtons : ISpriteContent<UiMenuMainPart>
 {
-    public TexturesUiMenuMainButtons(Game game)
+    public SpriteUiMenuMainButtons(Game game)
     {
         this.Texture = game.Content.Load<Texture2D>("Interface/MainMenuButtons");
             

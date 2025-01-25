@@ -15,7 +15,7 @@ internal class GameMenuCommon : BaseMenu
     private readonly FunctionBar _functionBar;
     private readonly TexturesGameMenu _texturesGameMenu;
     private readonly FunctionBar _functionBarWindow;
-    private readonly TexturesInterfaceMenuEditorOptions _textureUiMenuEditorOptions;
+    private readonly SpriteUiMenuEditorOptions _textureUiMenuEditorOptions;
     
     public GameMenuCommon(Game game)
         : base(
@@ -35,7 +35,7 @@ internal class GameMenuCommon : BaseMenu
         this._functionBar.AddOption(GameMenuPart.Map);
         this._functionBar.ButtonAreaWasPressedEvent += this.ButtonAreaPressedGameMenu;
         
-        this._textureUiMenuEditorOptions = new TexturesInterfaceMenuEditorOptions(game);
+        this._textureUiMenuEditorOptions = new SpriteUiMenuEditorOptions(game);
         this._functionBarWindow = new FunctionBar(
             game,
             this.Position,

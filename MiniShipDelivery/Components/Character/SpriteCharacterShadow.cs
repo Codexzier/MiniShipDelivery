@@ -6,7 +6,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.Character;
 
-public class TexturesCharacterShadow(Game game) : ISpriteContent<CharacterShadowPart>
+public class SpriteCharacterShadow(Game game) : ISpriteContent<CharacterShadowPart>
 {
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {

@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 
-namespace MiniShipDelivery.Components.World.Textures;
+namespace MiniShipDelivery.Components.World.Sprites;
 
 [MapLayerSetup("Street", 1, true)]
-public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditableContent
+public class SpriteMapStreet(Game game) : ISpriteContent<StreetPart>, IMapEditableContent
 {
     public IDictionary<StreetPart, SpriteSetup> SpriteContent { get; } = new Dictionary<StreetPart, SpriteSetup>
     {
@@ -57,7 +57,7 @@ public class TexturesStreet(Game game) : ISpriteContent<StreetPart>, IMapEditabl
     {
         if (mapLayer != MapLayer.Street)
         {
-            throw new WrongTextureSetup($"Layer {mapLayer} not supported in texture street");
+            throw new WrongSpriteSetup($"Layer {mapLayer} not supported in texture street");
         }
         
         return this.GetSprite(numberPart);

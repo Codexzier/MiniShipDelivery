@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MiniShipDelivery.Components.Character
 {
     public abstract class BaseCharacter(
-        TexturesCharacter texturesCharacter,
-        TexturesCharacterShadow texturesCharacterShadow,
-        TexturesEmote texturesEmote) : ICollider
+        SpriteCharacter spriteCharacter,
+        SpriteCharacterShadow spriteCharacterShadow,
+        SpriteEmote spriteEmote) : ICollider
     {
         private int _currentFrame;
         private float _timeToUpdate;
@@ -152,13 +152,13 @@ namespace MiniShipDelivery.Components.Character
         {
             var shift = (int)characterType * 3;
             var rect = new Rectangle(
-                texturesCharacter.SpriteContent[tp].Cutout.X, 
-                     texturesCharacter.SpriteContent[tp].Cutout.Y + (16 * shift), 
+                spriteCharacter.SpriteContent[tp].Cutout.X, 
+                     spriteCharacter.SpriteContent[tp].Cutout.Y + (16 * shift), 
                      16, 
                      16);
             
             spriteBatch.Draw(
-                texturesCharacter.Texture,
+                spriteCharacter.Texture,
                 position,
                 rect,
                 Color.White);
@@ -180,16 +180,16 @@ namespace MiniShipDelivery.Components.Character
             {
                 case CharacterType.Men:
                     spriteBatch.Draw(
-                        texturesCharacter.TextureStandMen,
+                        spriteCharacter.TextureStandMen,
                         position,
-                        texturesCharacter.SpriteContentStandMen[tp].Cutout,
+                        spriteCharacter.SpriteContentStandMen[tp].Cutout,
                         Color.White);
                     break;
                 case CharacterType.Women:
                     spriteBatch.Draw(
-                        texturesCharacter.TextureStandWomen,
+                        spriteCharacter.TextureStandWomen,
                         position,
-                        texturesCharacter.SpriteContentStandWomen[tp].Cutout,
+                        spriteCharacter.SpriteContentStandWomen[tp].Cutout,
                         Color.White);
                     break;
             }
@@ -200,9 +200,9 @@ namespace MiniShipDelivery.Components.Character
         private void DrawShadow(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                texturesCharacterShadow.Texture,
+                spriteCharacterShadow.Texture,
                 this.Collider.Position + new Vector2(0, 7),
-                texturesCharacterShadow.SpriteContent[0].Cutout,
+                spriteCharacterShadow.SpriteContent[0].Cutout,
                 Color.White);
         }
         
@@ -211,9 +211,9 @@ namespace MiniShipDelivery.Components.Character
             Vector2 position)
         {
             spriteBatch.Draw(
-                texturesEmote.Texture, 
+                spriteEmote.Texture, 
                 position, 
-                texturesEmote.SpriteContent[this.Emote].Cutout, 
+                spriteEmote.SpriteContent[this.Emote].Cutout, 
                 Color.White);
         }
     }

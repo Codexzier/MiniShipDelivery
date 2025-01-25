@@ -10,12 +10,12 @@ namespace MiniShipDelivery.Components.Character
         private readonly CharacterType _characterType;
 
         public CharacterNpc(
-            TexturesCharacter texturesCharacter,
-            TexturesCharacterShadow texturesCharacterShadow,
-            TexturesEmote texturesEmote,
+            SpriteCharacter spriteCharacter,
+            SpriteCharacterShadow spriteCharacterShadow,
+            SpriteEmote spriteEmote,
             Vector2 position,
             CharacterType characterType) 
-            : base(texturesCharacter, texturesCharacterShadow, texturesEmote)
+            : base(spriteCharacter, spriteCharacterShadow, spriteEmote)
         {
             this._characterType = characterType;
             this.Collider.Position = position;
