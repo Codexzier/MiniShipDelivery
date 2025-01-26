@@ -24,6 +24,7 @@ namespace MiniShipDelivery.Components.Character
         private float _timeToUpdateShadow;
         private float _timeElapsedShadow;
         
+        public Vector2 LastPosition { get; set; }
         public ColliderBox2D Collider { get; } = new(16, 16);
         public List<ICollider> Collisions { get; } = new();
         public bool IsColliding { get; private set; }

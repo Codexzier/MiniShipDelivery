@@ -44,8 +44,4 @@ public class SpriteUiMenuSpriteOptions(Game game) : ISpriteContent<UiMenuMapOpti
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuMapOptions");
-    public Rectangle GetSprite(MapLayer mapLayer, UiMenuMapOptionPart numberPart)
-    {
-        return this.SpriteContent[numberPart].Cutout;
-    }
 }

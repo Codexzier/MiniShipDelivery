@@ -15,26 +15,26 @@ public class WorldMapSprites : IWorldMapSprites
     {
         var spriteBaseTilemap = new SpriteBaseTilemap(game);
         var spriteBaseBuildingWalls = new SpriteBaseBuildingWalls(game);
-        
-        this._editorContents = [
+
+        this._editorContents =
+        [
             new SpriteMapStreetV2(game),
-            
-            // new SpriteMapStreet(game),
-             new SpriteMapLayerSidewalk(spriteBaseTilemap),
-             new SpriteMapLayerGrass(spriteBaseTilemap),
-            // new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
-            // new SpriteMapLayerBuildingWallBrown(spriteBaseBuildingWalls),
-            // new SpriteMapLayerGrayRoof(spriteBaseTilemap),
-            // new SpriteMapLayerBrownRoof(spriteBaseTilemap),
-            
+
+            new SpriteMapLayerSidewalk(spriteBaseTilemap),
+            new SpriteMapLayerGrass(spriteBaseTilemap),
+            new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
+            new SpriteMapLayerBuildingWallBrown(spriteBaseBuildingWalls),
+            new SpriteMapLayerGrayRoof(spriteBaseTilemap),
+            new SpriteMapLayerBrownRoof(spriteBaseTilemap),
+
             new SpriteMapLayerCollider(game)
         ];
     }
 
     public bool TryGetTextureAndCutout(
-        MapLayer mapLayer, 
-        int numberPart, 
-        out Texture2D texture, 
+        MapLayer mapLayer,
+        int numberPart,
+        out Texture2D texture,
         out Rectangle cutout,
         out bool drawTop)
     {
@@ -44,10 +44,10 @@ public class WorldMapSprites : IWorldMapSprites
 
         foreach (var editorContent in this._editorContents)
         {
-            if(!editorContent.IsLayer(mapLayer)) continue;
-            
+            if (!editorContent.IsLayer(mapLayer)) continue;
+
             texture = editorContent.Texture;
-            //var mapTile = editorContent.GetSprite(mapLayer, numberPart);
+
             var mapTile = editorContent.GetSprite(numberPart);
             cutout = mapTile.Cutout;
             drawTop = mapTile.IsTopLayer;
@@ -57,8 +57,8 @@ public class WorldMapSprites : IWorldMapSprites
         if (texture == null || cutout == Rectangle.Empty)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(mapLayer), 
-                numberPart, 
+                nameof(mapLayer),
+                numberPart,
                 "Missing Sprite Layer");
         }
 
@@ -75,17 +75,11 @@ public class WorldMapSprites : IWorldMapSprites
         var list = new List<EditableEnvironmentItem>();
         foreach (var editorContent in this._editorContents)
         {
-            // var layers = editorContent.GetMapLayers();
-            // foreach (var mapLayer in layers)
-            // {
-                list.Add(new EditableEnvironmentItem(
-                    editorContent.Layer,
-                    editorContent.NumberPartForIcon,
-                    editorContent.Texture,
-                    editorContent.GetSprite(editorContent.NumberPartForIcon).Cutout,
-                    editorContent.EnumType,
-                    editorContent.GetNumberParts()));
-            //}
+            list.Add(new EditableEnvironmentItem(
+                editorContent.Layer,
+                editorContent.Texture,
+                editorContent.GetSprite(editorContent.NumberPartForIcon).Cutout,
+                editorContent.GetNumberParts()));
         }
 
         return list;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,23 +17,4 @@ public interface IWorldMapSprites
     IEnumerable<EditableEnvironmentItem> GetEditableEnvironments();
     int[] GetListOfValidateTileNumbers(MapLayer mapLayer);
     MapLayer[] GetLayers();
-}
-
-public class EditableEnvironmentItem(
-    MapLayer mapLayer,
-    int numberPartForIcon,
-    Texture2D texture,
-    Rectangle cutout,
-    Type enumType,
-    int[] numberParts)
-{
-    public MapLayer Layer { get; } = mapLayer;
-
-    public int NumberPartIcon { get; } = numberPartForIcon;
-    public Rectangle Cutout { get; } = cutout;
-    public Texture2D Texture { get; } = texture;
-    
-    public Type EnumType { get; } = enumType;
-    public int SpriteCount { get;  } = numberParts.Length;
-    public int[] NumberParts { get; } = numberParts;
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,25 +8,7 @@ namespace MiniShipDelivery.Components.World.Sprites
 {
     public class SpriteBaseTilemap : ISpriteContent<TilemapPart>
     {
-        public bool IsLayer(MapLayer mapLayer)
-        {
-            return this.GetMapLayers().Contains(mapLayer);
-        }
-
-        public MapLayer[] GetMapLayers()
-        {
-            return
-            [
-                MapLayer.Sidewalk,
-                MapLayer.Grass,
-                MapLayer.GrayRoof,
-                MapLayer.BrownRoof
-            ];
-        }
-
         public Texture2D Texture { get; }
-        public int NumberPartForIcon { get; } = (int)TilemapPart.AroundOutBorder;
-        public Type EnumType { get; } = typeof(TilemapPart);
 
         public IDictionary<TilemapPart, SpriteSetup> SpriteContent { get; }
         

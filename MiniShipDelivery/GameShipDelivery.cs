@@ -21,6 +21,7 @@ namespace MiniShipDelivery
             var graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = GlobaleGameParameters.PreferredBackBufferWidth;
             graphics.PreferredBackBufferHeight = GlobaleGameParameters.PreferredBackBufferHeight;
+
             graphics.ApplyChanges();
             
             this.Content.RootDirectory = "Content";
@@ -64,10 +65,9 @@ namespace MiniShipDelivery
             mapTopLayer.DrawOrder = 6;
             this.Components.Add(mapTopLayer);
             
-            var colliderManager = new ColliderManager(
-                this,
-                characterManager);
-            colliderManager.UpdateOrder = 7;
+            var colliderManager = new ColliderManager(this);
+            colliderManager.UpdateOrder = 3;
+            colliderManager.DrawOrder = 7;
             this.Components.Add(colliderManager);
             
             

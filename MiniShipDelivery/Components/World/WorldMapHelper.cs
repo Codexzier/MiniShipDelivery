@@ -19,24 +19,8 @@ public static class WorldMapHelper
 
     public static WorldMapLayer[] CreateWorldMapLayers()
     {
-        //var worldMapLayers = new WorldMapLayer[Enum.GetValues<MapLayer>().Length];
-
         var worldMapLayers = new List<WorldMapLayer>();
         
-        // street
-        //worldMapLayers[(int)MapLayer.Street] = CreateWorldMapLayer(MapLayer.Street, true);
-        //
-        // // sidewalk and grass
-        // worldMapLayers[(int)MapLayer.Sidewalk] = CreateWorldMapLayer(MapLayer.Sidewalk, false);
-        // worldMapLayers[(int)MapLayer.Grass] = CreateWorldMapLayer(MapLayer.Grass, false);
-        //
-        // worldMapLayers[(int)MapLayer.BuildingRed] = CreateWorldMapLayer(MapLayer.BuildingRed, false);
-        // worldMapLayers[(int)MapLayer.BuildingBrown] = CreateWorldMapLayer(MapLayer.BuildingBrown, false);
-        //
-        // // roof
-        // worldMapLayers[(int)MapLayer.GrayRoof] = CreateWorldMapLayer(MapLayer.GrayRoof, false);
-        // worldMapLayers[(int)MapLayer.BrownRoof] = CreateWorldMapLayer(MapLayer.BrownRoof, false);
-
         var layers = MapSprites.GetLayers();
 
         var firstLayerFill = true;
@@ -45,10 +29,6 @@ public static class WorldMapHelper
             worldMapLayers.Add(CreateWorldMapLayer(layer, firstLayerFill));
             firstLayerFill = false;
         }
-        
-        // worldMapLayers.Add(CreateWorldMapLayer(MapLayer.Sidewalk, false));
-        //
-        // worldMapLayers.Add(CreateWorldMapLayer(MapLayer.Colliders, false));
         
         return worldMapLayers.ToArray();
     }

@@ -1,7 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections;
+using System.Collections.Generic;
+using CodexzierGameEngine.DataModels.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
+using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.World.Sprites;
 
 namespace MiniShipDelivery.Components.World
@@ -42,6 +46,34 @@ namespace MiniShipDelivery.Components.World
             this._adjuster.Draw(this._spriteBatch);
             
             this._spriteBatch.End();
+        }
+
+        public List<ColliderBox2D> GetCollidableObjects(int x, int y)
+        {
+            var collidableObjects = new List<ColliderBox2D>();
+            
+            // check all collidable objects around the player
+            for (int posY = 0; posY < 3; posY++)
+            {
+                for (int posX = 0; posX < 3; posX++)
+                {
+                    // pick on top fo the field.
+                    if(this.Map.TryTilemap(
+                           MapLayer.Colliders, 
+                           x - 1 + posX, 
+                           y - 1 + posY, 
+                           out var mapTile))
+                    {
+                        if( mapTile.AssetNumber == 0) continue;
+                        
+                        collidableObjects.Add(new ColliderBox2D(16, 16){ 
+                            Position = mapTile.Position.TilePositionToVector()
+                        });
+                    }
+                }
+            }
+            
+            return collidableObjects;
         }
     }
 }

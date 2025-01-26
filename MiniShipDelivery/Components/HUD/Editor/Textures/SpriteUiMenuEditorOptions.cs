@@ -26,9 +26,5 @@ namespace MiniShipDelivery.Components.HUD.Editor.Textures
         };
 
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuEditorOptions");
-        public Rectangle GetSprite(MapLayer mapLayer, InterfaceMenuEditorOptionPart numberPart)
-        {
-            return this.SpriteContent[numberPart].Cutout;
-        }
     }
 }

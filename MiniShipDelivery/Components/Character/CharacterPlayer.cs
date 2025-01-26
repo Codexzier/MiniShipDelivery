@@ -25,6 +25,8 @@ namespace MiniShipDelivery.Components.Character
             this.Collider.Position = new Vector2(70, 70);
         }
 
+        public bool IsCollide { get; set; }
+
         public Vector2 GetScreenPosition() => this.Collider.Position - this._screenPosition;
 
         
@@ -40,7 +42,11 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                this.Collider.Position += this.Direction * this.Speed * deltaTime;
+                this.LastPosition = this.Collider.Position;
+                if(!this.IsCollide) 
+                {
+                    this.Collider.Position += this.Direction * this.Speed * deltaTime;
+                }
             }
             else
             {
