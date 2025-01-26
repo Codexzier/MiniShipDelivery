@@ -25,6 +25,7 @@
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/switch_004.ogg</File>
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/switch7.ogg</File>
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Map/CollisionHelper.png</File>
+    <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Map/Street.png</File>
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Mouse/MouseCursor.png</File>
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Flowing Rocks.ogg</File>
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Music/Retro Reggae.ogg</File>
@@ -33,6 +34,7 @@
     <File>C:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/TilemapBasement.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

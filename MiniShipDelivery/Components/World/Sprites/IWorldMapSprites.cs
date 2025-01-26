@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +18,8 @@ public interface IWorldMapSprites
         out bool drawTop);
 
     IEnumerable<EditableEnvironmentItem> GetEditableEnvironments();
+    int[] GetListOfValidateTileNumbers(MapLayer mapLayer);
+    MapLayer[] GetLayers();
 }
 
 public class EditableEnvironmentItem(
@@ -23,7 +27,8 @@ public class EditableEnvironmentItem(
     int numberPartForIcon,
     Texture2D texture,
     Rectangle cutout,
-    Type enumType)
+    Type enumType,
+    int[] numberParts)
 {
     public MapLayer Layer { get; } = mapLayer;
 
@@ -32,4 +37,6 @@ public class EditableEnvironmentItem(
     public Texture2D Texture { get; } = texture;
     
     public Type EnumType { get; } = enumType;
+    public int SpriteCount { get;  } = numberParts.Length;
+    public int[] NumberParts { get; } = numberParts;
 }

@@ -2,6 +2,7 @@
 
 public enum GameMenuPart
 {
+    None = 0,
     QuestLog,
     Map
 }

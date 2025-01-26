@@ -12,4 +12,11 @@ namespace MiniShipDelivery.Components.Assets
         
         Texture2D Texture { get; }
     }
+
+    public interface ISpriteMapContent
+    {
+        IDictionary<int, SpriteSetup> SpriteContent { get; }
+        
+        Texture2D Texture { get; }
+    }
 }

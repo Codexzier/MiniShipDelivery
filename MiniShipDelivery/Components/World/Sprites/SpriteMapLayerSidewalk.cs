@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -6,7 +7,7 @@ using MiniShipDelivery.Components.Assets;
 namespace MiniShipDelivery.Components.World.Sprites;
 
 [MapLayerSetup("Sidewalk", 2, true)]
-public class SpritesMapLayerSidewalk(SpriteBaseTilemap spriteBase) : IMapEditableContent
+public class SpriteMapLayerSidewalk(SpriteBaseTilemap spriteBase) : IMapEditableContent
 {
     public SpriteSetup GetSprite(int numberPart)
     {
@@ -19,4 +20,7 @@ public class SpritesMapLayerSidewalk(SpriteBaseTilemap spriteBase) : IMapEditabl
     public int NumberPartForIcon => (int)TilemapPart.AroundOutBorder;
     public Type EnumType { get; } = typeof(TilemapPart);
     public MapLayer Layer => MapLayer.Sidewalk;
+    public int SpriteCount => spriteBase.SpriteContent.Count;
+    public bool HasSpecificNumberPart => true;
+    public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

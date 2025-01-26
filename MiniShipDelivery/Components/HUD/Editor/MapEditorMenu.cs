@@ -77,7 +77,8 @@ public class MapEditorMenu : BaseMenu
             new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 30),
             this.DrawButtonMapSprite,
             this.ChangeColorForActiveMapSprite);
-        this._functionBarMapTilemapBasement.FillOptions<TilemapPart>(3);
+        //this._functionBarMapTilemapBasement.FillOptions<TilemapPart>(3);
+        this._functionBarMapTilemapBasement.RefillOptions(this._editableEnvironments.First(), 3);
         this._functionBarMapTilemapBasement.ButtonAreaWasPressedEvent += this.MapTilemapBasementButtonAreaWasPressed;
 
         const int left = GlobaleGameParameters.ScreenWidth - MenuWidth;
@@ -151,7 +152,8 @@ public class MapEditorMenu : BaseMenu
         }
         
         var ee = this._editableEnvironments.ElementAt(this._editableEnvironmentsIndex);
-        this._functionBarMapTilemapBasement.RefillOptions(ee.EnumType, 3);
+        //this._functionBarMapTilemapBasement.RefillOptions(ee.EnumType, 3);
+        this._functionBarMapTilemapBasement.RefillOptions(ee, 3);
         WorldMapAdjuster.SelectedMapMapLayer = ee.Layer;
         WorldMapAdjuster.SelectedNumberPart = -1;
         

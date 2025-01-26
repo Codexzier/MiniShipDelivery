@@ -14,4 +14,7 @@ public interface IMapEditableContent
     
     Type EnumType { get; }
     MapLayer Layer { get; }
+    int SpriteCount { get; }
+    bool HasSpecificNumberPart { get; }
+    int[] GetNumberParts();
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,13 +17,17 @@ public class WorldMapSprites : IWorldMapSprites
         var spriteBaseBuildingWalls = new SpriteBaseBuildingWalls(game);
         
         this._editorContents = [
-            new SpriteMapStreet(game),
-            new SpritesMapLayerSidewalk(spriteBaseTilemap),
-            new SpriteMapLayerGrass(spriteBaseTilemap),
-            new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
-            new SpriteMapLayerBuildingWallBrown(spriteBaseBuildingWalls),
-            new SpriteMapLayerGrayRoof(spriteBaseTilemap),
-            new SpriteMapLayerBrownRoof(spriteBaseTilemap)
+            new SpriteMapStreetV2(game),
+            
+            // new SpriteMapStreet(game),
+             new SpriteMapLayerSidewalk(spriteBaseTilemap),
+             new SpriteMapLayerGrass(spriteBaseTilemap),
+            // new SpriteMapLayerBuildingWallRed(spriteBaseBuildingWalls),
+            // new SpriteMapLayerBuildingWallBrown(spriteBaseBuildingWalls),
+            // new SpriteMapLayerGrayRoof(spriteBaseTilemap),
+            // new SpriteMapLayerBrownRoof(spriteBaseTilemap),
+            
+            new SpriteMapLayerCollider(game)
         ];
     }
 
@@ -78,10 +83,21 @@ public class WorldMapSprites : IWorldMapSprites
                     editorContent.NumberPartForIcon,
                     editorContent.Texture,
                     editorContent.GetSprite(editorContent.NumberPartForIcon).Cutout,
-                    editorContent.EnumType));
+                    editorContent.EnumType,
+                    editorContent.GetNumberParts()));
             //}
         }
 
         return list;
+    }
+
+    public int[] GetListOfValidateTileNumbers(MapLayer mapLayer)
+    {
+        return this._editorContents.First(w => w.IsLayer(mapLayer)).GetNumberParts();
+    }
+
+    public MapLayer[] GetLayers()
+    {
+        return this._editorContents.Select(w => w.Layer).ToArray();
     }
 }

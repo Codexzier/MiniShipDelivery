@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +8,7 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Sprites;
 
-[MapLayerSetup("Street", 1, true)]
+//[MapLayerSetup("Street", 1, true)]
 public class SpriteMapStreet(Game game) : ISpriteContent<StreetPart>, IMapEditableContent
 {
     public IDictionary<StreetPart, SpriteSetup> SpriteContent { get; } = new Dictionary<StreetPart, SpriteSetup>
@@ -52,6 +53,10 @@ public class SpriteMapStreet(Game game) : ISpriteContent<StreetPart>, IMapEditab
     public int NumberPartForIcon => (int)StreetPart.StreetParking;
     public Type EnumType { get; } = typeof(StreetPart);
     public MapLayer Layer => MapLayer.Street;
+    public int SpriteCount => SpriteContent.Count;
+    public bool HasSpecificNumberPart { get; }
+    
+    public int[] GetNumberParts() => this.SpriteContent.Select(s => (int)s.Key).ToArray();
 
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {

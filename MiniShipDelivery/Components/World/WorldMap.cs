@@ -16,26 +16,28 @@ public class WorldMap
     
     public void DrawAllLayers(SpriteBatch spriteBatch, bool drawTop = false)
     {
-        foreach (var worldMapLevel in this.WorldMapChunk.WorldMapLayers)
+        foreach (var worldMapLayer in this.WorldMapChunk.WorldMapLayers)
         {
-            for (var y = 0; y < worldMapLevel.Map.Length; y++)
+            //if(worldMapLayer == null) continue;
+            
+            for (var y = 0; y < worldMapLayer.Map.Length; y++)
             {
-                for (var x = 0; x < worldMapLevel.Map[y].Length; x++)
+                for (var x = 0; x < worldMapLayer.Map[y].Length; x++)
                 {
-                    var tileNumber = worldMapLevel.Map[y][x].AssetNumber;
+                    var tileNumber = worldMapLayer.Map[y][x].AssetNumber;
                     
                     if(tileNumber == 0) continue;
                     
                     //if(drawTop != worldMapLevel.Map[y][x].DrawTop) continue;
                     
-                    if (!worldMapLevel.ListOfValidateTileNumbers.Contains(tileNumber))
+                    if (!worldMapLayer.ListOfValidateTileNumbers.Contains(tileNumber))
                     {
-                        tileNumber = WorldMapHelper.GetDefaultNumberByLevelPart(worldMapLevel.MapLayer, true);
+                        tileNumber = WorldMapHelper.GetDefaultNumberByLevelPart(worldMapLayer.MapLayer, true);
                     }
                     
                     spriteBatch.Draw(
-                        worldMapLevel.Map[y][x].Position.TilePositionToVector(),
-                        worldMapLevel.MapLayer,
+                        worldMapLayer.Map[y][x].Position.TilePositionToVector(),
+                        worldMapLayer.MapLayer,
                         tileNumber,
                         drawTop);
                 }
@@ -49,7 +51,10 @@ public class WorldMap
     {
         mapTile = null;
         
-        var map = this.WorldMapChunk.WorldMapLayers[(int)mapLayer].Map;
+        //var map = this.WorldMapChunk.WorldMapLayers[(int)mapLayer].Map;
+        var map = this.WorldMapChunk.WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == mapLayer)?.Map;
+        
+        if(map == null) return false;
         
         if(x < 0 || y < 0 || y >= map.Length || 
            x >= map[y].Length) return false;
@@ -61,8 +66,12 @@ public class WorldMap
     
     public bool ValidTileNumber(int selectedTilemapPart, MapLayer tilemapMapLayer)
     {
-        return this.WorldMapChunk.WorldMapLayers[(int)tilemapMapLayer]
-            .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
+        var wm = this.WorldMapChunk.WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == tilemapMapLayer);
+        
+        return wm != null && wm.ListOfValidateTileNumbers.Contains(selectedTilemapPart);
+
+        // return this.WorldMapChunk.WorldMapLayers[(int)tilemapMapLayer]
+        //     .ListOfValidateTileNumbers.Contains(selectedTilemapPart);   
     }
     
     #endregion

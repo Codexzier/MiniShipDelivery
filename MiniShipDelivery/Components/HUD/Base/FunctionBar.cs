@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor.Options;
+using MiniShipDelivery.Components.World.Sprites;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Base;
@@ -24,34 +25,58 @@ public class FunctionBar(
     /// <summary>
     /// I use the dictionary for paging.
     /// </summary>
-    private readonly Dictionary<int, List<FunctionItem>> _functionItems = new()
-    {
-        // Warum habe ich das nochmal gemacht?
-        { 0, new List<FunctionItem>() }
-    };
+    private readonly Dictionary<int, List<FunctionItem>> _functionItems = new();
 
     private int _maxPerPage = 18;
     private int _indexForPaging;
 
-    public void RefillOptions(Type enumType, int columns) 
+    // public void RefillOptions(Type enumType, int columns) 
+    // {
+    //     if (enumType == null)
+    //     {
+    //         return;
+    //     }
+    //     
+    //     if (enumType.BaseType != typeof(Enum))
+    //     {
+    //         throw new ArgumentException("Only enums are supported");
+    //     }
+    //     
+    //     this._functionItems.Clear();
+    //     //this._functionItems.Add(0, []);
+    //     
+    //     var rows = (int)(size.Height - startPosition.Y) / 18;
+    //     this._maxPerPage = rows * columns;
+    //     
+    //     foreach (var valPart in Enum.GetValues(enumType))
+    //     {
+    //         if((int)valPart == 0) continue;
+    //         this.AddFunctionItem(valPart, columns);
+    //     }
+    // }
+    
+    public void RefillOptions(EditableEnvironmentItem editableEnvironmentItem, int columns)
     {
-        if (enumType.BaseType != typeof(Enum))
-        {
-            throw new ArgumentException("Only enums are supported");
-        }
-        
         this._functionItems.Clear();
-        this._functionItems.Add(0, []);
+        //this._functionItems.Add(1, []);
         
         var rows = (int)(size.Height - startPosition.Y) / 18;
         this._maxPerPage = rows * columns;
-        
-        foreach (var valPart in Enum.GetValues(enumType))
+
+        foreach (var numberPart in editableEnvironmentItem.NumberParts)
         {
-            if((int)valPart == 0) continue;
-            this.AddFunctionItem(valPart, columns);
+            if(numberPart == 0) continue;
+            this.AddFunctionItem(numberPart, columns);
         }
+        
+        
+        // for (int indexSprite = 0; indexSprite < editableEnvironmentItem.SpriteCount; indexSprite++)
+        // {
+        //     // zero is for not selected and no tile
+        //     this.AddFunctionItem(indexSprite + 1, columns);
+        // }
     }
+    
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
     {
         var rows = (int)(size.Height - startPosition.Y) / 18;
@@ -141,16 +166,23 @@ public class FunctionBar(
 
     private void AddFunctionItem(object numberPart, int columns)
     {
-        var index = this._functionItems.Count - 1;
-        if (this._functionItems[index].Count >= this._maxPerPage)
+        var indexPage = this._functionItems.Count - 1;
+
+        if (this._functionItems.Count == 0)
         {
-            this._functionItems.Add(index + 1, new List<FunctionItem>());
-            index = this._functionItems.Count - 1;
+            this._functionItems.Add(0, new List<FunctionItem>());
+            indexPage = 0;
         }
         
-        this._functionItems[index].Add(
+        if (this._functionItems[indexPage].Count >= this._maxPerPage)
+        {
+            this._functionItems.Add(indexPage + 1, new List<FunctionItem>());
+            indexPage = this._functionItems.Count - 1;
+        }
+        
+        this._functionItems[indexPage].Add(
             new FunctionItem(
-                HudHelper.GetPositionArea(position.Y, this._functionItems[index].Count, size.Width, columns),
+                HudHelper.GetPositionArea(position.Y, this._functionItems[indexPage].Count, size.Width, columns),
                 new SizeF(18, 18),
                 (int)numberPart));
     }
@@ -192,4 +224,6 @@ public class FunctionBar(
             }
         }
     }
+
+    
 }

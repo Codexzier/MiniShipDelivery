@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -19,4 +20,7 @@ public class SpriteMapLayerGrayRoof(SpriteBaseTilemap spriteBase) : IMapEditable
     public Type EnumType { get; } = typeof(TilemapPart);
 
     public MapLayer Layer => MapLayer.GrayRoof;
+    public int SpriteCount => spriteBase.SpriteContent.Count;
+    public bool HasSpecificNumberPart => true;
+    public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

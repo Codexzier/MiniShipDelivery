@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CodexzierGameEngine.DataModels.World;
@@ -66,7 +67,10 @@ public class PersistenceManager : GameComponent
             {
                 throw new MapSetupException("map layers are not the same count.");
             }
-            this._world.Map.WorldMapChunk = worldMapChunk;
+            
+            this._world.Map.WorldMapChunk.WorldMapLayers = WorldMapHelper.CheckGetWorldMap(
+                this._world.Map.WorldMapChunk.WorldMapLayers, 
+                worldMapChunk.WorldMapLayers);
         }
         catch (Exception e)
         {
