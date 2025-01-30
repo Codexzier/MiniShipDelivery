@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 
@@ -65,12 +67,12 @@ namespace MiniShipDelivery.Components.Objects
                 {
                     bool hasSet = false;
 
-                    Vector2 resetPosition = direction switch
+                    var resetPosition = direction switch
                     {
-                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - 16, forecast.Position.Y),
-                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + 16, forecast.Position.Y),
-                        {X: 0, Y: > 0} => new Vector2(forecast.Position.X, collider.Position.Y - 16),
-                        {X: 0, Y: < 0} => new Vector2(forecast.Position.X, collider.Position.Y + 16),
+                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - collider.Wide, forecast.Position.Y),
+                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + collider.Wide, forecast.Position.Y),
+                        {X: 0, Y: > 0} => new Vector2(forecast.Position.X, collider.Position.Y - collider.Height),
+                        {X: 0, Y: < 0} => new Vector2(forecast.Position.X, collider.Position.Y + collider.Height),
                         _ => Vector2.Zero
                     };
 
@@ -78,34 +80,6 @@ namespace MiniShipDelivery.Components.Objects
                     {
                         this._characterManager.Player.Collider.Position = resetPosition;
                     }
-                    
-                    
-                    // if (direction.X > 0)
-                    // {
-                    //     //this._characterManager.Player.Collider.Position = new Vector2(collider.Position.X - 16, forecast.Position.Y);
-                    //     this._directions[0](forecast.Position, collider, this._characterManager.Player.Collider);
-                    //     hasSet = true;
-                    // }
-                    //
-                    // if (direction.X < 0 && !hasSet)
-                    // {
-                    //     //this._characterManager.Player.Collider.Position = new Vector2(collider.Position.X + 16, forecast.Position.Y);
-                    //     this._directions[1](forecast.Position, collider, this._characterManager.Player.Collider);
-                    //     hasSet = true;
-                    // }
-                    //
-                    // if (direction.Y > 0 && !hasSet)
-                    // {
-                    //     //this._characterManager.Player.Collider.Position = new Vector2(forecast.Position.X, collider.Position.Y - 16);
-                    //     this._directions[2](forecast.Position, collider, this._characterManager.Player.Collider);
-                    //     hasSet = true;
-                    // }
-                    //
-                    // if (direction.Y < 0 && !hasSet)
-                    // {
-                    //     //this._characterManager.Player.Collider.Position = new Vector2(forecast.Position.X, collider.Position.Y + 16);
-                    //     this._directions[3](forecast.Position, collider, this._characterManager.Player.Collider);
-                    // }
                     
                     this._characterManager.Player.IsCollide = true;
                 }
@@ -120,20 +94,25 @@ namespace MiniShipDelivery.Components.Objects
         {
             this._spriteBatch.BeginWithCameraViewMatrix();
 
-            foreach (var collider in this._worldColliders)
+            if (GlobaleGameParameters.DebugMode)
             {
+                foreach (var collider in this._worldColliders)
+                {
+                    this._spriteBatch.DrawRectangle(
+                        collider.Position, 
+                        new SizeF(16f, 16f),
+                        Color.Orange, 
+                        1f);
+                }
+            
                 this._spriteBatch.DrawRectangle(
-                    collider.Position, 
-                    new SizeF(16f, 16f),
-                    Color.Orange, 
+                    this._characterManager.Player.Collider.Position, 
+                    new SizeF(
+                        this._characterManager.Player.Collider.Wide, 
+                        this._characterManager.Player.Collider.Height),
+                    Color.Red, 
                     1f);
             }
-            
-            this._spriteBatch.DrawRectangle(
-                this._characterManager.Player.Collider.Position, 
-                new SizeF(16f, 16f),
-                Color.Red, 
-                1f);
             
             this._spriteBatch.End();
         }

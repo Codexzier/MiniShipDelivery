@@ -2,6 +2,7 @@
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery.Components.World;
 
@@ -18,10 +19,13 @@ public class WorldMap
     {
         foreach (var worldMapLayer in this.WorldMapChunk.WorldMapLayers)
         {
+            if(worldMapLayer.MapLayer == MapLayer.Colliders &&
+               GlobaleGameParameters.HudView != HudOptionView.MapEditor) continue;
+            
             for (var y = 0; y < worldMapLayer.Map.Length; y++)
             {
                 for (var x = 0; x < worldMapLayer.Map[y].Length; x++)
-                {
+                {           
                     var tileNumber = worldMapLayer.Map[y][x].AssetNumber;
                     
                     if(tileNumber == 0) continue;
