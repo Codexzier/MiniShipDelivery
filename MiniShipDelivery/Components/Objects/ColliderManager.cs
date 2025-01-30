@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,22 +55,58 @@ namespace MiniShipDelivery.Components.Objects
             
             this._worldColliders = this._world.GetCollidableObjects(x, y);
             
+            var forecast = this._characterManager.Player.Collider;
+            var direction = this._characterManager.Player.Direction;
+            
             foreach (var collider in this._worldColliders)
             {
-                if (this._characterManager.Player.Collider.Intersects(collider))
+                if (forecast.Intersects(collider) &&
+                    !this._characterManager.Player.IsCollide)
                 {
-                    var resetX = (int)this._characterManager.Player.LastPosition.X - 
-                                 (int)this._characterManager.Player.Collider.Position.X;
-                    var resetY = (int)this._characterManager.Player.LastPosition.Y -
-                                 (int)this._characterManager.Player.Collider.Position.Y;
+                    bool hasSet = false;
+
+                    Vector2 resetPosition = direction switch
+                    {
+                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - 16, forecast.Position.Y),
+                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + 16, forecast.Position.Y),
+                        {X: 0, Y: > 0} => new Vector2(forecast.Position.X, collider.Position.Y - 16),
+                        {X: 0, Y: < 0} => new Vector2(forecast.Position.X, collider.Position.Y + 16),
+                        _ => Vector2.Zero
+                    };
+
+                    if (resetPosition != Vector2.Zero)
+                    {
+                        this._characterManager.Player.Collider.Position = resetPosition;
+                    }
                     
-                    // TODO: Prüfen für negative laufrichtung
                     
-                    var round = new Vector2(
-                        (int)this._characterManager.Player.LastPosition.X, 
-                        (int)this._characterManager.Player.LastPosition.Y);
+                    // if (direction.X > 0)
+                    // {
+                    //     //this._characterManager.Player.Collider.Position = new Vector2(collider.Position.X - 16, forecast.Position.Y);
+                    //     this._directions[0](forecast.Position, collider, this._characterManager.Player.Collider);
+                    //     hasSet = true;
+                    // }
+                    //
+                    // if (direction.X < 0 && !hasSet)
+                    // {
+                    //     //this._characterManager.Player.Collider.Position = new Vector2(collider.Position.X + 16, forecast.Position.Y);
+                    //     this._directions[1](forecast.Position, collider, this._characterManager.Player.Collider);
+                    //     hasSet = true;
+                    // }
+                    //
+                    // if (direction.Y > 0 && !hasSet)
+                    // {
+                    //     //this._characterManager.Player.Collider.Position = new Vector2(forecast.Position.X, collider.Position.Y - 16);
+                    //     this._directions[2](forecast.Position, collider, this._characterManager.Player.Collider);
+                    //     hasSet = true;
+                    // }
+                    //
+                    // if (direction.Y < 0 && !hasSet)
+                    // {
+                    //     //this._characterManager.Player.Collider.Position = new Vector2(forecast.Position.X, collider.Position.Y + 16);
+                    //     this._directions[3](forecast.Position, collider, this._characterManager.Player.Collider);
+                    // }
                     
-                    this._characterManager.Player.Collider.Position = round;
                     this._characterManager.Player.IsCollide = true;
                 }
                 else

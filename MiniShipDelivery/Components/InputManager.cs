@@ -75,22 +75,26 @@ namespace MiniShipDelivery.Components
 
             var keyboardState = Keyboard.GetState();
 
+            var hasSet = false;
             if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
             {
                 movement.Y = 1;
+                hasSet = true;
             }
 
-            if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+            if (!hasSet && (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down)))
             {
                 movement.Y = -1;
+                hasSet = true;
             }
 
-            if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            if (!hasSet && (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left)))
             {
                 movement.X = -1;
+                hasSet = true;
             }
 
-            if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            if (!hasSet && (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right)))
             {
                 movement.X = 1;
             }

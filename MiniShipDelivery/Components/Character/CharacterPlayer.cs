@@ -43,6 +43,7 @@ namespace MiniShipDelivery.Components.Character
             {
                 this.IsMoving = true;
                 this.LastPosition = this.Collider.Position;
+                
                 if(!this.IsCollide) 
                 {
                     this.Collider.Position += this.Direction * this.Speed * deltaTime;
