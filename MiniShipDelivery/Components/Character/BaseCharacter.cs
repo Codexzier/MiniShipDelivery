@@ -20,12 +20,9 @@ namespace MiniShipDelivery.Components.Character
         private float _timeToUpdateStand;
         private float _timeElapsedStand;
 
-        private int _currenFrameShadow;
-        private float _timeToUpdateShadow;
-        private float _timeElapsedShadow;
+        private readonly Vector2 _positionShiftDraw = new(2, 8);
         
-        public Vector2 LastPosition { get; set; }
-        public ColliderBox2D Collider { get; } = new(16, 16);
+        public ColliderBox2D Collider { get; } = new(12, 8);
         public List<ICollider> Collisions { get; } = new();
         public bool IsColliding { get; private set; }
         
@@ -42,7 +39,6 @@ namespace MiniShipDelivery.Components.Character
             {
                 this._timeToUpdate = 1f / value;
                 this._timeToUpdateStand = 2.5f / value;
-                this._timeToUpdateShadow = 1f / value;
             }
         }
 
@@ -160,7 +156,7 @@ namespace MiniShipDelivery.Components.Character
             
             spriteBatch.Draw(
                 spriteCharacter.Texture,
-                position,
+                position - this._positionShiftDraw,
                 rect,
                 Color.White);
         }
@@ -173,7 +169,11 @@ namespace MiniShipDelivery.Components.Character
         {
             if (characterType != CharacterType.Men && characterType != CharacterType.Women)
             {
-                this.Draw(spriteBatch, position, CharacterPart.StandFront, characterType);
+                this.Draw(
+                    spriteBatch, 
+                    position - this._positionShiftDraw, 
+                    CharacterPart.StandFront, 
+                    characterType);
                 return;
             }
 
@@ -182,14 +182,14 @@ namespace MiniShipDelivery.Components.Character
                 case CharacterType.Men:
                     spriteBatch.Draw(
                         spriteCharacter.TextureStandMen,
-                        position,
+                        position - this._positionShiftDraw,
                         spriteCharacter.SpriteContentStandMen[tp].Cutout,
                         Color.White);
                     break;
                 case CharacterType.Women:
                     spriteBatch.Draw(
                         spriteCharacter.TextureStandWomen,
-                        position,
+                        position - this._positionShiftDraw,
                         spriteCharacter.SpriteContentStandWomen[tp].Cutout,
                         Color.White);
                     break;
@@ -202,7 +202,7 @@ namespace MiniShipDelivery.Components.Character
         {
             spriteBatch.Draw(
                 spriteCharacterShadow.Texture,
-                this.Collider.Position + new Vector2(0, 7),
+                this.Collider.Position - this._positionShiftDraw + new Vector2(0, 7),
                 spriteCharacterShadow.SpriteContent[0].Cutout,
                 Color.White);
         }
@@ -213,7 +213,7 @@ namespace MiniShipDelivery.Components.Character
         {
             spriteBatch.Draw(
                 spriteEmote.Texture, 
-                position, 
+                position - this._positionShiftDraw, 
                 spriteEmote.SpriteContent[this.Emote].Cutout, 
                 Color.White);
         }

@@ -92,6 +92,12 @@ namespace MiniShipDelivery
             consoleManager.DrawOrder = 11;
             this.Components.Add(consoleManager);
             
+            
+            var fps = new FramesPerSecondManager(this);
+            fps.UpdateOrder = 12;
+            fps.DrawOrder = 12;
+            this.Components.Add(fps);
+            
             // TODO: sollte ich das nicht anders machen?
             PersistenceManager.LoadMap();
             
