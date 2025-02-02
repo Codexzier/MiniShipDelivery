@@ -1,12 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.World;
 using MonoGame.Extended;
 
@@ -65,14 +62,12 @@ namespace MiniShipDelivery.Components.Objects
                 if (forecast.Intersects(collider) &&
                     !this._characterManager.Player.IsCollide)
                 {
-                    bool hasSet = false;
-
                     var resetPosition = direction switch
                     {
-                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - collider.Wide, forecast.Position.Y),
-                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + collider.Wide, forecast.Position.Y),
-                        {X: 0, Y: > 0} => new Vector2(forecast.Position.X, collider.Position.Y - collider.Height),
-                        {X: 0, Y: < 0} => new Vector2(forecast.Position.X, collider.Position.Y + collider.Height),
+                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - forecast.Width, forecast.Position.Y),
+                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + forecast.Width, forecast.Position.Y),
+                        {X: 0, Y: > 0} => new Vector2(forecast.Position.X, forecast.Position.Y - 1),
+                        {X: 0, Y: < 0} => new Vector2(forecast.Position.X, forecast.Position.Y + 1),
                         _ => Vector2.Zero
                     };
 
@@ -101,17 +96,15 @@ namespace MiniShipDelivery.Components.Objects
                     this._spriteBatch.DrawRectangle(
                         collider.Position, 
                         new SizeF(16f, 16f),
-                        Color.Orange, 
-                        1f);
+                        Color.Orange);
                 }
             
                 this._spriteBatch.DrawRectangle(
-                    this._characterManager.Player.Collider.Position, 
+                    this._characterManager.Player.Collider.Position,
                     new SizeF(
-                        this._characterManager.Player.Collider.Wide, 
+                        this._characterManager.Player.Collider.Width, 
                         this._characterManager.Player.Collider.Height),
-                    Color.Red, 
-                    1f);
+                    Color.Red);
             }
             
             this._spriteBatch.End();

@@ -42,7 +42,6 @@ namespace MiniShipDelivery.Components.Character
             if (this.Direction != Vector2.Zero)
             {
                 this.IsMoving = true;
-                this.LastPosition = this.Collider.Position;
                 
                 if(!this.IsCollide) 
                 {
@@ -59,6 +58,8 @@ namespace MiniShipDelivery.Components.Character
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+           var position = this.Collider.Position;
+            
             if (this.IsMoving)
             {
                 var tp = this.Direction switch
@@ -73,14 +74,14 @@ namespace MiniShipDelivery.Components.Character
                 tp = this.GetWalkingFrame(tp);
 
                 this.Draw(spriteBatch,
-                    this.Collider.Position,
+                    position,
                     tp,
                     this._characterType);
             }
             else
             {
                 this.Draw(spriteBatch,
-                    this.Collider.Position,
+                    position,
                     this.GetStandAnimation(),
                     this._characterType);
             }
