@@ -44,7 +44,7 @@ public class CharacterManager : DrawableGameComponent
             texturesCharacter, 
             texturesCharacterShadow,
             texturesEmote,
-            new Vector2(20, 20), 
+            new Vector2(40, 40), 
             CharacterType.Women)
         {
             Direction = Vector2.Zero,

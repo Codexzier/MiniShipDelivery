@@ -64,8 +64,8 @@ namespace MiniShipDelivery.Components.Objects
                 {
                     var resetPosition = direction switch
                     {
-                        {X: > 0, Y: 0} => new Vector2(collider.Position.X - forecast.Width, forecast.Position.Y),
-                        {X: < 0, Y: 0} => new Vector2(collider.Position.X + forecast.Width, forecast.Position.Y),
+                        {X: > 0, Y: 0} => new Vector2(forecast.Position.X - 1, forecast.Position.Y),
+                        {X: < 0, Y: 0} => new Vector2(forecast.Position.X + 1, forecast.Position.Y),
                         {X: 0, Y: > 0} => new Vector2(forecast.Position.X, forecast.Position.Y - 1),
                         {X: 0, Y: < 0} => new Vector2(forecast.Position.X, forecast.Position.Y + 1),
                         _ => Vector2.Zero
