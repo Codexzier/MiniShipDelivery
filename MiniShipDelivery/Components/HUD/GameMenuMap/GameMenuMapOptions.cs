@@ -8,26 +8,20 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.GameMenuMap;
 
-public class GameMenuMapOptions : BaseMenu
+public class GameMenuMapOptions(Game game) : BaseMenu(game,
+    new Vector2(GlobaleGameParameters.ScreenWidthHalf - 100, GlobaleGameParameters.ScreenHeightHalf - 60),
+    new Size(200, 120))
 {
-    private readonly CameraManager _camera;
-    private readonly WorldManager _map;
-
-    public GameMenuMapOptions(Game game)
-        : base(
-            game,
-            new Vector2(GlobaleGameParameters.ScreenWidthHalf - 100, GlobaleGameParameters.ScreenHeightHalf - 60),
-            new Size(200, 120))
-    {
-        this._camera = game.GetComponent<CameraManager>();
-        this._map = game.GetComponent<WorldManager>();
-    }
+    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
+    private readonly WorldManager _map = game.GetComponent<WorldManager>();
+    private readonly Vector2 _center = new(100, 60);
+    private readonly SizeF _tileSize = new(3, 3);
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
-
-        var tileSize = 3;
+        
+        DrawBaseFrame(spriteBatch, MenuFrameType.Type1);
 
         if (this._map.Map.MiniMapChunks.Any())
         {
@@ -37,25 +31,23 @@ public class GameMenuMapOptions : BaseMenu
                 {
                     for (int indexX = 0; indexX < mapChunk.MiniMap[indexY].Length; indexX++)
                     {
+                        var tilePosition = new Vector2(
+                            indexX * this._tileSize.Width - 15, 
+                            indexY * this._tileSize.Height - 15);
+                        
                         spriteBatch.FillRectangle(
-                            new RectangleF(
-                                this.Position.X + this._camera.Camera.Position.X + (this.Size.Width / 2) + (indexX * tileSize), 
-                                this.Position.Y + this._camera.Camera.Position.Y + (this.Size.Height / 2) + (indexY * tileSize), 
-                                tileSize, 
-                                tileSize), 
-                            mapChunk.MiniMap[indexY][indexX]);
+                            this.Position + this._camera.Camera.Position + this._center + tilePosition,
+                            this._tileSize,
+                            mapChunk.MiniMap[indexY][indexX],
+                            1f);
                     }
                 }
             }
         }
         
-        
-        spriteBatch.DrawRectangle(
-            new RectangleF(
-                this.Position.X + this._camera.Camera.Position.X, 
-                this.Position.Y + this._camera.Camera.Position.Y, 
-                this.Size.Width, 
-                this.Size.Height), 
-            Color.Chocolate);
+        spriteBatch.FillRectangle(
+            this.Position + this._camera.Camera.Position + this._center,
+            new SizeF(2, 2),
+            Color.Blue);
     }
 }
