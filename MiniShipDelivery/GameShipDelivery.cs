@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components;
 using MiniShipDelivery.Components.Character;
+using MiniShipDelivery.Components.Dialog;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
@@ -81,21 +82,28 @@ namespace MiniShipDelivery
             hudManager.DrawOrder = 9;
             this.Components.Add(hudManager);
 
+            var dialog = new DialogManager(this);
+            dialog.UpdateOrder = 10;
+            dialog.DrawOrder = 10;
+            this.Components.Add(dialog);
+            
             var cursor = new MouseManager(this);
-            cursor.UpdateOrder = 10;
+            cursor.UpdateOrder = 11;
             cursor.DrawOrder = 100; // cursor must render at last
             this.Components.Add(cursor);
             
             // only for debug purpose
             var consoleManager = new ConsoleManager(this);
-            consoleManager.UpdateOrder = 11;
-            consoleManager.DrawOrder = 11;
+            consoleManager.UpdateOrder = 12;
+            consoleManager.DrawOrder = 12;
             this.Components.Add(consoleManager);
             
             
+            
+            
             var fps = new FramesPerSecondManager(this);
-            fps.UpdateOrder = 12;
-            fps.DrawOrder = 12;
+            fps.UpdateOrder = 99;
+            fps.DrawOrder = 99;
             this.Components.Add(fps);
             
             // TODO: sollte ich das nicht anders machen?

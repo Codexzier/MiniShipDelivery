@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Dialog;
 using MiniShipDelivery.Components.Helpers;
 
 namespace MiniShipDelivery.Components.Character;
@@ -84,6 +85,8 @@ public class CharacterManager : DrawableGameComponent
                     this._spriteBatch, 
                     charToDraw.Collider.Position - new Vector2(0, 16));
             }
+            
+            DialogManager.ShowDialogBox = charToDraw.IsColliding;
         }
         this._spriteBatch.End();
     }
