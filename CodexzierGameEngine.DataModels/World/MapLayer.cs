@@ -9,6 +9,7 @@
         BuildingBrown,
         GrayRoof,
         BrownRoof,
-        Colliders
+        Colliders,
+        Windows
     }
 }
