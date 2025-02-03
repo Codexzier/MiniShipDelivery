@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
@@ -18,9 +19,9 @@ namespace MiniShipDelivery.Components
         private Vector2 _mouseRightButtonHasPressedPosition = Vector2.Zero;
         private bool _mouseRightButtonReleased;
         private bool _mouseRightButtonHasPressed;
-        
-        private readonly int _playerIndex = 0;
-        
+
+        private const int _playerIndex = 0;
+
 
         private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
 
@@ -67,11 +68,62 @@ namespace MiniShipDelivery.Components
             }
             
             this.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
+            
+            // keyboard states
+            this.UpdateKeyboardPressed(gameTime);
+        }
+        
+        private void UpdateKeyboardPressed(GameTime gameTime)
+        {
+            if(GlobaleGameParameters.DialogState.DialogOn &&
+               GlobaleGameParameters.DialogState.DialogExit )
+            {
+                if (gameTime.TotalGameTime.TotalSeconds > this._dialogExitTime + .2)
+                {
+                    GlobaleGameParameters.DialogState.DialogExit = false;
+                    GlobaleGameParameters.DialogState.DialogOn = false;
+                }
+                return;
+            }
+            
+            this._dialogExitTime = gameTime.TotalGameTime.TotalSeconds;
+            
+            var keyboardState = Keyboard.GetState();
+
+            
+            if (keyboardState.IsKeyDown(Keys.Enter) &&
+                !GlobaleGameParameters.DialogState.DialogExit)
+            {
+                GlobaleGameParameters.DialogState.DialogOn = true;
+            }
+
+            if (!GlobaleGameParameters.DialogState.DialogOn) return;
+            if(!string.IsNullOrEmpty(GlobaleGameParameters.DialogState.DialogLetter)) return;
+
+            foreach (var keyValuePair in this._dictionary)
+            {
+                if (!GlobaleGameParameters.DialogState.LetterIsPressed && keyboardState.IsKeyDown(keyValuePair.Key))
+                {
+                    GlobaleGameParameters.DialogState.DialogLetter = keyValuePair.Value;
+                    GlobaleGameParameters.DialogState.LetterIsPressed = true;
+                    GlobaleGameParameters.DialogState.KeyIsPressed = keyValuePair.Key;
+                    return;
+                }
+            }
+            
+            if(GlobaleGameParameters.DialogState.LetterIsPressed && 
+               keyboardState.IsKeyUp(GlobaleGameParameters.DialogState.KeyIsPressed))
+            {
+                GlobaleGameParameters.DialogState.LetterIsPressed = false;
+            }
         }
 
         private Vector2 GetMovement()
         {
-            var movement = GamePad.GetState(this._playerIndex).ThumbSticks.Left;
+            if(GlobaleGameParameters.DialogState.DialogOn) return Vector2.Zero;
+            
+            
+            var movement = GamePad.GetState(_playerIndex).ThumbSticks.Left;
 
             var keyboardState = Keyboard.GetState();
 
@@ -152,22 +204,39 @@ namespace MiniShipDelivery.Components
             return wasInRange && actualInRange;
         }
         
-        private bool IsMouseInRangeLastAndNowPositionRightClick(Vector2 position, SizeF size)
+        private IDictionary<Keys, string> _dictionary = new Dictionary<Keys, string>()
         {
-            var wasInRange = this._mouseRightButtonHasPressedPosition.X > position.X && 
-                             this._mouseRightButtonHasPressedPosition.Y > position.Y &&
-                             this._mouseRightButtonHasPressedPosition.X < position.X + size.Width &&
-                             this._mouseRightButtonHasPressedPosition.Y < position.Y + size.Height;
-            
-            Debug.WriteLine($"Was in range {wasInRange}, Position {position}, Size {size}");
-            var actualInRange = this.Inputs.MousePosition.X > position.X &&
-                                this.Inputs.MousePosition.Y > position.Y &&
-                                this.Inputs.MousePosition.X < position.X + size.Width &&
-                                this.Inputs.MousePosition.Y < position.Y + size.Height;
-            
-            Debug.WriteLine($"Actual in range {actualInRange}, Position {position}, Size {size}");
-            
-            return wasInRange && actualInRange;
-        }
+            {  Keys.A, "A" },
+            {  Keys.B, "B" },
+            {  Keys.C, "C" },
+            {  Keys.D, "D" },
+            {  Keys.E, "E" },
+            {  Keys.F, "F" },
+            {  Keys.G, "G" },
+            {  Keys.H, "H" },
+            {  Keys.I, "I" },
+            {  Keys.J, "J" },
+            {  Keys.K, "K" },
+            {  Keys.L, "L" },
+            {  Keys.M, "M" },
+            {  Keys.N, "N" },
+            {  Keys.O, "O" },
+            {  Keys.P, "P" },
+            {  Keys.Q, "Q" },
+            {  Keys.R, "R" },
+            {  Keys.S, "S" },
+            {  Keys.T, "T" },
+            {  Keys.U, "U" },
+            {  Keys.V, "V" },
+            {  Keys.W, "W" },
+            {  Keys.X, "X" },
+            {  Keys.Y, "Y" },
+            {  Keys.Z, "Z" },
+            {  Keys.Space, " " },
+            {  Keys.Back, "BACK" },
+            {  Keys.Enter, "ENTER" }
+        };
+
+        private double _dialogExitTime;
     }
 }

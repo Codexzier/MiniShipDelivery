@@ -80,6 +80,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/BaseFont.spritefont
 
+#begin Fonts/KennyMiniSquare.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/KennyMiniSquare.spritefont
+
 #begin Interface/bookFlip1.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor

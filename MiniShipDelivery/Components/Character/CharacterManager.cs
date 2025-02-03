@@ -86,7 +86,7 @@ public class CharacterManager : DrawableGameComponent
                     charToDraw.Collider.Position - new Vector2(0, 16));
             }
             
-            DialogManager.ShowDialogBox = charToDraw.IsColliding;
+            GlobaleGameParameters.ShowDialogBox = charToDraw.IsColliding;
         }
         this._spriteBatch.End();
     }
