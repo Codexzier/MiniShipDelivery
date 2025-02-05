@@ -8,13 +8,13 @@ using MiniShipDelivery.Components.Assets;
 
 namespace MiniShipDelivery.Components.World.Sprites;
 
-[MapLayerSetup("Windows", 8, true)]
-public class SpriteMapLayerWindow : IMapEditableContent, ISpriteMapContent
+[MapLayerSetup("Doors", 9, true)]
+public class SpriteMapLayerDoor : IMapEditableContent, ISpriteMapContent
 {
-    public SpriteMapLayerWindow(Game game)
+    public SpriteMapLayerDoor(Game game)
     {
-        this.Texture = game.Content.Load<Texture2D>("Map/Windows");
-        this.SpriteContent = SpriteMapHelper.GetSpriteSetups(this.Texture, true);
+        this.Texture = game.Content.Load<Texture2D>("Map/Doors");
+        this.SpriteContent = SpriteMapHelper.GetSpriteSetups(this.Texture);
     }
 
     public SpriteSetup GetSprite(int numberPart) => this.SpriteContent[numberPart];
@@ -23,7 +23,7 @@ public class SpriteMapLayerWindow : IMapEditableContent, ISpriteMapContent
     public Texture2D Texture { get; }
     public int NumberPartForIcon => 1;
     public Type EnumType => null;
-    public MapLayer Layer => MapLayer.Windows;
+    public MapLayer Layer => MapLayer.Doors;
     public int SpriteCount => this.SpriteContent.Count;
     public bool HasSpecificNumberPart => false;
     public int[] GetNumberParts() => this.SpriteContent.Select(s => s.Key).ToArray();
