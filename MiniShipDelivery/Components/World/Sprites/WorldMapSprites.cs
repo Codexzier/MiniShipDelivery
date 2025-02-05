@@ -27,6 +27,7 @@ public class WorldMapSprites : IWorldMapSprites
             new SpriteMapLayerGrayRoof(spriteBaseTilemap),
             new SpriteMapLayerBrownRoof(spriteBaseTilemap),
             new SpriteMapLayerWindow(game),
+            new SpriteMapLayerDoor(game),
 
             new SpriteMapLayerCollider(game)
         ];
