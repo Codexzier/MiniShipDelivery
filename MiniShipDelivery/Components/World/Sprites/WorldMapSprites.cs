@@ -28,6 +28,9 @@ public class WorldMapSprites : IWorldMapSprites
             new SpriteMapLayerBrownRoof(spriteBaseTilemap),
             new SpriteMapLayerWindow(game),
             new SpriteMapLayerDoor(game),
+            new SpriteMapLayerStreetObjects(game),
+            new SpriteMapLayerStreetLampsAndTrafficLights(game),
+            new SpriteMapLayerTrees(game),
 
             new SpriteMapLayerCollider(game)
         ];
@@ -92,8 +95,5 @@ public class WorldMapSprites : IWorldMapSprites
         return this._editorContents.First(w => w.IsLayer(mapLayer)).GetNumberParts();
     }
 
-    public MapLayer[] GetLayers()
-    {
-        return this._editorContents.Select(w => w.Layer).ToArray();
-    }
+    public MapLayer[] GetLayers() => this._editorContents.Select(w => w.Layer).ToArray();
 }

@@ -11,6 +11,10 @@
         BrownRoof,
         Windows,
         Doors,
+        StreetObjects,
+        StreetLampsAndTrafficLights,
+        Trees,
+        
         Colliders
     }
 }
