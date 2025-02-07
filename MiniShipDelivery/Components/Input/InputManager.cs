@@ -20,7 +20,7 @@ namespace MiniShipDelivery.Components.Input
         private bool _mouseRightButtonReleased;
         private bool _mouseRightButtonHasPressed;
 
-        private const int _playerIndex = 0;
+        private const int PlayerIndex = 0;
 
 
         private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
@@ -28,6 +28,7 @@ namespace MiniShipDelivery.Components.Input
         private const float ScaleMouseMovingY = GlobaleGameParameters.ScreenHeight / (float)GlobaleGameParameters.PreferredBackBufferHeight;
 
         public InputData Inputs { get; } = new();
+        private readonly InputTextController _inputTextController = new();
 
         public override void Update(GameTime gameTime)
         {
@@ -71,6 +72,8 @@ namespace MiniShipDelivery.Components.Input
             
             // keyboard states
             this.UpdateKeyboardPressed(gameTime);
+            
+            this._inputTextController.Update();
         }
         
         private void UpdateKeyboardPressed(GameTime gameTime)
@@ -78,7 +81,7 @@ namespace MiniShipDelivery.Components.Input
             if(GlobaleGameParameters.DialogState.DialogOn &&
                GlobaleGameParameters.DialogState.DialogExit )
             {
-                if (gameTime.TotalGameTime.TotalSeconds > this._dialogExitTime + .2)
+                if (gameTime.TotalGameTime.TotalSeconds > this._dialogExitTime + 1)
                 {
                     GlobaleGameParameters.DialogState.DialogExit = false;
                     GlobaleGameParameters.DialogState.DialogOn = false;
@@ -90,7 +93,6 @@ namespace MiniShipDelivery.Components.Input
             
             var keyboardState = Keyboard.GetState();
 
-            
             if (keyboardState.IsKeyDown(Keys.Enter) &&
                 !GlobaleGameParameters.DialogState.DialogExit)
             {
@@ -122,8 +124,7 @@ namespace MiniShipDelivery.Components.Input
         {
             if(GlobaleGameParameters.DialogState.DialogOn) return Vector2.Zero;
             
-            
-            var movement = GamePad.GetState(_playerIndex).ThumbSticks.Left;
+            var movement = GamePad.GetState(PlayerIndex).ThumbSticks.Left;
 
             var keyboardState = Keyboard.GetState();
 
@@ -156,7 +157,7 @@ namespace MiniShipDelivery.Components.Input
 
         private bool HasPressToClose()
         {
-            return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+            return GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
 
@@ -204,7 +205,7 @@ namespace MiniShipDelivery.Components.Input
             return wasInRange && actualInRange;
         }
         
-        private IDictionary<Keys, string> _dictionary = new Dictionary<Keys, string>()
+        private readonly IDictionary<Keys, string> _dictionary = new Dictionary<Keys, string>
         {
             {  Keys.A, "A" },
             {  Keys.B, "B" },
@@ -234,7 +235,19 @@ namespace MiniShipDelivery.Components.Input
             {  Keys.Z, "Z" },
             {  Keys.Space, " " },
             {  Keys.Back, "BACK" },
-            {  Keys.Enter, "ENTER" }
+            {  Keys.Enter, "ENTER" },
+            
+            // numbers
+            {  Keys.D0, "0" },
+            {  Keys.D1, "1" },
+            {  Keys.D2, "2" },
+            {  Keys.D3, "3" },
+            {  Keys.D4, "4" },
+            {  Keys.D5, "5" },
+            {  Keys.D6, "6" },
+            {  Keys.D7, "7" },
+            {  Keys.D8, "8" },
+            {  Keys.D9, "9" }
         };
 
         private double _dialogExitTime;

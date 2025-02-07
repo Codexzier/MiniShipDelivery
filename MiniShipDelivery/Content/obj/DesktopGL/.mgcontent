@@ -15,6 +15,7 @@
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/click_002.ogg</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/click_005.ogg</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/click3.ogg</File>
+    <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/EmptyButton.png</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/GameMenuOptions.png</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/interfacePack_16x_packed.png</File>
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/Interface/MainMenuButtons.png</File>
@@ -41,6 +42,7 @@
     <File>D:/Source/CSharp/MonoGame/MiniShipDelivery/MiniShipDelivery/Content/RpgUrban/TilemapBasement.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

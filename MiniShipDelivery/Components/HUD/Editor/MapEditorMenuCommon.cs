@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
+using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.HUD.Editor.Options;
 using MiniShipDelivery.Components.HUD.Editor.Textures;
 using MiniShipDelivery.Components.Persistence;
@@ -18,6 +19,8 @@ public class MapEditorMenuCommon : BaseMenu
     private readonly FunctionBar _functionBarWindow;
     private readonly SpriteUiMenuEditorOptions _textureUiMenuEditorOptions;
     private readonly SoundManager _sound;
+    private readonly SaveDialog _saveDialog;
+    private readonly OpenDialog _openDialog;
 
     public MapEditorMenuCommon(Game game)
         : base(
@@ -25,6 +28,9 @@ public class MapEditorMenuCommon : BaseMenu
             new Vector2(0, 0), 
             new Size(GlobaleGameParameters.ScreenWidth, 24))
     {
+        this._saveDialog = new SaveDialog(game);
+        this._openDialog = new OpenDialog(game);
+        
         this._textureUiMenuEditorOptions = new SpriteUiMenuEditorOptions(game);
         
         this._functionBar = new FunctionBar(
@@ -92,10 +98,16 @@ public class MapEditorMenuCommon : BaseMenu
                 PersistenceManager.NewMap();
                 break;
             case InterfaceMenuEditorOptionPart.Load:
-                PersistenceManager.LoadMap();
+                
+                this._openDialog.IsVisible = true;
+                PersistenceManager.SetFileList();
+                
                 break;
             case InterfaceMenuEditorOptionPart.Save:
-                PersistenceManager.SaveMap();
+
+                this._saveDialog.IsVisible = true;
+                GlobaleGameParameters.DialogState.DialogOn = true;
+                
                 break;
             case InterfaceMenuEditorOptionPart.Grid:
                 GlobaleGameParameters.ShowGrid = !GlobaleGameParameters.ShowGrid;
@@ -111,6 +123,13 @@ public class MapEditorMenuCommon : BaseMenu
         this._sound.PlayPressed();
     }
     
+    public override void Update()
+    {
+        base.Update();
+        
+        this._saveDialog.Update();
+    }
+    
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
@@ -119,5 +138,8 @@ public class MapEditorMenuCommon : BaseMenu
 
         this._functionBar.Draw(spriteBatch);
         this._functionBarWindow.Draw(spriteBatch);
+        
+        this._saveDialog.Draw(spriteBatch);
+        this._openDialog.Draw(spriteBatch);
     }
 }

@@ -17,7 +17,6 @@ public class MenuButton(
     private readonly InputManager _input = game.GetComponent<InputManager>();
     private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly SpriteUiMenuMainButtons _spriteButtons = new(game);
-    
     private readonly SoundManager _sound = game.GetComponent<SoundManager>();
 
     private readonly SizeF _buttonSize = new(64, 16);

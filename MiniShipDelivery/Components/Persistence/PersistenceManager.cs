@@ -12,8 +12,9 @@ namespace MiniShipDelivery.Components.Persistence;
 
 public class PersistenceManager : GameComponent
 {
-    private readonly string _mapFileJson = $"{Environment.CurrentDirectory}/map00.json";
+    private readonly string _mapFileJson = $"{Environment.CurrentDirectory}/MAP00.json";
     private readonly WorldManager _world;
+    public static readonly List<string> MapFilenames = new();
     
     public PersistenceManager(Game game) : base(game)
     {
@@ -24,17 +25,33 @@ public class PersistenceManager : GameComponent
         SaveMapToFileEvent += this.SaveMapToFile;
     }
 
+    
+
     public static void NewMap()
     {
         NewMapEvent?.Invoke();
     }
-    public static void SaveMap()
+    public static void SaveMap(string filename)
     {
-        SaveMapToFileEvent?.Invoke();
+        SaveMapToFileEvent?.Invoke(filename);
     }
-    public static void LoadMap()
+    public static void LoadMap(string selectedFilename)
     {
-        LoadMapFromFileEvent?.Invoke();
+        LoadMapFromFileEvent?.Invoke(selectedFilename);
+    }
+    
+    public static void SetFileList()
+    {
+        MapFilenames.Clear();
+        var files = Directory.GetFiles(Environment.CurrentDirectory, "*.json");
+        foreach (var filename in files)
+        {
+            var fi = new FileInfo(filename);
+            
+            if(!fi.Name.ToLower().StartsWith("map")) continue;
+            
+            MapFilenames.Add(fi.Name);
+        }
     }
     
     private void NewMapReset()
@@ -48,19 +65,32 @@ public class PersistenceManager : GameComponent
         }
     }
     
-    private void SaveMapToFile()
+    private void SaveMapToFile(string filename)
     {
+        if (string.IsNullOrEmpty(filename))
+        {
+            filename = "00";
+        }
+        
+        var fullFilename = $"{Environment.CurrentDirectory}/MAP{filename}.json";
+        
        var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunk);
-       File.WriteAllText(this._mapFileJson, saveContent);
+       File.WriteAllText(fullFilename, saveContent);
     }
 
-    private void LoadMapFromFile()
+    private void LoadMapFromFile(string selectedFilename)
     {
         if(!File.Exists(this._mapFileJson)) return;
 
+        string fullFilename = $"{Environment.CurrentDirectory}/{selectedFilename}";
+        if (string.IsNullOrEmpty(selectedFilename))
+        {
+            fullFilename = this._mapFileJson;
+        }
+
         try
         {
-            var content = File.ReadAllText(this._mapFileJson);
+            var content = File.ReadAllText(fullFilename);
             var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
             
             if(worldMapChunk.WorldMapLayers == null || worldMapChunk.WorldMapLayers.Length == 0)
@@ -82,9 +112,9 @@ public class PersistenceManager : GameComponent
     
     private delegate void NewMapDelegateEventHandler();
     private static event NewMapDelegateEventHandler NewMapEvent;
-    private delegate void SaveMapToFileDelegateEventHandler();
+    private delegate void SaveMapToFileDelegateEventHandler(string filename);
     private static event SaveMapToFileDelegateEventHandler SaveMapToFileEvent;
-    private delegate void LoadMapFromFileDelegateEventHandler();
+    private delegate void LoadMapFromFileDelegateEventHandler(string selectedFilename);
     private static event LoadMapFromFileDelegateEventHandler LoadMapFromFileEvent;
     
     #endregion
