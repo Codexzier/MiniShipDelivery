@@ -19,8 +19,4 @@ public class TexturesGameMenu(Game game) : ISpriteContent<GameMenuPart>
         { GameMenuPart.Map ,new SpriteSetup { Cutout =  new Rectangle(16, 0, 16, 16) }}
     };
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/GameMenuOptions");
-    public Rectangle GetSprite(MapLayer mapLayer, GameMenuPart numberPart)
-    {
-        return this.SpriteContent[numberPart].Cutout;
-    }
 }

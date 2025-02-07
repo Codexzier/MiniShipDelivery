@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +7,7 @@ using MiniShipDelivery.Components.Assets;
 namespace MiniShipDelivery.Components.World.Sprites;
 
 [MapLayerSetup("Trees", 11, true)]
-public class SpriteMapLayerTrees : IMapEditableContent, ISpriteMapContent
+public class SpriteMapLayerTrees : BaseSpriteContent, IMapEditableContent
 {
     public SpriteMapLayerTrees(Game game)
     {
@@ -19,12 +17,7 @@ public class SpriteMapLayerTrees : IMapEditableContent, ISpriteMapContent
 
     public SpriteSetup GetSprite(int numberPart) => this.SpriteContent[numberPart];
     public bool IsLayer(MapLayer mapLayer) => this.Layer == mapLayer;
-    public IDictionary<int, SpriteSetup> SpriteContent { get; }
-    public Texture2D Texture { get; }
     public int NumberPartForIcon => 7;
-    public Type EnumType => null;
     public MapLayer Layer => MapLayer.Trees;
-    public int SpriteCount => this.SpriteContent.Count;
-    public bool HasSpecificNumberPart => false;
     public int[] GetNumberParts() => this.SpriteContent.Select(s => s.Key).ToArray();
 }

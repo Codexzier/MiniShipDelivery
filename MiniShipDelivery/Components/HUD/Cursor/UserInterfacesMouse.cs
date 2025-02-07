@@ -23,5 +23,4 @@ public class UserInterfacesMouse : ISpriteContent<MousePart>
 
     public IDictionary<MousePart, SpriteSetup> SpriteContent { get; } = new Dictionary<MousePart, SpriteSetup>();
     public Texture2D Texture { get; }
-    public Rectangle GetSprite(MapLayer mapLayer, MousePart numberPart) => this.SpriteContent[numberPart].Cutout;
 }

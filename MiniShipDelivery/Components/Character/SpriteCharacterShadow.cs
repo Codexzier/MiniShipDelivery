@@ -22,5 +22,4 @@ public class SpriteCharacterShadow(Game game) : ISpriteContent<CharacterShadowPa
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>(@"Character\CharacterShadow");
-    public Rectangle GetSprite(MapLayer mapLayer, CharacterShadowPart numberPart) => this.SpriteContent[numberPart].Cutout;
 }

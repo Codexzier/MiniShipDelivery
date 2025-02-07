@@ -29,5 +29,4 @@ public class SpriteUiMenuMainButtons : ISpriteContent<UiMenuMainPart>
     public IDictionary<UiMenuMainPart, SpriteSetup> SpriteContent { get; } =
         new Dictionary<UiMenuMainPart, SpriteSetup>();
     public Texture2D Texture { get; }
-    public Rectangle GetSprite(MapLayer mapLayer, UiMenuMainPart numberPart) => this.SpriteContent[numberPart].Cutout;
 }

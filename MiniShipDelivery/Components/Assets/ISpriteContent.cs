@@ -9,14 +9,6 @@ namespace MiniShipDelivery.Components.Assets
     {
         SpriteSetup GetSprite(MapLayer mapLayer, int numberPart);
         IDictionary<TAssetPart, SpriteSetup> SpriteContent { get; }
-        
-        Texture2D Texture { get; }
-    }
-
-    public interface ISpriteMapContent
-    {
-        IDictionary<int, SpriteSetup> SpriteContent { get; }
-        
         Texture2D Texture { get; }
     }
 }

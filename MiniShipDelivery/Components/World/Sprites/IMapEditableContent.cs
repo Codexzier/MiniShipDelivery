@@ -1,5 +1,4 @@
-﻿using System;
-using CodexzierGameEngine.DataModels.World;
+﻿using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
 
@@ -11,10 +10,6 @@ public interface IMapEditableContent
     bool IsLayer(MapLayer mapLayer);
     Texture2D Texture { get; }
     int NumberPartForIcon { get; }
-    
-    Type EnumType { get; }
     MapLayer Layer { get; }
-    int SpriteCount { get; }
-    bool HasSpecificNumberPart { get; }
     int[] GetNumberParts();
 }

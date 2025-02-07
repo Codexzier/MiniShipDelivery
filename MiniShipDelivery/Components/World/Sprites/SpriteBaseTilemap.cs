@@ -9,9 +9,7 @@ namespace MiniShipDelivery.Components.World.Sprites
     public class SpriteBaseTilemap : ISpriteContent<TilemapPart>
     {
         public Texture2D Texture { get; }
-
         public IDictionary<TilemapPart, SpriteSetup> SpriteContent { get; }
-        
         public SpriteBaseTilemap(Game game)
         {
             this.Texture = game.Content.Load<Texture2D>("RpgUrban/TilemapBasement");

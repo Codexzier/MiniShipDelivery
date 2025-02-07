@@ -10,8 +10,6 @@ namespace MiniShipDelivery.Components.Character
     public class SpriteEmote(Game game) : ISpriteContent<EmotePart>
     {
         public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Emote/pixel_style1");
-        public Rectangle GetSprite(MapLayer mapLayer, EmotePart numberPart) => this.SpriteContent[numberPart].Cutout;
-
         public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
         {
             throw new System.NotImplementedException();

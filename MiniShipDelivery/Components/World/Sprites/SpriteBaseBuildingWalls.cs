@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,20 +32,8 @@ public class SpriteBaseBuildingWalls(Game game) : ISpriteContent<BuildingWallPar
         { BuildingWallPart.WithDecorDownRight, new SpriteSetup { Cutout = new Rectangle(48, 48, 16, 16), IsBarrier = true }},
     };
 
-    public bool IsLayer(MapLayer mapLayer)
-    {
-        return this.GetMapLayers().Contains(mapLayer);
-    }
-
-    public MapLayer[] GetMapLayers()
-    {
-        return [MapLayer.BuildingRed, MapLayer.BuildingBrown];
-    }
-
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("RpgUrban/BuildingWalls");
-    public int NumberPartForIcon { get; } = (int) BuildingWallPart.SmallTop;
-    public Type EnumType { get; } = typeof(BuildingWallPart);
-    
+    public int NumberPartForIcon => (int) BuildingWallPart.SmallTop;
 
     public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
     {
@@ -68,11 +54,9 @@ public class SpriteBaseBuildingWalls(Game game) : ISpriteContent<BuildingWallPar
         {
             case MapLayer.BuildingBrown:
                 rec = new Rectangle(mapTile.Cutout.X, mapTile.Cutout.Y + 16 * 4, 16, 16);
-                //rec.Y += 16 * 4;
+
                 break;
         }
-        
-        //mapTile.Cutout = rec;
         
         return new SpriteSetup{ Cutout = rec, IsTopLayer = mapTile.IsTopLayer};
     }

@@ -10,8 +10,6 @@ namespace MiniShipDelivery.Components.Character
     public class SpriteCharacter : ISpriteContent<CharacterPart>
     {
         public Texture2D Texture { get; }
-        public Rectangle GetSprite(MapLayer mapLayer, CharacterPart numberPart) => this.SpriteContent[numberPart].Cutout;
-
         public SpriteSetup GetSprite(MapLayer mapLayer, int numberPart)
         {
             return this.SpriteContent[(CharacterPart)numberPart];

@@ -40,5 +40,4 @@ public class SpriteUiMenuSpriteFrames(Game game) : ISpriteContent<UiMenuFramePar
     };
 
     public Texture2D Texture { get; } = game.Content.Load<Texture2D>("Interface/MenuMapOptions");
-    public Rectangle GetSprite(MapLayer mapLayer, UiMenuFramePart numberPart) => this.SpriteContent[numberPart].Cutout;
 }
