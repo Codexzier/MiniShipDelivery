@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 
-namespace MiniShipDelivery.Components
+namespace MiniShipDelivery.Components.Input
 {
     public class InputManager(
         Game game)

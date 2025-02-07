@@ -6,6 +6,7 @@ using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
 using MiniShipDelivery.Components.HUD.Cursor;
+using MiniShipDelivery.Components.Input;
 using MiniShipDelivery.Components.Objects;
 using MiniShipDelivery.Components.Persistence;
 using MiniShipDelivery.Components.Sound;

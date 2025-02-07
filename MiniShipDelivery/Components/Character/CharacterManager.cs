@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Dialog;
 using MiniShipDelivery.Components.Helpers;
+using MiniShipDelivery.Components.Input;
 
 namespace MiniShipDelivery.Components.Character;
 

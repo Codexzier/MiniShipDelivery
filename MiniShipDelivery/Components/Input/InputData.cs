@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace MiniShipDelivery.Components;
+namespace MiniShipDelivery.Components.Input;
 
 public class InputData
 {

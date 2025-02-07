@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor.Options;
+using MiniShipDelivery.Components.Input;
 using MiniShipDelivery.Components.World.Sprites;
 using MonoGame.Extended;
 

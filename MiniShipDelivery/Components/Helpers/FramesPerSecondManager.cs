@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.GameDebug;
 
-namespace MiniShipDelivery.Components;
+namespace MiniShipDelivery.Components.Helpers;
 
 public class FramesPerSecondManager(Game game) : DrawableGameComponent(game)
 {
