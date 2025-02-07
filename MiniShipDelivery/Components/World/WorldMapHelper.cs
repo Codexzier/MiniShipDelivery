@@ -55,7 +55,9 @@ public static class WorldMapHelper
                 {
                     AssetNumber = GetDefaultNumberByLevelPart(mapLayer, fill),
                     Position = new TilePosition(indexX * 16, indexY * 16),
-                    WorldMapLayerID = (int)mapLayer
+                    WorldMapLayerID = (int)mapLayer,
+                    Width = 16,
+                    Height = 16
                 };
             }
         }

@@ -9,5 +9,7 @@
         public int AssetNumber { get; set; }
         public TilePosition Position { get; set; }
         public bool DrawTop { get; set; }
+        public int Width { get; set; } 
+        public int Height { get; set; } 
     }
 }

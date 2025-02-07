@@ -95,7 +95,7 @@ namespace MiniShipDelivery.Components.Objects
                 {
                     this._spriteBatch.DrawRectangle(
                         collider.Position, 
-                        new SizeF(16f, 16f),
+                        new SizeF(collider.Width, collider.Height),
                         Color.Orange);
                 }
             

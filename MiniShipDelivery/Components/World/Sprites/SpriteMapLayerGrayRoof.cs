@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets;
@@ -12,6 +13,5 @@ public class SpriteMapLayerGrayRoof(SpriteBaseTilemap spriteBase) : IMapEditable
     public Texture2D Texture => spriteBase.Texture;
     public int NumberPartForIcon => (int)TilemapPart.AroundOutBorder;
     public MapLayer Layer => MapLayer.GrayRoof;
-    public int SpriteCount => spriteBase.SpriteContent.Count;
     public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

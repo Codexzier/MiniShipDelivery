@@ -13,7 +13,5 @@ public class SpriteMapLayerBuildingWallRed(SpriteBaseBuildingWalls spriteBase) :
     public Texture2D Texture { get; } = spriteBase.Texture;
     public int NumberPartForIcon { get; } = spriteBase.NumberPartForIcon;
     public MapLayer Layer => MapLayer.BuildingRed;
-    public int SpriteCount => spriteBase.SpriteContent.Count;
-    public bool HasSpecificNumberPart => true;
     public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

@@ -12,6 +12,5 @@ public class SpriteMapLayerBuildingWallBrown(SpriteBaseBuildingWalls spriteBase)
     public Texture2D Texture { get; } = spriteBase.Texture;
     public int NumberPartForIcon { get; } = spriteBase.NumberPartForIcon;
     public MapLayer Layer => MapLayer.BuildingBrown;
-    public int SpriteCount => spriteBase.SpriteContent.Count;
     public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

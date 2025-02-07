@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,11 +21,4 @@ public class SpriteMapStreetV2 : BaseSpriteContent, IMapEditableContent
     public int NumberPartForIcon => 1;
     public MapLayer Layer => MapLayer.Street;
     public int[] GetNumberParts() => this.SpriteContent.Select(s => s.Key).ToArray();
-}
-
-public abstract class BaseSpriteContent
-{
-    protected IDictionary<int, SpriteSetup> SpriteContent { get; init; }
-    public Texture2D Texture { get; protected init; }
-    public int SpriteCount => this.SpriteContent.Count;
 }

@@ -14,10 +14,8 @@ public class SpriteMapLayerSidewalk(SpriteBaseTilemap spriteBase) : IMapEditable
     }
 
     public bool IsLayer(MapLayer mapLayer) => MapLayer.Sidewalk == mapLayer;
-
     public Texture2D Texture => spriteBase.Texture;
     public int NumberPartForIcon => (int)TilemapPart.AroundOutBorder;
     public MapLayer Layer => MapLayer.Sidewalk;
-    public int SpriteCount => spriteBase.SpriteContent.Count;
     public int[] GetNumberParts() => spriteBase.SpriteContent.Select(s => (int)s.Key).ToArray();
 }

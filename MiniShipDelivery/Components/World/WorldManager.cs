@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -67,10 +66,46 @@ namespace MiniShipDelivery.Components.World
                            out var mapTile))
                     {
                         if( mapTile.AssetNumber == 0) continue;
+
+                        ColliderBox2D colliderBox2D = null;
+                        switch (mapTile.AssetNumber)
+                        {
+                            case 1:
+                            {
+                                colliderBox2D = new ColliderBox2D(16, 16)
+                                {
+                                    Position = mapTile.Position.TilePositionToVector()
+                                };
+                                break;
+                            }
+                            case 2:
+                            {
+                                colliderBox2D = new ColliderBox2D(16, 8)
+                                {
+                                    Position = mapTile.Position.TilePositionToVector()
+                                };
+                                break;
+                            }
+                            case 3:
+                            {
+                                colliderBox2D = new ColliderBox2D(16, 8)
+                                {
+                                    Position = mapTile
+                                        .Position
+                                        .TilePositionToVector() + new Vector2(0, 8)
+                                };
+                                break;
+                            }
+                        }
+
+                        if (collidableObjects == null)
+                        {
+                            throw new System.Exception(
+                                "ColliderBox2D not implemented for AssetNumber: " + 
+                                mapTile.AssetNumber);
+                        }
                         
-                        collidableObjects.Add(new ColliderBox2D(16, 16){ 
-                            Position = mapTile.Position.TilePositionToVector()
-                        });
+                        collidableObjects.Add(colliderBox2D);
                     }
                 }
             }
