@@ -108,7 +108,7 @@ namespace MiniShipDelivery
             this.Components.Add(fps);
             
             // TODO: sollte ich das nicht anders machen?
-            PersistenceManager.LoadMap();
+            PersistenceManager.LoadMap(string.Empty);
             
             // Music
             this.MusicManagerInstance = new MusicManager(this);

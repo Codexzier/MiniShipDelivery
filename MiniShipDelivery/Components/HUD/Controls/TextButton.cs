@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
@@ -8,51 +9,43 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.Controls;
 
-public class TextButton
+public class TextButton(
+    Game game,
+    Vector2 position,
+    string text)
 {
-    private readonly InputManager _input;
-    private readonly CameraManager _camera ;
-    private readonly SoundManager _sound;
-    private readonly Vector2 _position;
-    private readonly string _text;
-    
+    private readonly InputManager _input = game.GetComponent<InputManager>();
+    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
+    private readonly SoundManager _sound = game.GetComponent<SoundManager>();
+
     private readonly SizeF _buttonSize = new(64, 16);
-    private readonly SpriteFont _font;
-    private readonly Texture2D _texture;
+    private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
+    private readonly Texture2D _texture = game.Content.Load<Texture2D>("Interface/EmptyButton");
 
     public Vector2 ShiftPosition { get; set; } = new(0, 0);
 
-    public TextButton(
-        Game game, 
-        Vector2 position,
-        string text)
-    {
-        this._input = game.GetComponent<InputManager>();
-        this._camera = game.GetComponent<CameraManager>();
-        this._sound = game.GetComponent<SoundManager>();
-        this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
-        this._texture = game.Content.Load<Texture2D>("Interface/EmptyButton");
-
-        this._position = position;
-        this._text = text;
-    }
-    
     public void Update()
     {
-        var inRange =  HudHelper.IsMouseInRange(this._position, this._buttonSize);
-        this._sound.PlayHover(inRange, this._text);
+        var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
+        this._sound.PlayHover(inRange, text);
     }
     
     public void Draw(SpriteBatch spriteBatch)
     {
-        var pos = this._camera.Camera.Position + this._position;
+        var pos = this._camera.Camera.Position + position;
 
-        var inRange =  HudHelper.IsMouseInRange(this._position, this._buttonSize);
+        var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
+        var hasPressed = this._input.GetMouseLeftButtonReleasedState(position, this._buttonSize);
+
+        if (hasPressed)
+        {
+            Debug.WriteLine($"Pressed: {position}, Button: {text}");
+        }
         
-        if (inRange && this._input.GetMouseLeftButtonReleasedState(this._position, this._buttonSize))
+        if (inRange && hasPressed)
         {
             this._sound.PlayPressed();
-            this.ButtonAreaWasPressedEvent?.Invoke(this._text);
+            this.WasPressedEvent?.Invoke(text);
         }
         
         var isInRangeColor = SimpleThinksHelper.BoolToColor(inRange);
@@ -64,19 +57,20 @@ public class TextButton
         
         spriteBatch.DrawString(
             this._font,
-            this._text,
+            text,
             pos + this.ShiftPosition,
             Color.White);
         
         spriteBatch.DrawRectangle(
-            pos, this._buttonSize,
+            pos, 
+            this._buttonSize,
             isInRangeColor);
     }
     
     #region event handler
     
     public delegate void ButtonAreaWasPressedEventHandler(string buttonText);
-    public event ButtonAreaWasPressedEventHandler ButtonAreaWasPressedEvent;
+    public event ButtonAreaWasPressedEventHandler WasPressedEvent;
     
     #endregion
 }

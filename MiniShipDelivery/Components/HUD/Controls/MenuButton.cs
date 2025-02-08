@@ -48,8 +48,7 @@ public class MenuButton(
             Color.AliceBlue);
         
         spriteBatch.DrawRectangle(
-            pos,
-            new SizeF(64, 16),
+            pos, this._buttonSize,
             isInRangeColor);
     }
     

@@ -100,6 +100,8 @@ public class MapEditorMenuCommon : BaseMenu
             case InterfaceMenuEditorOptionPart.Load:
                 
                 this._openDialog.IsVisible = true;
+                HudManager.MouseIsOverMenu = true;
+                GlobaleGameParameters.SystemDialogBox = true;
                 PersistenceManager.SetFileList();
                 
                 break;
@@ -107,6 +109,8 @@ public class MapEditorMenuCommon : BaseMenu
 
                 this._saveDialog.IsVisible = true;
                 GlobaleGameParameters.DialogState.DialogOn = true;
+                GlobaleGameParameters.SystemDialogBox = true;
+                HudManager.MouseIsOverMenu = true;
                 
                 break;
             case InterfaceMenuEditorOptionPart.Grid:
@@ -128,6 +132,7 @@ public class MapEditorMenuCommon : BaseMenu
         base.Update();
         
         this._saveDialog.Update();
+        this._openDialog.Update();
     }
     
     public override void Draw(SpriteBatch spriteBatch)

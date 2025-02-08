@@ -32,7 +32,7 @@ public class SaveDialog : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf - 70,
                 GlobaleGameParameters.ScreenHeightHalf + 5),
             "Save");
-        this._buttonSave.ButtonAreaWasPressedEvent += this.ButtonPressed;
+        this._buttonSave.WasPressedEvent += this.ButtonPressed;
 
         this._buttonCancel = new TextButton(
             game,
@@ -40,7 +40,7 @@ public class SaveDialog : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf + 6,
                 GlobaleGameParameters.ScreenHeightHalf + 5),
             "Cancel");
-        this._buttonCancel.ButtonAreaWasPressedEvent += this.ButtonPressed;
+        this._buttonCancel.WasPressedEvent += this.ButtonPressed;
         
         this._buttonSave.ShiftPosition = new Vector2(20, 2);
         this._buttonCancel.ShiftPosition = new Vector2(17, 2);
@@ -55,6 +55,8 @@ public class SaveDialog : BaseMenu
 
         this.IsVisible = false;
         GlobaleGameParameters.DialogState.DialogExit = true;
+        GlobaleGameParameters.SystemDialogBox = false;
+        HudManager.MouseIsOverMenu = false;
     }
 
     public override void Update()

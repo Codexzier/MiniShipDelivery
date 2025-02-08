@@ -40,7 +40,7 @@ public class OpenDialog : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf - 70,
                 GlobaleGameParameters.ScreenHeightHalf + 25),
             "Open");
-        this._buttonOpen.ButtonAreaWasPressedEvent += this.ButtonPressed;
+        this._buttonOpen.WasPressedEvent += this.ButtonPressed;
         
         this._buttonCancel = new TextButton(
             game,
@@ -48,7 +48,7 @@ public class OpenDialog : BaseMenu
                 GlobaleGameParameters.ScreenWidthHalf + 6,
                 GlobaleGameParameters.ScreenHeightHalf + 25),
             "Cancel");
-        this._buttonCancel.ButtonAreaWasPressedEvent += this.ButtonPressed;
+        this._buttonCancel.WasPressedEvent += this.ButtonPressed;
         
         this._buttonOpen.ShiftPosition = new Vector2(20, 2);
         this._buttonCancel.ShiftPosition = new Vector2(17, 2);
@@ -59,10 +59,13 @@ public class OpenDialog : BaseMenu
         if (buttonText == "Open")
         {
             // Open dialog logic
-            PersistenceManager.LoadMap(string.Empty);
+            PersistenceManager.LoadMap(this.SelectedFilename);
         }
         
         this.IsVisible = false;
+        GlobaleGameParameters.DialogState.DialogExit = true;
+        GlobaleGameParameters.SystemDialogBox = false;
+        HudManager.MouseIsOverMenu = false;
     }
     
     public override void Update()
@@ -147,5 +150,11 @@ public class OpenDialog : BaseMenu
             pos + new Vector2(0, index * 13),
             new SizeF(this.Size.Width - 10, 13),
             isInRangeColor);
+        
+        var isSelected = SimpleThinksHelper.BoolToColor(index == this.SelectedIndex);
+        spriteBatch.DrawRectangle(
+            pos + new Vector2(0, index * 13),
+            new SizeF(this.Size.Width - 10, 13),
+            isSelected);
     }
 }

@@ -21,6 +21,6 @@ public static class GlobaleGameParameters
     public static bool DebugMode = false;
     
     public static bool ShowDialogBox = false;
-    
+    public static bool SystemDialogBox = false;
     public static readonly DialogState DialogState = new ();
 }

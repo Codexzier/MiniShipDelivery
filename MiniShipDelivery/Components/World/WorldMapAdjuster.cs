@@ -32,6 +32,8 @@ public class WorldMapAdjuster
         
     public void UpdateSetMapTile()
     {
+        if(GlobaleGameParameters.SystemDialogBox) return;
+        
         this.UpdateCurrentSelectableMapTile();
         if(this.CurrentMapTile == null) return;
             

@@ -133,6 +133,14 @@ namespace MiniShipDelivery.Components.HUD
                 MouseIsOverMenu = true;
                 return;
             }
+            
+            // Thats is dirty
+            if (GlobaleGameParameters.HudView == HudOptionView.MapEditor &&
+                GlobaleGameParameters.SystemDialogBox)
+            {
+                MouseIsOverMenu = true;
+                return;
+            }
 
             MouseIsOverMenu = false;
         }
