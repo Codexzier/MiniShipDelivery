@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
+using MiniShipDelivery.Components.Input;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Dialog;
@@ -9,7 +11,8 @@ namespace MiniShipDelivery.Components.Dialog;
 internal class DialogMenu : BaseMenu
 {
     private readonly SpriteFont _font;
-    
+    private readonly InputManager _input;
+
     public DialogMenu(Game game)
         :base(
             game, 
@@ -21,7 +24,7 @@ internal class DialogMenu : BaseMenu
                 36))
     {
         this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
-        
+        this._input = game.GetComponent<InputManager>();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -37,7 +40,7 @@ internal class DialogMenu : BaseMenu
             Color.Black,
             0.5f);
 
-        if (!GlobaleGameParameters.DialogState.DialogOn)
+        if (!GlobaleGameParameters.ShowDialogBox)
         {
             spriteBatch.DrawString(
                 this._font,
@@ -56,7 +59,7 @@ internal class DialogMenu : BaseMenu
     {
         spriteBatch.DrawString(
             this._font,
-            GlobaleGameParameters.DialogState.TextNpc,
+            GlobaleGameParameters.DialogTextNpc,
             pos + new Vector2(2, 0),
             Color.White);
     }
@@ -65,13 +68,13 @@ internal class DialogMenu : BaseMenu
     {
         spriteBatch.DrawString(
             this._font,
-            GlobaleGameParameters.DialogState.TextPlayer,
+            GlobaleGameParameters.DialogTextUser,
             pos + new Vector2(2, 12),
             Color.White);
             
         spriteBatch.DrawString(
             this._font,
-            $"{GlobaleGameParameters.DialogState.TextPlayer.Length}",
+            $"{GlobaleGameParameters.DialogTextUser.Length}",
             pos + new Vector2(GlobaleGameParameters.ScreenWidth - 25, 12),
             Color.White);
     }

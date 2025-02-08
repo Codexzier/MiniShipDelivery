@@ -63,7 +63,11 @@ public class OpenDialog : BaseMenu
         }
         
         this.IsVisible = false;
-        GlobaleGameParameters.DialogState.DialogExit = true;
+        
+        // TODO: I need a system bus to transport information to the other manager
+        //GlobaleGameParameters.DialogState.DialogExit = true;
+        
+        
         GlobaleGameParameters.SystemDialogBox = false;
         HudManager.MouseIsOverMenu = false;
     }
@@ -97,7 +101,6 @@ public class OpenDialog : BaseMenu
             
             PersistenceManager.LoadMap(this.SelectedFilename);
             //this._sound.PlayPressed();
-            //this.ButtonAreaWasPressedEvent?.Invoke(menuMainPart);
         }
     }
     

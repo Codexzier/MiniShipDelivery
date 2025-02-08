@@ -78,13 +78,13 @@ namespace MiniShipDelivery.Components.Input
         
         private void UpdateKeyboardPressed(GameTime gameTime)
         {
-            if(GlobaleGameParameters.DialogState.DialogOn &&
-               GlobaleGameParameters.DialogState.DialogExit )
+            if(this._inputTextController.dialogState.DialogOn &&
+               this._inputTextController.dialogState.DialogExit )
             {
                 if (gameTime.TotalGameTime.TotalSeconds > this._dialogExitTime + 1)
                 {
-                    GlobaleGameParameters.DialogState.DialogExit = false;
-                    GlobaleGameParameters.DialogState.DialogOn = false;
+                    this._inputTextController.dialogState.DialogExit = false;
+                    this._inputTextController.dialogState.DialogOn = false;
                 }
                 return;
             }
@@ -94,35 +94,35 @@ namespace MiniShipDelivery.Components.Input
             var keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.Enter) &&
-                !GlobaleGameParameters.DialogState.DialogExit)
+                !this._inputTextController.dialogState.DialogExit)
             {
-                GlobaleGameParameters.DialogState.DialogOn = true;
+                this._inputTextController.dialogState.DialogOn = true;
             }
 
-            if (!GlobaleGameParameters.DialogState.DialogOn) return;
-            if(!string.IsNullOrEmpty(GlobaleGameParameters.DialogState.DialogLetter)) return;
+            if (!this._inputTextController.dialogState.DialogOn) return;
+            if(!string.IsNullOrEmpty(this._inputTextController.dialogState.DialogLetter)) return;
 
             foreach (var keyValuePair in this._dictionary)
             {
-                if (!GlobaleGameParameters.DialogState.LetterIsPressed && keyboardState.IsKeyDown(keyValuePair.Key))
+                if (!this._inputTextController.dialogState.LetterIsPressed && keyboardState.IsKeyDown(keyValuePair.Key))
                 {
-                    GlobaleGameParameters.DialogState.DialogLetter = keyValuePair.Value;
-                    GlobaleGameParameters.DialogState.LetterIsPressed = true;
-                    GlobaleGameParameters.DialogState.KeyIsPressed = keyValuePair.Key;
+                    this._inputTextController.dialogState.DialogLetter = keyValuePair.Value;
+                    this._inputTextController.dialogState.LetterIsPressed = true;
+                    this._inputTextController.dialogState.KeyIsPressed = keyValuePair.Key;
                     return;
                 }
             }
             
-            if(GlobaleGameParameters.DialogState.LetterIsPressed && 
-               keyboardState.IsKeyUp(GlobaleGameParameters.DialogState.KeyIsPressed))
+            if(this._inputTextController.dialogState.LetterIsPressed && 
+               keyboardState.IsKeyUp(this._inputTextController.dialogState.KeyIsPressed))
             {
-                GlobaleGameParameters.DialogState.LetterIsPressed = false;
+                this._inputTextController.dialogState.LetterIsPressed = false;
             }
         }
 
         private Vector2 GetMovement()
         {
-            if(GlobaleGameParameters.DialogState.DialogOn) return Vector2.Zero;
+            if(this._inputTextController.dialogState.DialogOn) return Vector2.Zero;
             
             var movement = GamePad.GetState(PlayerIndex).ThumbSticks.Left;
 

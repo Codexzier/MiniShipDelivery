@@ -1,65 +1,72 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using MiniShipDelivery.Components.Dialog;
 
 namespace MiniShipDelivery.Components.Input;
 
 public class InputTextController
 {
+    public DialogState dialogState = new();
+    
     public void Update()
     {
-        if (!GlobaleGameParameters.DialogState.DialogOn) return;
+        if (!this.dialogState.DialogOn) return;
         
-        if(!string.IsNullOrEmpty(GlobaleGameParameters.DialogState.DialogLetter) &&
-           GlobaleGameParameters.DialogState.KeyIsPressed != Keys.Enter)
+        if(!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
+           this.dialogState.KeyIsPressed != Keys.Enter)
         {
-            if(GlobaleGameParameters.DialogState.KeyIsPressed == Keys.Back)
+            if(this.dialogState.KeyIsPressed == Keys.Back)
             {
-                if(GlobaleGameParameters.DialogState.TextPlayer.Length > 0)
+                if(this.dialogState.TextPlayer.Length > 0)
                 {
-                    GlobaleGameParameters.DialogState.TextPlayer = 
-                        GlobaleGameParameters.DialogState.TextPlayer.Remove(
-                            GlobaleGameParameters.DialogState.TextPlayer.Length - 1);
-                    GlobaleGameParameters.DialogState.DialogLetter = "";
+                    this.dialogState.TextPlayer = 
+                        this.dialogState.TextPlayer.Remove(
+                            this.dialogState.TextPlayer.Length - 1);
+                    this.dialogState.DialogLetter = "";
                 }
             }
             else
             {
-                GlobaleGameParameters.DialogState.TextPlayer += GlobaleGameParameters.DialogState.DialogLetter;
-                GlobaleGameParameters.DialogState.DialogLetter = "";
+                this.dialogState.TextPlayer += this.dialogState.DialogLetter;
+                this.dialogState.DialogLetter = "";
             }
         }
         
-        if(!string.IsNullOrEmpty(GlobaleGameParameters.DialogState.DialogLetter) &&
-           GlobaleGameParameters.DialogState.DialogLetter == "ENTER" &&
-           GlobaleGameParameters.DialogState.KeyIsPressed == Keys.Enter)
+        GlobaleGameParameters.DialogTextUser = this.dialogState.TextPlayer;
+        
+        if(!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
+           this.dialogState.DialogLetter == "ENTER" &&
+           this.dialogState.KeyIsPressed == Keys.Enter)
         {
-            if(GlobaleGameParameters.DialogState.TextPlayer == "EXIT")
+            if(this.dialogState.TextPlayer == "EXIT")
             {
-                GlobaleGameParameters.DialogState.DialogExit = true;
+                this.dialogState.DialogExit = true;
             }
 
-            switch (GlobaleGameParameters.DialogState.TextPlayer)
+            switch (this.dialogState.TextPlayer)
             {
                 case "HELLO":
-                    GlobaleGameParameters.DialogState.TextNpc = "Hello, how are you?";
+                    this.dialogState.TextNpc = "Hello, how are you?";
                     break;
                 case "GOOD":
-                    GlobaleGameParameters.DialogState.TextNpc = "I'm fine, thank you!";
+                    this.dialogState.TextNpc = "I'm fine, thank you!";
                     break;
                 case "BYE":
-                    GlobaleGameParameters.DialogState.TextNpc = "Goodbye!";
-                    GlobaleGameParameters.DialogState.DialogExit = true;
+                    this.dialogState.TextNpc = "Goodbye!";
+                    this.dialogState.DialogExit = true;
                     break;
             }
             
-            GlobaleGameParameters.DialogState.TextPlayer = string.Empty;
-            GlobaleGameParameters.DialogState.DialogLetter = ""; 
+            this.dialogState.TextPlayer = string.Empty;
+            this.dialogState.DialogLetter = ""; 
         }
+        
+        GlobaleGameParameters.DialogTextNpc = this.dialogState.TextNpc;
 
-        if (!string.IsNullOrEmpty(GlobaleGameParameters.DialogState.DialogLetter) &&
-            GlobaleGameParameters.DialogState.KeyIsPressed == Keys.Back &&
-            GlobaleGameParameters.DialogState.DialogLetter == "BACK")
+        if (!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
+            this.dialogState.KeyIsPressed == Keys.Back &&
+            this.dialogState.DialogLetter == "BACK")
         {
-            GlobaleGameParameters.DialogState.DialogLetter = "";
+            this.dialogState.DialogLetter = "";
         }
     }
 }

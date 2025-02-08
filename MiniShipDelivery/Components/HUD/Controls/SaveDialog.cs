@@ -50,11 +50,14 @@ public class SaveDialog : BaseMenu
     {
         if (buttonText == "Save")
         {
-            PersistenceManager.SaveMap(GlobaleGameParameters.DialogState.TextPlayer);
+            PersistenceManager.SaveMap(GlobaleGameParameters.DialogTextUser);
         }
 
         this.IsVisible = false;
-        GlobaleGameParameters.DialogState.DialogExit = true;
+        
+        // TODO: I need a system bus to transport information to the other manager
+        //GlobaleGameParameters.DialogState.DialogExit = true;
+        
         GlobaleGameParameters.SystemDialogBox = false;
         HudManager.MouseIsOverMenu = false;
     }
@@ -91,7 +94,7 @@ public class SaveDialog : BaseMenu
         // text in dialog box for used to save the actual map
         spriteBatch.DrawString(
             this._font,
-            GlobaleGameParameters.DialogState.TextPlayer,
+            GlobaleGameParameters.DialogTextUser,
             pos + new Vector2(6, 6),
             Color.White);
 

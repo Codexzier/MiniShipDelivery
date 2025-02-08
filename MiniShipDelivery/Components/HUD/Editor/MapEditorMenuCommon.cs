@@ -108,7 +108,10 @@ public class MapEditorMenuCommon : BaseMenu
             case InterfaceMenuEditorOptionPart.Save:
 
                 this._saveDialog.IsVisible = true;
-                GlobaleGameParameters.DialogState.DialogOn = true;
+                
+                // TODO: I need a system bus to transport information to the other manager
+                //GlobaleGameParameters.DialogState.DialogOn = true;
+                
                 GlobaleGameParameters.SystemDialogBox = true;
                 HudManager.MouseIsOverMenu = true;
                 
