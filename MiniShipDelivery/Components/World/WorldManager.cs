@@ -23,7 +23,7 @@ namespace MiniShipDelivery.Components.World
             WorldMapHelper.SetMapTextures(new WorldMapSprites(game));
             
             this.Map = new WorldMap();
-            this._adjuster = new WorldMapAdjuster(game, this.Map);
+            this._adjuster = new WorldMapAdjuster(this.Map);
         }
 
         public override void Update(GameTime gameTime)

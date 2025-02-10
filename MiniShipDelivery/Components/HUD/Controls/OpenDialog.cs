@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
-using MiniShipDelivery.Components.Input;
 using MiniShipDelivery.Components.Persistence;
 using MonoGame.Extended;
 
@@ -11,7 +10,6 @@ namespace MiniShipDelivery.Components.HUD.Controls;
 
 public class OpenDialog : BaseMenu
 {
-    private readonly InputManager _input;
     private readonly SpriteFont _font;
     private readonly TextButton _buttonOpen;
     private readonly TextButton _buttonCancel;
@@ -27,12 +25,11 @@ public class OpenDialog : BaseMenu
             new Vector2(
                 GlobaleGameParameters.ScreenWidthHalf - 80,
                 GlobaleGameParameters.ScreenHeightHalf - 50),
-            new Size(
+            new SizeF(
                 160,
                 100))
     {
         this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
-        this._input = game.GetComponent<InputManager>();
         
         this._buttonOpen = new TextButton(
             game,
@@ -92,7 +89,7 @@ public class OpenDialog : BaseMenu
             this.Position + new Vector2(0, index * 13), 
             new SizeF(this.Size.Width - 10, 13));
         
-        if (inRange && this._input.GetMouseLeftButtonReleasedState(
+        if (inRange && this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 this.Position + new Vector2(0, index * 13), 
                 new SizeF(this.Size.Width - 10, 13)))
         {
@@ -110,7 +107,7 @@ public class OpenDialog : BaseMenu
         
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type1);
         
-        var pos = this.Camera.Camera.Position + this.Position + new Vector2(5, 5);
+        var pos = this.Bus.Camera.GetPosition() + this.Position + new Vector2(5, 5);
         
         // black dialog box in frame
         spriteBatch.FillRectangle(

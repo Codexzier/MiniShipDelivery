@@ -14,8 +14,7 @@ public class TextButton(
     Vector2 position,
     string text)
 {
-    private readonly InputManager _input = game.GetComponent<InputManager>();
-    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
+    private ApplicationBus Bus => ApplicationBus.Instance;
     private readonly SoundManager _sound = game.GetComponent<SoundManager>();
 
     private readonly SizeF _buttonSize = new(64, 16);
@@ -32,10 +31,10 @@ public class TextButton(
     
     public void Draw(SpriteBatch spriteBatch)
     {
-        var pos = this._camera.Camera.Position + position;
+        var pos = this.Bus.Camera.GetPosition() + position;
 
         var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
-        var hasPressed = this._input.GetMouseLeftButtonReleasedState(position, this._buttonSize);
+        var hasPressed = this.Bus.Inputs.GetMouseButtonReleasedStateLeft(position, this._buttonSize);
 
         if (hasPressed)
         {

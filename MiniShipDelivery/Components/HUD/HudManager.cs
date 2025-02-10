@@ -15,6 +15,7 @@ namespace MiniShipDelivery.Components.HUD
 {
     public class HudManager : DrawableGameComponent
     {
+        private ApplicationBus Bus => ApplicationBus.Instance;
         private readonly SpriteBatch _spriteBatch;
         
         private readonly MainMenuHud _mainMenuHud;
@@ -25,13 +26,10 @@ namespace MiniShipDelivery.Components.HUD
         private readonly MapEditorHud _mapEditorHud;
         
         private readonly OptionsMenuManager _optionsMenuManager;
-        
-        private readonly CameraManager _camera;
 
         public HudManager(Game game) : base(game)
         {
             this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            this._camera = game.GetComponent<CameraManager>();
             
             this._mainMenuHud = new MainMenuHud(
                 game, 
@@ -112,12 +110,13 @@ namespace MiniShipDelivery.Components.HUD
         /// </summary>
         private void DrawRectangles()
         {
+            var pos = this.Bus.Camera.GetPosition();
             foreach (var rectangle in MapEditorMenu.MenuField)
             {
                 this._spriteBatch.DrawRectangle(
                     new RectangleF(
-                        rectangle.X + this._camera.Camera.Position.X, 
-                        rectangle.Y + this._camera.Camera.Position.Y, 
+                        rectangle.X + pos.X, 
+                        rectangle.Y + pos.Y, 
                         rectangle.Width, 
                         rectangle.Height), 
                     Color.Chocolate);

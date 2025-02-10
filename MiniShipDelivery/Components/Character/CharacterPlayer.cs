@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Assets.Parts;
-using MiniShipDelivery.Components.Input;
 
 namespace MiniShipDelivery.Components.Character
 {
     public class CharacterPlayer : BaseCharacter
     {
-        private readonly InputManager _input;
         private readonly Vector2 _screenPosition;
         private readonly CharacterType _characterType;
 
@@ -15,12 +13,10 @@ namespace MiniShipDelivery.Components.Character
             SpriteCharacter sprite,
             SpriteCharacterShadow spriteCharacterShadow,
             SpriteEmote spriteEmote,
-            InputManager input,
             Vector2 screenPosition,
             CharacterType characterType) 
             : base(sprite, spriteCharacterShadow, spriteEmote)
         {
-            this._input = input;
             this._screenPosition = screenPosition;
             this._characterType = characterType;
             this.Collider.Position = new Vector2(70, 70);
@@ -38,7 +34,7 @@ namespace MiniShipDelivery.Components.Character
             this.Emote = EmotePart.EmoteLove;
             
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-           this.Direction = this._input.Inputs.MovementCharacter;
+           this.Direction = ApplicationBus.Instance.Inputs.MovementCharacter;
 
             if (this.Direction != Vector2.Zero)
             {

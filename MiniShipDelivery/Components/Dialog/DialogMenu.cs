@@ -1,37 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
-using MiniShipDelivery.Components.Input;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Dialog;
 
-internal class DialogMenu : BaseMenu
+internal class DialogMenu(Game game) : BaseMenu(game,
+    new Vector2(
+        0,
+        GlobaleGameParameters.ScreenHeight - 36),
+    new SizeF(
+        GlobaleGameParameters.ScreenWidth,
+        36))
 {
-    private readonly SpriteFont _font;
-    private readonly InputManager _input;
-
-    public DialogMenu(Game game)
-        :base(
-            game, 
-            new Vector2(
-                0,
-                GlobaleGameParameters.ScreenHeight - 36),
-            new Size(
-                GlobaleGameParameters.ScreenWidth, 
-                36))
-    {
-        this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
-        this._input = game.GetComponent<InputManager>();
-    }
+    private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type1);
         
-        var pos = this.Camera.Camera.Position + this.Position + new Vector2(5, 5);
+        var pos = this.Bus.Camera.GetPosition() + this.Position + new Vector2(5, 5);
         
         // black dialog box in frame
         spriteBatch.FillRectangle(

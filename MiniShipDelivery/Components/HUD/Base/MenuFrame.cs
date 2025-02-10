@@ -23,7 +23,7 @@ namespace MiniShipDelivery.Components.HUD.Base
 
         public void DrawMenuFrame(SpriteBatch spriteBatch,
             Vector2 position,
-            Size size,
+            SizeF size,
             MenuFrameType mft)
         {
             var countMiddleForWidth = (size.Width - (2 * 4)) / 4;
@@ -59,8 +59,9 @@ namespace MiniShipDelivery.Components.HUD.Base
                 mft);
         }
 
-        private void CreateScreenWidthFrame(SpriteBatch spriteBatch, 
-            int countMiddleForWidth, 
+        private void CreateScreenWidthFrame(
+            SpriteBatch spriteBatch, 
+            float countMiddleForWidth, 
             Vector2 shiftPosition, 
             UiMenuFramePart left, 
             UiMenuFramePart middle, 

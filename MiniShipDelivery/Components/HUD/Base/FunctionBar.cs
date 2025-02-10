@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Editor.Options;
-using MiniShipDelivery.Components.Input;
 using MiniShipDelivery.Components.World.Sprites;
 using MonoGame.Extended;
 
@@ -20,9 +19,8 @@ public class FunctionBar(
     Action<SpriteBatch, Vector2, FunctionItem> drawButton,
     Func<FunctionItem, Color, Color> changeColorForActive)
 {
-    private readonly InputManager _input = game.GetComponent<InputManager>();
-    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
-
+    private ApplicationBus _bus => ApplicationBus.Instance;
+    
     /// <summary>
     /// I use the dictionary for paging.
     /// </summary>
@@ -30,31 +28,6 @@ public class FunctionBar(
 
     private int _maxPerPage = 18;
     private int _indexForPaging;
-
-    // public void RefillOptions(Type enumType, int columns) 
-    // {
-    //     if (enumType == null)
-    //     {
-    //         return;
-    //     }
-    //     
-    //     if (enumType.BaseType != typeof(Enum))
-    //     {
-    //         throw new ArgumentException("Only enums are supported");
-    //     }
-    //     
-    //     this._functionItems.Clear();
-    //     //this._functionItems.Add(0, []);
-    //     
-    //     var rows = (int)(size.Height - startPosition.Y) / 18;
-    //     this._maxPerPage = rows * columns;
-    //     
-    //     foreach (var valPart in Enum.GetValues(enumType))
-    //     {
-    //         if((int)valPart == 0) continue;
-    //         this.AddFunctionItem(valPart, columns);
-    //     }
-    // }
     
     public void RefillOptions(EditableEnvironmentItem editableEnvironmentItem, int columns)
     {
@@ -69,13 +42,6 @@ public class FunctionBar(
             if(numberPart == 0) continue;
             this.AddFunctionItem(numberPart, columns);
         }
-        
-        
-        // for (int indexSprite = 0; indexSprite < editableEnvironmentItem.SpriteCount; indexSprite++)
-        // {
-        //     // zero is for not selected and no tile
-        //     this.AddFunctionItem(indexSprite + 1, columns);
-        // }
     }
     
     public void FillOptions<TAssertPart>(int columns) where TAssertPart : Enum
@@ -135,7 +101,7 @@ public class FunctionBar(
     
     private void DrawSelectableArea(SpriteBatch spriteBatch, FunctionItem item)
     {
-        var pos = this._camera.Camera.Position + 
+        var pos = this._bus.Camera.GetPosition() + 
                   item.Position + 
                   startPosition;
             
@@ -145,7 +111,7 @@ public class FunctionBar(
         var inRange = HudHelper.IsMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
-            if (this._input.GetMouseLeftButtonReleasedState(
+            if (this._bus.Inputs.GetMouseButtonReleasedStateLeft(
                     positionSelectable, 
                     item.Size))
             {

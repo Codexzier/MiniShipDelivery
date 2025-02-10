@@ -7,18 +7,14 @@ namespace MiniShipDelivery.Components.HUD.Cursor;
 
 public class MouseManager : DrawableGameComponent
 {
-    
+    private ApplicationBus Bus => ApplicationBus.Instance;
     private readonly SpriteBatch _spriteBatch;
     private readonly UserInterfacesMouse _userInterfaceMouse;
-    private readonly InputManager _input;
-    private readonly CameraManager _camera;
 
     public MouseManager(Game game) : base(game)
     {
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         this._userInterfaceMouse = new UserInterfacesMouse(game);
-        this._input = game.GetComponent<InputManager>();
-        this._camera = game.GetComponent<CameraManager>();
     }
 
     public override void Draw(GameTime gameTime)
@@ -27,7 +23,7 @@ public class MouseManager : DrawableGameComponent
         
         this._spriteBatch.Draw(
             this._userInterfaceMouse.Texture,
-            this._input.Inputs.MousePosition + this._camera.Camera.Position,
+            ApplicationBus.Instance.Inputs.MousePosition + this.Bus.Camera.GetPosition(),
             this._userInterfaceMouse.SpriteContent[MousePart.Cursor].Cutout,
             Color.AliceBlue);
         

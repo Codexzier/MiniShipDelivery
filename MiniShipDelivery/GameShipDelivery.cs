@@ -39,7 +39,6 @@ namespace MiniShipDelivery
             var input = new InputManager(this);
             input.UpdateOrder = 2;
             this.Components.Add(input);
-            HudHelper.Inputs = input.Inputs;
             
             // Sound
             var soundManager = new SoundManager(this);

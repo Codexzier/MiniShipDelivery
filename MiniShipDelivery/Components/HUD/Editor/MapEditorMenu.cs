@@ -31,7 +31,7 @@ public class MapEditorMenu : BaseMenu
     public MapEditorMenu(Game game) : base(
         game,
         new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
-        new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
+        new SizeF(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
     {
         this._spriteUiMenuSpriteOptions = new SpriteUiMenuSpriteOptions(game);
 

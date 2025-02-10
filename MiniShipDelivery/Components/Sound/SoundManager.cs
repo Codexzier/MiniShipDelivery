@@ -11,7 +11,7 @@ public class SoundManager(Game game) : GameComponent(game)
     private readonly SoundEffect _soundEffectPressed = game.Content.Load<SoundEffect>("Interface/click3");
     private readonly SoundEffect _soundEffectSwitch = game.Content.Load<SoundEffect>("Interface/click_005");
     
-    private IDictionary<string, bool> _hoverCallers = new Dictionary<string, bool>();
+    private readonly IDictionary<string, bool> _hoverCallers = new Dictionary<string, bool>();
 
     public void PlayHover(bool inRange, string caller = "")
     {

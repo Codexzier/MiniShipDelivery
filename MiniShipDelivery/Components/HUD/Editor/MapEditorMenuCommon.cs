@@ -26,7 +26,7 @@ public class MapEditorMenuCommon : BaseMenu
         : base(
             game, 
             new Vector2(0, 0), 
-            new Size(GlobaleGameParameters.ScreenWidth, 24))
+            new SizeF(GlobaleGameParameters.ScreenWidth, 24))
     {
         this._saveDialog = new SaveDialog(game);
         this._openDialog = new OpenDialog(game);

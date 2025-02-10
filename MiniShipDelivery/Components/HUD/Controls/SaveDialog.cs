@@ -20,7 +20,7 @@ public class SaveDialog : BaseMenu
             new Vector2(
                 GlobaleGameParameters.ScreenWidthHalf - 80,
                 GlobaleGameParameters.ScreenHeightHalf - 30),
-            new Size(
+            new SizeF(
                 160,
                 60))
     {
@@ -76,7 +76,7 @@ public class SaveDialog : BaseMenu
 
         this.DrawBaseFrame(spriteBatch, MenuFrameType.Type1);
 
-        var pos = this.Camera.Camera.Position + this.Position + new Vector2(5, 5);
+        var pos = this.Bus.Camera.GetPosition() + this.Position + new Vector2(5, 5);
 
         // black dialog box in frame
         spriteBatch.FillRectangle(

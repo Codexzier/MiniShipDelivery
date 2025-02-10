@@ -9,10 +9,11 @@ using MonoGame.Extended;
 namespace MiniShipDelivery.Components.HUD.GameMenuMap;
 
 public class GameMenuMapOptions(Game game) : BaseMenu(game,
-    new Vector2(GlobaleGameParameters.ScreenWidthHalf - 100, GlobaleGameParameters.ScreenHeightHalf - 60),
-    new Size(200, 120))
+    new Vector2(
+        GlobaleGameParameters.ScreenWidthHalf - 100, 
+        GlobaleGameParameters.ScreenHeightHalf - 60),
+    new SizeF(200, 120))
 {
-    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly WorldManager _map = game.GetComponent<WorldManager>();
     private readonly Vector2 _center = new(100, 60);
     private readonly SizeF _tileSize = new(3, 3);
@@ -36,7 +37,7 @@ public class GameMenuMapOptions(Game game) : BaseMenu(game,
                             indexY * this._tileSize.Height - 15);
                         
                         spriteBatch.FillRectangle(
-                            this.Position + this._camera.Camera.Position + this._center + tilePosition,
+                            this.Position + this.Bus.Camera.GetPosition() + this._center + tilePosition,
                             this._tileSize,
                             mapChunk.MiniMap[indexY][indexX],
                             1f);
@@ -46,7 +47,7 @@ public class GameMenuMapOptions(Game game) : BaseMenu(game,
         }
         
         spriteBatch.FillRectangle(
-            this.Position + this._camera.Camera.Position + this._center,
+            this.Position + this.Bus.Camera.GetPosition() + this._center,
             new SizeF(2, 2),
             Color.Blue);
     }

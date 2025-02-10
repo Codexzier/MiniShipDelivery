@@ -11,9 +11,6 @@ public static class HudHelper
         return $"{vector.X:F1}, {vector.Y:F1}";
     }
     
-
-    public static InputData Inputs { get; set; }
-
     public static bool IsMouseInRange(Vector2 position, SizeF buttonSize)
     {
         return IsMouseInRange(new RectangleF(position.X, position.Y, buttonSize.Width, buttonSize.Height));
@@ -21,10 +18,12 @@ public static class HudHelper
     
     public static bool IsMouseInRange(RectangleF area)
     {
-        return Inputs.MousePosition.X > area.X &&
-               Inputs.MousePosition.Y > area.Y &&
-               Inputs.MousePosition.X < area.X + area.Width &&
-               Inputs.MousePosition.Y < area.Y + area.Height;
+        var bus = ApplicationBus.Instance;
+        
+        return bus.Inputs.MousePosition.X > area.X &&
+               bus.Inputs.MousePosition.Y > area.Y &&
+               bus.Inputs.MousePosition.X < area.X + area.Width &&
+               bus.Inputs.MousePosition.Y < area.Y + area.Height;
     }
     
     public static Vector2 GetPositionArea(float positionY, int multiply, int width, int columns)

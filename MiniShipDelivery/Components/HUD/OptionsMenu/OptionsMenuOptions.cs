@@ -24,7 +24,7 @@ public class OptionsMenuOptions : BaseMenu
             new Vector2(
                 GlobaleGameParameters.ScreenWidthHalf - 100, 
                 GlobaleGameParameters.ScreenHeightHalf - 60), 
-            new Size(200, 120))
+            new SizeF(200, 120))
     {
         this._frame = new MenuFrame(game);
         this._menuFramePosition = new Vector2(
@@ -102,7 +102,7 @@ public class OptionsMenuOptions : BaseMenu
     {
         base.Draw(spriteBatch);
         
-        var pos = this.Camera.Camera.Position + this._menuFramePosition;
+        var pos = this.Bus.Camera.GetPosition() + this._menuFramePosition;
         
         this._frame.DrawMenuFrame(
             spriteBatch, 
@@ -114,10 +114,10 @@ public class OptionsMenuOptions : BaseMenu
         
         this._checkBoxMusicOnOff.Draw(
             spriteBatch, 
-            this.Camera.Camera.Position);
+            this.Bus.Camera.GetPosition());
         
         this._checkBoxDebugMode.Draw(
             spriteBatch,
-            this.Camera.Camera.Position);
+            this.Bus.Camera.GetPosition());
     }
 }

@@ -6,28 +6,22 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.GameMenuQuest;
 
-public class GameMenuQuestLog : BaseMenu
+public class GameMenuQuestLog(Game game) 
+    : BaseMenu(game,
+    new Vector2(
+        GlobaleGameParameters.ScreenWidthHalf - 100, 
+        GlobaleGameParameters.ScreenHeightHalf - 60),
+    new SizeF(200, 120))
 {
-    private readonly CameraManager _camera;
-
-    public GameMenuQuestLog(Game game)
-        : base(game,
-            new Vector2(GlobaleGameParameters.ScreenWidthHalf - 100, GlobaleGameParameters.ScreenHeightHalf - 60),
-            new Size(200, 120))
-    {
-        this._camera = game.GetComponent<CameraManager>();
-    }
-    
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
         
+        var pos = this.Bus.Camera.GetPosition() + this.Position;
+        
         spriteBatch.DrawRectangle(
-            new RectangleF(
-                this.Position.X + this._camera.Camera.Position.X, 
-                this.Position.Y + this._camera.Camera.Position.Y, 
-                this.Size.Width, 
-                this.Size.Height), 
+            pos,
+            this.Size,
             Color.Chocolate);
     }
 }

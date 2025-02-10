@@ -6,6 +6,7 @@ namespace MiniShipDelivery.Components;
 
 public class CameraManager : GameComponent
 {
+    private OrthographicCamera _camera;
     public CameraManager(Game game) : base(game)
     {
         var viewportAdapter = new BoxingViewportAdapter(
@@ -14,8 +15,10 @@ public class CameraManager : GameComponent
             GlobaleGameParameters.ScreenWidth, 
             GlobaleGameParameters.ScreenHeight);
         
-        this.Camera = new OrthographicCamera(viewportAdapter);
-    }
+        this._camera = new OrthographicCamera(viewportAdapter);
 
-    public OrthographicCamera Camera { get; private set; }
+        ((CameraData)ApplicationBus.Instance.Camera).GetViewMatrix = () => this._camera.GetViewMatrix();
+        ((CameraData)ApplicationBus.Instance.Camera).GetPosition = () => this._camera.Position;
+        ((CameraData)ApplicationBus.Instance.Camera).AddPosition = position => this._camera.Position += position;
+    }
 }

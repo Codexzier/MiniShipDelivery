@@ -6,9 +6,7 @@ using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Input
 {
-    public class InputManager(
-        Game game)
-        : GameComponent(game)
+    public class InputManager : GameComponent
     {
         private bool _mouseLeftButton;
         private Vector2 _mouseLeftButtonHasPressedPosition = Vector2.Zero;
@@ -22,23 +20,22 @@ namespace MiniShipDelivery.Components.Input
 
         private const int PlayerIndex = 0;
 
-
         private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
-
         private const float ScaleMouseMovingY = GlobaleGameParameters.ScreenHeight / (float)GlobaleGameParameters.PreferredBackBufferHeight;
 
-        public InputData Inputs { get; } = new();
+        private ApplicationBus Bus => ApplicationBus.Instance;
+        
         private readonly InputTextController _inputTextController = new();
 
         public override void Update(GameTime gameTime)
         {
             if(this.HasPressToClose()) this.Game.Exit();
 
-            this.Inputs.MovementCharacter = this.GetMovement();
+            ((InputData)this.Bus.Inputs).MovementCharacter = this.GetMovement();
             
             // mouse state
             var mouseState = Mouse.GetState();
-            this.Inputs.MousePosition = new Vector2(
+            ((InputData)this.Bus.Inputs).MousePosition = new Vector2(
                 mouseState.X * ScaledMouseMovingX, 
                 mouseState.Y * ScaleMouseMovingY);
 
@@ -47,7 +44,7 @@ namespace MiniShipDelivery.Components.Input
             if(this._mouseLeftButton && !this._mouseLeftButtonHasPressed)
             {
                 this._mouseLeftButtonHasPressed = true;
-                this._mouseLeftButtonHasPressedPosition = this.Inputs.MousePosition;
+                this._mouseLeftButtonHasPressedPosition = this.Bus.Inputs.MousePosition;
             }
             if (this._mouseLeftButtonHasPressed && mouseState.LeftButton == ButtonState.Released)
             {
@@ -60,7 +57,7 @@ namespace MiniShipDelivery.Components.Input
             if(this._mouseRightButton && !this._mouseRightButtonHasPressed)
             {
                 this._mouseRightButtonHasPressed = true;
-                this._mouseRightButtonHasPressedPosition = this.Inputs.MousePosition;
+                this._mouseRightButtonHasPressedPosition = this.Bus.Inputs.MousePosition;
             }
             if (this._mouseRightButtonHasPressed && mouseState.RightButton == ButtonState.Released)
             {
@@ -68,7 +65,7 @@ namespace MiniShipDelivery.Components.Input
                 this._mouseRightButtonHasPressed = false;
             }
             
-            this.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
+            //this.Bus.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
             
             // keyboard states
             this.UpdateKeyboardPressed(gameTime);
@@ -160,6 +157,13 @@ namespace MiniShipDelivery.Components.Input
             return GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
+        
+        
+        public InputManager(Game game) : base(game)
+        {
+            ((InputData)this.Bus.Inputs).GetMouseButtonReleasedStateLeft = this.GetMouseLeftButtonReleasedState;   
+            ((InputData)this.Bus.Inputs).GetMouseButtonReleasedStateRight = this.GetMouseRightButtonReleasedState;
+        }
 
         
         internal bool GetMouseLeftButtonReleasedState(Vector2 position, SizeF sizeArea)
@@ -195,10 +199,10 @@ namespace MiniShipDelivery.Components.Input
             var wasInRange = wasInRange1 || wasInRange2;
             
             Debug.WriteLine($"Was in range {wasInRange}, Position {position}, Size {size}");
-            var actualInRange = this.Inputs.MousePosition.X > position.X &&
-                                this.Inputs.MousePosition.Y > position.Y &&
-                                this.Inputs.MousePosition.X < position.X + size.Width &&
-                                this.Inputs.MousePosition.Y < position.Y + size.Height;
+            var actualInRange = this.Bus.Inputs.MousePosition.X > position.X &&
+                                this.Bus.Inputs.MousePosition.Y > position.Y &&
+                                this.Bus.Inputs.MousePosition.X < position.X + size.Width &&
+                                this.Bus.Inputs.MousePosition.Y < position.Y + size.Height;
             
             Debug.WriteLine($"Actual in range {actualInRange}, Position {position}, Size {size}");
             
@@ -251,5 +255,6 @@ namespace MiniShipDelivery.Components.Input
         };
 
         private double _dialogExitTime;
+
     }
 }

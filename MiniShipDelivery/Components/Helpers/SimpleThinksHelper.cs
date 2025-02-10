@@ -14,7 +14,7 @@ public static class SimpleThinksHelper
         this SpriteBatch spriteBatch)
     {
         spriteBatch.Begin(
-            transformMatrix: CameraManagerInstance.Camera.GetViewMatrix(),
+            transformMatrix: ApplicationBus.Instance.Camera.GetViewMatrix(),
             samplerState: SamplerState.PointClamp);
     }
 

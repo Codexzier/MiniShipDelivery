@@ -10,15 +10,13 @@ namespace MiniShipDelivery.Components.World;
 
 public class WorldMapAdjuster
 {
-    private readonly CameraManager _camera;
-    private readonly InputManager _input;
     private readonly WorldMap _map;
+    
+    private ApplicationBus Bus => ApplicationBus.Instance;
 
-    public WorldMapAdjuster(Game game, WorldMap map)
+    public WorldMapAdjuster(WorldMap map)
     {
         this._map = map;
-        this._camera = game.GetComponent<CameraManager>();
-        this._input = game.GetComponent<InputManager>();
         
         SelectedMapMapLayer = map.WorldMapChunk.WorldMapLayers[0].MapLayer;
         SelectedNumberPart = -1;
@@ -37,9 +35,9 @@ public class WorldMapAdjuster
         this.UpdateCurrentSelectableMapTile();
         if(this.CurrentMapTile == null) return;
             
-        var rePosition = this.CurrentMapTile.Position.TilePositionToVector() - this._camera.Camera.Position ;
+        var rePosition = this.CurrentMapTile.Position.TilePositionToVector() - this.Bus.Camera.GetPosition() ;
             
-        if (this._input.GetMouseLeftButtonReleasedState(
+        if (this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 rePosition, 
                 new SizeF(16, 16)))
         {
@@ -47,7 +45,7 @@ public class WorldMapAdjuster
             this.CurrentMapTile.DrawTop = SelectedDrawTop;
         }
         
-        if (this._input.GetMouseRightButtonReleasedState(
+        if (this.Bus.Inputs.GetMouseButtonReleasedStateRight(
                 rePosition, 
                 new SizeF(16, 16)))
         {
@@ -60,8 +58,8 @@ public class WorldMapAdjuster
         this.CurrentMapTile = null;
         if(HudManager.MouseIsOverMenu) return;
             
-        var pos = this._input.Inputs.MousePosition;
-        pos += this._camera.Camera.Position;
+        var pos = this.Bus.Inputs.MousePosition;
+        pos += this.Bus.Camera.GetPosition();
             
         // Example
         // -------------------
@@ -88,7 +86,7 @@ public class WorldMapAdjuster
     {
         if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
             
-        WorldManagerHelper.DrawGrid(spriteBatch, this._camera.Camera.Position);
+        WorldManagerHelper.DrawGrid(spriteBatch, this.Bus.Camera.GetPosition());
             
         if(SelectedNumberPart < 0) return;
 

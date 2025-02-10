@@ -9,20 +9,20 @@ namespace MiniShipDelivery.Components.HUD.Base;
 public abstract class BaseMenu(
     Game game,
     Vector2 position,
-    Size size)
+    SizeF size)
 {
     private readonly MenuFrame _menuFrame = new(game);
     protected readonly Game Game = game;
     
     public Vector2 Position => position;
-    public Size Size => size;
+    public SizeF Size => size;
         
-    protected readonly CameraManager Camera = game.GetComponent<CameraManager>();
+    protected readonly ApplicationBus Bus = ApplicationBus.Instance;
 
     protected void DrawBaseFrame(SpriteBatch spriteBatch, MenuFrameType type)
     {
         this._menuFrame.DrawMenuFrame(spriteBatch,
-            this.Camera.Camera.Position + position,
+            this.Bus.Camera.GetPosition() + position,
             size,
             type);
     }

@@ -18,6 +18,7 @@ public class CharacterManager : DrawableGameComponent
     
     private readonly List<BaseCharacter> _drawableCharacters = new ();
     
+    private ApplicationBus Bus => ApplicationBus.Instance;
     
     public CharacterManager(Game game,
         Vector2 screenPosition) : base(game)
@@ -33,7 +34,6 @@ public class CharacterManager : DrawableGameComponent
             texturesCharacter,
             texturesCharacterShadow,
             texturesEmote,
-            game.GetComponent<InputManager>(), 
             screenPosition, 
             CharacterType.Men)
         {
@@ -61,8 +61,9 @@ public class CharacterManager : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        var delta = this.Player.GetScreenPosition() - this._camera.Camera.Position;
-        this._camera.Camera.Position += delta * 0.08f;
+        var delta = this.Player.GetScreenPosition() - this.Bus.Camera.GetPosition();
+        //this._camera.Camera.Position += delta * 0.08f;
+        this.Bus.Camera.AddPosition(delta * 0.08f);
         
         foreach (var npc in this._drawableCharacters)
         {

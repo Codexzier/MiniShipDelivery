@@ -22,7 +22,7 @@ internal class MainMenuHud : BaseMenu
         : base(
             game, 
             new Vector2(screenHalfWidth - 70, screenHalfHeight - 50),
-            new Size(140, 100))
+            new SizeF(140, 100))
     {
         this._menuFrame = new MenuFrame(game);
         this._menuFramePosition = new Vector2(
@@ -96,11 +96,11 @@ internal class MainMenuHud : BaseMenu
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        var pos = this.Camera.Camera.Position + this._menuFramePosition;
+        var pos = this.Bus.Camera.GetPosition() + this._menuFramePosition;
         
         this._menuFrame.DrawMenuFrame(spriteBatch,
             pos,
-            new Size(80, 80),
+            new SizeF(80, 80),
             MenuFrameType.Type1);
         
         this._menuButtonStartGame.Draw(spriteBatch);
