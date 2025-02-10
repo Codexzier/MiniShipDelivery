@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.Compone
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.Component.Persistence.Database.Test", "CodexzierGameEngine.Component.Persistence.Database.Test\CodexzierGameEngine.Component.Persistence.Database.Test.csproj", "{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodexzierGameEngine.Test", "CodexzierGameEngine.Test\CodexzierGameEngine.Test.csproj", "{3323BB27-47D0-4202-8233-A10ED2B625BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39EC4BDC-AD64-4AC4-AC19-C426DDDADBBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3323BB27-47D0-4202-8233-A10ED2B625BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3323BB27-47D0-4202-8233-A10ED2B625BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3323BB27-47D0-4202-8233-A10ED2B625BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3323BB27-47D0-4202-8233-A10ED2B625BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

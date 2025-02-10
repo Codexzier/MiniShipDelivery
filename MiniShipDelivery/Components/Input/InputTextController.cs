@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using Microsoft.Xna.Framework.Input;
 using MiniShipDelivery.Components.Dialog;
 
 namespace MiniShipDelivery.Components.Input;
@@ -6,7 +7,39 @@ namespace MiniShipDelivery.Components.Input;
 public class InputTextController
 {
     public readonly DialogState DialogState = new();
+    public string OutputText { get; set; }
+
     
+
+    private bool _textInputOn;
+    private string _letter;
+
+    public void StartTextInput()
+    {
+        this._textInputOn = true;
+    }
+
+    public void InputText(string letter)
+    {
+        this._letter = letter;
+    }
+
+    public void StopTextInput()
+    {
+        this._textInputOn = false;
+    }
+    
+    
+    public void UpdateV2()
+    {
+        if(!this._textInputOn) return;
+        if(string.IsNullOrEmpty(this._letter)) return;
+        
+        this.OutputText += this._letter;
+        this._letter = string.Empty;
+    }
+    
+    [Obsolete]
     public void Update()
     {
         if (!this.DialogState.DialogOn) return;
@@ -69,4 +102,5 @@ public class InputTextController
             this.DialogState.DialogLetter = "";
         }
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -65,8 +66,6 @@ namespace MiniShipDelivery.Components.Input
                 this._mouseRightButtonHasPressed = false;
             }
             
-            //this.Bus.Inputs.MouseRightButton = mouseState.RightButton == ButtonState.Pressed;
-            
             // keyboard states
             this.UpdateKeyboardPressed(gameTime);
             
@@ -99,7 +98,7 @@ namespace MiniShipDelivery.Components.Input
             if (!this._inputTextController.DialogState.DialogOn) return;
             if(!string.IsNullOrEmpty(this._inputTextController.DialogState.DialogLetter)) return;
 
-            foreach (var keyValuePair in this._dictionary)
+            foreach (var keyValuePair in AssetOfLetters.Letters)
             {
                 if (!this._inputTextController.DialogState.LetterIsPressed && keyboardState.IsKeyDown(keyValuePair.Key))
                 {
@@ -209,7 +208,15 @@ namespace MiniShipDelivery.Components.Input
             return wasInRange && actualInRange;
         }
         
-        private readonly IDictionary<Keys, string> _dictionary = new Dictionary<Keys, string>
+        
+
+        private double _dialogExitTime;
+
+    }
+
+    public class AssetOfLetters
+    {
+        public static readonly IDictionary<Keys, string> Letters = new Dictionary<Keys, string>
         {
             {  Keys.A, "A" },
             {  Keys.B, "B" },
@@ -253,8 +260,5 @@ namespace MiniShipDelivery.Components.Input
             {  Keys.D8, "8" },
             {  Keys.D9, "9" }
         };
-
-        private double _dialogExitTime;
-
     }
 }
