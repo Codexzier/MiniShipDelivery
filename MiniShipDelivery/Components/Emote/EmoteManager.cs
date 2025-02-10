@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Assets;
-using MiniShipDelivery.Components.Assets.Parts;
+using MiniShipDelivery.Components.Character;
 
 namespace MiniShipDelivery.Components.Emote
 {

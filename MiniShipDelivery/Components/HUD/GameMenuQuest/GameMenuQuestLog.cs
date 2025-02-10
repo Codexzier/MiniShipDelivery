@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD.Base;
 using MonoGame.Extended;
 

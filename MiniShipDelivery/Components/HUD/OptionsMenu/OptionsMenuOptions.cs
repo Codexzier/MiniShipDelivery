@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Media;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.HUD.Controls;
 using MiniShipDelivery.Components.Persistence;
+using MiniShipDelivery.Components.Sound;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.HUD.OptionsMenu;

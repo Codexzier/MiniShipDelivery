@@ -7,11 +7,9 @@ namespace MiniShipDelivery.Components.World.Sprites;
 
 public static class SpriteMapHelper
 {
-    public static IDictionary<int,SpriteSetup> GetSpriteSetups(Texture2D texture, bool IsTopLayer = false, bool IsBarrier = false)
+    public static IDictionary<int,SpriteSetup> GetSpriteSetups(Texture2D texture, bool isTopLayer = false, bool isBarrier = false)
     {
-        var collection = new Dictionary<int, SpriteSetup>();
-        
-        collection.Add(0, SpriteSetup.Empty);
+        var collection = new Dictionary<int, SpriteSetup> { { 0, SpriteSetup.Empty } };
 
         var cols = texture.Width / 16;
         var rows = texture.Height / 16;
@@ -23,8 +21,8 @@ public static class SpriteMapHelper
                 collection.Add(index, new SpriteSetup
                 {
                     Cutout = new Rectangle(colIndex * 16, row * 16, 16, 16),
-                    IsBarrier = IsBarrier,
-                    IsTopLayer = IsTopLayer
+                    IsBarrier = isBarrier,
+                    IsTopLayer = isTopLayer
                 });
                 index++;
             }

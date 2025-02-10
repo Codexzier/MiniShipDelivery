@@ -5,18 +5,11 @@ using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery.Components.Dialog;
 
-public class DialogManager : DrawableGameComponent
+public class DialogManager(Game game) : DrawableGameComponent(game)
 {
-    private readonly SpriteBatch _spriteBatch;
+    private readonly SpriteBatch _spriteBatch = new(game.GraphicsDevice);
     
-    private readonly DialogMenu _dialogMenu;
-    
-    public DialogManager(Game game) : base(game)
-    {
-        this._spriteBatch = new SpriteBatch(game.GraphicsDevice);
-        
-        this._dialogMenu = new DialogMenu(game);
-    }
+    private readonly DialogMenu _dialogMenu = new(game);
 
     public override void Update(GameTime gameTime)
     {

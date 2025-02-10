@@ -34,7 +34,6 @@ public class MapEditorMenuCommon : BaseMenu
         this._textureUiMenuEditorOptions = new SpriteUiMenuEditorOptions(game);
         
         this._functionBar = new FunctionBar(
-            game,
             this.Position,
             new Vector2(0, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),
@@ -50,7 +49,6 @@ public class MapEditorMenuCommon : BaseMenu
         
         // on right side
         this._functionBarWindow = new FunctionBar(
-            game,
             this.Position,
             new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
             new Size(GlobaleGameParameters.ScreenWidth, 24),

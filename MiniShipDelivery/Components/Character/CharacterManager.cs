@@ -2,15 +2,12 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MiniShipDelivery.Components.Dialog;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.Input;
 
 namespace MiniShipDelivery.Components.Character;
 
 public class CharacterManager : DrawableGameComponent
 {
-    private readonly CameraManager _camera;
     private readonly SpriteBatch _spriteBatch;
     
     public readonly List<CharacterNpc> CharacterNpCs = new ();
@@ -23,7 +20,6 @@ public class CharacterManager : DrawableGameComponent
     public CharacterManager(Game game,
         Vector2 screenPosition) : base(game)
     {
-        this._camera = game.GetComponent<CameraManager>();
         this._spriteBatch = new SpriteBatch(this.GraphicsDevice);
         
         var texturesCharacter = new SpriteCharacter(game);
@@ -62,7 +58,6 @@ public class CharacterManager : DrawableGameComponent
     public override void Update(GameTime gameTime)
     {
         var delta = this.Player.GetScreenPosition() - this.Bus.Camera.GetPosition();
-        //this._camera.Camera.Position += delta * 0.08f;
         this.Bus.Camera.AddPosition(delta * 0.08f);
         
         foreach (var npc in this._drawableCharacters)

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.Input;
 
 namespace MiniShipDelivery.Components.HUD.Cursor;
 

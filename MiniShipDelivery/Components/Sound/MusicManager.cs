@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Media;
 using MiniShipDelivery.Components.Persistence;
 
-namespace MiniShipDelivery.Components;
+namespace MiniShipDelivery.Components.Sound;
 
 public class MusicManager 
 {

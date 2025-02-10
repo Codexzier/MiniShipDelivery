@@ -6,6 +6,5 @@ public class MapLayerSetupAttribute : Attribute
 {
     public MapLayerSetupAttribute(string name, int order, bool visible)
     {
-        
     }
 }

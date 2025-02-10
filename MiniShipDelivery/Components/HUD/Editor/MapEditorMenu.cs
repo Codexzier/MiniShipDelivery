@@ -38,7 +38,6 @@ public class MapEditorMenu : BaseMenu
         this._editableEnvironments = WorldMapHelper.MapSprites.GetEditableEnvironments();
         
         this._functionBarMapLayer = new FunctionBar(
-            game,
             this.Position,
             new Vector2(0, 2),
             new Size(MenuWidth, 20),
@@ -53,7 +52,6 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapLayer.ButtonAreaWasPressedEvent += this.MapMapLayerButtonAreaPressed;
         
         this._functionBarMapOption = new FunctionBar(
-            game,
             this.Position,
             new Vector2(0, 22),
             new Size(MenuWidth, 40),
@@ -69,7 +67,6 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapOption.ButtonAreaWasPressedEvent += this.MapMapOptionButtonAreaPressed;
         
         this._functionBarMapTilemapBasement = new FunctionBar(
-            game,
             this.Position,
             new Vector2(0, 42),
             new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 30),

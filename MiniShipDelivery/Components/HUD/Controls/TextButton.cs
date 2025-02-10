@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.Input;
 using MiniShipDelivery.Components.Sound;
 using MonoGame.Extended;
 

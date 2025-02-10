@@ -3,38 +3,32 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Character;
 using MiniShipDelivery.Components.Helpers;
-using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.Input;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.GameDebug;
 
 internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 {
-    private readonly CameraManager _camera = game.GetComponent<CameraManager>();
     private readonly CharacterManager _character = game.GetComponent<CharacterManager>();
     private readonly SpriteBatch _spriteBatch = new(game.GraphicsDevice);
-    
-
     private readonly Vector2 _startPosition = new(3, GlobaleGameParameters.ScreenHeight - 43);
     
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 
     private static StringBuilder TextToWrite { get; } = new();
     
-    private readonly ApplicationBus Bus = ApplicationBus.Instance;
-
+    private readonly ApplicationBus _bus = ApplicationBus.Instance;
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         
         // if mouse out of window, no need to update
-        if(this.Bus.Inputs.MousePosition.X < 0 || ApplicationBus.Instance.Inputs.MousePosition.Y < 0) return;
-        if(this.Bus.Inputs.MousePosition.X > GlobaleGameParameters.ScreenWidth || 
-           this.Bus.Inputs.MousePosition.Y > GlobaleGameParameters.ScreenHeight) return;
+        if(this._bus.Inputs.MousePosition.X < 0 || ApplicationBus.Instance.Inputs.MousePosition.Y < 0) return;
+        if(this._bus.Inputs.MousePosition.X > GlobaleGameParameters.ScreenWidth || 
+           this._bus.Inputs.MousePosition.Y > GlobaleGameParameters.ScreenHeight) return;
         
-        AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this.Bus.Inputs.MousePosition)}");
+        AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._bus.Inputs.MousePosition)}");
         AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._character.Player.Collider.Position)}");
     }
 
@@ -52,7 +46,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 
         this._spriteBatch.DrawString(this._font,
             TextToWrite.ToString(),
-            this._startPosition + this.Bus.Camera.GetPosition() + new Vector2(3, 5),
+            this._startPosition + this._bus.Camera.GetPosition() + new Vector2(3, 5),
             Color.White,
             0f,
             new Vector2(0, 0),
@@ -71,7 +65,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 
     private void DrawConsoleWindow()
     {
-        var pos = this._startPosition + this.Bus.Camera.GetPosition();
+        var pos = this._startPosition + this._bus.Camera.GetPosition();
         
         // black console window
         this._spriteBatch.FillRectangle(

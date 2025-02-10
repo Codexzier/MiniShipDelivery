@@ -5,68 +5,68 @@ namespace MiniShipDelivery.Components.Input;
 
 public class InputTextController
 {
-    public DialogState dialogState = new();
+    public readonly DialogState DialogState = new();
     
     public void Update()
     {
-        if (!this.dialogState.DialogOn) return;
+        if (!this.DialogState.DialogOn) return;
         
-        if(!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
-           this.dialogState.KeyIsPressed != Keys.Enter)
+        if(!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
+           this.DialogState.KeyIsPressed != Keys.Enter)
         {
-            if(this.dialogState.KeyIsPressed == Keys.Back)
+            if(this.DialogState.KeyIsPressed == Keys.Back)
             {
-                if(this.dialogState.TextPlayer.Length > 0)
+                if(this.DialogState.TextPlayer.Length > 0)
                 {
-                    this.dialogState.TextPlayer = 
-                        this.dialogState.TextPlayer.Remove(
-                            this.dialogState.TextPlayer.Length - 1);
-                    this.dialogState.DialogLetter = "";
+                    this.DialogState.TextPlayer = 
+                        this.DialogState.TextPlayer.Remove(
+                            this.DialogState.TextPlayer.Length - 1);
+                    this.DialogState.DialogLetter = "";
                 }
             }
             else
             {
-                this.dialogState.TextPlayer += this.dialogState.DialogLetter;
-                this.dialogState.DialogLetter = "";
+                this.DialogState.TextPlayer += this.DialogState.DialogLetter;
+                this.DialogState.DialogLetter = "";
             }
         }
         
-        GlobaleGameParameters.DialogTextUser = this.dialogState.TextPlayer;
+        GlobaleGameParameters.DialogTextUser = this.DialogState.TextPlayer;
         
-        if(!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
-           this.dialogState.DialogLetter == "ENTER" &&
-           this.dialogState.KeyIsPressed == Keys.Enter)
+        if(!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
+           this.DialogState.DialogLetter == "ENTER" &&
+           this.DialogState.KeyIsPressed == Keys.Enter)
         {
-            if(this.dialogState.TextPlayer == "EXIT")
+            if(this.DialogState.TextPlayer == "EXIT")
             {
-                this.dialogState.DialogExit = true;
+                this.DialogState.DialogExit = true;
             }
 
-            switch (this.dialogState.TextPlayer)
+            switch (this.DialogState.TextPlayer)
             {
                 case "HELLO":
-                    this.dialogState.TextNpc = "Hello, how are you?";
+                    this.DialogState.TextNpc = "Hello, how are you?";
                     break;
                 case "GOOD":
-                    this.dialogState.TextNpc = "I'm fine, thank you!";
+                    this.DialogState.TextNpc = "I'm fine, thank you!";
                     break;
                 case "BYE":
-                    this.dialogState.TextNpc = "Goodbye!";
-                    this.dialogState.DialogExit = true;
+                    this.DialogState.TextNpc = "Goodbye!";
+                    this.DialogState.DialogExit = true;
                     break;
             }
             
-            this.dialogState.TextPlayer = string.Empty;
-            this.dialogState.DialogLetter = ""; 
+            this.DialogState.TextPlayer = string.Empty;
+            this.DialogState.DialogLetter = ""; 
         }
         
-        GlobaleGameParameters.DialogTextNpc = this.dialogState.TextNpc;
+        GlobaleGameParameters.DialogTextNpc = this.DialogState.TextNpc;
 
-        if (!string.IsNullOrEmpty(this.dialogState.DialogLetter) &&
-            this.dialogState.KeyIsPressed == Keys.Back &&
-            this.dialogState.DialogLetter == "BACK")
+        if (!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
+            this.DialogState.KeyIsPressed == Keys.Back &&
+            this.DialogState.DialogLetter == "BACK")
         {
-            this.dialogState.DialogLetter = "";
+            this.DialogState.DialogLetter = "";
         }
     }
 }

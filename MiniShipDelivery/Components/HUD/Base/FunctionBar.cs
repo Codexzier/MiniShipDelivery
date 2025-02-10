@@ -12,14 +12,13 @@ using MonoGame.Extended;
 namespace MiniShipDelivery.Components.HUD.Base;
 
 public class FunctionBar(
-    Game game,
     Vector2 position,
     Vector2 startPosition,
     Size size,
     Action<SpriteBatch, Vector2, FunctionItem> drawButton,
     Func<FunctionItem, Color, Color> changeColorForActive)
 {
-    private ApplicationBus _bus => ApplicationBus.Instance;
+    private ApplicationBus Bus => ApplicationBus.Instance;
     
     /// <summary>
     /// I use the dictionary for paging.
@@ -101,7 +100,7 @@ public class FunctionBar(
     
     private void DrawSelectableArea(SpriteBatch spriteBatch, FunctionItem item)
     {
-        var pos = this._bus.Camera.GetPosition() + 
+        var pos = this.Bus.Camera.GetPosition() + 
                   item.Position + 
                   startPosition;
             
@@ -111,7 +110,7 @@ public class FunctionBar(
         var inRange = HudHelper.IsMouseInRange(positionSelectable, item.Size);
         if (inRange)
         {
-            if (this._bus.Inputs.GetMouseButtonReleasedStateLeft(
+            if (this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                     positionSelectable, 
                     item.Size))
             {

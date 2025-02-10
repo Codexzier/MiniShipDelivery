@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MiniShipDelivery.Components.Input;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.GameDebug;
