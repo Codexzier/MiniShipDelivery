@@ -7,9 +7,7 @@ namespace MiniShipDelivery.Components.Input;
 public class InputTextController
 {
     public readonly DialogState DialogState = new();
-    public string OutputText { get; set; }
-
-    
+    public string OutputText { get; set; } = string.Empty;
 
     private bool _textInputOn;
     private string _letter;
@@ -17,10 +15,12 @@ public class InputTextController
     public void StartTextInput()
     {
         this._textInputOn = true;
+        this._letter = string.Empty;
     }
 
     public void InputText(string letter)
     {
+        if(!string.IsNullOrEmpty(this._letter)) return;
         this._letter = letter;
     }
 
