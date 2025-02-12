@@ -27,7 +27,7 @@ public class CheckBox(
         
         if (inRange && this._input.GetMouseLeftButtonReleasedState(
                 this._positionRectangle,
-                this._size))
+                this._size, ""))
         {
             this.IsChecked = !this.IsChecked;
             this.IsCheckedChangedEvent?.Invoke(this.IsChecked);

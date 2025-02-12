@@ -14,6 +14,39 @@ internal class DialogMenu(Game game) : BaseMenu(game,
         36))
 {
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
+    
+    private string _outputTextUser = string.Empty;
+    private string _outputTextNpc = string.Empty;
+
+
+    public override void Update()
+    {
+        base.Update();
+        
+        if(!ApplicationBus.Instance.TextMessage.IsOn) return;
+        
+        this._outputTextUser = ApplicationBus.Instance.TextMessage.Text;
+
+        if (ApplicationBus.Instance.TextMessage.HasPressedEnter)
+        {
+            switch (this._outputTextUser.ToLower())
+            {
+                case "hello":
+                    this._outputTextNpc = "Hello, how are you?";
+                    break;
+                case "fine":
+                    this._outputTextNpc = "Nice to hear that.";
+                    break;
+                case "bye":
+                    this._outputTextNpc = "Goodbye!";
+                    ApplicationBus.Instance.TextMessage.CanLeave = true;
+                    break;
+            }
+            
+            ApplicationBus.Instance.TextMessage.HasPressedEnter = false;
+            ApplicationBus.Instance.TextMessage.CanClearForNextMessage = true;
+        }
+    }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
@@ -28,7 +61,7 @@ internal class DialogMenu(Game game) : BaseMenu(game,
             Color.Black,
             0.5f);
 
-        if (!GlobaleGameParameters.ShowDialogBox)
+        if (!this.Bus.TextMessage.IsOn)
         {
             spriteBatch.DrawString(
                 this._font,
@@ -38,32 +71,41 @@ internal class DialogMenu(Game game) : BaseMenu(game,
         }
         else
         {
-            this.DrawNpcText(spriteBatch, pos);
             this.DrawPlayerText(spriteBatch, pos);
+            this.DrawNpcText(spriteBatch, pos);
         }
+    }
+    
+    private void DrawPlayerText(SpriteBatch spriteBatch, Vector2 pos)
+    {
+        if(string.IsNullOrEmpty(this._outputTextUser)) return;
+        Color c = Color.White;
+        if (ApplicationBus.Instance.TextMessage.CanClearForNextMessage)
+        {
+            c = Color.WhiteSmoke;
+        }
+        
+        spriteBatch.DrawString(
+            this._font,
+            this._outputTextUser,
+            pos + new Vector2(2, 0),
+            c);
+            
+        spriteBatch.DrawString(
+            this._font,
+            $"{this._outputTextUser.Length}",
+            pos + new Vector2(GlobaleGameParameters.ScreenWidth - 25, 0),
+            Color.White);
     }
     
     private void DrawNpcText(SpriteBatch spriteBatch, Vector2 pos)
     {
         spriteBatch.DrawString(
             this._font,
-            GlobaleGameParameters.DialogTextNpc,
-            pos + new Vector2(2, 0),
+            this._outputTextNpc,
+            pos + new Vector2(2, 12),
             Color.White);
     }
     
-    private void DrawPlayerText(SpriteBatch spriteBatch, Vector2 pos)
-    {
-        spriteBatch.DrawString(
-            this._font,
-            GlobaleGameParameters.DialogTextUser,
-            pos + new Vector2(2, 12),
-            Color.White);
-            
-        spriteBatch.DrawString(
-            this._font,
-            $"{GlobaleGameParameters.DialogTextUser.Length}",
-            pos + new Vector2(GlobaleGameParameters.ScreenWidth - 25, 12),
-            Color.White);
-    }
+    
 }

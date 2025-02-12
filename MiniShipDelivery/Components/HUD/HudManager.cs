@@ -135,7 +135,7 @@ namespace MiniShipDelivery.Components.HUD
             
             // Thats is dirty
             if (GlobaleGameParameters.HudView == HudOptionView.MapEditor &&
-                GlobaleGameParameters.SystemDialogBox)
+                this.Bus.TextMessage.IsOn)
             {
                 MouseIsOverMenu = true;
                 return;

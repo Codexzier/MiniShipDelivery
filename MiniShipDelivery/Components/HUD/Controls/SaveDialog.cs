@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.HUD.Base;
 using MiniShipDelivery.Components.Persistence;
@@ -26,12 +27,12 @@ public class SaveDialog : BaseMenu
     {
         this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
 
-        this._buttonSave = new TextButton(
-            game,
-            new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 70,
-                GlobaleGameParameters.ScreenHeightHalf + 5),
-            "Save");
+         this._buttonSave = new TextButton(
+             game,
+             new Vector2(
+                 GlobaleGameParameters.ScreenWidthHalf - 70,
+                 GlobaleGameParameters.ScreenHeightHalf + 5),
+             "Save");
         this._buttonSave.WasPressedEvent += this.ButtonPressed;
 
         this._buttonCancel = new TextButton(
@@ -42,15 +43,22 @@ public class SaveDialog : BaseMenu
             "Cancel");
         this._buttonCancel.WasPressedEvent += this.ButtonPressed;
         
-        this._buttonSave.ShiftPosition = new Vector2(20, 2);
-        this._buttonCancel.ShiftPosition = new Vector2(17, 2);
+        this._buttonSave.TextPosition = new Vector2(20, 2);
+        this._buttonCancel.TextPosition = new Vector2(17, 2);
     }
 
     private void ButtonPressed(string buttonText)
     {
         if (buttonText == "Save")
         {
-            PersistenceManager.SaveMap(GlobaleGameParameters.DialogTextUser);
+            if (!ApplicationBus.Instance.TextMessage.IsOn ||
+                string.IsNullOrEmpty(ApplicationBus.Instance.TextMessage.Text))
+            {
+                Debug.WriteLine("No text to save.");
+                return;
+            }
+            
+            PersistenceManager.SaveMap(ApplicationBus.Instance.TextMessage.Text);
         }
 
         this.IsVisible = false;
@@ -58,7 +66,7 @@ public class SaveDialog : BaseMenu
         // TODO: I need a system bus to transport information to the other manager
         //GlobaleGameParameters.DialogState.DialogExit = true;
         
-        GlobaleGameParameters.SystemDialogBox = false;
+        this.Bus.TextMessage.IsOn = false;
         HudManager.MouseIsOverMenu = false;
     }
 
@@ -94,7 +102,7 @@ public class SaveDialog : BaseMenu
         // text in dialog box for used to save the actual map
         spriteBatch.DrawString(
             this._font,
-            GlobaleGameParameters.DialogTextUser,
+            this.Bus.TextMessage.Text,
             pos + new Vector2(6, 6),
             Color.White);
 

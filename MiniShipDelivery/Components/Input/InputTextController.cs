@@ -1,106 +1,49 @@
-﻿using System;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MiniShipDelivery.Components.Dialog;
 
 namespace MiniShipDelivery.Components.Input;
 
 public class InputTextController
 {
-    public readonly DialogState DialogState = new();
-    public string OutputText { get; set; } = string.Empty;
-
-    private bool _textInputOn;
-    private string _letter;
-
-    public void StartTextInput()
-    {
-        this._textInputOn = true;
-        this._letter = string.Empty;
-    }
-
-    public void InputText(string letter)
-    {
-        if(!string.IsNullOrEmpty(this._letter)) return;
-        this._letter = letter;
-    }
-
-    public void StopTextInput()
-    {
-        this._textInputOn = false;
-    }
+    private ApplicationBus Bus => ApplicationBus.Instance;
     
-    
-    public void UpdateV2()
+    public InputTextController(Game game)
     {
-        if(!this._textInputOn) return;
-        if(string.IsNullOrEmpty(this._letter)) return;
-        
-        this.OutputText += this._letter;
-        this._letter = string.Empty;
+        game.Window.TextInput += this.TextInputEvent;
     }
-    
-    [Obsolete]
-    public void Update()
+
+    private void TextInputEvent(object sender, TextInputEventArgs e)
     {
-        if (!this.DialogState.DialogOn) return;
-        
-        if(!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
-           this.DialogState.KeyIsPressed != Keys.Enter)
+        if(this.Bus.TextMessage.CanLeave) return;
+        if(!this.Bus.TextMessage.IsOn) return;
+
+        if (e.Key == Keys.Enter)
         {
-            if(this.DialogState.KeyIsPressed == Keys.Back)
-            {
-                if(this.DialogState.TextPlayer.Length > 0)
-                {
-                    this.DialogState.TextPlayer = 
-                        this.DialogState.TextPlayer.Remove(
-                            this.DialogState.TextPlayer.Length - 1);
-                    this.DialogState.DialogLetter = "";
-                }
-            }
-            else
-            {
-                this.DialogState.TextPlayer += this.DialogState.DialogLetter;
-                this.DialogState.DialogLetter = "";
-            }
+            this.Bus.TextMessage.HasPressedEnter = true;
+            return;
         }
         
-        GlobaleGameParameters.DialogTextUser = this.DialogState.TextPlayer;
+        Debug.WriteLine($"Key: {e.Key}, Character: {e.Character}");
         
-        if(!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
-           this.DialogState.DialogLetter == "ENTER" &&
-           this.DialogState.KeyIsPressed == Keys.Enter)
+        if(e.Key == Keys.Back)
         {
-            if(this.DialogState.TextPlayer == "EXIT")
-            {
-                this.DialogState.DialogExit = true;
-            }
+            if(this.Bus.TextMessage.Text.Length > 0)
+                this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Remove(this.Bus.TextMessage.Text.Length - 1);
+            return;
+        }
 
-            switch (this.DialogState.TextPlayer)
-            {
-                case "HELLO":
-                    this.DialogState.TextNpc = "Hello, how are you?";
-                    break;
-                case "GOOD":
-                    this.DialogState.TextNpc = "I'm fine, thank you!";
-                    break;
-                case "BYE":
-                    this.DialogState.TextNpc = "Goodbye!";
-                    this.DialogState.DialogExit = true;
-                    break;
-            }
-            
-            this.DialogState.TextPlayer = string.Empty;
-            this.DialogState.DialogLetter = ""; 
+        if (this.Bus.TextMessage.CanClearForNextMessage)
+        {
+            this.Bus.TextMessage.Text = string.Empty;
+            this.Bus.TextMessage.CanClearForNextMessage = false;
         }
         
-        GlobaleGameParameters.DialogTextNpc = this.DialogState.TextNpc;
-
-        if (!string.IsNullOrEmpty(this.DialogState.DialogLetter) &&
-            this.DialogState.KeyIsPressed == Keys.Back &&
-            this.DialogState.DialogLetter == "BACK")
-        {
-            this.DialogState.DialogLetter = "";
-        }
+        this.Bus.TextMessage.Text += AssetOfLetters
+            .Letters
+            .TryGetValue(e.Key, out string value)
+            ? value : e.Character.ToString();
+        
+        Debug.WriteLine($"OutputText: {this.Bus.TextMessage.Text}");
     }
-
 }

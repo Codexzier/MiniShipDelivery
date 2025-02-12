@@ -32,7 +32,7 @@ public class MenuButton(
 
         var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
         
-        if (inRange && this.Bus.Inputs.GetMouseButtonReleasedStateLeft(position, this._buttonSize))
+        if (inRange && this.Bus.Inputs.GetMouseButtonReleasedStateLeft(position, this._buttonSize, ""))
         {
             this._sound.PlayPressed();
             this.ButtonAreaWasPressedEvent?.Invoke(menuMainPart);

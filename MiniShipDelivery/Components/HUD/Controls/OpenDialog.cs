@@ -47,8 +47,8 @@ public class OpenDialog : BaseMenu
             "Cancel");
         this._buttonCancel.WasPressedEvent += this.ButtonPressed;
         
-        this._buttonOpen.ShiftPosition = new Vector2(20, 2);
-        this._buttonCancel.ShiftPosition = new Vector2(17, 2);
+        this._buttonOpen.TextPosition = new Vector2(20, 2);
+        this._buttonCancel.TextPosition = new Vector2(17, 2);
     }
     
     private void ButtonPressed(string buttonText)
@@ -65,7 +65,8 @@ public class OpenDialog : BaseMenu
         //GlobaleGameParameters.DialogState.DialogExit = true;
         
         
-        GlobaleGameParameters.SystemDialogBox = false;
+        //GlobaleGameParameters.SystemDialogBox = false;
+        this.Bus.TextMessage.IsOn = false;
         HudManager.MouseIsOverMenu = false;
     }
     
@@ -91,7 +92,7 @@ public class OpenDialog : BaseMenu
         
         if (inRange && this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 this.Position + new Vector2(0, index * 13), 
-                new SizeF(this.Size.Width - 10, 13)))
+                new SizeF(this.Size.Width - 10, 13), ""))
         {
             this.SelectedIndex = index;
             this.SelectedFilename = PersistenceManager.MapFilenames[index];

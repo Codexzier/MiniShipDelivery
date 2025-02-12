@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
-using MiniShipDelivery.Components.Input;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.World;
@@ -30,7 +29,7 @@ public class WorldMapAdjuster
         
     public void UpdateSetMapTile()
     {
-        if(GlobaleGameParameters.SystemDialogBox) return;
+        if(this.Bus.TextMessage.IsOn) return;
         
         this.UpdateCurrentSelectableMapTile();
         if(this.CurrentMapTile == null) return;
@@ -39,7 +38,7 @@ public class WorldMapAdjuster
             
         if (this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 rePosition, 
-                new SizeF(16, 16)))
+                new SizeF(16, 16), "set tile"))
         {
             this.CurrentMapTile.AssetNumber = SelectedNumberPart;
             this.CurrentMapTile.DrawTop = SelectedDrawTop;
@@ -47,7 +46,7 @@ public class WorldMapAdjuster
         
         if (this.Bus.Inputs.GetMouseButtonReleasedStateRight(
                 rePosition, 
-                new SizeF(16, 16)))
+                new SizeF(16, 16), "remove tile"))
         {
             this.CurrentMapTile.AssetNumber = 0;
         }

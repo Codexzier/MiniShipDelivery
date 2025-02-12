@@ -16,7 +16,7 @@ public class DialogManager(Game game) : DrawableGameComponent(game)
         base.Update(gameTime);
         
         if(GlobaleGameParameters.HudView != HudOptionView.Game) return;
-        if(!GlobaleGameParameters.ShowDialogBox) return;
+        if(!GlobaleGameParameters.ShowDialogBox ) return;
         
         this._dialogMenu.Update();
     }
@@ -26,7 +26,7 @@ public class DialogManager(Game game) : DrawableGameComponent(game)
         base.Draw(gameTime);
         
         if(GlobaleGameParameters.HudView != HudOptionView.Game) return;
-        if(!GlobaleGameParameters.ShowDialogBox) return;
+        if(!GlobaleGameParameters.ShowDialogBox ) return;
 
         this._spriteBatch.BeginWithCameraViewMatrix();
         this._dialogMenu.Draw(this._spriteBatch);

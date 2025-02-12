@@ -1,5 +1,4 @@
-﻿using MiniShipDelivery.Components.Dialog;
-using MiniShipDelivery.Components.HUD;
+﻿using MiniShipDelivery.Components.HUD;
 
 namespace MiniShipDelivery;
 
@@ -20,13 +19,6 @@ public static class GlobaleGameParameters
     public static bool ShowConsoleWindow = false;
     public static bool DebugMode = false;
     
-    public static bool SystemDialogBox = false;
-
-    
+    //public static bool SystemDialogBox = false;
     public static bool ShowDialogBox = false;
-    //public static bool DialogOn = false;
-    //public static readonly DialogState DialogState = new ();
-    
-    public static string DialogTextNpc = string.Empty;
-    public static string DialogTextUser = string.Empty;
 }

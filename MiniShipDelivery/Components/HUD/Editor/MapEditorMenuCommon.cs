@@ -99,7 +99,8 @@ public class MapEditorMenuCommon : BaseMenu
                 
                 this._openDialog.IsVisible = true;
                 HudManager.MouseIsOverMenu = true;
-                GlobaleGameParameters.SystemDialogBox = true;
+                //GlobaleGameParameters.SystemDialogBox = true;
+                this.Bus.TextMessage.IsOn = true;
                 PersistenceManager.SetFileList();
                 
                 break;
@@ -110,7 +111,10 @@ public class MapEditorMenuCommon : BaseMenu
                 // TODO: I need a system bus to transport information to the other manager
                 //GlobaleGameParameters.DialogState.DialogOn = true;
                 
-                GlobaleGameParameters.SystemDialogBox = true;
+                //GlobaleGameParameters.SystemDialogBox = true;
+                
+                this.Bus.TextMessage.Text = string.Empty;
+                this.Bus.TextMessage.IsOn = true;
                 HudManager.MouseIsOverMenu = true;
                 
                 break;

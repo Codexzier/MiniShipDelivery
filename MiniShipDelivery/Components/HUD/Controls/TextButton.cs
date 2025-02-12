@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.GameDebug;
 using MiniShipDelivery.Components.Helpers;
@@ -20,7 +19,7 @@ public class TextButton(
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
     private readonly Texture2D _texture = game.Content.Load<Texture2D>("Interface/EmptyButton");
 
-    public Vector2 ShiftPosition { get; set; } = new(0, 0);
+    public Vector2 TextPosition { get; set; } = new(0, 0);
 
     public void Update()
     {
@@ -33,11 +32,14 @@ public class TextButton(
         var pos = this.Bus.Camera.GetPosition() + position;
 
         var inRange =  HudHelper.IsMouseInRange(position, this._buttonSize);
-        var hasPressed = this.Bus.Inputs.GetMouseButtonReleasedStateLeft(position, this._buttonSize);
-
-        if (hasPressed)
+        
+        var hasPressed = false;
+        if(inRange)
         {
-            Debug.WriteLine($"Pressed: {position}, Button: {text}");
+            hasPressed = this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
+                position, 
+                this._buttonSize,
+                $"{text} text button");
         }
         
         if (inRange && hasPressed)
@@ -56,13 +58,18 @@ public class TextButton(
         spriteBatch.DrawString(
             this._font,
             text,
-            pos + this.ShiftPosition,
+            pos + this.TextPosition,
             Color.White);
         
         spriteBatch.DrawRectangle(
             pos, 
             this._buttonSize,
             isInRangeColor);
+        
+        spriteBatch.DrawRectangle(
+            position + new Vector2(1, 1),
+            this._buttonSize,
+            Color.Cyan);
     }
     
     #region event handler

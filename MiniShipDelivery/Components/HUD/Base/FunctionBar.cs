@@ -112,7 +112,7 @@ public class FunctionBar(
         {
             if (this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                     positionSelectable, 
-                    item.Size))
+                    item.Size, ""))
             {
                 this.ButtonAreaWasPressedEvent?.Invoke(item, this.ResetAllSelected);
             }
