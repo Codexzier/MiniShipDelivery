@@ -65,11 +65,6 @@ public class TextButton(
             pos, 
             this._buttonSize,
             isInRangeColor);
-        
-        spriteBatch.DrawRectangle(
-            position + new Vector2(1, 1),
-            this._buttonSize,
-            Color.Cyan);
     }
     
     #region event handler

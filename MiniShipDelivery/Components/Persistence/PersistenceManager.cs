@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using MiniShipDelivery.Components.Helpers;
@@ -12,7 +13,8 @@ namespace MiniShipDelivery.Components.Persistence;
 
 public class PersistenceManager : GameComponent
 {
-    private readonly string _mapFileJson = $"{Environment.CurrentDirectory}/MAP00.json";
+    private readonly string _mapDirectory = $"{Environment.CurrentDirectory}/maps";
+    private readonly string _mapDefaultFilename = "/MAP00.json";
     private readonly WorldManager _world;
     public static readonly List<string> MapFilenames = new();
     
@@ -23,9 +25,13 @@ public class PersistenceManager : GameComponent
         NewMapEvent += this.NewMapReset;
         LoadMapFromFileEvent += this.LoadMapFromFile;
         SaveMapToFileEvent += this.SaveMapToFile;
-    }
+        ReloadMapListEvent += this.LoadMapList;
 
-    
+        if (!Directory.Exists(this._mapDirectory))
+        {
+            Directory.CreateDirectory(this._mapDirectory);
+        }
+    }
 
     public static void NewMap()
     {
@@ -40,19 +46,25 @@ public class PersistenceManager : GameComponent
         LoadMapFromFileEvent?.Invoke(selectedFilename);
     }
     
-    public static void SetFileList()
+    public static void ReloadMapList()
+    {
+        ReloadMapListEvent?.Invoke();
+    }
+
+    private void LoadMapList()
     {
         MapFilenames.Clear();
-        var files = Directory.GetFiles(Environment.CurrentDirectory, "*.json");
+        var files = Directory.GetFiles(this._mapDirectory, "*.json");
         foreach (var filename in files)
         {
             var fi = new FileInfo(filename);
             
-            if(!fi.Name.ToLower().StartsWith("map")) continue;
-            
             MapFilenames.Add(fi.Name);
         }
     }
+    
+    public delegate void ReloadMapListEventHandler();
+    public static event ReloadMapListEventHandler ReloadMapListEvent;
     
     private void NewMapReset()
     {
@@ -69,10 +81,10 @@ public class PersistenceManager : GameComponent
     {
         if (string.IsNullOrEmpty(filename))
         {
-            filename = "00";
+            filename = this._mapDefaultFilename;
         }
         
-        var fullFilename = $"{Environment.CurrentDirectory}/MAP{filename}.json";
+        var fullFilename = $"{this._mapDirectory}/{filename}.json";
         
        var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunk);
        File.WriteAllText(fullFilename, saveContent);
@@ -80,17 +92,18 @@ public class PersistenceManager : GameComponent
 
     private void LoadMapFromFile(string selectedFilename)
     {
-        if(!File.Exists(this._mapFileJson)) return;
+        var fullname = $"{this._mapDirectory}/{selectedFilename}";
+        
+        if(!File.Exists(fullname)) return;
 
-        string fullFilename = $"{Environment.CurrentDirectory}/{selectedFilename}";
         if (string.IsNullOrEmpty(selectedFilename))
         {
-            fullFilename = this._mapFileJson;
+            fullname = $"{this._mapDirectory}{this._mapDefaultFilename}";
         }
 
         try
         {
-            var content = File.ReadAllText(fullFilename);
+            var content = File.ReadAllText(fullname);
             var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
             
             if(worldMapChunk.WorldMapLayers == null || worldMapChunk.WorldMapLayers.Length == 0)

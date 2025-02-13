@@ -101,7 +101,7 @@ public class MapEditorMenuCommon : BaseMenu
                 HudManager.MouseIsOverMenu = true;
                 //GlobaleGameParameters.SystemDialogBox = true;
                 this.Bus.TextMessage.IsOn = true;
-                PersistenceManager.SetFileList();
+                PersistenceManager.ReloadMapList();
                 
                 break;
             case InterfaceMenuEditorOptionPart.Save:

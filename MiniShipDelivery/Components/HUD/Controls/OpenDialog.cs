@@ -15,10 +15,9 @@ public class OpenDialog : BaseMenu
     private readonly TextButton _buttonCancel;
     
     public bool IsVisible { get; set; }
-    public int SelectedIndex { get; set; }
-    public string SelectedFilename { get; set; }
+    private int _selectedIndex;
+    private string _selectedFilename;
 
-    
     public OpenDialog(Game game)
         : base(
             game,
@@ -56,16 +55,10 @@ public class OpenDialog : BaseMenu
         if (buttonText == "Open")
         {
             // Open dialog logic
-            PersistenceManager.LoadMap(this.SelectedFilename);
+            PersistenceManager.LoadMap(this._selectedFilename);
         }
         
         this.IsVisible = false;
-        
-        // TODO: I need a system bus to transport information to the other manager
-        //GlobaleGameParameters.DialogState.DialogExit = true;
-        
-        
-        //GlobaleGameParameters.SystemDialogBox = false;
         this.Bus.TextMessage.IsOn = false;
         HudManager.MouseIsOverMenu = false;
     }
@@ -92,13 +85,12 @@ public class OpenDialog : BaseMenu
         
         if (inRange && this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 this.Position + new Vector2(0, index * 13), 
-                new SizeF(this.Size.Width - 10, 13), ""))
+                new SizeF(this.Size.Width - 10, 13), $"select {index}"))
         {
-            this.SelectedIndex = index;
-            this.SelectedFilename = PersistenceManager.MapFilenames[index];
+            if(PersistenceManager.MapFilenames.Count <= index) return;
             
-            PersistenceManager.LoadMap(this.SelectedFilename);
-            //this._sound.PlayPressed();
+            this._selectedIndex = index;
+            this._selectedFilename = PersistenceManager.MapFilenames[index];
         }
     }
     
@@ -132,12 +124,18 @@ public class OpenDialog : BaseMenu
         
         this._buttonOpen.Draw(spriteBatch);
         this._buttonCancel.Draw(spriteBatch);
-        
-        this.ButtonInRange(spriteBatch, pos, 0);
-        this.ButtonInRange(spriteBatch, pos, 1);
-        this.ButtonInRange(spriteBatch, pos, 2);
-        this.ButtonInRange(spriteBatch, pos, 3);
-        this.ButtonInRange(spriteBatch, pos, 4);
+
+        for (int index = 0; index < 5; index++)
+        {
+            if(PersistenceManager.MapFilenames.Count <= index) continue;
+            
+            this.ButtonInRange(spriteBatch, pos, index);
+        }
+        // this.ButtonInRange(spriteBatch, pos, 0);
+        // this.ButtonInRange(spriteBatch, pos, 1);
+        // this.ButtonInRange(spriteBatch, pos, 2);
+        // this.ButtonInRange(spriteBatch, pos, 3);
+        // this.ButtonInRange(spriteBatch, pos, 4);
     }
     
     private void ButtonInRange(SpriteBatch spriteBatch, Vector2 pos, int index)
@@ -152,7 +150,7 @@ public class OpenDialog : BaseMenu
             new SizeF(this.Size.Width - 10, 13),
             isInRangeColor);
         
-        var isSelected = SimpleThinksHelper.BoolToColor(index == this.SelectedIndex);
+        var isSelected = SimpleThinksHelper.BoolToColor(index == this._selectedIndex);
         spriteBatch.DrawRectangle(
             pos + new Vector2(0, index * 13),
             new SizeF(this.Size.Width - 10, 13),
