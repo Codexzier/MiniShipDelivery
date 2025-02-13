@@ -75,7 +75,7 @@ public class WorldMap
         foreach (var worldMapLayer in this.WorldMapChunk.WorldMapLayers)
         {
             if(worldMapLayer.MapLayer == MapLayer.Colliders &&
-               GlobaleGameParameters.HudView != HudOptionView.MapEditor) continue;
+               GlobalGameParameters.HudView != HudOptionView.MapEditor) continue;
             
             for (var y = 0; y < worldMapLayer.Map.Length; y++)
             {

@@ -17,7 +17,7 @@ public static class GameSettingManager
         GameSetting = Newtonsoft.Json.JsonConvert.DeserializeObject<GameSettingData>(json);
         
         // set global parameters
-        GlobaleGameParameters.DebugMode = GameSetting.DebugMode;
+        GlobalGameParameters.DebugMode = GameSetting.DebugMode;
     }
 
     public static void SaveGameSetting()

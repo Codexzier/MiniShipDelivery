@@ -21,13 +21,13 @@ internal class GameMenuCommon : BaseMenu
         : base(
             game,
             new Vector2(0, 0),
-            new SizeF(GlobaleGameParameters.ScreenWidth, 24))
+            new SizeF(GlobalGameParameters.ScreenWidth, 24))
     {
         this._texturesGameMenu = new TexturesGameMenu(game);
         this._functionBar = new FunctionBar(
             this.Position,
             new Vector2(0, 0),
-            new Size(GlobaleGameParameters.ScreenWidth, 24),
+            new Size(GlobalGameParameters.ScreenWidth, 24),
             this.DrawButtonGameMenu,
             this.ChangeColorForActiveGameMenu);
         this._functionBar.AddOption(GameMenuPart.QuestLog);
@@ -37,8 +37,8 @@ internal class GameMenuCommon : BaseMenu
         this._textureUiMenuEditorOptions = new SpriteUiMenuEditorOptions(game);
         this._functionBarWindow = new FunctionBar(
             this.Position,
-            new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
-            new Size(GlobaleGameParameters.ScreenWidth, 24),
+            new Vector2(GlobalGameParameters.ScreenWidth - 24, 0),
+            new Size(GlobalGameParameters.ScreenWidth, 24),
             this.DrawButtonOptions,
             this.ChangeColorForActiveOptions);
         this._functionBarWindow.AddOption(InterfaceMenuEditorOptionPart.Close);
@@ -89,7 +89,7 @@ internal class GameMenuCommon : BaseMenu
     
     private Color ChangeColorForActiveOptions(FunctionItem functionItem, Color color)
     {
-        if (GlobaleGameParameters.ShowGrid && 
+        if (GlobalGameParameters.ShowGrid && 
             (InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
@@ -102,7 +102,7 @@ internal class GameMenuCommon : BaseMenu
     {
         if ((InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Close)
         {
-            GlobaleGameParameters.HudView = HudOptionView.MainMenu;
+            GlobalGameParameters.HudView = HudOptionView.MainMenu;
         }
     }
     

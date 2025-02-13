@@ -33,7 +33,7 @@ namespace MiniShipDelivery.Components.World
             this.Map.Update();
             
             // HUD depended content
-            if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
+            if(GlobalGameParameters.HudView != HudOptionView.MapEditor) return;
             if(WorldMapAdjuster.SelectedNumberPart < 0) return;
             
             this._adjuster.UpdateSetMapTile();

@@ -8,9 +8,9 @@ namespace MiniShipDelivery.Components.Dialog;
 internal class DialogMenu(Game game) : BaseMenu(game,
     new Vector2(
         0,
-        GlobaleGameParameters.ScreenHeight - 36),
+        GlobalGameParameters.ScreenHeight - 36),
     new SizeF(
-        GlobaleGameParameters.ScreenWidth,
+        GlobalGameParameters.ScreenWidth,
         36))
 {
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
@@ -94,7 +94,7 @@ internal class DialogMenu(Game game) : BaseMenu(game,
         spriteBatch.DrawString(
             this._font,
             $"{this._outputTextUser.Length}",
-            pos + new Vector2(GlobaleGameParameters.ScreenWidth - 25, 0),
+            pos + new Vector2(GlobalGameParameters.ScreenWidth - 25, 0),
             Color.White);
     }
     

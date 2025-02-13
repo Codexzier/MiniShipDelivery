@@ -29,7 +29,7 @@ public static class HudHelper
     {
         var pasInX = multiply / columns;
         var multiplyX = multiply < columns ? multiply : multiply - (pasInX * columns);
-        var x = GlobaleGameParameters.ScreenWidth - width + 3 + ((multiplyX * 16) + (multiplyX * 2));
+        var x = GlobalGameParameters.ScreenWidth - width + 3 + ((multiplyX * 16) + (multiplyX * 2));
         var y = positionY + 3 + ((pasInX * 16) + (pasInX * 2));
 
         return new Vector2(x, y);

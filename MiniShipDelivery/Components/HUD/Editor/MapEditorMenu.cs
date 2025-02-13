@@ -30,8 +30,8 @@ public class MapEditorMenu : BaseMenu
     
     public MapEditorMenu(Game game) : base(
         game,
-        new Vector2(GlobaleGameParameters.ScreenWidth - MenuWidth, 24),
-        new SizeF(MenuWidth, GlobaleGameParameters.ScreenHeight - 24))
+        new Vector2(GlobalGameParameters.ScreenWidth - MenuWidth, 24),
+        new SizeF(MenuWidth, GlobalGameParameters.ScreenHeight - 24))
     {
         this._spriteUiMenuSpriteOptions = new SpriteUiMenuSpriteOptions(game);
 
@@ -69,15 +69,15 @@ public class MapEditorMenu : BaseMenu
         this._functionBarMapTilemapBasement = new FunctionBar(
             this.Position,
             new Vector2(0, 42),
-            new Size(MenuWidth, GlobaleGameParameters.ScreenHeight - 30),
+            new Size(MenuWidth, GlobalGameParameters.ScreenHeight - 30),
             this.DrawButtonMapSprite,
             this.ChangeColorForActiveMapSprite);
         this._functionBarMapTilemapBasement.RefillOptions(this._editableEnvironments.First(), 3);
         this._functionBarMapTilemapBasement.ButtonAreaWasPressedEvent += this.MapTilemapBasementButtonAreaWasPressed;
 
-        const int left = GlobaleGameParameters.ScreenWidth - MenuWidth;
+        const int left = GlobalGameParameters.ScreenWidth - MenuWidth;
         MenuField.Add(new RectangleF(left, 0, MenuWidth, 24));
-        MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobaleGameParameters.ScreenHeight - 24));
+        MenuField.Add(new RectangleF(left, 24, MenuWidth, GlobalGameParameters.ScreenHeight - 24));
 
         this._sound = game.GetComponent<SoundManager>();
     }

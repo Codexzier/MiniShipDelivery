@@ -19,8 +19,8 @@ public class SaveDialog : BaseMenu
         : base(
             game,
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 80,
-                GlobaleGameParameters.ScreenHeightHalf - 30),
+                GlobalGameParameters.ScreenWidthHalf - 80,
+                GlobalGameParameters.ScreenHeightHalf - 30),
             new SizeF(
                 160,
                 60))
@@ -30,16 +30,16 @@ public class SaveDialog : BaseMenu
          this._buttonSave = new TextButton(
              game,
              new Vector2(
-                 GlobaleGameParameters.ScreenWidthHalf - 70,
-                 GlobaleGameParameters.ScreenHeightHalf + 5),
+                 GlobalGameParameters.ScreenWidthHalf - 70,
+                 GlobalGameParameters.ScreenHeightHalf + 5),
              "Save");
         this._buttonSave.WasPressedEvent += this.ButtonPressed;
 
         this._buttonCancel = new TextButton(
             game,
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf + 6,
-                GlobaleGameParameters.ScreenHeightHalf + 5),
+                GlobalGameParameters.ScreenWidthHalf + 6,
+                GlobalGameParameters.ScreenHeightHalf + 5),
             "Cancel");
         this._buttonCancel.WasPressedEvent += this.ButtonPressed;
         

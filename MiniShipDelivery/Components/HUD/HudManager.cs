@@ -33,8 +33,8 @@ namespace MiniShipDelivery.Components.HUD
             
             this._mainMenuHud = new MainMenuHud(
                 game, 
-                GlobaleGameParameters.ScreenWidthHalf, 
-                GlobaleGameParameters.ScreenHeightHalf);
+                GlobalGameParameters.ScreenWidthHalf, 
+                GlobalGameParameters.ScreenHeightHalf);
             this._mainMenuHud.ButtonHasPressedEvent += this.MenuButtonHasPressed;
 
             this._gameMenuManager = new GameMenuManager(game); 
@@ -48,14 +48,14 @@ namespace MiniShipDelivery.Components.HUD
 
         private void MenuButtonHasPressed(HudOptionView view)
         {
-            GlobaleGameParameters.HudView = view;
+            GlobalGameParameters.HudView = view;
         }
 
         public override void Update(GameTime gameTime)
         {
             this.UpdateCurrentMouseOverMenuState();
 
-            switch (GlobaleGameParameters.HudView)
+            switch (GlobalGameParameters.HudView)
             {
                 case HudOptionView.Game:
                     this._gameMenuManager.Update();
@@ -78,7 +78,7 @@ namespace MiniShipDelivery.Components.HUD
         {
             this._spriteBatch.BeginWithCameraViewMatrix();
             
-            switch (GlobaleGameParameters.HudView)
+            switch (GlobalGameParameters.HudView)
             {
                 case HudOptionView.Game:
                     this._gameMenuManager.Draw(this._spriteBatch);
@@ -96,7 +96,7 @@ namespace MiniShipDelivery.Components.HUD
                     break;
             }
 
-            if (GlobaleGameParameters.DebugMode)
+            if (GlobalGameParameters.DebugMode)
             {
                 // draw fields with rectangle
                 this.DrawRectangles();
@@ -134,7 +134,7 @@ namespace MiniShipDelivery.Components.HUD
             }
             
             // Thats is dirty
-            if (GlobaleGameParameters.HudView == HudOptionView.MapEditor &&
+            if (GlobalGameParameters.HudView == HudOptionView.MapEditor &&
                 this.Bus.TextMessage.IsOn)
             {
                 MouseIsOverMenu = true;

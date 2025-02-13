@@ -26,7 +26,7 @@ public class MapEditorMenuCommon : BaseMenu
         : base(
             game, 
             new Vector2(0, 0), 
-            new SizeF(GlobaleGameParameters.ScreenWidth, 24))
+            new SizeF(GlobalGameParameters.ScreenWidth, 24))
     {
         this._saveDialog = new SaveDialog(game);
         this._openDialog = new OpenDialog(game);
@@ -36,7 +36,7 @@ public class MapEditorMenuCommon : BaseMenu
         this._functionBar = new FunctionBar(
             this.Position,
             new Vector2(0, 0),
-            new Size(GlobaleGameParameters.ScreenWidth, 24),
+            new Size(GlobalGameParameters.ScreenWidth, 24),
             this.DrawButton,
             this.ChangeColorForActive);
 
@@ -50,14 +50,14 @@ public class MapEditorMenuCommon : BaseMenu
         // on right side
         this._functionBarWindow = new FunctionBar(
             this.Position,
-            new Vector2(GlobaleGameParameters.ScreenWidth - 24, 0),
-            new Size(GlobaleGameParameters.ScreenWidth, 24),
+            new Vector2(GlobalGameParameters.ScreenWidth - 24, 0),
+            new Size(GlobalGameParameters.ScreenWidth, 24),
             this.DrawButton,
             this.ChangeColorForActive);
         this._functionBarWindow.AddOption(InterfaceMenuEditorOptionPart.Close);
         this._functionBarWindow.ButtonAreaWasPressedEvent += this.ButtonAreaPressed;
         
-        MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobaleGameParameters.ScreenWidth, 24));
+        MapEditorMenu.MenuField.Add(new RectangleF(0, 0, GlobalGameParameters.ScreenWidth, 24));
         
         this._sound = game.GetComponent<SoundManager>();
     }
@@ -78,7 +78,7 @@ public class MapEditorMenuCommon : BaseMenu
 
     private Color ChangeColorForActive(FunctionItem functionItem, Color color)
     {
-        if (GlobaleGameParameters.ShowGrid && 
+        if (GlobalGameParameters.ShowGrid && 
             (InterfaceMenuEditorOptionPart)functionItem.NumberPart == InterfaceMenuEditorOptionPart.Grid)
         {
             return Color.Yellow;
@@ -119,13 +119,13 @@ public class MapEditorMenuCommon : BaseMenu
                 
                 break;
             case InterfaceMenuEditorOptionPart.Grid:
-                GlobaleGameParameters.ShowGrid = !GlobaleGameParameters.ShowGrid;
+                GlobalGameParameters.ShowGrid = !GlobalGameParameters.ShowGrid;
                 break;
             case InterfaceMenuEditorOptionPart.ConsoleWindow:
-                GlobaleGameParameters.ShowConsoleWindow = !GlobaleGameParameters.ShowConsoleWindow;
+                GlobalGameParameters.ShowConsoleWindow = !GlobalGameParameters.ShowConsoleWindow;
                 break;
             case InterfaceMenuEditorOptionPart.Close:
-                GlobaleGameParameters.HudView = HudOptionView.MainMenu;
+                GlobalGameParameters.HudView = HudOptionView.MainMenu;
                 break;
         }
         

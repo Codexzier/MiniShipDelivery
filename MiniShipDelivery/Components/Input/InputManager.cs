@@ -19,8 +19,8 @@ namespace MiniShipDelivery.Components.Input
 
         private const int PlayerIndex = 0;
 
-        private const float ScaledMouseMovingX = GlobaleGameParameters.ScreenWidth / (float)GlobaleGameParameters.PreferredBackBufferWidth;
-        private const float ScaleMouseMovingY = GlobaleGameParameters.ScreenHeight / (float)GlobaleGameParameters.PreferredBackBufferHeight;
+        private const float ScaledMouseMovingX = GlobalGameParameters.ScreenWidth / (float)GlobalGameParameters.PreferredBackBufferWidth;
+        private const float ScaleMouseMovingY = GlobalGameParameters.ScreenHeight / (float)GlobalGameParameters.PreferredBackBufferHeight;
 
         private ApplicationBus Bus => ApplicationBus.Instance;
 

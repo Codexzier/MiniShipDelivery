@@ -89,7 +89,7 @@ namespace MiniShipDelivery.Components.Objects
         {
             this._spriteBatch.BeginWithCameraViewMatrix();
 
-            if (GlobaleGameParameters.DebugMode)
+            if (GlobalGameParameters.DebugMode)
             {
                 foreach (var collider in this._worldColliders)
                 {

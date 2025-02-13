@@ -2,7 +2,7 @@
 
 namespace MiniShipDelivery;
 
-public static class GlobaleGameParameters
+public static class GlobalGameParameters
 {
     public const int ScreenWidth = 320;
     public const int ScreenHeight = 180;

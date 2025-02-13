@@ -10,8 +10,8 @@ namespace MiniShipDelivery.Components.HUD.GameMenuMap;
 
 public class GameMenuMapOptions(Game game) : BaseMenu(game,
     new Vector2(
-        GlobaleGameParameters.ScreenWidthHalf - 100, 
-        GlobaleGameParameters.ScreenHeightHalf - 60),
+        GlobalGameParameters.ScreenWidthHalf - 100, 
+        GlobalGameParameters.ScreenHeightHalf - 60),
     new SizeF(200, 120))
 {
     private readonly WorldManager _map = game.GetComponent<WorldManager>();

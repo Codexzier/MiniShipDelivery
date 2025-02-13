@@ -8,7 +8,7 @@ public static class WorldManagerHelper
 {
     public static void DrawGrid(SpriteBatch spriteBatch, Vector2 position)
     {
-        if (!GlobaleGameParameters.ShowGrid) return;
+        if (!GlobalGameParameters.ShowGrid) return;
             
         const int maxY = 5;
         const int maxX = 5;

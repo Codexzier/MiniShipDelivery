@@ -83,7 +83,7 @@ public class WorldMapAdjuster
     public void Draw(
         SpriteBatch spriteBatch)
     {
-        if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
+        if(GlobalGameParameters.HudView != HudOptionView.MapEditor) return;
             
         WorldManagerHelper.DrawGrid(spriteBatch, this.Bus.Camera.GetPosition());
             

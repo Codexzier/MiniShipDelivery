@@ -12,8 +12,8 @@ public class CameraManager : GameComponent
         var viewportAdapter = new BoxingViewportAdapter(
             this.Game.Window, 
             this.Game.GraphicsDevice, 
-            GlobaleGameParameters.ScreenWidth, 
-            GlobaleGameParameters.ScreenHeight);
+            GlobalGameParameters.ScreenWidth, 
+            GlobalGameParameters.ScreenHeight);
         
         this._camera = new OrthographicCamera(viewportAdapter);
 

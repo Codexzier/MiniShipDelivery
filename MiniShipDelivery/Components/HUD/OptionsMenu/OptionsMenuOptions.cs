@@ -23,21 +23,21 @@ public class OptionsMenuOptions : BaseMenu
         : base(
             game, 
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 100, 
-                GlobaleGameParameters.ScreenHeightHalf - 60), 
+                GlobalGameParameters.ScreenWidthHalf - 100, 
+                GlobalGameParameters.ScreenHeightHalf - 60), 
             new SizeF(200, 120))
     {
         this._frame = new MenuFrame(game);
         this._menuFramePosition = new Vector2(
-            GlobaleGameParameters.ScreenWidthHalf - 100, 
-            GlobaleGameParameters.ScreenHeightHalf - 60);
+            GlobalGameParameters.ScreenWidthHalf - 100, 
+            GlobalGameParameters.ScreenHeightHalf - 60);
         
         this._buttonBack = new MenuButton(
             game,
             UiMenuMainPart.Back,
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 32, 
-                GlobaleGameParameters.ScreenHeightHalf + 40),
+                GlobalGameParameters.ScreenWidthHalf - 32, 
+                GlobalGameParameters.ScreenHeightHalf + 40),
             "Back");
         this._buttonBack.ButtonAreaWasPressedEvent += this.ButtonPressedBack;
         
@@ -45,8 +45,8 @@ public class OptionsMenuOptions : BaseMenu
             game, 
             "Music on/off",
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 45, 
-                GlobaleGameParameters.ScreenHeightHalf - 50));
+                GlobalGameParameters.ScreenWidthHalf - 45, 
+                GlobalGameParameters.ScreenHeightHalf - 50));
         this._checkBoxMusicOnOff.IsCheckedChangedEvent += this.CheckBoxMusicOnOffIsCheckedChangedEvent;
         this._checkBoxMusicOnOff.IsChecked = GameSettingManager.GameSetting.MusicOn;
         
@@ -54,8 +54,8 @@ public class OptionsMenuOptions : BaseMenu
             game, 
             "Debug mode",
             new Vector2(
-                GlobaleGameParameters.ScreenWidthHalf - 45, 
-                GlobaleGameParameters.ScreenHeightHalf - 29));
+                GlobalGameParameters.ScreenWidthHalf - 45, 
+                GlobalGameParameters.ScreenHeightHalf - 29));
         this._checkBoxDebugMode.IsCheckedChangedEvent += this.CheckBoxDebugModeIsCheckedChangedEvent;
         this._checkBoxDebugMode.IsChecked = GameSettingManager.GameSetting.DebugMode;
     }
@@ -67,7 +67,7 @@ public class OptionsMenuOptions : BaseMenu
     private void ButtonPressedBack(object assetPart)
     {
         GameSettingManager.SaveGameSetting();
-        GlobaleGameParameters.HudView = HudOptionView.MainMenu;
+        GlobalGameParameters.HudView = HudOptionView.MainMenu;
     }
     
     private void CheckBoxMusicOnOffIsCheckedChangedEvent(bool isChecked)
@@ -86,7 +86,7 @@ public class OptionsMenuOptions : BaseMenu
     
     private void CheckBoxDebugModeIsCheckedChangedEvent(bool isChecked)
     {
-        GlobaleGameParameters.DebugMode = isChecked;
+        GlobalGameParameters.DebugMode = isChecked;
         GameSettingManager.GameSetting.DebugMode = isChecked;
     }
     

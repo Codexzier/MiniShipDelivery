@@ -11,7 +11,7 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
 {
     private readonly CharacterManager _character = game.GetComponent<CharacterManager>();
     private readonly SpriteBatch _spriteBatch = new(game.GraphicsDevice);
-    private readonly Vector2 _startPosition = new(3, GlobaleGameParameters.ScreenHeight - 43);
+    private readonly Vector2 _startPosition = new(3, GlobalGameParameters.ScreenHeight - 43);
     
     private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/BaseFont");
 
@@ -25,8 +25,8 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
         
         // if mouse out of window, no need to update
         if(this._bus.Inputs.MousePosition.X < 0 || ApplicationBus.Instance.Inputs.MousePosition.Y < 0) return;
-        if(this._bus.Inputs.MousePosition.X > GlobaleGameParameters.ScreenWidth || 
-           this._bus.Inputs.MousePosition.Y > GlobaleGameParameters.ScreenHeight) return;
+        if(this._bus.Inputs.MousePosition.X > GlobalGameParameters.ScreenWidth || 
+           this._bus.Inputs.MousePosition.Y > GlobalGameParameters.ScreenHeight) return;
         
         AddText($"Mouse Pos.: {HudHelper.Vector2ToString(this._bus.Inputs.MousePosition)}");
         AddText($"Char. Pos.: {HudHelper.Vector2ToString(this._character.Player.Collider.Position)}");
@@ -35,8 +35,8 @@ internal class ConsoleManager(Game game) : DrawableGameComponent(game)
     public override void Draw(GameTime gameTime)
     {
         //if(GlobaleGameParameters.HudView != HudOptionView.MapEditor) return;
-        if (!GlobaleGameParameters.ShowConsoleWindow &&
-            !GlobaleGameParameters.DebugMode) return;
+        if (!GlobalGameParameters.ShowConsoleWindow &&
+            !GlobalGameParameters.DebugMode) return;
         
         base.Draw(gameTime);
 

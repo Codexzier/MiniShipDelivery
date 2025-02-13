@@ -11,7 +11,7 @@ public class FramesPerSecondManager(Game game) : DrawableGameComponent(game)
 
     public override void Draw(GameTime gameTime)
     {
-        if(!GlobaleGameParameters.DebugMode) return;
+        if(!GlobalGameParameters.DebugMode) return;
         
         this._elapsedTime += gameTime.ElapsedGameTime;
         var fps = 1 / this._elapsedTime.TotalSeconds;
