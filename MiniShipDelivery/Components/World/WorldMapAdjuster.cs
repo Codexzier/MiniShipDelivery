@@ -10,14 +10,16 @@ namespace MiniShipDelivery.Components.World;
 public class WorldMapAdjuster
 {
     private readonly WorldMap _map;
-    
+
     private ApplicationBus Bus => ApplicationBus.Instance;
+
+    private int _chunkIndex = 0;
 
     public WorldMapAdjuster(WorldMap map)
     {
         this._map = map;
         
-        SelectedMapMapLayer = map.WorldMapChunk.WorldMapLayers[0].MapLayer;
+        SelectedMapMapLayer = map.WorldMapChunks[this._chunkIndex].WorldMapLayers[0].MapLayer;
         SelectedNumberPart = -1;
     }
 
@@ -75,7 +77,7 @@ public class WorldMapAdjuster
         var x = (int)pos.X / 16;
         var y = (int)pos.Y / 16;
 
-        if (!this._map.TryTilemap(SelectedMapMapLayer, x, y, out var result)) return;
+        if (!this._map.TryTilemap(this._chunkIndex, SelectedMapMapLayer, x, y, out var result)) return;
             
         this.CurrentMapTile = result;
     }
@@ -98,7 +100,7 @@ public class WorldMapAdjuster
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!this._map.ValidTileNumber(SelectedNumberPart, SelectedMapMapLayer))
+        if (!this._map.ValidTileNumber(this._chunkIndex, SelectedNumberPart, SelectedMapMapLayer))
         {
             return;
         }

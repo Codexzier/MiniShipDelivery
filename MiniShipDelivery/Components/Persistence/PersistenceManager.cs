@@ -18,6 +18,8 @@ public class PersistenceManager : GameComponent
     private readonly WorldManager _world;
     public static readonly List<string> MapFilenames = new();
     
+    private int _chunkIndex = 0;
+    
     public PersistenceManager(Game game) : base(game)
     {
         this._world = game.GetComponent<WorldManager>();
@@ -68,9 +70,9 @@ public class PersistenceManager : GameComponent
     
     private void NewMapReset()
     {
-        this._world.Map.WorldMapChunk.WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
+        this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
         var ml = Enum.GetValues<MapLayer>();
-        var n = this._world.Map.WorldMapChunk.WorldMapLayers.Select(s => s.MapLayer).Distinct();
+        var n = this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers.Select(s => s.MapLayer).Distinct();
         if (ml.Length != n.Count())
         {
             throw new MapSetupException("map layers are not the same count.");
@@ -86,7 +88,7 @@ public class PersistenceManager : GameComponent
         
         var fullFilename = $"{this._mapDirectory}/{filename}.json";
         
-       var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunk);
+       var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunks);
        File.WriteAllText(fullFilename, saveContent);
     }
 
@@ -111,8 +113,8 @@ public class PersistenceManager : GameComponent
                 throw new MapSetupException("map layers are not the same count.");
             }
             
-            this._world.Map.WorldMapChunk.WorldMapLayers = WorldMapHelper.CheckGetWorldMap(
-                this._world.Map.WorldMapChunk.WorldMapLayers, 
+            this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers = WorldMapHelper.CheckGetWorldMap(
+                this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers, 
                 worldMapChunk.WorldMapLayers);
         }
         catch (Exception e)

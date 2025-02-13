@@ -1,78 +1,100 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CodexzierGameEngine.DataModels.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MiniShipDelivery.Components.Helpers;
 using MiniShipDelivery.Components.HUD;
+using WorldMapChunk = CodexzierGameEngine.DataModels.World.WorldMapChunk;
 
 namespace MiniShipDelivery.Components.World;
 
 public class WorldMap
 {
-    public WorldMapChunk WorldMapChunk { get; set; } = new();
+    public WorldMapChunk[] WorldMapChunks { get; set; } = new WorldMapChunk[2];
 
-    public MiniMapChunks[] MiniMapChunks { get; set; } = new[] { new MiniMapChunks() };
+    public MiniMapChunks[] MiniMapChunks { get; set; } = new[]
+    {
+        new MiniMapChunks{ WorldMapChunkId = 0 },
+        new MiniMapChunks{ WorldMapChunkId = 1 }
+    };
 
     public WorldMap()
     {
-        this.WorldMapChunk.WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
+        this.WorldMapChunks[0] = new WorldMapChunk 
+            { Id = 0, Position = new WorldMapChunkPosition { Id = 0, X = 0, Y = 0 } };
+        this.WorldMapChunks[1] = new WorldMapChunk 
+            { Id = 1, Position = new WorldMapChunkPosition { Id = 1, X = 1, Y = 0 } };
+
+        foreach (var worldMapChunk in this.WorldMapChunks)
+        {
+            worldMapChunk.WorldMapLayers = WorldMapHelper.CreateWorldMapLayers();
+        }
     }
 
     public void Update()
     {
-        if(this.MiniMapChunks.All(a => this.WorldMapChunk.Id == a.WorldMapChunkId)) return;
-
-        foreach (var worldMapLayer in WorldMapChunk.WorldMapLayers)
+        if(this.MiniMapChunks.All(a => this.WorldMapChunks.Any(ia => ia.Id == a.WorldMapChunkId))) return;
+        for (int chunkIndex = 0; chunkIndex < this.WorldMapChunks.Length; chunkIndex++)
         {
-            if(worldMapLayer.MapLayer == MapLayer.Colliders) continue;
-
-            for (int indexY = 0; indexY < worldMapLayer.Map.Length; indexY++)
+            foreach (var worldMapLayer in this.WorldMapChunks[chunkIndex].WorldMapLayers)
             {
-                if (this.MiniMapChunks[0].MiniMap == null)
+                if(worldMapLayer.MapLayer == MapLayer.Colliders) continue;
+
+                for (int indexY = 0; indexY < worldMapLayer.Map.Length; indexY++)
                 {
-                    this.MiniMapChunks[0].MiniMap = new Color[10][];
-                }
-                
-                if(this.MiniMapChunks[0].MiniMap[indexY] == null)
-                {
-                    this.MiniMapChunks[0].MiniMap[indexY] = new Color[10];
-                }
-                
-                for (int indexX = 0; indexX < worldMapLayer.Map[indexY].Length; indexX++)
-                {
-                    if(worldMapLayer.Map[indexY][indexX].AssetNumber == 0) continue;
-                    
-                    Color color = Color.Transparent;
-                    switch (worldMapLayer.MapLayer)
+                    if (this.MiniMapChunks[chunkIndex].MiniMap == null)
                     {
-                        case MapLayer.Street:
-                            color = Color.Gray;
-                            break;
-                        case MapLayer.Sidewalk:
-                            color = Color.LightGray;
-                            break;
-                        case MapLayer.BuildingRed:
-                            color = Color.Red;
-                            break;
-                        case MapLayer.BuildingBrown:
-                            color = Color.Brown;
-                            break;
-                        case MapLayer.Grass:
-                            color = Color.LightGreen;
-                            break;
+                        this.MiniMapChunks[chunkIndex].MiniMap = new Color[10][];
                     }
+                
+                    if(this.MiniMapChunks[chunkIndex].MiniMap[indexY] == null)
+                    {
+                        this.MiniMapChunks[chunkIndex].MiniMap[indexY] = new Color[10];
+                    }
+                
+                    for (int indexX = 0; indexX < worldMapLayer.Map[indexY].Length; indexX++)
+                    {
+                        if(worldMapLayer.Map[indexY][indexX].AssetNumber == 0) continue;
                     
-                    if(color == Color.Transparent) continue;
+                        Color color = Color.Transparent;
+                        switch (worldMapLayer.MapLayer)
+                        {
+                            case MapLayer.Street:
+                                color = Color.Gray;
+                                break;
+                            case MapLayer.Sidewalk:
+                                color = Color.LightGray;
+                                break;
+                            case MapLayer.BuildingRed:
+                                color = Color.Red;
+                                break;
+                            case MapLayer.BuildingBrown:
+                                color = Color.Brown;
+                                break;
+                            case MapLayer.Grass:
+                                color = Color.LightGreen;
+                                break;
+                        }
                     
-                    this.MiniMapChunks[0].MiniMap[indexY][indexX] = color;
+                        if(color == Color.Transparent) continue;
+                    
+                        this.MiniMapChunks[chunkIndex].MiniMap[indexY][indexX] = color;
+                    }
                 }
             }
         }
+        
     }
     
     public void DrawAllLayers(SpriteBatch spriteBatch, bool drawTop = false)
     {
-        foreach (var worldMapLayer in this.WorldMapChunk.WorldMapLayers)
+        for (int chunkIndex = 0; chunkIndex < this.WorldMapChunks.Length; chunkIndex++)
+        {
+            var position = new Vector2(
+                this.WorldMapChunks[chunkIndex].Position.X * 160,
+                this.WorldMapChunks[chunkIndex].Position.Y * 160);
+        foreach (var worldMapLayer in this.WorldMapChunks[chunkIndex].WorldMapLayers)
         {
             if(worldMapLayer.MapLayer == MapLayer.Colliders &&
                GlobalGameParameters.HudView != HudOptionView.MapEditor) continue;
@@ -91,22 +113,23 @@ public class WorldMap
                     }
                     
                     spriteBatch.Draw(
-                        worldMapLayer.Map[y][x].Position.TilePositionToVector(),
+                        worldMapLayer.Map[y][x].Position.TilePositionToVector() + position,
                         worldMapLayer.MapLayer,
                         tileNumber,
                         drawTop);
                 }
             }
+        }   
         }
     }
     
     #region world map help methods
     
-    public bool TryTilemap(MapLayer mapLayer, int x, int y, out MapTile mapTile)
+    public bool TryTilemap(int chunkIndex, MapLayer mapLayer, int x, int y, out MapTile mapTile)
     {
         mapTile = null;
         
-        var map = this.WorldMapChunk.WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == mapLayer)?.Map;
+        var map = this.WorldMapChunks[chunkIndex].WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == mapLayer)?.Map;
         
         if(map == null) return false;
         
@@ -118,9 +141,9 @@ public class WorldMap
         return true;
     }
     
-    public bool ValidTileNumber(int selectedTilemapPart, MapLayer tilemapMapLayer)
+    public bool ValidTileNumber(int chunkIndex, int selectedTilemapPart, MapLayer tilemapMapLayer)
     {
-        var wm = this.WorldMapChunk.WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == tilemapMapLayer);
+        var wm = this.WorldMapChunks[chunkIndex].WorldMapLayers.FirstOrDefault(layer => layer.MapLayer == tilemapMapLayer);
         
         return wm != null && wm.ListOfValidateTileNumbers.Contains(selectedTilemapPart);
     }

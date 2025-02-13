@@ -15,6 +15,8 @@ namespace MiniShipDelivery.Components.World
         private readonly WorldMapAdjuster _adjuster;
         
         public readonly WorldMap Map;
+
+        private int _chunkIndex = 0;
         
         public WorldManager(Game game) : base(game)
         {
@@ -60,6 +62,7 @@ namespace MiniShipDelivery.Components.World
                 {
                     // pick on top fo the field.
                     if(this.Map.TryTilemap(
+                           this._chunkIndex,
                            MapLayer.Colliders, 
                            x - 1 + posX, 
                            y - 1 + posY, 
