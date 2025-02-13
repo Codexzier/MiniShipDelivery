@@ -98,9 +98,6 @@ namespace MiniShipDelivery
             consoleManager.DrawOrder = 12;
             this.Components.Add(consoleManager);
             
-            
-            
-            
             var fps = new FramesPerSecondManager(this);
             fps.UpdateOrder = 99;
             fps.DrawOrder = 99;

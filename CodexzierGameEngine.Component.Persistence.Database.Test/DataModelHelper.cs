@@ -14,9 +14,9 @@ public static class DataModelHelper
         return worldMapChunk;
     }
 
-    public static WorldMapChunkPosition CreateWorldMapChunkPosition(int id, int x, int y)
+    public static MapCoordinate CreateWorldMapChunkPosition(int id, int x, int y)
     {
-        var worldMapChunkPosition = new WorldMapChunkPosition
+        var worldMapChunkPosition = new MapCoordinate
         {
             Id = id,
             X = x,

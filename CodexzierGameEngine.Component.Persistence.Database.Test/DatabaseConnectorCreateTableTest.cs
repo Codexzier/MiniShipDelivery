@@ -25,7 +25,7 @@ namespace CodexzierGameEngine.Component.Persistence.Database.Test
             var instance = new DatabaseConnectorTable(SqliteDatabaseHelper.GetDatabasePath(1));
 
             // act
-            instance.Create<WorldMapChunkPosition>();
+            instance.Create<MapCoordinate>();
 
             // assert
             Assert.IsTrue(true);

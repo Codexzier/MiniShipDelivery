@@ -1,4 +1,6 @@
-﻿namespace MiniShipDelivery.Components;
+﻿using Microsoft.Xna.Framework;
+
+namespace MiniShipDelivery.Components;
 
 public class ApplicationBus
 {
@@ -12,4 +14,8 @@ public class ApplicationBus
     public IInputData Inputs { get; } = new InputData();
     public TextMessage TextMessage { get; } = new ();
     public IGameCamera Camera { get; set; } = new CameraData();
+    
+    public int MapChunkIndex { get; set; }
+    public Vector2 MapChunkPosition { get; set; }
+    public Vector2 CharacterPlayerPosition { get; set; }
 }

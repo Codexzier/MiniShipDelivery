@@ -1,6 +1,6 @@
 namespace CodexzierGameEngine.DataModels.World;
 
-public class WorldMapChunkPosition
+public class MapCoordinate
 {
     public int X { get; set; }
     public int Y { get; set; }

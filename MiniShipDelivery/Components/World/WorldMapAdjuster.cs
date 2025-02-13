@@ -13,13 +13,11 @@ public class WorldMapAdjuster
 
     private ApplicationBus Bus => ApplicationBus.Instance;
 
-    private int _chunkIndex = 0;
-
     public WorldMapAdjuster(WorldMap map)
     {
         this._map = map;
         
-        SelectedMapMapLayer = map.WorldMapChunks[this._chunkIndex].WorldMapLayers[0].MapLayer;
+        SelectedMapMapLayer = map.WorldMapChunks[this.Bus.MapChunkIndex].WorldMapLayers[0].MapLayer;
         SelectedNumberPart = -1;
     }
 
@@ -38,6 +36,7 @@ public class WorldMapAdjuster
             
         var rePosition = this.CurrentMapTile.Position.TilePositionToVector() - this.Bus.Camera.GetPosition() ;
             
+        rePosition += this.Bus.MapChunkPosition;
         if (this.Bus.Inputs.GetMouseButtonReleasedStateLeft(
                 rePosition, 
                 new SizeF(16, 16), "set tile"))
@@ -61,6 +60,7 @@ public class WorldMapAdjuster
             
         var pos = this.Bus.Inputs.MousePosition;
         pos += this.Bus.Camera.GetPosition();
+        pos -= ApplicationBus.Instance.MapChunkPosition;
             
         // Example
         // -------------------
@@ -77,7 +77,7 @@ public class WorldMapAdjuster
         var x = (int)pos.X / 16;
         var y = (int)pos.Y / 16;
 
-        if (!this._map.TryTilemap(this._chunkIndex, SelectedMapMapLayer, x, y, out var result)) return;
+        if (!this._map.TryTilemap(this.Bus.MapChunkIndex, SelectedMapMapLayer, x, y, out var result)) return;
             
         this.CurrentMapTile = result;
     }
@@ -100,7 +100,7 @@ public class WorldMapAdjuster
     {
         if(this.CurrentMapTile == null) return;
 
-        if (!this._map.ValidTileNumber(this._chunkIndex, SelectedNumberPart, SelectedMapMapLayer))
+        if (!this._map.ValidTileNumber(this.Bus.MapChunkIndex, SelectedNumberPart, SelectedMapMapLayer))
         {
             return;
         }
@@ -109,9 +109,9 @@ public class WorldMapAdjuster
         {
             return;
         }
-         
+        
         spriteBatch.DrawWithTransparency(
-            this.CurrentMapTile.Position.TilePositionToVector(),
+            this.CurrentMapTile.Position.TilePositionToVector() + this.Bus.MapChunkPosition,
             SelectedMapMapLayer,
             SelectedNumberPart);
     }
@@ -121,7 +121,7 @@ public class WorldMapAdjuster
         if(this.CurrentMapTile == null) return;
             
         spriteBatch.DrawRectangle(
-            this.CurrentMapTile.Position.TilePositionToVector(),
+            this.CurrentMapTile.Position.TilePositionToVector()  + this.Bus.MapChunkPosition,
             new SizeF(16, 16),
             Color.White);
     }

@@ -85,18 +85,21 @@ public class PersistenceManager : GameComponent
         {
             filename = this._mapDefaultFilename;
         }
+
+        foreach (var worldMapChunk in this._world.Map.WorldMapChunks)
+        {
+            var fullFilename = $"{this._mapDirectory}/{filename}_{worldMapChunk.Id}.json";
         
-        var fullFilename = $"{this._mapDirectory}/{filename}.json";
-        
-       var saveContent = JsonConvert.SerializeObject(this._world.Map.WorldMapChunks);
-       File.WriteAllText(fullFilename, saveContent);
+            var saveContent = JsonConvert.SerializeObject(worldMapChunk);
+            File.WriteAllText(fullFilename, saveContent);
+        }
     }
 
     private void LoadMapFromFile(string selectedFilename)
     {
         var fullname = $"{this._mapDirectory}/{selectedFilename}";
         
-        if(!File.Exists(fullname)) return;
+        //if(!File.Exists(fullname)) return;
 
         if (string.IsNullOrEmpty(selectedFilename))
         {
@@ -105,17 +108,31 @@ public class PersistenceManager : GameComponent
 
         try
         {
-            var content = File.ReadAllText(fullname);
-            var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
+            var filenames = Directory.GetFiles(this._mapDirectory, "*.json");
+            var worldMapChunks = new List<WorldMapChunk>();
+            foreach (var filename in filenames)
+            {
+                var content = File.ReadAllText(filename);
+                var worldMapChunk = JsonConvert.DeserializeObject<WorldMapChunk>(content);
+                worldMapChunks.Add(worldMapChunk);
+            }
             
-            if(worldMapChunk.WorldMapLayers == null || worldMapChunk.WorldMapLayers.Length == 0)
+            if(worldMapChunks == null || worldMapChunks.Count == 0)
             {
                 throw new MapSetupException("map layers are not the same count.");
             }
-            
-            this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers = WorldMapHelper.CheckGetWorldMap(
-                this._world.Map.WorldMapChunks[this._chunkIndex].WorldMapLayers, 
-                worldMapChunk.WorldMapLayers);
+
+            for (int i = 0; i < this._world.Map.WorldMapChunks.Length; i++)
+            {
+                var worldMapChunk = worldMapChunks.FirstOrDefault(s => s.Id == this._world.Map.WorldMapChunks[i].Id);
+                
+                if (worldMapChunk == null) continue;
+                
+                this._world.Map.WorldMapChunks[i].WorldMapLayers = WorldMapHelper
+                    .CheckGetWorldMap(
+                        this._world.Map.WorldMapChunks[i].WorldMapLayers, 
+                        worldMapChunk.WorldMapLayers);
+            }
         }
         catch (Exception e)
         {

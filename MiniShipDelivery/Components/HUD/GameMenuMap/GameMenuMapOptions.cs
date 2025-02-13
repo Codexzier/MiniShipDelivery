@@ -33,8 +33,8 @@ public class GameMenuMapOptions(Game game) : BaseMenu(game,
                     for (int indexX = 0; indexX < mapChunk.MiniMap[indexY].Length; indexX++)
                     {
                         var tilePosition = new Vector2(
-                            indexX * this._tileSize.Width - 15, 
-                            indexY * this._tileSize.Height - 15);
+                            (indexX * this._tileSize.Width - 15) + (mapChunk.Coordinate.X * 30), 
+                            (indexY * this._tileSize.Height - 15) + (mapChunk.Coordinate.Y * 30));
                         
                         spriteBatch.FillRectangle(
                             this.Position + this.Bus.Camera.GetPosition() + this._center + tilePosition,

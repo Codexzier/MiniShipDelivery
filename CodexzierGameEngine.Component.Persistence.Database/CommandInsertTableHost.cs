@@ -11,8 +11,8 @@ public static class CommandInsertTableHost
         {
             case nameof(WorldMapChunk):
                 return InsertTableWorldMapChunk((WorldMapChunk)dataModel);
-            case nameof(WorldMapChunkPosition):
-                return InsertTableWorldMapChunkPosition((WorldMapChunkPosition)dataModel);
+            case nameof(MapCoordinate):
+                return InsertTableWorldMapChunkPosition((MapCoordinate)dataModel);
             case nameof(WorldMapLayer):
                 return InsertTableWorldMapLevel((WorldMapLayer)dataModel);
             case nameof(MapTile):
@@ -32,7 +32,7 @@ public static class CommandInsertTableHost
         return sb.ToString();
     }
     
-    private static string InsertTableWorldMapChunkPosition(WorldMapChunkPosition dataModel)
+    private static string InsertTableWorldMapChunkPosition(MapCoordinate dataModel)
     {
         var sb = new StringBuilder();
         sb.AppendLine("INSERT INTO WorldMapChunkPosition (X, Y) VALUES (");

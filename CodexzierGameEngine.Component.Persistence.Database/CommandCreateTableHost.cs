@@ -8,7 +8,7 @@ public static class CommandCreateTableHost
     public static IDictionary<Type, Func<string>> CommandDictionary = new Dictionary<Type, Func<string>>
     {
         {typeof(WorldMapChunk), CreateTableWorldMapChunk},
-        {typeof(WorldMapChunkPosition), CreateTableWorldMapChunkPosition},
+        {typeof(MapCoordinate), CreateTableWorldMapChunkPosition},
         {typeof(WorldMapLayer), CreateTableWorldMapLevel},
         {typeof(MapTile), CreateTableMapTile}
     };

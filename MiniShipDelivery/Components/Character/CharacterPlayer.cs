@@ -43,6 +43,7 @@ namespace MiniShipDelivery.Components.Character
                 if(!this.IsCollide) 
                 {
                     this.Collider.Position += this.Direction * this.Speed * deltaTime;
+                    ApplicationBus.Instance.CharacterPlayerPosition = this.Collider.Position;
                 }
             }
             else

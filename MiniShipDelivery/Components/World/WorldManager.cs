@@ -15,8 +15,6 @@ namespace MiniShipDelivery.Components.World
         private readonly WorldMapAdjuster _adjuster;
         
         public readonly WorldMap Map;
-
-        private int _chunkIndex = 0;
         
         public WorldManager(Game game) : base(game)
         {
@@ -62,7 +60,7 @@ namespace MiniShipDelivery.Components.World
                 {
                     // pick on top fo the field.
                     if(this.Map.TryTilemap(
-                           this._chunkIndex,
+                           ApplicationBus.Instance.MapChunkIndex,
                            MapLayer.Colliders, 
                            x - 1 + posX, 
                            y - 1 + posY, 
@@ -77,7 +75,8 @@ namespace MiniShipDelivery.Components.World
                             {
                                 colliderBox2D = new ColliderBox2D(16, 16)
                                 {
-                                    Position = mapTile.Position.TilePositionToVector()
+                                    Position = mapTile.Position.TilePositionToVector() 
+                                               + ApplicationBus.Instance.MapChunkPosition
                                 };
                                 break;
                             }
@@ -86,6 +85,7 @@ namespace MiniShipDelivery.Components.World
                                 colliderBox2D = new ColliderBox2D(16, 8)
                                 {
                                     Position = mapTile.Position.TilePositionToVector()
+                                               + ApplicationBus.Instance.MapChunkPosition
                                 };
                                 break;
                             }
@@ -96,6 +96,7 @@ namespace MiniShipDelivery.Components.World
                                     Position = mapTile
                                         .Position
                                         .TilePositionToVector() + new Vector2(0, 8)
+                                                                + ApplicationBus.Instance.MapChunkPosition
                                 };
                                 break;
                             }

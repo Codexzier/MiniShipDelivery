@@ -131,11 +131,6 @@ public class OpenDialog : BaseMenu
             
             this.ButtonInRange(spriteBatch, pos, index);
         }
-        // this.ButtonInRange(spriteBatch, pos, 0);
-        // this.ButtonInRange(spriteBatch, pos, 1);
-        // this.ButtonInRange(spriteBatch, pos, 2);
-        // this.ButtonInRange(spriteBatch, pos, 3);
-        // this.ButtonInRange(spriteBatch, pos, 4);
     }
     
     private void ButtonInRange(SpriteBatch spriteBatch, Vector2 pos, int index)
