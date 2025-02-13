@@ -1,6 +1,7 @@
 # Try different things
 This is a current project with MonoGame with C# and .NET 8, which serves to not restrict my head with project-specific content.
 Therefore, the displayed result does not change much, but the program code and the solution paths change all the more.
+![img.png](img.png)
 
 # What should the game be able to do
 To be able to play on the playing field, the map can be clicked together with the MapEditor. More is not yet possible.
@@ -19,7 +20,7 @@ Go behind a Building
 
 # Open goals
 - Rule-based tiles
-- Mini map
+- Mini map (a little bit finished)
 - mini pong (a game in game)
 - drive a boat, a car and a plane
 - npc generator
