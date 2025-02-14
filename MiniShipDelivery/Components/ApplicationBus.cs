@@ -18,4 +18,11 @@ public class ApplicationBus
     public int MapChunkIndex { get; set; }
     public Vector2 MapChunkPosition { get; set; }
     public Vector2 CharacterPlayerPosition { get; set; }
+
+    public Vector2 CharacterPlayerPositionInChunk()
+    {
+        return this.CharacterPlayerPosition - this.MapChunkPosition;
+    }
+    
+
 }

@@ -48,7 +48,7 @@ namespace MiniShipDelivery.Components.Objects
                 }
             }
             
-            var playerPosition = this._characterManager.Player.Collider.Position - ApplicationBus.Instance.MapChunkPosition;
+            var playerPosition = ApplicationBus.Instance.CharacterPlayerPositionInChunk();
             var x = ((int)playerPosition.X + 8) / 16;
             var y = ((int)playerPosition.Y + 8) / 16;
             
