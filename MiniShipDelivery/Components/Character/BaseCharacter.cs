@@ -22,7 +22,7 @@ namespace MiniShipDelivery.Components.Character
 
         private readonly Vector2 _positionShiftDraw = new(2, 8);
         
-        public ColliderBox2D Collider { get; } = new(12, 8);
+        public ColliderBox2D Collider { get; } = new(12, 8, new Vector2(0, 0), 0, 0);
         public List<ICollider> Collisions { get; } = new();
         public bool IsColliding { get; private set; }
         

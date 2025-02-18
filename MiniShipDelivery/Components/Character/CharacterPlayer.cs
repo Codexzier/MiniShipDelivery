@@ -19,7 +19,7 @@ namespace MiniShipDelivery.Components.Character
         {
             this._screenPosition = screenPosition;
             this._characterType = characterType;
-            this.Collider.Position = new Vector2(70, 70);
+            this.Collider.SetPosition(new Vector2(70, 70));
         }
 
         public bool IsCollide { get; set; }
@@ -42,7 +42,7 @@ namespace MiniShipDelivery.Components.Character
                 
                 if(!this.IsCollide) 
                 {
-                    this.Collider.Position += this.Direction * this.Speed * deltaTime;
+                    this.Collider.AddPosition(this.Direction * this.Speed * deltaTime);
                     ApplicationBus.Instance.CharacterPlayerPosition = this.Collider.Position;
                 }
             }

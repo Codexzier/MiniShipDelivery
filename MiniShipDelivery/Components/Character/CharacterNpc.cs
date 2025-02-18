@@ -18,7 +18,7 @@ namespace MiniShipDelivery.Components.Character
             : base(spriteCharacter, spriteCharacterShadow, spriteEmote)
         {
             this._characterType = characterType;
-            this.Collider.Position = position;
+            this.Collider.SetPosition(position);
         }
         
         public override void Update(GameTime gameTime)

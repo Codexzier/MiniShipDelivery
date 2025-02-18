@@ -48,6 +48,15 @@ namespace MiniShipDelivery.Components.World
             
             this._spriteBatch.End();
         }
+        
+        private Vector2[] _chunkNeighbors =new Vector2[]
+        {
+            new (0, 0),
+            new (-1, 0), 
+            new (1, 0), 
+            new (0, -1), 
+            new (0, 1)
+        };
 
         public List<ColliderBox2D> GetCollidableObjects(int x, int y)
         {
@@ -68,39 +77,7 @@ namespace MiniShipDelivery.Components.World
                     {
                         if( mapTile.AssetNumber == 0) continue;
 
-                        ColliderBox2D colliderBox2D = null;
-                        switch (mapTile.AssetNumber)
-                        {
-                            case 1:
-                            {
-                                colliderBox2D = new ColliderBox2D(16, 16)
-                                {
-                                    Position = mapTile.Position.TilePositionToVector() 
-                                               + ApplicationBus.Instance.MapChunkPosition
-                                };
-                                break;
-                            }
-                            case 2:
-                            {
-                                colliderBox2D = new ColliderBox2D(16, 8)
-                                {
-                                    Position = mapTile.Position.TilePositionToVector()
-                                               + ApplicationBus.Instance.MapChunkPosition
-                                };
-                                break;
-                            }
-                            case 3:
-                            {
-                                colliderBox2D = new ColliderBox2D(16, 8)
-                                {
-                                    Position = mapTile
-                                        .Position
-                                        .TilePositionToVector() + new Vector2(0, 8)
-                                                                + ApplicationBus.Instance.MapChunkPosition
-                                };
-                                break;
-                            }
-                        }
+                        var colliderBox2D = GetColliderBox2DByAssetNumber(mapTile);
 
                         if (collidableObjects == null)
                         {
@@ -115,6 +92,45 @@ namespace MiniShipDelivery.Components.World
             }
             
             return collidableObjects;
+        }
+
+        private static ColliderBox2D GetColliderBox2DByAssetNumber(MapTile mapTile)
+        {
+            ColliderBox2D colliderBox2D = null;
+            switch (mapTile.AssetNumber)
+            {
+                case 1:
+                {
+                    colliderBox2D = new ColliderBox2D(16, 16,
+                        mapTile.Position.TilePositionToVector() 
+                        + ApplicationBus.Instance.MapChunkPosition,
+                        0,
+                        0);
+                    break;
+                }
+                case 2:
+                {
+                    colliderBox2D = new ColliderBox2D(16, 8,
+                        mapTile.Position.TilePositionToVector() 
+                        + ApplicationBus.Instance.MapChunkPosition,
+                        0,
+                        0);
+                    break;
+                }
+                case 3:
+                {
+                    colliderBox2D = new ColliderBox2D(16, 8,
+                        mapTile
+                            .Position
+                            .TilePositionToVector() + new Vector2(0, 8)
+                                                    + ApplicationBus.Instance.MapChunkPosition,
+                        0,
+                        0);
+                    break;
+                }
+            }
+
+            return colliderBox2D;
         }
     }
 }

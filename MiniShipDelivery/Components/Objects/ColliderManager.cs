@@ -16,6 +16,7 @@ namespace MiniShipDelivery.Components.Objects
         private readonly WorldManager _world;
         private readonly CharacterManager _characterManager;
         private List<ColliderBox2D> _worldColliders;
+        
 
         public ColliderManager(Game game) : base(game)
         {
@@ -49,14 +50,15 @@ namespace MiniShipDelivery.Components.Objects
             }
             
             var playerPosition = ApplicationBus.Instance.CharacterPlayerPositionInChunk();
+            
             var x = ((int)playerPosition.X + 8) / 16;
             var y = ((int)playerPosition.Y + 8) / 16;
-            
+        
             this._worldColliders = this._world.GetCollidableObjects(x, y);
-            
+        
             var forecast = this._characterManager.Player.Collider;
             var direction = this._characterManager.Player.Direction;
-            
+        
             foreach (var collider in this._worldColliders)
             {
                 if (forecast.Intersects(collider) &&
@@ -73,9 +75,9 @@ namespace MiniShipDelivery.Components.Objects
 
                     if (resetPosition != Vector2.Zero)
                     {
-                        this._characterManager.Player.Collider.Position = resetPosition;
+                        this._characterManager.Player.Collider.SetPosition(resetPosition);
                     }
-                    
+                
                     this._characterManager.Player.IsCollide = true;
                 }
                 else
