@@ -1,23 +1,56 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MiniShipDelivery.Components.Dialog.Chatbots;
 using MiniShipDelivery.Components.HUD.Base;
 using MonoGame.Extended;
 
 namespace MiniShipDelivery.Components.Dialog;
 
-internal class DialogMenu(Game game) : BaseMenu(game,
-    new Vector2(
-        0,
-        GlobalGameParameters.ScreenHeight - 36),
-    new SizeF(
-        GlobalGameParameters.ScreenWidth,
-        36))
+internal class DialogMenu : BaseMenu
 {
-    private readonly SpriteFont _font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
+    private readonly SpriteFont _font;
     
     private string _outputTextUser = string.Empty;
     private string _outputTextNpc = string.Empty;
+    
+    private readonly ChatbotType1 _chatbotType1 = new();
+    private bool _chatBotStart;
+    private int _countWords = 0;
 
+    public DialogMenu(Game game) : base(game,
+        new Vector2(
+            0,
+            GlobalGameParameters.ScreenHeight - 36),
+        new SizeF(
+            GlobalGameParameters.ScreenWidth,
+            36))
+    {
+        this._font = game.Content.Load<SpriteFont>("Fonts/KennyMiniSquare");
+        this._chatbotType1.ChatAnswerPartEvent += this.ChatAnswerPartEvent;
+        this._chatbotType1.ChatAnswerEvent += this.ChatAnswerEvent;
+    }
+
+    private void ChatAnswerPartEvent(string message)
+    {
+        this._outputTextNpc = message;
+        this._countWords++;
+    }
+
+    private void ChatAnswerEvent(string message)
+    {
+        // Assistant: Hallo! Ich bin hier, um Ihnen zu helfen. Was möchten Sie heute erreichen?
+        //     User:
+        var coreMessage = message.Replace("Assistant: ", "").Split('\r', '\n')[0];
+        
+        this._outputTextNpc = coreMessage;
+        
+        
+        ApplicationBus.Instance.TextMessage.CanClearForNextMessage = true;
+        this._chatBotStart = false;
+    }
 
     public override void Update()
     {
@@ -27,24 +60,27 @@ internal class DialogMenu(Game game) : BaseMenu(game,
         
         this._outputTextUser = ApplicationBus.Instance.TextMessage.Text;
 
-        if (ApplicationBus.Instance.TextMessage.HasPressedEnter)
+        if (ApplicationBus.Instance.TextMessage.HasPressedEnter && !this._chatBotStart)
         {
-            switch (this._outputTextUser.ToLower())
-            {
-                case "hello":
-                    this._outputTextNpc = "Hello, how are you?";
-                    break;
-                case "fine":
-                    this._outputTextNpc = "Nice to hear that.";
-                    break;
-                case "bye":
-                    this._outputTextNpc = "Goodbye!";
-                    ApplicationBus.Instance.TextMessage.CanLeave = true;
-                    break;
-            }
-            
             ApplicationBus.Instance.TextMessage.HasPressedEnter = false;
-            ApplicationBus.Instance.TextMessage.CanClearForNextMessage = true;
+            this._chatBotStart = true;
+            // switch (this._outputTextUser.ToLower())
+            // {
+            //     case "hello":
+            //         this._outputTextNpc = "Hello, how are you?";
+            //         break;
+            //     case "fine":
+            //         this._outputTextNpc = "Nice to hear that.";
+            //         break;
+            //     case "bye":
+            //         this._outputTextNpc = "Goodbye!";
+            //         ApplicationBus.Instance.TextMessage.CanLeave = true;
+            //         break;
+            // }
+            
+            Debug.WriteLine($"Output text: {this._outputTextUser}");
+            this._countWords = 0;
+            Task.Run(() => this._chatbotType1.SetUserInput(this._outputTextUser));
         }
     }
 
@@ -104,6 +140,12 @@ internal class DialogMenu(Game game) : BaseMenu(game,
             this._font,
             this._outputTextNpc,
             pos + new Vector2(2, 12),
+            Color.White);
+        
+        spriteBatch.DrawString(
+            this._font,
+            $"{this._countWords}",
+            pos + new Vector2(GlobalGameParameters.ScreenWidth - 25, 12),
             Color.White);
     }
     
