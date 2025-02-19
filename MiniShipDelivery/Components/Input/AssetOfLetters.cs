@@ -5,6 +5,33 @@ namespace MiniShipDelivery.Components.Input;
 
 public static class AssetOfLetters
 {
+    public static string ConvertUmlaute(string text)
+    {
+        if (text.ToLower().Contains("ö"))
+        {
+            text = text.Replace("ö", "OE");
+            text = text.Replace("Ö", "OE");
+        }
+        
+        if (text.ToLower().Contains("ä"))
+        {
+            text = text.Replace("ä", "AE");
+            text = text.Replace("Ä", "AE");
+        }
+        
+        if (text.ToLower().Contains("ü"))
+        {
+            text = text.Replace("ü", "UE");
+            text = text.Replace("Ü", "UE");
+        }
+        
+        if (text.ToLower().Contains("ß"))
+        {
+            text = text.Replace("ß", "SS");
+        }
+        return text;
+    }
+    
     public static readonly IDictionary<Keys, string> Letters = new Dictionary<Keys, string>
     {
         {  Keys.A, "A" },
@@ -47,6 +74,9 @@ public static class AssetOfLetters
         {  Keys.D6, "6" },
         {  Keys.D7, "7" },
         {  Keys.D8, "8" },
-        {  Keys.D9, "9" }
+        {  Keys.D9, "9" },
+        
+        // { Keys.OemQuestion, "?"},
+        // { Keys.None, ":"},
     };
 }

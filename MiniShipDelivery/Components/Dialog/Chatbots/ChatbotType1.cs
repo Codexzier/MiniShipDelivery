@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using MiniShipDelivery.Components.Input;
@@ -19,14 +17,10 @@ public class ChatbotType1
         
         var rolePromtDescription = new StringBuilder();
         rolePromtDescription.Append("Transcript of a dialog, where the User interacts with an Assistant named Aouda. ");
-        rolePromtDescription.Append("Ihre antworten sind kurz und sind maximal mit Leerzeichen 50 Zeichnen lang. ");
-        
-        // rolePromtDescription.Append("Promt beschreibung für den Charater1. ");
-        // rolePromtDescription.Append("Sie ist Weiblich. ");
-        // rolePromtDescription.Append("Ihre Antwortsätze sind kurz und sind maximal mit Leerzeichen 40 Zeichnen lang. ");
+        rolePromtDescription.Append("Ihre antworten sind kurz und sind maximal mit Leerzeichen 40 Zeichnen lang. ");
         rolePromtDescription.Append("Sie weis viel über verschiedene Bücher und Filme. ");
         
-        this._chatbotLlama.LoadChatHistory(true, rolePromtDescription.ToString());
+        this._chatbotLlama.LoadChatHistory(rolePromtDescription.ToString());
         
         this._chatbotLlama.ChatAnswerEvent += this.ChatbotLlama_ChatAnswerEvent;
     }
@@ -34,19 +28,19 @@ public class ChatbotType1
     private void ChatbotLlama_ChatAnswerEvent(string message)
     {
         Debug.Write(message);
-        // // remove unusable chars from the message
-        message = message.Replace("character1: ", "").Split('\r', '\n')[0].ToUpper();
         
         var newMessage = new StringBuilder();
         foreach (var chr in message)
         {
-            if(AssetOfLetters.Letters.Values.All(a => a != $"{chr}")) continue;
+            //if(AssetOfLetters.Letters.Values.All(a => a != $"{chr}")) continue;
             
-            newMessage.Append(chr);
+            newMessage.Append($"{chr}".ToUpper());
         }
         
         this._aiMessage.Append(newMessage);
-        this.ChatAnswerPartEvent?.Invoke(newMessage.ToString());
+        this.ChatAnswerPartEvent?
+            .Invoke(AssetOfLetters
+                .ConvertUmlaute(newMessage.ToString().Replace("\r\n", " ")));
     }
     
     public delegate void ChatAnswerPartEventHandler(string message);
@@ -65,10 +59,12 @@ public class ChatbotType1
             .Replace("USER:", "")
             .Split('\r', '\n')[0].ToUpper();
         
-        if(message.Length > 40)
-        {
-            message = message.Substring(0, 40);
-        }
+        // if(message.Length > 30)
+        // {
+        //     message = message.Substring(0, 30);
+        // }
+        
+        message = AssetOfLetters.ConvertUmlaute(message);
         
         this.ChatAnswerEvent?.Invoke(message);
     }

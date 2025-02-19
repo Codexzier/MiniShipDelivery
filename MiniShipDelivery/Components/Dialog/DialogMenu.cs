@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,10 +42,9 @@ internal class DialogMenu : BaseMenu
     {
         // Assistant: Hallo! Ich bin hier, um Ihnen zu helfen. Was möchten Sie heute erreichen?
         //     User:
-        var coreMessage = message.Replace("Assistant: ", "").Split('\r', '\n')[0];
+        var coreMessage = message.Replace("Assistant: ", "").Replace("\r\n", " ");
         
         this._outputTextNpc = coreMessage;
-        
         
         ApplicationBus.Instance.TextMessage.CanClearForNextMessage = true;
         this._chatBotStart = false;
@@ -64,19 +62,17 @@ internal class DialogMenu : BaseMenu
         {
             ApplicationBus.Instance.TextMessage.HasPressedEnter = false;
             this._chatBotStart = true;
-            // switch (this._outputTextUser.ToLower())
-            // {
-            //     case "hello":
-            //         this._outputTextNpc = "Hello, how are you?";
-            //         break;
-            //     case "fine":
-            //         this._outputTextNpc = "Nice to hear that.";
-            //         break;
-            //     case "bye":
-            //         this._outputTextNpc = "Goodbye!";
-            //         ApplicationBus.Instance.TextMessage.CanLeave = true;
-            //         break;
-            // }
+
+            if (this._outputTextUser.ToLower() == "bye")
+            {
+                this._outputTextNpc = "Goodbye!";
+                ApplicationBus.Instance.TextMessage.IsOn = false;
+                this._outputTextUser = string.Empty;
+                this._outputTextNpc = string.Empty;
+                this._chatBotStart = false;
+                ApplicationBus.Instance.TextMessage.CanLeave = true;
+                return;
+            }
             
             Debug.WriteLine($"Output text: {this._outputTextUser}");
             this._countWords = 0;
@@ -118,7 +114,7 @@ internal class DialogMenu : BaseMenu
         Color c = Color.White;
         if (ApplicationBus.Instance.TextMessage.CanClearForNextMessage)
         {
-            c = Color.WhiteSmoke;
+            c = Color.GreenYellow;
         }
         
         spriteBatch.DrawString(

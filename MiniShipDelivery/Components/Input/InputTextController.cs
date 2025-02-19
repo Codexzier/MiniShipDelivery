@@ -43,21 +43,24 @@ public class InputTextController
             .Letters
             .TryGetValue(e.Key, out string value)
             ? value : e.Character.ToString();
+        
+        this.Bus.TextMessage.Text = AssetOfLetters
+            .ConvertUmlaute(this.Bus.TextMessage.Text);
 
-        if (this.Bus.TextMessage.Text.ToLower().Contains("ö"))
-        {
-            this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ö", "OE");
-        }
-        
-        if (this.Bus.TextMessage.Text.ToLower().Contains("ä"))
-        {
-            this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ä", "AE");
-        }
-        
-        if (this.Bus.TextMessage.Text.ToLower().Contains("ü"))
-        {
-            this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ü", "UE");
-        }
+        // if (this.Bus.TextMessage.Text.ToLower().Contains("ö"))
+        // {
+        //     this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ö", "OE");
+        // }
+        //
+        // if (this.Bus.TextMessage.Text.ToLower().Contains("ä"))
+        // {
+        //     this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ä", "AE");
+        // }
+        //
+        // if (this.Bus.TextMessage.Text.ToLower().Contains("ü"))
+        // {
+        //     this.Bus.TextMessage.Text = this.Bus.TextMessage.Text.Replace("ü", "UE");
+        // }
         
         if (this.Bus.TextMessage.Text.ToLower().Contains("ß"))
         {
